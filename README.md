@@ -1,4 +1,4 @@
-nbgames
+nbGames
 =======
 
 NetBeans Game Platform

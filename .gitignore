@@ -1,1 +1,4 @@
 /build/
+/modules/org.nbgames.branding/build/
+/dist/
+/modules/org.nbgames.branding/nbproject/private/
