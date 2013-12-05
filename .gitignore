@@ -2,3 +2,5 @@
 /modules/org.nbgames.branding/build/
 /dist/
 /modules/org.nbgames.branding/nbproject/private/
+hs_err_pid*.log
+

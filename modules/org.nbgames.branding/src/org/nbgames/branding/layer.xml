@@ -33,4 +33,7 @@
             <file name="Web_hidden"/>
         </folder>
     </folder>
+    <folder name="Toolbars">
+        <file name="File_hidden"/>
+    </folder>
 </filesystem>
