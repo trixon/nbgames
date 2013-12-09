@@ -6,3 +6,4 @@ hs_err_pid*.log
 
 /modules/org.nbgames.core/build/
 /modules/org.nbgames.core/nbproject/private/
+/nbproject/private/
