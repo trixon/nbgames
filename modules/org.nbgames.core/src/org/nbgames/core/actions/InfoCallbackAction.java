@@ -17,7 +17,7 @@ public class InfoCallbackAction {
             displayName = "org.nbgames.core.actions.Bundle#CTL_GameInfoAction",
             iconInMenu = true)
     @ActionReferences({
-        @ActionReference(path = "Menu/File", position = 30),
+        @ActionReference(path = "Menu/File", position = 30,separatorAfter = 31),
         @ActionReference(path = "Toolbars/File", position = 30),})
     public static final String KEY = "InfoCallbackAction";
 }
