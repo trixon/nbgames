@@ -98,7 +98,7 @@ public abstract class GameController {
     private void init() {
         setActiveInformation(true);
         setActiveNewGame(true);
-        setActiveOptions(true);
+        setActiveOptions(mOptionsPath != null);
     }
 
     private void showInformation() {
@@ -106,7 +106,7 @@ public abstract class GameController {
         builder.append(mGameName).append("\n\n");
         builder.append(mGameVersion).append("\n");
         builder.append(mGameCopyright);
-        
+
         NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }

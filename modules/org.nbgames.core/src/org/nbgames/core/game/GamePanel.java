@@ -7,6 +7,7 @@ import java.awt.event.HierarchyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import org.nbgames.core.NbGames;
 
 /**
  *
@@ -35,12 +36,12 @@ public class GamePanel extends JPanel {
     }
 
     public void centerInParent() {
-        Container container = getParent();
-        if (container != null) {
-            int height = (container.getHeight() - getHeight()) / 2;
-            int width = (container.getWidth() - getWidth()) / 2;
-            ((JComponent) container).setBorder(BorderFactory.createEmptyBorder(height, width, height, width));
-        }
+//        Container container = getParent();
+//        if (container != null) {
+//            int height = (container.getHeight() - getHeight()) / 2;
+//            int width = (container.getWidth() - getWidth()) / 2;
+//            ((JComponent) container).setBorder(BorderFactory.createEmptyBorder(height, width, height, width));
+//        }
     }
 
     private void init() {
