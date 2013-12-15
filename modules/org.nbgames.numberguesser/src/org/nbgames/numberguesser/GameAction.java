@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle.Messages;
 
 /**
  *
@@ -16,10 +15,9 @@ import org.openide.util.NbBundle.Messages;
         id = "org.nbgames.numberguesser.GameAction"
 )
 @ActionRegistration(
-        displayName = "#CTL_GameTitle"
+        displayName = "#CTL_Name"
 )
 @ActionReference(path = "Menu/File/Logic", position = 3333)
-@Messages("CTL_GameTitle=Number Guesser")
 public final class GameAction implements ActionListener {
 
     @Override

@@ -2,6 +2,7 @@ package org.nbgames.numberguesser;
 
 import javax.swing.JPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 
@@ -28,9 +29,10 @@ public final class GameTopComponent extends org.nbgames.core.game.GameTopCompone
 
     public GameTopComponent() {
         initComponents();
-        setName(Bundle.CTL_GameTitle());
+        String name=NbBundle.getMessage(GameTopComponent.class, "CTL_Name");
+        setName(name);
 
-        mGameController = new GameController(this, Bundle.CTL_GameTitle(), Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), null);
+        mGameController = new GameController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/NumberGuesser");
     }
 
     @Override
