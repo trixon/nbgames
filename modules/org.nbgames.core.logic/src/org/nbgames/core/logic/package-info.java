@@ -1,7 +1,8 @@
-@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(id = "Logic.ID",
-        categoryName = "#OptionsCategory_Name",
+@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(
+        position = 5,
+        id = "Logic",
+        categoryName = "#Name",
         iconBase = "org/nbgames/core/logic/options.png",
         keywords = "#OptionsCategory_Keywords",
-        position = 5,
         keywordsCategory = "Logic")
 package org.nbgames.core.logic;

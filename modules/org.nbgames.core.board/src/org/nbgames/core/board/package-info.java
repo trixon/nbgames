@@ -1,8 +1,9 @@
-@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(id = "Board.ID",
-        categoryName = "#OptionsCategory_Name",
+@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(
+        position = 2,
+        id = "Board",
+        categoryName = "#Name",
         iconBase = "org/nbgames/core/board/options.png",
         keywords = "#OptionsCategory_Keywords",
-        position = 2,
         keywordsCategory = "Board")
 
 package org.nbgames.core.board;

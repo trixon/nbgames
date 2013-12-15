@@ -1,7 +1,8 @@
-@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(id = "Dice.ID",
-        categoryName = "#OptionsCategory_Name",
+@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(
+        position = 4,
+        id = "Dice",
+        categoryName = "#Name",
         iconBase = "org/nbgames/core/dice/options.png",
         keywords = "#OptionsCategory_Keywords",
-        position = 4,
         keywordsCategory = "Dice")
 package org.nbgames.core.dice;
