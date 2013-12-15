@@ -3,12 +3,13 @@ package org.nbgames.core.game;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
-import org.nbgames.core.actions.InfoCallbackAction;
+import org.nbgames.core.actions.AboutCallbackAction;
 import org.nbgames.core.actions.NewGameCallbackAction;
 import org.nbgames.core.actions.OptionsCallbackAction;
 import org.netbeans.api.options.OptionsDisplayer;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.util.NbBundle;
 
 /**
  *
@@ -55,7 +56,7 @@ public abstract class GameController {
     protected void setActiveInformation(boolean state) {
 
         if (state) {
-            mActionMap.put(InfoCallbackAction.KEY, new AbstractAction() {
+            mActionMap.put(AboutCallbackAction.KEY, new AbstractAction() {
 
                 @Override
                 public void actionPerformed(ActionEvent ae) {
@@ -63,7 +64,7 @@ public abstract class GameController {
                 }
             });
         } else {
-            mActionMap.remove(InfoCallbackAction.KEY);
+            mActionMap.remove(AboutCallbackAction.KEY);
         }
     }
 
@@ -108,6 +109,7 @@ public abstract class GameController {
         builder.append(mGameCopyright);
 
         NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
+        notifyDescriptor.setTitle(NbBundle.getMessage(AboutCallbackAction.class, "CTL_GameAboutAction"));
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
 
