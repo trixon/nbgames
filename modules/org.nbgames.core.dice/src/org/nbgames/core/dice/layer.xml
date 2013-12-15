@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Menu">
+        <folder name="File">
+            <folder name="Dice">
+                <attr name="displayName" bundlevalue="org.nbgames.core.dice.Bundle#Name"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="position" intvalue="430"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>

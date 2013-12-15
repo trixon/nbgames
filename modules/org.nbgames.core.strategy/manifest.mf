@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.nbgames.core.strategy
+OpenIDE-Module-Layer: org/nbgames/core/strategy/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/nbgames/core/strategy/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

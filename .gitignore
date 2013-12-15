@@ -7,3 +7,13 @@ hs_err_pid*.log
 /modules/org.nbgames.core/build/
 /modules/org.nbgames.core/nbproject/private/
 /nbproject/private/
+/modules/org.nbgames.game.numberguesser/build/
+/modules/org.nbgames.game.numberguesser/nbproject/private/
+/modules/org.nbgames.numberguesser/nbproject/private/
+/modules/org.nbgames.numberguesser/build/
+/modules/org.nbgames.core.board/build/
+/modules/org.nbgames.core.strategy/build/
+/modules/org.nbgames.core.logic/build/
+/modules/org.nbgames.core.card/build/
+/modules/org.nbgames.core.arcade/build/
+/modules/org.nbgames.core.dice/build/

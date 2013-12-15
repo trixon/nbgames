@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.nbgames.core.dice
+OpenIDE-Module-Layer: org/nbgames/core/dice/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/nbgames/core/dice/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+

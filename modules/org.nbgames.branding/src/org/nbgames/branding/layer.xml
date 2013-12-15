@@ -4,37 +4,6 @@
     <folder name="Menu">
         <file name="Edit_hidden"/>
         <folder name="File">
-            <folder name="Arcade">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryArcade"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="400"/>
-            </folder>
-            <folder name="Board">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryBoard"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="410"/>
-            </folder>
-            <folder name="Card">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryCard"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="420"/>
-            </folder>
-            <folder name="Dice">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryDice"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="430"/>
-            </folder>
-            <folder name="Logic">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryLogic"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="440"/>
-            </folder>
-            <folder name="Strategy">
-                <attr name="displayName" bundlevalue="org.nbgames.branding.Bundle#CategoryStrategy"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="position" intvalue="450"/>
-            </folder>
-
             <file name="Separator2.instance_hidden"/>
             <file name="Separator3.instance_hidden"/>
             <file name="org-netbeans-core-actions-SystemExit.shadow_hidden"/>

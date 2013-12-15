@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.nbgames.core.logic
+OpenIDE-Module-Layer: org/nbgames/core/logic/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/nbgames/core/logic/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
