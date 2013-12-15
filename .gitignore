@@ -17,3 +17,8 @@ hs_err_pid*.log
 /modules/org.nbgames.core.card/build/
 /modules/org.nbgames.core.arcade/build/
 /modules/org.nbgames.core.dice/build/
+/modules/org.nbgames.core.arcade/nbproject/private/
+/modules/org.nbgames.core.board/nbproject/private/
+/modules/org.nbgames.core.card/nbproject/private/
+/modules/org.nbgames.core.dice/nbproject/private/
+/modules/org.nbgames.core.logic/nbproject/private/
