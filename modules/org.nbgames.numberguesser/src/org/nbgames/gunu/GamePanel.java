@@ -1,4 +1,4 @@
-package org.nbgames.numberguesser;
+package org.nbgames.gunu;
 
 import java.awt.Dimension;
 import java.util.Random;

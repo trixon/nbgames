@@ -1,4 +1,4 @@
-package org.nbgames.numberguesser;
+package org.nbgames.gunu;
 
 import java.awt.Container;
 import org.nbgames.core.game.GameTopComponent;

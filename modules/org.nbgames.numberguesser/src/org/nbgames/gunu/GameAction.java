@@ -1,4 +1,4 @@
-package org.nbgames.numberguesser;
+package org.nbgames.gunu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

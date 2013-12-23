@@ -1,4 +1,4 @@
-package org.nbgames.numberguesser;
+package org.nbgames.gunu;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

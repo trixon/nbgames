@@ -1,4 +1,4 @@
-package org.nbgames.numberguesser;
+package org.nbgames.gunu;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
