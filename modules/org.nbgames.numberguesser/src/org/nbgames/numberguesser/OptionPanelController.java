@@ -18,7 +18,7 @@ import org.openide.util.Lookup;
         keywords = "#AdvancedOption_Keywords",
         keywordsCategory = "Logic/Number Guesser"
 )
-public final class OptionOptionsPanelController extends OptionsPanelController {
+public final class OptionPanelController extends OptionsPanelController {
 
     private OptionPanel panel;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

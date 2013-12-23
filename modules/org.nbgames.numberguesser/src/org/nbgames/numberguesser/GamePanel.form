@@ -24,8 +24,8 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="valueTextField" pref="0" max="32767" attributes="0"/>
                   <Component id="guessButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="valueSpinner" alignment="0" max="32767" attributes="0"/>
                   <Component id="infoLabel" alignment="0" max="32767" attributes="0"/>
                   <Component id="statusLabel" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -39,8 +39,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="infoLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="valueSpinner" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="valueTextField" min="-2" pref="74" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="guessButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
@@ -50,16 +50,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JSpinner" name="valueSpinner">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="DejaVu Sans" size="48" style="0"/>
-        </Property>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="0" maximum="1000" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="guessButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -94,6 +84,20 @@
           <ResourceString bundle="org/nbgames/numberguesser/Bundle.properties" key="GamePanel.infoLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="valueTextField">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="#0" subtype="-1" type="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="11"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="48" style="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="valueTextFieldActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

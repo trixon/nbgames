@@ -2,9 +2,9 @@ package org.nbgames.numberguesser;
 
 import java.awt.Dimension;
 import java.util.Random;
-import javax.swing.SpinnerNumberModel;
 import org.nbgames.core.NbGames;
 import org.openide.util.NbBundle;
+import org.openide.util.NbPreferences;
 
 /**
  *
@@ -19,9 +19,9 @@ import org.openide.util.NbBundle;
 public class GamePanel extends org.nbgames.core.game.GamePanel {
 
     GameController mGameController;
-    private int mValue;
+    private long mValue;
     private int mCounter;
-    private Random mRandom = new Random();
+    private final Random mRandom = new Random();
 
     /**
      * Creates new form NumberGuesserGamePanel
@@ -46,19 +46,20 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
     void startNewGame() {
         NbGames.log("NumberGuesser: startNewGame");
 
-        int min = (Integer) ((SpinnerNumberModel) valueSpinner.getModel()).getMinimum();
-        int max = (Integer) ((SpinnerNumberModel) valueSpinner.getModel()).getMaximum();
-        ((SpinnerNumberModel) valueSpinner.getModel()).setValue(min);
+        long min = NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MIN, Prefs.KEY_MIN_DEF);
+        long max = NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MAX, Prefs.KEY_MAX_DEF);
 
         String info = NbBundle.getMessage(GamePanel.class, "GamePanel.infoLabel.text", min, max);
         infoLabel.setText(info);
-        valueSpinner.setEnabled(true);
+        valueTextField.setText(Long.toString(min));
+        valueTextField.setEnabled(true);
+        valueTextField.selectAll();
+
         guessButton.setEnabled(true);
         statusLabel.setText(NbBundle.getMessage(this.getClass(), "GamePanel.statusLabel.text"));
 
-        mValue = min + mRandom.nextInt(max - min + 1);
-        mCounter=0;
-        NbGames.log("NumberGuesser: value=" + mValue);
+        mValue = min + mRandom.nextInt((int) (max - min + 1));
+        mCounter = 0;
     }
 
     /**
@@ -70,15 +71,12 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        valueSpinner = new javax.swing.JSpinner();
         guessButton = new javax.swing.JButton();
         statusLabel = new javax.swing.JLabel();
         infoLabel = new javax.swing.JLabel();
+        valueTextField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(51, 255, 51));
-
-        valueSpinner.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
-        valueSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 1000, 1));
 
         guessButton.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(guessButton, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.guessButton.text")); // NOI18N
@@ -96,6 +94,15 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(infoLabel, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.infoLabel.text")); // NOI18N
 
+        valueTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        valueTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        valueTextField.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
+        valueTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valueTextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,8 +110,8 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(valueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(guessButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(valueSpinner, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(infoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -115,8 +122,8 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
                 .addContainerGap()
                 .addComponent(infoLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(valueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(valueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(guessButton)
                 .addGap(18, 18, 18)
                 .addComponent(statusLabel)
@@ -126,11 +133,11 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
 
     private void guessButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessButtonActionPerformed
         mCounter++;
-        int value = ((SpinnerNumberModel) valueSpinner.getModel()).getNumber().intValue();
+        long value = (Long) valueTextField.getValue();
         String status = null;
         if (value == mValue) {
             status = Bundle.CTL_StatusEquals();
-            valueSpinner.setEnabled(false);
+            valueTextField.setEnabled(false);
             guessButton.setEnabled(false);
         } else if (value > mValue) {
             status = Bundle.CTL_StatusHigh();
@@ -140,11 +147,16 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         statusLabel.setText(String.format("(%d) %s", mCounter, status));
     }//GEN-LAST:event_guessButtonActionPerformed
 
+    private void valueTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueTextFieldActionPerformed
+        guessButton.doClick();
+        valueTextField.selectAll();
+    }//GEN-LAST:event_valueTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guessButton;
     private javax.swing.JLabel infoLabel;
     private javax.swing.JLabel statusLabel;
-    private javax.swing.JSpinner valueSpinner;
+    private javax.swing.JFormattedTextField valueTextField;
     // End of variables declaration//GEN-END:variables
 }

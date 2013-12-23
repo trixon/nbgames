@@ -1,13 +1,34 @@
 package org.nbgames.numberguesser;
 
-final class OptionPanel extends javax.swing.JPanel {
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import org.openide.util.NbPreferences;
 
-    private final OptionOptionsPanelController controller;
+final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
 
-    OptionPanel(OptionOptionsPanelController controller) {
-        this.controller = controller;
+    private final OptionPanelController mController;
+
+    OptionPanel(OptionPanelController controller) {
+        mController = controller;
         initComponents();
-        // TODO listen to changes in form fields and call controller.changed()
+
+        minFormattedTextField.getDocument().addDocumentListener(this);
+        maxFormattedTextField.getDocument().addDocumentListener(this);
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        mController.changed();
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        mController.changed();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        mController.changed();
     }
 
     /**
@@ -19,19 +40,19 @@ final class OptionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         fromLabel = new javax.swing.JLabel();
-        fromFormattedTextField = new javax.swing.JFormattedTextField();
+        minFormattedTextField = new javax.swing.JFormattedTextField();
         toLabel = new javax.swing.JLabel();
-        toFormattedTextField = new javax.swing.JFormattedTextField();
+        maxFormattedTextField = new javax.swing.JFormattedTextField();
 
         org.openide.awt.Mnemonics.setLocalizedText(fromLabel, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.fromLabel.text")); // NOI18N
 
-        fromFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        fromFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.fromFormattedTextField.text")); // NOI18N
+        minFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        minFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.minFormattedTextField.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(toLabel, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.toLabel.text")); // NOI18N
 
-        toFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        toFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.toFormattedTextField.text")); // NOI18N
+        maxFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        maxFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.maxFormattedTextField.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -41,9 +62,9 @@ final class OptionPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(fromLabel)
-                    .addComponent(fromFormattedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(minFormattedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                     .addComponent(toLabel)
-                    .addComponent(toFormattedTextField))
+                    .addComponent(maxFormattedTextField))
                 .addContainerGap(416, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -52,44 +73,39 @@ final class OptionPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(fromLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fromFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(minFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(toLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(toFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(maxFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(261, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     void load() {
-        // TODO read settings and initialize GUI
-        // Example:        
-        // someCheckBox.setSelected(Preferences.userNodeForPackage(OptionPanel.class).getBoolean("someFlag", false));
-        // or for org.openide.util with API spec. version >= 7.4:
-        // someCheckBox.setSelected(NbPreferences.forModule(OptionPanel.class).getBoolean("someFlag", false));
-        // or:
-        // someTextField.setText(SomeSystemOption.getDefault().getSomeStringProperty());
+        minFormattedTextField.setValue(NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MIN, Prefs.KEY_MIN_DEF));
+        maxFormattedTextField.setValue(NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MAX, Prefs.KEY_MAX_DEF));
     }
 
     void store() {
-        // TODO store modified settings
-        // Example:
-        // Preferences.userNodeForPackage(OptionPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
-        // or for org.openide.util with API spec. version >= 7.4:
-        // NbPreferences.forModule(OptionPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
-        // or:
-        // SomeSystemOption.getDefault().setSomeStringProperty(someTextField.getText());
+        NbPreferences.forModule(OptionPanel.class).putLong(Prefs.KEY_MIN, (Long) minFormattedTextField.getValue());
+        NbPreferences.forModule(OptionPanel.class).putLong(Prefs.KEY_MAX, (Long) maxFormattedTextField.getValue());
     }
 
     boolean valid() {
-        // TODO check whether form is consistent and complete
-        return true;
+        long min;
+        long max;
+
+        min = (Long) minFormattedTextField.getValue();
+        max = (Long) maxFormattedTextField.getValue();
+
+        return max > min;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField fromFormattedTextField;
     private javax.swing.JLabel fromLabel;
-    private javax.swing.JFormattedTextField toFormattedTextField;
+    private javax.swing.JFormattedTextField maxFormattedTextField;
+    private javax.swing.JFormattedTextField minFormattedTextField;
     private javax.swing.JLabel toLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,9 +20,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="fromLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="fromFormattedTextField" pref="147" max="32767" attributes="0"/>
+                  <Component id="minFormattedTextField" pref="147" max="32767" attributes="0"/>
                   <Component id="toLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="toFormattedTextField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="maxFormattedTextField" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="416" max="32767" attributes="0"/>
           </Group>
@@ -34,11 +34,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="fromLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="fromFormattedTextField" min="-2" max="-2" attributes="0"/>
+              <Component id="minFormattedTextField" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="toLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="toFormattedTextField" min="-2" max="-2" attributes="0"/>
+              <Component id="maxFormattedTextField" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="261" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -52,13 +52,13 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="fromFormattedTextField">
+    <Component class="javax.swing.JFormattedTextField" name="minFormattedTextField">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format format="#0" subtype="-1" type="0"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/nbgames/numberguesser/Bundle.properties" key="OptionPanel.fromFormattedTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="org/nbgames/numberguesser/Bundle.properties" key="OptionPanel.minFormattedTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -69,13 +69,13 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="toFormattedTextField">
+    <Component class="javax.swing.JFormattedTextField" name="maxFormattedTextField">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format format="#0" subtype="-1" type="0"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/nbgames/numberguesser/Bundle.properties" key="OptionPanel.toFormattedTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="org/nbgames/numberguesser/Bundle.properties" key="OptionPanel.maxFormattedTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
