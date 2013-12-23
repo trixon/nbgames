@@ -22,3 +22,5 @@ hs_err_pid*.log
 /modules/org.nbgames.core.card/nbproject/private/
 /modules/org.nbgames.core.dice/nbproject/private/
 /modules/org.nbgames.core.logic/nbproject/private/
+/modules/org.nbgames.gunu/build/
+/modules/org.nbgames.gunu/nbproject/private/
