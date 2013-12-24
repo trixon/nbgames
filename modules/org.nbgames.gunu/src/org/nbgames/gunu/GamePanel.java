@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.util.Random;
 import org.nbgames.core.NbGames;
 import org.openide.util.NbBundle;
-import org.openide.util.NbPreferences;
 
 /**
  *
@@ -34,7 +33,7 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         setMinimumSize(dimension);
         setPreferredSize(dimension);
         setSize(dimension);
-        setOpaque(false);
+//        setOpaque(false);
     }
 
     public GamePanel(GameController gameController) {
@@ -46,12 +45,13 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
     void startNewGame() {
         NbGames.log("NumberGuesser: startNewGame");
 
-        long min = NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MIN, Prefs.KEY_MIN_DEF);
-        long max = NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MAX, Prefs.KEY_MAX_DEF);
+        long min = Options.INSTANCE.getMin();
+        long max = Options.INSTANCE.getMax();
 
         String info = NbBundle.getMessage(GamePanel.class, "GamePanel.infoLabel.text", min, max);
         infoLabel.setText(info);
         valueTextField.setText(Long.toString(min));
+        valueTextField.setValue(min);
         valueTextField.setEnabled(true);
         valueTextField.selectAll();
 
@@ -76,7 +76,7 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         infoLabel = new javax.swing.JLabel();
         valueTextField = new javax.swing.JFormattedTextField();
 
-        setBackground(new java.awt.Color(51, 255, 51));
+        setBackground(new java.awt.Color(204, 204, 204));
 
         guessButton.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(guessButton, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.guessButton.text")); // NOI18N
@@ -96,6 +96,7 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
 
         valueTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         valueTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        valueTextField.setText("0"); // NOI18N
         valueTextField.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
         valueTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -1,5 +1,7 @@
 package org.nbgames.gunu;
 
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import javax.swing.JPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
@@ -25,13 +27,22 @@ import org.openide.util.NbBundle.Messages;
     "CTL_GameCopyright=© 2013 Patrik Karlsson"})
 public final class GameTopComponent extends org.nbgames.core.game.GameTopComponent {
 
-    private GameController mGameController;
+    private final GameController mGameController;
 
     public GameTopComponent() {
         initComponents();
-        String name=NbBundle.getMessage(GameTopComponent.class, "CTL_Name");
+        String name = NbBundle.getMessage(GameTopComponent.class, "CTL_Name");
         setName(name);
+        mTopPanel.setBackground(Options.INSTANCE.getColorBackground());
+        Options.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
 
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                if (evt.getKey().equals(Options.KEY_COLOR_BACKGROUND)) {
+                    mTopPanel.setBackground(Options.INSTANCE.getColorBackground());
+                }
+            }
+        });
         mGameController = new GameController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/NumberGuesser");
     }
 

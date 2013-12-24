@@ -2,16 +2,20 @@ package org.nbgames.gunu;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.openide.util.NbPreferences;
+import se.trixon.almond.dialogs.AColorChooser;
+import se.trixon.almond.swing.AColorChooserButton;
 
 final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
 
     private final OptionPanelController mController;
+    private final AColorChooserButton colorButton;
+    private final Options mOptions = Options.INSTANCE;
 
     OptionPanel(OptionPanelController controller) {
         mController = controller;
         initComponents();
 
+        colorButton = (AColorChooserButton) backgroundButton;
         minFormattedTextField.getDocument().addDocumentListener(this);
         maxFormattedTextField.getDocument().addDocumentListener(this);
     }
@@ -43,16 +47,24 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
         minFormattedTextField = new javax.swing.JFormattedTextField();
         toLabel = new javax.swing.JLabel();
         maxFormattedTextField = new javax.swing.JFormattedTextField();
+        backgroundButton = new se.trixon.almond.swing.AColorChooserButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(fromLabel, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.fromLabel.text")); // NOI18N
 
         minFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        minFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.minFormattedTextField.text")); // NOI18N
+        minFormattedTextField.setText("-1000"); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(toLabel, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.toLabel.text")); // NOI18N
 
         maxFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        maxFormattedTextField.setText(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.maxFormattedTextField.text")); // NOI18N
+        maxFormattedTextField.setText("1000"); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(backgroundButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.backgroundButton.text")); // NOI18N
+        backgroundButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backgroundButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -60,12 +72,14 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fromLabel)
-                    .addComponent(minFormattedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                     .addComponent(toLabel)
-                    .addComponent(maxFormattedTextField))
-                .addContainerGap(416, Short.MAX_VALUE))
+                    .addComponent(backgroundButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(maxFormattedTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(minFormattedTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,18 +92,26 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
                 .addComponent(toLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(maxFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(backgroundButton)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backgroundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundButtonActionPerformed
+        colorButton.setColor(AColorChooser.showDialog(colorButton.getColor()));
+    }//GEN-LAST:event_backgroundButtonActionPerformed
+
     void load() {
-        minFormattedTextField.setValue(NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MIN, Prefs.KEY_MIN_DEF));
-        maxFormattedTextField.setValue(NbPreferences.forModule(OptionPanel.class).getLong(Prefs.KEY_MAX, Prefs.KEY_MAX_DEF));
+        minFormattedTextField.setValue(mOptions.getMin());
+        maxFormattedTextField.setValue(mOptions.getMax());
+        colorButton.setColor(mOptions.getColorBackground());
     }
 
     void store() {
-        NbPreferences.forModule(OptionPanel.class).putLong(Prefs.KEY_MIN, (Long) minFormattedTextField.getValue());
-        NbPreferences.forModule(OptionPanel.class).putLong(Prefs.KEY_MAX, (Long) maxFormattedTextField.getValue());
+        mOptions.setMin((Long) minFormattedTextField.getValue());
+        mOptions.setMax((Long) maxFormattedTextField.getValue());
+        mOptions.setColorBackground(colorButton.getColor());
     }
 
     boolean valid() {
@@ -103,6 +125,7 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backgroundButton;
     private javax.swing.JLabel fromLabel;
     private javax.swing.JFormattedTextField maxFormattedTextField;
     private javax.swing.JFormattedTextField minFormattedTextField;
