@@ -13,10 +13,10 @@ import org.openide.util.Lookup;
  */
 @OptionsPanelController.SubRegistration(
         location = "Logic",
-        id = "NumberGuesser",
+        id = "Gunu",
         displayName = "#CTL_Name",
         keywords = "#AdvancedOption_Keywords",
-        keywordsCategory = "Logic/Number Guesser"
+        keywordsCategory = "Logic/Gunu"
 )
 public final class OptionPanelController extends OptionsPanelController {
 

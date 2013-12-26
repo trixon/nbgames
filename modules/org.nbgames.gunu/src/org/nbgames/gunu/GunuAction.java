@@ -12,17 +12,17 @@ import org.openide.awt.ActionRegistration;
  */
 @ActionID(
         category = "File/Logic",
-        id = "org.nbgames.numberguesser.GameAction"
+        id = "org.nbgames.gunu.GunuAction"
 )
 @ActionRegistration(
         displayName = "#CTL_Name"
 )
 @ActionReference(path = "Menu/File/Logic", position = 3333)
-public final class GameAction implements ActionListener {
+public final class GunuAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameTopComponent topComponent = new GameTopComponent();
+        GunuTopComponent topComponent = new GunuTopComponent();
         topComponent.open();
         topComponent.requestActive();
     }

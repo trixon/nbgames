@@ -3,6 +3,7 @@ package org.nbgames.gunu;
 import java.awt.Dimension;
 import java.util.Random;
 import org.nbgames.core.NbGames;
+import org.nbgames.core.game.GamePanel;
 import org.openide.util.NbBundle;
 
 /**
@@ -15,17 +16,17 @@ import org.openide.util.NbBundle;
     "CTL_StatusLow=To low..."
 })
 
-public class GamePanel extends org.nbgames.core.game.GamePanel {
+public class GunuPanel extends GamePanel {
 
-    GameController mGameController;
+    GunuController mGunuController;
     private long mValue;
     private int mCounter;
     private final Random mRandom = new Random();
 
     /**
-     * Creates new form NumberGuesserGamePanel
+     * Creates new form GamePanel
      */
-    public GamePanel() {
+    public GunuPanel() {
         initComponents();
 
         Dimension dimension = new Dimension(400, 300);
@@ -36,19 +37,19 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
 //        setOpaque(false);
     }
 
-    public GamePanel(GameController gameController) {
+    public GunuPanel(GunuController gunuController) {
         this();
 
-        mGameController = gameController;
+        mGunuController = gunuController;
     }
 
     void startNewGame() {
-        NbGames.log("NumberGuesser: startNewGame");
+        NbGames.log("Gunu: startNewGame");
 
         long min = Options.INSTANCE.getMin();
         long max = Options.INSTANCE.getMax();
 
-        String info = NbBundle.getMessage(GamePanel.class, "GamePanel.infoLabel.text", min, max);
+        String info = NbBundle.getMessage(GunuPanel.class, "GunuPanel.infoLabel.text", min, max);
         infoLabel.setText(info);
         valueTextField.setText(Long.toString(min));
         valueTextField.setValue(min);
@@ -56,7 +57,7 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         valueTextField.selectAll();
 
         guessButton.setEnabled(true);
-        statusLabel.setText(NbBundle.getMessage(this.getClass(), "GamePanel.statusLabel.text"));
+        statusLabel.setText(NbBundle.getMessage(this.getClass(), "GunuPanel.statusLabel.text"));
 
         mValue = min + mRandom.nextInt((int) (max - min + 1));
         mCounter = 0;
@@ -79,7 +80,7 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         setBackground(new java.awt.Color(204, 204, 204));
 
         guessButton.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(guessButton, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.guessButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(guessButton, org.openide.util.NbBundle.getMessage(GunuPanel.class, "GunuPanel.guessButton.text")); // NOI18N
         guessButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guessButtonActionPerformed(evt);
@@ -88,11 +89,11 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
 
         statusLabel.setFont(new java.awt.Font("DejaVu Sans", 0, 48)); // NOI18N
         statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.openide.awt.Mnemonics.setLocalizedText(statusLabel, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.statusLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(statusLabel, org.openide.util.NbBundle.getMessage(GunuPanel.class, "GunuPanel.statusLabel.text")); // NOI18N
 
         infoLabel.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.openide.awt.Mnemonics.setLocalizedText(infoLabel, org.openide.util.NbBundle.getMessage(GamePanel.class, "GamePanel.infoLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(infoLabel, org.openide.util.NbBundle.getMessage(GunuPanel.class, "GunuPanel.infoLabel.text")); // NOI18N
 
         valueTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         valueTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
@@ -152,7 +153,6 @@ public class GamePanel extends org.nbgames.core.game.GamePanel {
         guessButton.doClick();
         valueTextField.selectAll();
     }//GEN-LAST:event_valueTextFieldActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton guessButton;

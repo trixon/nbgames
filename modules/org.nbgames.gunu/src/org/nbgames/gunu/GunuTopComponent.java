@@ -3,35 +3,36 @@ package org.nbgames.gunu;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import javax.swing.JPanel;
+import org.nbgames.core.game.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
-import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.TopComponent;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @ConvertAsProperties(
-        dtd = "-//org.nbgames.numberguesser//NumberGuesser//EN",
+        dtd = "-//org.nbgames.gunu//Gunu//EN",
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "NumberGuesserTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE", 
+        preferredID = "GunuTopComponent",
+        //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @Messages({
     "CTL_GameVersion=1.0.0",
     "CTL_GameCopyright=© 2013 Patrik Karlsson"})
-public final class GameTopComponent extends org.nbgames.core.game.GameTopComponent {
+public final class GunuTopComponent extends GameTopComponent {
 
-    private final GameController mGameController;
+    private final GunuController mGameController;
 
-    public GameTopComponent() {
+    public GunuTopComponent() {
         initComponents();
-        String name = NbBundle.getMessage(GameTopComponent.class, "CTL_Name");
+        String name = NbBundle.getMessage(GunuTopComponent.class, "CTL_Name");
         setName(name);
         mTopPanel.setBackground(Options.INSTANCE.getColorBackground());
         Options.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
@@ -43,7 +44,7 @@ public final class GameTopComponent extends org.nbgames.core.game.GameTopCompone
                 }
             }
         });
-        mGameController = new GameController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/NumberGuesser");
+        mGameController = new GunuController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/Gunu");
     }
 
     @Override
