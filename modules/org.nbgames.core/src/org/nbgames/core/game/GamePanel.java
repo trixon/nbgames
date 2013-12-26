@@ -37,8 +37,10 @@ public class GamePanel extends JPanel {
     public void centerInParent() {
         Container container = getParent();
         if (container != null) {
+            container.doLayout();
             int height = (container.getHeight() - getHeight()) / 2;
             int width = (container.getWidth() - getWidth()) / 2;
+
             ((JComponent) container).setBorder(BorderFactory.createEmptyBorder(height, width, height, width));
         }
     }
