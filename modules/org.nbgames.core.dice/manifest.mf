@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: false
 OpenIDE-Module: org.nbgames.core.dice
 OpenIDE-Module-Layer: org/nbgames/core/dice/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/nbgames/core/dice/Bundle.properties
