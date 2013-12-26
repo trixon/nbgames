@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
 OpenIDE-Module: org.nbgames.core
 OpenIDE-Module-Install: org/nbgames/core/Installer.class
 OpenIDE-Module-Localizing-Bundle: org/nbgames/core/Bundle.properties
