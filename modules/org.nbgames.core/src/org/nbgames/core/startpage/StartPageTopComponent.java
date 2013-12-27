@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.prefs.Preferences;
+import org.nbgames.core.NbGames;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -119,8 +120,8 @@ public final class StartPageTopComponent extends TopComponent {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         int w = getWidth();
         int h = getHeight();
-        Color color1 = Color.decode("#00EE00");
-        Color color2 = Color.decode("#003300");
+        Color color1 = Color.decode(NbGames.COLOR_GRADIENT_COLOR1);
+        Color color2 = Color.decode(NbGames.COLOR_GRADIENT_COLOR2);
         GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);

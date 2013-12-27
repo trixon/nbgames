@@ -47,11 +47,11 @@ public abstract class GameController {
         return mGameTopComponent;
     }
 
+    public abstract void newGame();
+
     public void setGamePanel(GamePanel gamePanel) {
         mGamePanel = gamePanel;
     }
-
-    public abstract void startNewGame();
 
     protected void setActiveInformation(boolean state) {
 
@@ -74,7 +74,7 @@ public abstract class GameController {
 
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    startNewGame();
+                    newGame();
                 }
             });
         } else {

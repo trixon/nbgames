@@ -13,7 +13,7 @@ public class NewGameCallbackAction {
 
     @ActionID(category = "game",
             id = "org.nbgames.core.actions.NewGameAction")
-    @ActionRegistration(iconBase = "org/nbgames/core/res/quickopen.png",
+    @ActionRegistration(iconBase = "org/nbgames/core/res/document-new.png",
             displayName = "org.nbgames.core.actions.Bundle#CTL_GameNewAction",
             iconInMenu = true)
     @ActionReferences({

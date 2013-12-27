@@ -1,18 +1,15 @@
 package org.nbgames.core.game;
 
-import java.awt.Container;
 import java.awt.LayoutManager;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class GamePanel extends JPanel {
+public abstract class GamePanel extends JPanel {
 
     public GamePanel() {
         super();
@@ -35,17 +32,13 @@ public class GamePanel extends JPanel {
     }
 
     public void centerInParent() {
-        Container container = getParent();
-        if (container != null) {
-            container.doLayout();
-            int height = (container.getHeight() - getHeight()) / 2;
-            int width = (container.getWidth() - getWidth()) / 2;
-
-            ((JComponent) container).setBorder(BorderFactory.createEmptyBorder(height, width, height, width));
+        JPanel topPanel = (JPanel) getParent();
+        if (topPanel != null && topPanel.getHeight() > 0 && topPanel.getWidth() > 0) {
         }
     }
 
     private void init() {
+
         addHierarchyBoundsListener(new HierarchyBoundsListener() {
 
             @Override
