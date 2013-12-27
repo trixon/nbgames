@@ -8,12 +8,24 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import org.nbgames.yaya.Options;
 import org.nbgames.yaya.scorecard.rule.RowRule;
+import se.trixon.almond.util.AGraphics;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 public class ScoreCardRow {
+
+    private final int COLOR_MASK = 0xEEEEEE;
+    private boolean header = false;
+    private RowLabel label = new RowLabel();
+    private PlayerColumn playerColumn;
+    private int preview;
+    private boolean registered;
+    private int row;
+    private RowRule rowRule;
+    private ScoreCard scoreCard;
+    private int value;
 
     ScoreCardRow(ScoreCard aScoreCard, PlayerColumn aPlayerColumn, RowRule aRowRule, int aRow) {
         this.scoreCard = aScoreCard;
@@ -38,50 +50,6 @@ public class ScoreCardRow {
 
             label.setBackground();
         }
-    }
-
-    public RowRule getRowRule() {
-        return rowRule;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public boolean isHeader() {
-        return header;
-    }
-
-    public RowLabel getLabel() {
-        return label;
-    }
-
-    public boolean isPlayable() {
-        return rowRule.isPlayable();
-    }
-
-    public boolean isRegistered() {
-        return registered;
-    }
-
-    public void newGame() {
-        registered = false;
-        label.setCurrentBackgroundColor(scoreCard.getSettings().getColor(Settings.ColorSelectors.ROW));
-        label.setText(null);
-        preview = 0;
-        value = 0;
-        if (rowRule.isRollCounter()) {
-            label.setText("0");
-        }
-    }
-
-    public void register() {
-        value = preview;
-        registered = true;
     }
 
     public void enableHover() {
@@ -113,17 +81,61 @@ public class ScoreCardRow {
         }
     }
 
+    public RowLabel getLabel() {
+        return label;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public RowRule getRowRule() {
+        return rowRule;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public boolean isHeader() {
+        return header;
+    }
+
+    public boolean isPlayable() {
+        return rowRule.isPlayable();
+    }
+
+    public boolean isRegistered() {
+        return registered;
+    }
+
+    public void newGame() {
+        registered = false;
+        label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+        label.setText(null);
+        preview = 0;
+        value = 0;
+        if (rowRule.isRollCounter()) {
+            label.setText("0");
+        }
+    }
+
+    public void register() {
+        value = preview;
+        registered = true;
+    }
+
     public void setEnabled(boolean aState) {
         if (rowRule.isPlayable()) {
             label.setFont(label.getFont().deriveFont(Font.PLAIN));
-            label.setCurrentBackgroundColor(scoreCard.getSettings().getColor(Settings.ColorSelectors.ROW));
+            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
         }
 
         if (aState) {
             if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(scoreCard.getSettings().getColor(Settings.ColorSelectors.SUM));
+                label.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.SUM));
             } else {
-                label.setBackground(scoreCard.getSettings().getColor(Settings.ColorSelectors.ROW));
+                label.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
             }
 
             if (rowRule.isRollCounter()) {
@@ -134,9 +146,9 @@ public class ScoreCardRow {
 
         } else {
             if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(AGraphics.colorAndMask(scoreCard.getSettings().getColor(Settings.ColorSelectors.SUM), COLOR_MASK));
+                label.setBackground(AGraphics.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.SUM), COLOR_MASK));
             } else {
-                label.setBackground(AGraphics.colorAndMask(scoreCard.getSettings().getColor(Settings.ColorSelectors.ROW), COLOR_MASK));
+                label.setBackground(AGraphics.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.ROW), COLOR_MASK));
             }
 
             if (rowRule.isRollCounter()) {
@@ -171,6 +183,10 @@ public class ScoreCardRow {
         }
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public void setVisibleHint(boolean aVisible) {
         if (preview == 0 || isRegistered()) {
             return;
@@ -184,20 +200,16 @@ public class ScoreCardRow {
             label.setHorizontalAlignment(SwingConstants.LEADING);
 
             if (preview < rowRule.getLim()) {
-                label.setCurrentBackgroundColor(scoreCard.getSettings().getColor(Settings.ColorSelectors.HINT_LO));
+                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.HINT_LO));
             } else {
-                label.setCurrentBackgroundColor(scoreCard.getSettings().getColor(Settings.ColorSelectors.HINT_HI));
+                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.HINT_HI));
             }
         } else {
-            label.setCurrentBackgroundColor(scoreCard.getSettings().getColor(Settings.ColorSelectors.ROW));
+            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
         }
 
         label.setText(text);
         label.setBackground();
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     private void init() {
@@ -236,14 +248,4 @@ public class ScoreCardRow {
             scoreCard.register();
         }
     }
-    private final int COLOR_MASK = 0xEEEEEE;
-    private ScoreCard scoreCard;
-    private PlayerColumn playerColumn;
-    private RowLabel label = new RowLabel();
-    private RowRule rowRule;
-    private boolean header = false;
-    private boolean registered;
-    private int row;
-    private int preview;
-    private int value;
 }

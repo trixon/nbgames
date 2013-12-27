@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.Stack;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import org.nbgames.yaya.Options;
+import org.nbgames.yaya.scorecard.rule.RowRule;
+import org.nbgames.yaya.scorecard.rule.RowsRule;
 import org.nbgames.yaya.scorecard.rule.Rule;
 
 /**
@@ -89,9 +92,10 @@ public class PlayerColumn {
         for (ScoreCardRow scoreCardRow : rows) {
             if (scoreCardRow.getRowRule().isRollCounter()) {
                 String rolls = Integer.toString(getNumOfRolls());
-                int maxRolls = scoreCard.getSettings().getRule().getNumOfRolls();
+                int maxRolls = Options.INSTANCE.getRule().getNumOfRolls();
                 if (maxRolls > 0) {
-                    rolls += " (" + scoreCard.getNumOfRolls() + "/" + maxRolls + ")";
+//                    rolls += " (" + scoreCard.getNumOfRolls() + "/" + maxRolls + ")";
+                    rolls = "STATUS BAR";
                 }
                 scoreCardRow.getLabel().setText(rolls);
             }

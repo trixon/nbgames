@@ -1,6 +1,10 @@
 package org.nbgames.yaya.scorecard;
 
 import javax.swing.SwingConstants;
+import org.nbgames.yaya.Options;
+import org.nbgames.yaya.scorecard.rule.RowRule;
+import org.nbgames.yaya.scorecard.rule.RowsRule;
+import org.nbgames.yaya.scorecard.rule.Rule;
 
 /**
  *
@@ -8,42 +12,42 @@ import javax.swing.SwingConstants;
  */
 public class HeaderColumn {
 
-    private ScoreCardRow[] hiScores;
-    private int[] limValues;
-    private ScoreCardRow[] max;
-    private int[] maxValues;
-    private int numOfRows;
-    private ScoreCardRow[] rows;
-    private Rule rule;
-    private ScoreCard scoreCard;
+    private ScoreCardRow[] mHiScores;
+    private int[] mLimValues;
+    private ScoreCardRow[] mMax;
+    private int[] mMaxValues;
+    private int mNumOfRows;
+    private ScoreCardRow[] mRows;
+    private final Rule mRule;
+    private final ScoreCard mScoreCard;
 
-    public HeaderColumn(ScoreCard aScoreCard, Rule aRule) {
-        this.rule = aRule;
-        this.scoreCard = aScoreCard;
+    public HeaderColumn(ScoreCard scoreCard, Rule rule) {
+        mRule = rule;
+        mScoreCard = scoreCard;
         init();
     }
 
     public ScoreCardRow[] getHiScores() {
-        return hiScores;
+        return mHiScores;
     }
 
     public ScoreCardRow[] getMax() {
-        return max;
+        return mMax;
     }
 
     public ScoreCardRow[] getRows() {
-        return rows;
+        return mRows;
     }
 
-    public void setVisibleColumnHiscore(boolean aVisible) {
-        for (int i = 0; i < numOfRows; i++) {
-            hiScores[i].getLabel().setVisible(aVisible);
+    public void setVisibleColumnHiscore(boolean visible) {
+        for (int i = 0; i < mNumOfRows; i++) {
+            mHiScores[i].getLabel().setVisible(visible);
         }
     }
 
-    public void setVisibleColumnMax(boolean aVisible) {
-        for (int i = 0; i < numOfRows; i++) {
-            max[i].getLabel().setVisible(aVisible);
+    public void setVisibleColumnMax(boolean visible) {
+        for (int i = 0; i < mNumOfRows; i++) {
+            mMax[i].getLabel().setVisible(visible);
         }
     }
 
@@ -53,45 +57,46 @@ public class HeaderColumn {
     }
 
     private void initLexicons() {
-        for (int i = 0; i < rule.getNumOfRows(); i++) {
-            scoreCard.getLexicon().setPair(rows[i].getLabel(), rule.getKey()[i]);
+        for (int i = 0; i < mRule.getNumOfRows(); i++) {
+//            mScoreCard.getLexicon().setPair(mRows[i].getLabel(), mRule.getKey()[i]);
+//            TODO
         }
     }
 
     private void initRows() {
-        boolean showMaxCol = scoreCard.getSettings().isShowingMaxCol();
-        boolean showHiCol = scoreCard.getSettings().isShowingHiCol();
+        boolean showMaxCol = Options.INSTANCE.isShowingMaxCol();
+        boolean showHiCol = Options.INSTANCE.isShowingHiCol();
 
-        RowsRule rowsRule = rule.getRowsRule();
-        limValues = rule.getLim();
-        maxValues = rule.getMax();
+        RowsRule rowsRule = mRule.getRowsRule();
+        mLimValues = mRule.getLim();
+        mMaxValues = mRule.getMax();
 
-        numOfRows = rule.getNumOfRows();
-        rows = new ScoreCardRow[numOfRows];
-        max = new ScoreCardRow[numOfRows];
-        hiScores = new ScoreCardRow[numOfRows];
+        mNumOfRows = mRule.getNumOfRows();
+        mRows = new ScoreCardRow[mNumOfRows];
+        mMax = new ScoreCardRow[mNumOfRows];
+        mHiScores = new ScoreCardRow[mNumOfRows];
 
-        for (int i = 0; i < numOfRows; i++) {
+        for (int i = 0; i < mNumOfRows; i++) {
             RowRule rowRule = rowsRule.get(i);
 
-            rows[i] = new ScoreCardRow(scoreCard, rowRule, i, true);
-            max[i] = new ScoreCardRow(scoreCard, rowRule, i, true);
-            hiScores[i] = new ScoreCardRow(scoreCard, rowRule, i, true);
+            mRows[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
+            mMax[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
+            mHiScores[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
 
-            rows[i].getLabel().setHorizontalAlignment(SwingConstants.LEADING);
-            max[i].getLabel().setText(Integer.toString(maxValues[i]));
-            hiScores[i].getLabel().setText(Integer.toString(limValues[i]));
+            mRows[i].getLabel().setHorizontalAlignment(SwingConstants.LEADING);
+            mMax[i].getLabel().setText(Integer.toString(mMaxValues[i]));
+            mHiScores[i].getLabel().setText(Integer.toString(mLimValues[i]));
 
-            max[i].getLabel().setVisible(showMaxCol);
-            hiScores[i].getLabel().setVisible(showHiCol);
+            mMax[i].getLabel().setVisible(showMaxCol);
+            mHiScores[i].getLabel().setVisible(showHiCol);
 
-            String toolTip = rows[i].getRowRule().getToolTip();
-            rows[i].getLabel().setToolTipText(toolTip);
-            max[i].getLabel().setToolTipText(toolTip);
-            hiScores[i].getLabel().setToolTipText(toolTip);
+            String toolTip = mRows[i].getRowRule().getToolTip();
+            mRows[i].getLabel().setToolTipText(toolTip);
+            mMax[i].getLabel().setToolTipText(toolTip);
+            mHiScores[i].getLabel().setToolTipText(toolTip);
         }
 
-        int row = scoreCard.getSettings().getRule().getResultRow();
-        rows[row].getLabel().setFont(rows[row].getLabel().getFont().deriveFont((16.0F)));
+        int row = Options.INSTANCE.getRule().getResultRow();
+        mRows[row].getLabel().setFont(mRows[row].getLabel().getFont().deriveFont((16.0F)));
     }
 }
