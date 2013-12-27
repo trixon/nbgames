@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import se.trixon.almond.util.AGraphics;
+import org.openide.util.ImageUtilities;
 
 /**
  *
@@ -19,7 +19,7 @@ class Die {
     private final int MAX_DR_2 = 20;
     private final int MAX_DR_3 = 4;
     private final String PATH = "org/nbgames/core/dice/data/image/dice/";
-    private final String PATH_SND = "org/nbgames/core/dice/data/sound/";
+    private final String PATH_SND = "/org/nbgames/core/dice/data/sound/";
     private Thread animator = new Thread();
     private AudioClip audioClip;
     private BufferedImage bufferedImage;
@@ -41,42 +41,6 @@ class Die {
         this.diceBoard = aDiceBoard;
         this.column = aColumn;
         init();
-    }
-
-    private int generateValue() {
-        value = random.nextInt(6) + 1;
-        int variant = random.nextInt(2) + 1;
-        int mode = 0;
-        imageFile = PATH + String.format("%d_%02d_%02d.png", mode, value, variant);
-
-        setBufferedImage(imageFile);
-        return value;
-    }
-
-    private void init() {
-    }
-
-    private void rotate(double aTheta) {
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
-        affineTransform.rotate(aTheta, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
-        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
-
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
-    }
-
-    private void scale() {
-        double scaleFactor = y / 200.0 + 0.8;
-        scaleFactor = Math.max(scaleFactor, 0.01);
-
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
-        affineTransform.scale(scaleFactor, scaleFactor);
-        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
-
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
-    }
-
-    private void setBufferedImage(String aFile) {
-        bufferedImage = AGraphics.getBufferedImage(this.getClass().getResource(aFile));
     }
 
     Thread getAnimator() {
@@ -162,6 +126,42 @@ class Die {
 
     void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    private int generateValue() {
+        value = random.nextInt(6) + 1;
+        int variant = random.nextInt(2) + 1;
+        int mode = 0;
+        imageFile = PATH + String.format("%d_%02d_%02d.png", mode, value, variant);
+
+        setBufferedImage(imageFile);
+        return value;
+    }
+
+    private void init() {
+    }
+
+    private void rotate(double aTheta) {
+        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+        affineTransform.rotate(aTheta, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
+        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
+
+        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+    }
+
+    private void scale() {
+        double scaleFactor = y / 200.0 + 0.8;
+        scaleFactor = Math.max(scaleFactor, 0.01);
+
+        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+        affineTransform.scale(scaleFactor, scaleFactor);
+        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
+
+        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+    }
+
+    private void setBufferedImage(String imageFilePath) {
+        bufferedImage = (BufferedImage) ImageUtilities.loadImage(imageFilePath);
     }
 
     class RollRunner implements Runnable {

@@ -3,8 +3,8 @@ package org.nbgames.core.dice;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import javax.swing.JPanel;
 import org.openide.util.ImageUtilities;
 import se.trixon.almond.util.AGraphics;
@@ -15,19 +15,21 @@ import se.trixon.almond.util.AGraphics;
  */
 class DiceBoardPanel extends JPanel {
 
+    private final String DEFAULT_IMAGE_PATH = "org/nbgames/core/dice/data/image/board/default.jpg";
     private final Dimension MAX_DIMENSION = new Dimension(1200, 200);
-    private final String PATH = "org/nbgames/core/dice/data/image/board/";
-    private BufferedImage backGroundImage;
+    private final Dimension PREFERRED_DIMENSION = new Dimension(1000, 180);
+    private BufferedImage mBackGroundImage;
 
     DiceBoardPanel() {
+        super();
         init();
     }
 
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(backGroundImage, 0, 0, this);
-        g2.drawImage(AGraphics.flipBufferedImageX(backGroundImage), backGroundImage.getWidth(), 0, this);
+        g2.drawImage(mBackGroundImage, 0, 0, this);
+        g2.drawImage(AGraphics.flipBufferedImageX(mBackGroundImage), mBackGroundImage.getWidth(), 0, this);
         super.paint(g);
     }
 
@@ -36,14 +38,14 @@ class DiceBoardPanel extends JPanel {
         paint(g);
     }
 
-    private void init() {
-        BufferedImage bufferedImage = (BufferedImage) ImageUtilities.loadImage(PATH + "default.jpg");
-        backGroundImage = bufferedImage;
-//        setBackGroundImage(this.getClass().getResource(PATH + "default.jpg"));
-        setMaximumSize(MAX_DIMENSION);
+    void setBackGroundImage(String imagePath) {
+        mBackGroundImage = (BufferedImage) ImageUtilities.loadImage(imagePath);
     }
 
-    void setBackGroundImage(URL aBackGroundImageUrl) {
-        this.backGroundImage = AGraphics.getBufferedImage(aBackGroundImageUrl);
+    private void init() {
+        setBackGroundImage(DEFAULT_IMAGE_PATH);
+        setMaximumSize(MAX_DIMENSION);
+        setPreferredSize(PREFERRED_DIMENSION);
+        setLayout(new GridLayout(1, 1));
     }
 }

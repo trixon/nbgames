@@ -1,11 +1,9 @@
 package org.nbgames.core.dice;
 
-import org.nbgames.core.HandMode;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.LinkedList;
 import java.util.Observable;
 import javax.swing.JPanel;
+import org.nbgames.core.HandMode;
 
 /**
  *
@@ -13,45 +11,43 @@ import javax.swing.JPanel;
  */
 public class DiceBoard extends Observable {
 
-    private final int PANEL_HEIGHT = 180;
-    private final int PANEL_WIDTH = 1000;
-    private LinkedList<Die> mDice = new LinkedList<Die>();
-    private Collector mCollector = new Collector(this);
+    private final Collector mCollector = new Collector(this);
+    private final LinkedList<Die> mDice = new LinkedList<>();
+    private final DiceBoardPanel mDiceBoardPanel = new DiceBoardPanel();
     private boolean mDiceOnFloor = false;
-    private Painter dicePainter = new Painter(this);
-    private Roller diceRoller = new Roller(this);
-    private Thread dieWatcher;
-    private HandMode handMode;
-    private int maxRollCount = 3;
-    private int numOfDice;
-    private int numOfRolls = 0;
-    private DiceBoardPanel panel = new DiceBoardPanel();
-    private boolean playSound = true;
+    private Thread mDieWatcherThread;
+    private HandMode mHandMode;
+    private int mMaxRollCount = 3;
+    private int mNumOfDice;
+    private int mNumOfRolls = 0;
+    private final Painter mPainter = new Painter(this);
+    private boolean mPlaySound = true;
+    private final Roller mRoller = new Roller(this);
 
-    public DiceBoard(int aNumOfDice) {
-        setNumOfDice(aNumOfDice);
+    public DiceBoard(int numOfDice) {
+        setNumOfDice(numOfDice);
         init();
     }
 
     public void gameOver() {
-        dicePainter.setRollable(false);
-        dicePainter.setSelectable(false);
+        mPainter.setRollable(false);
+        mPainter.setSelectable(false);
     }
 
     public int getMaxRollCount() {
-        return maxRollCount;
+        return mMaxRollCount;
     }
 
     public int getNumOfRolls() {
-        return numOfRolls;
+        return mNumOfRolls;
     }
 
     public JPanel getPanel() {
-        return panel;
+        return mDiceBoardPanel;
     }
 
     public LinkedList<Integer> getValues() {
-        LinkedList<Integer> values = new LinkedList<Integer>();
+        LinkedList<Integer> values = new LinkedList<>();
 
         for (Die die : mDice) {
             values.add(die.getValue());
@@ -61,77 +57,140 @@ public class DiceBoard extends Observable {
     }
 
     public void newTurn() {
-        numOfRolls = 0;
+        mNumOfRolls = 0;
         mCollector.collect();
-        panel.repaint();
+        mDiceBoardPanel.repaint();
 
-        dicePainter.setSelectable(false);
-        dicePainter.setRollable(true);
+        mPainter.setSelectable(false);
+        mPainter.setRollable(true);
         reset();
-        diceRoller.setImage(getNumOfDice());
+        mRoller.setImage(getNumOfDice());
     }
 
     public void roll() {
-        dicePainter.setRollable(false);
-        dicePainter.setSelectable(false);
-        diceRoller.roll();
+        mPainter.setRollable(false);
+        mPainter.setSelectable(false);
+        mRoller.roll();
         mDiceOnFloor = false;
 
         for (Die die : mDice) {
             die.roll();
         }
 
-        diceRoller.setImage(getNumOfSelectedDice());
-        dieWatcher = new Thread(new DieWatchRunner());
-        dieWatcher.start();
+        mRoller.setImage(getNumOfSelectedDice());
+        mDieWatcherThread = new Thread(new DieWatchRunner());
+        mDieWatcherThread.start();
     }
 
-    public void setDiceTofloor(int aDiceToFloorFrequence) {
+    public void setDiceTofloor(int frequency) {
         for (Die die : mDice) {
-            die.setDiceTofloor(aDiceToFloorFrequence);
+            die.setDiceTofloor(frequency);
         }
     }
 
-    public void setHandMode(HandMode aHandMode) {
-        this.handMode = aHandMode;
+    public void setHandMode(HandMode handMode) {
+        mHandMode = handMode;
     }
 
-    public void setMaxRollCount(int aMaxRollCount) {
-        maxRollCount = aMaxRollCount;
+    public void setMaxRollCount(int maxRollCount) {
+        mMaxRollCount = maxRollCount;
     }
 
     public void setPlaySound(boolean playSound) {
-        this.playSound = playSound;
+        mPlaySound = playSound;
     }
 
     public void undo() {
-        dicePainter.setRollable(false);
-        dicePainter.setSelectable(false);
+        mPainter.setRollable(false);
+        mPainter.setSelectable(false);
 
         for (Die die : mDice) {
             die.setVisible(true);
             die.setEnabled(false);
         }
 
-        panel.repaint();
+        mDiceBoardPanel.repaint();
         setChanged();
-        notifyObservers(RollEvent.POST_OP);
+        notifyObservers(RollEvent.POST_ROLL);
+    }
+
+    LinkedList<Die> getDice() {
+        return mDice;
+    }
+
+    Painter getDicePainter() {
+        return mPainter;
+    }
+
+    Roller getDiceRoller() {
+        return mRoller;
+    }
+
+    HandMode getHandMode() {
+        return mHandMode;
+    }
+
+    int getNumOfDice() {
+        return mNumOfDice;
+    }
+
+    synchronized int getNumOfSelectedDice() {
+        int result = 0;
+
+        for (Die die : mDice) {
+            if (die.isSelected()) {
+                result++;
+            }
+        }
+
+        mRoller.setImage(result);
+
+        return result;
+    }
+
+    boolean isDiceOnFloor() {
+        return mDiceOnFloor;
+    }
+
+    boolean isPlaySound() {
+        return mPlaySound;
+    }
+
+    void rollPostOp() {
+        mNumOfRolls++;
+        boolean enable = false;
+
+        if (mNumOfRolls == mMaxRollCount) {
+            endOfTurn();
+        } else {
+            enable = true;
+        }
+
+        mPainter.setRollable(false);
+        mPainter.setSelectable(enable);
+
+        setChanged();
+        notifyObservers(RollEvent.POST_ROLL);
+    }
+
+    void rollPreOp() {
+        setChanged();
+        notifyObservers(RollEvent.PRE_ROLL);
+    }
+
+    void setDiceOnFloor(boolean diceOnFloor) {
+        mDiceOnFloor = diceOnFloor;
     }
 
     private void endOfTurn() {
-
         for (Die die : mDice) {
             die.park();
             die.setEnabled(false);
         }
-
     }
 
     private void init() {
-        panel.setOpaque(false);
-        panel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(dicePainter);
+        mDiceBoardPanel.add(mPainter);
 
         setHandMode(HandMode.LEFT);
         setHandMode(HandMode.RIGHT);
@@ -143,86 +202,19 @@ public class DiceBoard extends Observable {
         }
     }
 
-    private void setNumOfDice(int aNumOfDice) {
-        this.numOfDice = aNumOfDice;
+    private void setNumOfDice(int numOfDice) {
+        mNumOfDice = numOfDice;
         mDice.clear();
 
-        for (int i = 0; i < aNumOfDice; i++) {
+        for (int i = 0; i < numOfDice; i++) {
             mDice.add(new Die(this, i));
         }
     }
 
-    LinkedList<Die> getDice() {
-        return mDice;
-    }
-
-    Painter getDicePainter() {
-        return dicePainter;
-    }
-
-    Roller getDiceRoller() {
-        return diceRoller;
-    }
-
-    HandMode getHandMode() {
-        return handMode;
-    }
-
-    int getNumOfDice() {
-        return numOfDice;
-    }
-
-    synchronized int getNumOfSelectedDice() {
-        int result = 0;
-
-        for (Die die : mDice) {
-            if (die.isSelected()) {
-                result++;
-            }
-        }
-        diceRoller.setImage(result);
-
-        return result;
-    }
-
-    boolean isDiceOnFloor() {
-        return mDiceOnFloor;
-    }
-
-    boolean isPlaySound() {
-        return playSound;
-    }
-
-    void rollPostOp() {
-        numOfRolls++;
-        boolean enable = false;
-
-        if (numOfRolls == maxRollCount) {
-            endOfTurn();
-        } else {
-            enable = true;
-        }
-
-        dicePainter.setRollable(false);
-        dicePainter.setSelectable(enable);
-
-        setChanged();
-        notifyObservers(RollEvent.POST_OP);
-    }
-
-    void rollPreOp() {
-        setChanged();
-        notifyObservers(RollEvent.PRE_OP);
-    }
-
-    void setDiceOnFloor(boolean diceOnFloor) {
-        this.mDiceOnFloor = diceOnFloor;
-    }
-
     public enum RollEvent {
 
-        PRE_OP,
-        POST_OP;
+        PRE_ROLL,
+        POST_ROLL;
     }
 
     class DieWatchRunner implements Runnable {
