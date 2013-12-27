@@ -2,41 +2,55 @@ package org.nbgames.yaya;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
+import java.util.Observable;
+import java.util.Observer;
 import org.nbgames.core.NbGames;
 import org.nbgames.core.dice.DiceBoard;
+import org.nbgames.core.game.GamePanel;
+import org.nbgames.yaya.scorecard.ScoreCard;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class YayaPanel extends org.nbgames.core.game.GamePanel {
+public class YayaPanel extends GamePanel implements Observer {
 
     private YayaController mGameController;
+    private DiceBoard mDiceBoard;
+    private boolean isRollable = true;
+    private int numOfPlayers;
+    private ScoreCard mScoreCard;
 
     /**
-     * Creates new form GamePanel
+     * Creates new form YayaPanel
      */
     public YayaPanel() {
         initComponents();
+        init();
 
-        Dimension dimension = new Dimension(400, 300);
-
-        setMinimumSize(dimension);
-        setPreferredSize(dimension);
-        setSize(dimension);
-//        setOpaque(false);
-        setLayout(new BorderLayout());
-
-        DiceBoard board = new DiceBoard(5);
-        add(board.getPanel(), BorderLayout.SOUTH);
-        board.newTurn();
-
+//        Dimension dimension = new Dimension(400, 300);
+//
+//        setMinimumSize(dimension);
+//        setPreferredSize(dimension);
+//        setSize(dimension);
+////        setOpaque(false);
+//        setLayout(new BorderLayout());
+//
+//        DiceBoard board = new DiceBoard(5);
+//        add(board.getPanel(), BorderLayout.SOUTH);
+//        board.newTurn();
     }
 
     public YayaPanel(YayaController gameController) {
         this();
 
         mGameController = gameController;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
     }
 
     /**
@@ -62,7 +76,68 @@ public class YayaPanel extends org.nbgames.core.game.GamePanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    void startNewGame() {
+    void newGame() {
         NbGames.log("Yaya: startNewGame");
+//        if (numOfPlayers != settings.getNumOfPlayers()) {
+//            numOfPlayers = settings.getNumOfPlayers();
+//            initRule(settings.getRule());
+//        }
+        initRule();
+        mScoreCard.newGame();
+        mDiceBoard.newTurn();
     }
+
+    private void init() {
+//        AAudioClip.setPlaySoundEffects(true);
+        numOfPlayers = 4;//settings.getNumOfPlayers();
+        Dimension dimension = new Dimension(400, 300);
+
+        setMinimumSize(dimension);
+        setPreferredSize(dimension);
+        setSize(dimension);
+//        setOpaque(false);
+
+        setLayout(new BorderLayout());
+
+//        addHierarchyBoundsListener(new HierarchyBoundsListener() {
+//
+//            @Override
+//            public void ancestorMoved(HierarchyEvent evt) {
+//            }
+//
+//            @Override
+//            public void ancestorResized(HierarchyEvent evt) {
+//                centerInParent();
+//            }
+//        });
+    }
+
+    private void initDiceBoard() {
+        mDiceBoard.addObserver(this);
+        mDiceBoard.setDiceTofloor(1000);
+        mDiceBoard.setMaxRollCount(3);//settings.getRule().getNumOfRolls());
+        add(mDiceBoard.getPanel(), BorderLayout.SOUTH);
+    }
+
+    private void initRule() {
+        removeAll();
+//        settings.setRule(aRule);
+
+        mDiceBoard = new DiceBoard(5);//settings.getRule().getNumOfDice());
+        mScoreCard = new ScoreCard(this);
+        initScoreCard();
+        initDiceBoard();
+
+//        applyColors();
+//        getParent().doLayout();
+//        centerInParent();
+//        Dimension d = getSize();
+//        d = new Dimension(d.width + 40, d.height + 80);
+//        getAApplicationFrame().setMinimumSize(d);
+//        newGame();
+    }
+
+    private void initScoreCard() {
+    }
+
 }

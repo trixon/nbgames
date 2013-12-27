@@ -1,6 +1,5 @@
 package org.nbgames.yaya;
 
-import java.awt.Container;
 import org.nbgames.core.game.GameController;
 
 /**
@@ -10,21 +9,16 @@ import org.nbgames.core.game.GameController;
 public class YayaController extends GameController {
 
     private final YayaPanel mGamePanel;
-    private final YayaTopComponent mTopComponent;
-    private final Container mTopPanel;
 
     public YayaController(YayaTopComponent gameTopComponent, String gameName, String gameVersion, String gameCopyright, String optionsPath) {
         super(gameTopComponent, gameName, gameVersion, gameCopyright, optionsPath);
-        mTopComponent = gameTopComponent;
-        mTopPanel = gameTopComponent.getTopPanel();
         mGamePanel = new YayaPanel(this);
         setGamePanel(mGamePanel);
-        mTopPanel.add(getGamePanel());
-        getGamePanel().centerInParent();
+        gameTopComponent.setGamePanel(mGamePanel);
     }
 
     @Override
-    public void startNewGame() {
-        mGamePanel.startNewGame();
+    public void newGame() {
+        mGamePanel.newGame();
     }
 }

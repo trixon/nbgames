@@ -1,6 +1,5 @@
 package org.nbgames.yaya;
 
-import javax.swing.JPanel;
 import org.nbgames.core.game.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
@@ -21,7 +20,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 @Messages({
-    "CTL_GameVersion=1.0.0",
+    "CTL_GameVersion=0.0.1",
     "CTL_GameCopyright=© 2013 Patrik Karlsson"})
 
 public final class YayaTopComponent extends GameTopComponent {
@@ -35,11 +34,6 @@ public final class YayaTopComponent extends GameTopComponent {
         mGameController = new YayaController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Dice/Yaya");
     }
 
-    @Override
-    public JPanel getTopPanel() {
-        return mTopPanel;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,48 +42,25 @@ public final class YayaTopComponent extends GameTopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mTopPanel = new javax.swing.JPanel();
-
-        setLayout(new java.awt.BorderLayout());
-
-        mTopPanel.setBackground(new java.awt.Color(0, 0, 0));
-
-        javax.swing.GroupLayout mTopPanelLayout = new javax.swing.GroupLayout(mTopPanel);
-        mTopPanel.setLayout(mTopPanelLayout);
-        mTopPanelLayout.setHorizontalGroup(
-            mTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        mTopPanelLayout.setVerticalGroup(
-            mTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        add(mTopPanel, java.awt.BorderLayout.CENTER);
+        setLayout(new java.awt.GridBagLayout());
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel mTopPanel;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
+        mGameController.newGame();
     }
 
     @Override
     public void componentClosed() {
-        // TODO add custom code on component closing
     }
 
     void writeProperties(java.util.Properties p) {
-        // better to version settings since initial version as advocated at
-        // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
-        // TODO store your settings
     }
 
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
-        // TODO read your settings according to their version
     }
 }
