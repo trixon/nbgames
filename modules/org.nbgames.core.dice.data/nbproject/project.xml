@@ -6,7 +6,9 @@
             <code-name-base>org.nbgames.core.dice.data</code-name-base>
             <suite-component/>
             <module-dependencies/>
-            <public-packages/>
+            <public-packages>
+                <package>org.nbgames.core.dice.data.sound</package>
+            </public-packages>
         </data>
     </configuration>
 </project>
