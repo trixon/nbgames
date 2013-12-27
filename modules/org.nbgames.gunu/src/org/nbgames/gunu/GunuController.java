@@ -1,6 +1,5 @@
 package org.nbgames.gunu;
 
-import java.awt.Container;
 import org.nbgames.core.game.GameController;
 
 /**
@@ -10,21 +9,16 @@ import org.nbgames.core.game.GameController;
 public class GunuController extends GameController {
 
     private final GunuPanel mGamePanel;
-    private final GunuTopComponent mTopComponent;
-    private final Container mTopPanel;
 
-    public GunuController(GunuTopComponent gunuTopComponent, String gameName, String gameVersion, String gameCopyright, String optionsPath) {
-        super(gunuTopComponent, gameName, gameVersion, gameCopyright, optionsPath);
-        mTopComponent = gunuTopComponent;
-        mTopPanel = gunuTopComponent.getTopPanel();
+    public GunuController(GunuTopComponent gameTopComponent, String gameName, String gameVersion, String gameCopyright, String optionsPath) {
+        super(gameTopComponent, gameName, gameVersion, gameCopyright, optionsPath);
         mGamePanel = new GunuPanel(this);
         setGamePanel(mGamePanel);
-        mTopPanel.add(getGamePanel());
-        getGamePanel().centerInParent();
+        gameTopComponent.setGamePanel(mGamePanel);
     }
 
     @Override
-    public void startNewGame() {
-        mGamePanel.startNewGame();
+    public void newGame() {
+        mGamePanel.newGame();
     }
 }

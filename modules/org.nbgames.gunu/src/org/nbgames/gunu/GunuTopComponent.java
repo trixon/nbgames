@@ -1,8 +1,12 @@
 package org.nbgames.gunu;
 
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
-import javax.swing.JPanel;
 import org.nbgames.core.game.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
@@ -34,22 +38,7 @@ public final class GunuTopComponent extends GameTopComponent {
         initComponents();
         String name = NbBundle.getMessage(GunuTopComponent.class, "CTL_Name");
         setName(name);
-        mTopPanel.setBackground(Options.INSTANCE.getColorBackground());
-        Options.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
-
-            @Override
-            public void preferenceChange(PreferenceChangeEvent evt) {
-                if (evt.getKey().equals(Options.KEY_COLOR_BACKGROUND)) {
-                    mTopPanel.setBackground(Options.INSTANCE.getColorBackground());
-                }
-            }
-        });
         mGameController = new GunuController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/Gunu");
-    }
-
-    @Override
-    public JPanel getTopPanel() {
-        return mTopPanel;
     }
 
     /**
@@ -60,21 +49,14 @@ public final class GunuTopComponent extends GameTopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mTopPanel = new javax.swing.JPanel();
-
-        setLayout(new java.awt.BorderLayout());
-
-        mTopPanel.setBackground(new java.awt.Color(153, 153, 0));
-        mTopPanel.setLayout(new java.awt.BorderLayout());
-        add(mTopPanel, java.awt.BorderLayout.CENTER);
+        setLayout(new java.awt.GridBagLayout());
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel mTopPanel;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        mGameController.startNewGame();
+        mGameController.newGame();
     }
 
     @Override

@@ -2,6 +2,9 @@ package org.nbgames.gunu;
 
 import java.awt.Dimension;
 import java.util.Random;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
+import javax.swing.border.BevelBorder;
 import org.nbgames.core.NbGames;
 import org.nbgames.core.game.GamePanel;
 import org.openide.util.NbBundle;
@@ -24,17 +27,28 @@ public class GunuPanel extends GamePanel {
     private final Random mRandom = new Random();
 
     /**
-     * Creates new form GamePanel
+     * Creates new form GunuPanel
      */
     public GunuPanel() {
         initComponents();
 
-        Dimension dimension = new Dimension(400, 300);
+        setBorder(new BevelBorder(BevelBorder.RAISED));
+//        Dimension dimension = new Dimension(400, 300);
+//
+//        setMinimumSize(dimension);
+//        setPreferredSize(dimension);
+//        setSize(dimension);
+        setBackground(Options.INSTANCE.getColorBackground());
+        Options.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
 
-        setMinimumSize(dimension);
-        setPreferredSize(dimension);
-        setSize(dimension);
-//        setOpaque(false);
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                if (evt.getKey().equals(Options.KEY_COLOR_BACKGROUND)) {
+                    setBackground(Options.INSTANCE.getColorBackground());
+                }
+            }
+        });
+
     }
 
     public GunuPanel(GunuController gunuController) {
@@ -43,7 +57,7 @@ public class GunuPanel extends GamePanel {
         mGunuController = gunuController;
     }
 
-    void startNewGame() {
+    void newGame() {
         NbGames.log("Gunu: startNewGame");
 
         long min = Options.INSTANCE.getMin();
