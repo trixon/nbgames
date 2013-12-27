@@ -1,15 +1,14 @@
 package org.nbgames.yaya;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.HierarchyBoundsListener;
-import java.awt.event.HierarchyEvent;
 import java.util.Observable;
 import java.util.Observer;
 import org.nbgames.core.NbGames;
 import org.nbgames.core.dice.DiceBoard;
+import org.nbgames.core.dice.DiceBoard.RollEvent;
 import org.nbgames.core.game.GamePanel;
 import org.nbgames.yaya.scorecard.ScoreCard;
+import org.nbgames.yaya.scorecard.ScoreCardObservable.ScoreCardEvent;
 
 /**
  *
@@ -29,18 +28,6 @@ public class YayaPanel extends GamePanel implements Observer {
     public YayaPanel() {
         initComponents();
         init();
-
-//        Dimension dimension = new Dimension(400, 300);
-//
-//        setMinimumSize(dimension);
-//        setPreferredSize(dimension);
-//        setSize(dimension);
-////        setOpaque(false);
-//        setLayout(new BorderLayout());
-//
-//        DiceBoard board = new DiceBoard(5);
-//        add(board.getPanel(), BorderLayout.SOUTH);
-//        board.newTurn();
     }
 
     public YayaPanel(YayaController gameController) {
@@ -51,6 +38,40 @@ public class YayaPanel extends GamePanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (arg instanceof RollEvent) {
+            switch ((RollEvent) arg) {
+                case PRE_ROLL:
+                    mScoreCard.setEnabledUndo(false);
+                    isRollable = mScoreCard.isRollable();
+                    if (isRollable) {
+                        mScoreCard.newRoll();
+                        mDiceBoard.roll();
+                    }
+
+                    break;
+
+                case POST_ROLL:
+                    mScoreCard.parseDice(mDiceBoard.getValues());
+                    break;
+            }
+        }
+
+        if (arg instanceof ScoreCardEvent) {
+            switch ((ScoreCardEvent) arg) {
+                case GAME_OVER:
+                    mDiceBoard.gameOver();
+                    break;
+
+                case REGISTER:
+                    mDiceBoard.newTurn();
+                    break;
+
+                case UNDO:
+                    mDiceBoard.undo();
+                    break;
+            }
+        }
+
     }
 
     /**
@@ -90,13 +111,6 @@ public class YayaPanel extends GamePanel implements Observer {
     private void init() {
 //        AAudioClip.setPlaySoundEffects(true);
         numOfPlayers = 4;//settings.getNumOfPlayers();
-        Dimension dimension = new Dimension(400, 300);
-
-        setMinimumSize(dimension);
-        setPreferredSize(dimension);
-        setSize(dimension);
-//        setOpaque(false);
-
         setLayout(new BorderLayout());
 
 //        addHierarchyBoundsListener(new HierarchyBoundsListener() {
@@ -124,7 +138,7 @@ public class YayaPanel extends GamePanel implements Observer {
 //        settings.setRule(aRule);
 
         mDiceBoard = new DiceBoard(5);//settings.getRule().getNumOfDice());
-        mScoreCard = new ScoreCard(this);
+        mScoreCard = new ScoreCard();
         initScoreCard();
         initDiceBoard();
 
@@ -138,6 +152,8 @@ public class YayaPanel extends GamePanel implements Observer {
     }
 
     private void initScoreCard() {
+        mScoreCard.getObservable().addObserver(this);
+        add(mScoreCard.getCard(), BorderLayout.CENTER);
     }
 
 }
