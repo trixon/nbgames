@@ -1,12 +1,5 @@
 package org.nbgames.gunu;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 import org.nbgames.core.game.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
@@ -28,8 +21,9 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @Messages({
-    "CTL_GameVersion=1.0.0",
-    "CTL_GameCopyright=© 2013 Patrik Karlsson"})
+    "CTL_InfoVersion=1.0.0",
+    "CTL_InfoDescription=Simple reference game",
+    "CTL_InfoCopyright=© 2013 Patrik Karlsson"})
 public final class GunuTopComponent extends GameTopComponent {
 
     private final GunuController mGameController;
@@ -38,7 +32,7 @@ public final class GunuTopComponent extends GameTopComponent {
         initComponents();
         String name = NbBundle.getMessage(GunuTopComponent.class, "CTL_Name");
         setName(name);
-        mGameController = new GunuController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Logic/Gunu");
+        mGameController = new GunuController(this, name, Bundle.CTL_InfoVersion(), Bundle.CTL_InfoDescription(), Bundle.CTL_InfoCopyright(), "Logic/Gunu");
     }
 
     /**

@@ -18,19 +18,21 @@ import org.openide.util.NbBundle;
 public abstract class GameController {
 
     private ActionMap mActionMap;
-    private String mGameCopyright = "{copyright}";
-    private String mGameName = "{name}";
     private GamePanel mGamePanel;
     private GameTopComponent mGameTopComponent;
-    private String mGameVersion = "{version}";
+    private String mInfoCopyright;
+    private String mInfoDescription;
+    private String mInfoName;
+    private String mInfoVersion;
     private String mOptionsPath;
 
-    public GameController(GameTopComponent gameTopComponent, String gameName, String gameVersion, String gameCopyright, String optionsPath) {
+    public GameController(GameTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {
         mGameTopComponent = gameTopComponent;
         mActionMap = gameTopComponent.getActionMap();
-        mGameName = gameName;
-        mGameVersion = gameVersion;
-        mGameCopyright = gameCopyright;
+        mInfoName = infoName;
+        mInfoVersion = infoVersion;
+        mInfoDescription = infoDescription;
+        mInfoCopyright = infoCopyright;
         mOptionsPath = optionsPath;
 
         init();
@@ -103,12 +105,9 @@ public abstract class GameController {
     }
 
     private void showInformation() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(mGameName).append("\n\n");
-        builder.append(mGameVersion).append("\n");
-        builder.append(mGameCopyright);
+        String message = String.format("%s %s\n%s\n\n%s", mInfoName, mInfoVersion, mInfoDescription, mInfoCopyright);
 
-        NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
+        NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(message, NotifyDescriptor.INFORMATION_MESSAGE);
         notifyDescriptor.setTitle(NbBundle.getMessage(AboutCallbackAction.class, "CTL_GameAboutAction"));
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }

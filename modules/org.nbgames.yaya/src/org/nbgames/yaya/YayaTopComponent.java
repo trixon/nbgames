@@ -20,8 +20,9 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 @Messages({
-    "CTL_GameVersion=0.0.1",
-    "CTL_GameCopyright=© 2013 Patrik Karlsson"})
+    "CTL_InfoVersion=0.0.1",
+    "CTL_InfoDescription=Yet Another Yahtzee",
+    "CTL_InfoCopyright=© 2013 Patrik Karlsson"})
 
 public final class YayaTopComponent extends GameTopComponent {
 
@@ -31,7 +32,7 @@ public final class YayaTopComponent extends GameTopComponent {
         initComponents();
         String name = NbBundle.getMessage(YayaTopComponent.class, "CTL_Name");
         setName(name);
-        mGameController = new YayaController(this, name, Bundle.CTL_GameVersion(), Bundle.CTL_GameCopyright(), "Dice/Yaya");
+        mGameController = new YayaController(this, name, Bundle.CTL_InfoVersion(), Bundle.CTL_InfoDescription(), Bundle.CTL_InfoCopyright(), "Dice/Yaya");
     }
 
     /**

@@ -10,8 +10,8 @@ public class YayaController extends GameController {
 
     private final YayaPanel mGamePanel;
 
-    public YayaController(YayaTopComponent gameTopComponent, String gameName, String gameVersion, String gameCopyright, String optionsPath) {
-        super(gameTopComponent, gameName, gameVersion, gameCopyright, optionsPath);
+    public YayaController(YayaTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {
+        super(gameTopComponent, infoName, infoVersion, infoDescription, infoCopyright, optionsPath);
         mGamePanel = new YayaPanel(this);
         setGamePanel(mGamePanel);
         gameTopComponent.setGamePanel(mGamePanel);
