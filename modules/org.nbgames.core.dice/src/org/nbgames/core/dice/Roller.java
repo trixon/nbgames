@@ -5,7 +5,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import org.openide.util.ImageUtilities;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -37,7 +37,7 @@ class Roller {
     }
 
     BufferedImage getImage() {
-        return AGraphics.flipBufferedImageX(bufferedImage);
+        return GraphicsHelper.flipBufferedImageX(bufferedImage);
     }
 
     int getNumOfDice() {
@@ -69,7 +69,7 @@ class Roller {
         int variant = random.nextInt(2) + 1;
         aRollCount = Math.min(aRollCount, 6);
         String file = String.format("%02d_%02d.png", aRollCount, variant);
-//        bufferedImage = AGraphics.getBufferedImage(this.getClass().getResource(PATH + file));
+//        bufferedImage = GraphicsHelper.getBufferedImage(this.getClass().getResource(PATH + file));
         bufferedImage = (BufferedImage) ImageUtilities.loadImage(PATH + file);
     }
 

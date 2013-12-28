@@ -19,7 +19,7 @@ import javax.swing.border.SoftBevelBorder;
 import org.nbgames.core.CircularInt;
 import org.nbgames.yaya.Options;
 import org.nbgames.yaya.scorecard.ScoreCardObservable.ScoreCardEvent;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -129,7 +129,7 @@ public class ScoreCard {
     }
 
     protected void hoverRowEntered(int aRow) {
-        Color activeColor = AGraphics.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER), 0xEEEEEE);
+        Color activeColor = GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER), 0xEEEEEE);
 
         headerColumn.getRows()[aRow].getLabel().setBackground(activeColor);
         headerColumn.getHiScores()[aRow].getLabel().setBackground(activeColor);

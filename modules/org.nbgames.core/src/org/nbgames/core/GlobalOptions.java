@@ -3,7 +3,7 @@ package org.nbgames.core;
 import java.awt.Color;
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -25,7 +25,7 @@ public enum GlobalOptions {
     }
 
     public void setColor(ColorItem colorItem, Color color) {
-        mPreferences.put(colorItem.getKey(), AGraphics.colorToString(color));
+        mPreferences.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
     }
 
     public void setPreferences(Preferences preferences) {

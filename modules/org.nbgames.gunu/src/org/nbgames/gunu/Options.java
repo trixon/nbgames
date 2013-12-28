@@ -3,7 +3,7 @@ package org.nbgames.gunu;
 import java.awt.Color;
 import java.util.prefs.Preferences;
 import org.openide.util.NbPreferences;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -21,7 +21,7 @@ public enum Options {
     private Preferences mPreferences = NbPreferences.forModule(Options.class);
 
     public Color getColorBackground() {
-        return Color.decode(mPreferences.get(KEY_COLOR_BACKGROUND, AGraphics.colorToString(DEFAULT_COLOR_BACKGROUND)));
+        return Color.decode(mPreferences.get(KEY_COLOR_BACKGROUND, GraphicsHelper.colorToString(DEFAULT_COLOR_BACKGROUND)));
     }
 
     public long getMax() {
@@ -37,7 +37,7 @@ public enum Options {
     }
 
     public void setColorBackground(Color color) {
-        mPreferences.put(KEY_COLOR_BACKGROUND, AGraphics.colorToString(color));
+        mPreferences.put(KEY_COLOR_BACKGROUND, GraphicsHelper.colorToString(color));
     }
 
     public void setMax(long max) {

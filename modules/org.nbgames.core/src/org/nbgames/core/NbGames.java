@@ -1,6 +1,6 @@
 package org.nbgames.core;
 
-import se.trixon.almond.util.AMonitor;
+import se.trixon.almond.Monitor;
 
 /**
  *
@@ -9,9 +9,9 @@ import se.trixon.almond.util.AMonitor;
 public class NbGames {
 
     public static final String LOG_TITLE_DEFAULT = "global";
-    private static final AMonitor sMonitor = new AMonitor(NbGames.LOG_TITLE_DEFAULT, false, true);
+    private static final Monitor sMonitor = new Monitor(NbGames.LOG_TITLE_DEFAULT, false, true);
 
-    public static AMonitor getMonitor() {
+    public static Monitor getMonitor() {
         return sMonitor;
     }
 

@@ -2,7 +2,7 @@ package org.nbgames.core.options;
 
 import org.nbgames.core.GlobalOptions;
 import se.trixon.almond.dialogs.AColorChooser;
-import se.trixon.almond.swing.AColorChooserButton;
+import se.trixon.almond.swing.ColorChooserButton;
 
 /**
  *
@@ -11,16 +11,16 @@ import se.trixon.almond.swing.AColorChooserButton;
 final class LookAndFeelPanel extends javax.swing.JPanel {
 
     private final LookAndFeelOptionsPanelController mController;
-    private final AColorChooserButton mLowerColorButton;
-    private final AColorChooserButton mUpperColorButton;
+    private final ColorChooserButton mLowerColorButton;
+    private final ColorChooserButton mUpperColorButton;
     private final GlobalOptions mOptions = GlobalOptions.INSTANCE;
 
     LookAndFeelPanel(LookAndFeelOptionsPanelController controller) {
         mController = controller;
         initComponents();
 
-        mUpperColorButton = (AColorChooserButton) upperWindowBackgroundButton;
-        mLowerColorButton = (AColorChooserButton) lowerWindowBackgroundButton;
+        mUpperColorButton = (ColorChooserButton) upperWindowBackgroundButton;
+        mLowerColorButton = (ColorChooserButton) lowerWindowBackgroundButton;
 
         // TODO listen to changes in form fields and call controller.changed()
     }
@@ -34,8 +34,8 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         windowBackgroundPanel = new javax.swing.JPanel();
-        upperWindowBackgroundButton = new se.trixon.almond.swing.AColorChooserButton();
-        lowerWindowBackgroundButton = new se.trixon.almond.swing.AColorChooserButton();
+        upperWindowBackgroundButton = new se.trixon.almond.swing.ColorChooserButton();
+        lowerWindowBackgroundButton = new se.trixon.almond.swing.ColorChooserButton();
 
         windowBackgroundPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.windowBackgroundPanel.border.title"))); // NOI18N
 

@@ -3,19 +3,19 @@ package org.nbgames.gunu;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import se.trixon.almond.dialogs.AColorChooser;
-import se.trixon.almond.swing.AColorChooserButton;
+import se.trixon.almond.swing.ColorChooserButton;
 
 final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
 
     private final OptionPanelController mController;
-    private final AColorChooserButton colorButton;
+    private final ColorChooserButton colorButton;
     private final Options mOptions = Options.INSTANCE;
 
     OptionPanel(OptionPanelController controller) {
         mController = controller;
         initComponents();
 
-        colorButton = (AColorChooserButton) backgroundButton;
+        colorButton = (ColorChooserButton) backgroundButton;
         minFormattedTextField.getDocument().addDocumentListener(this);
         maxFormattedTextField.getDocument().addDocumentListener(this);
     }
@@ -47,7 +47,7 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
         minFormattedTextField = new javax.swing.JFormattedTextField();
         toLabel = new javax.swing.JLabel();
         maxFormattedTextField = new javax.swing.JFormattedTextField();
-        backgroundButton = new se.trixon.almond.swing.AColorChooserButton();
+        backgroundButton = new se.trixon.almond.swing.ColorChooserButton();
 
         org.openide.awt.Mnemonics.setLocalizedText(fromLabel, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.fromLabel.text")); // NOI18N
 

@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import org.openide.util.ImageUtilities;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -29,7 +29,7 @@ class DiceBoardPanel extends JPanel {
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(mBackGroundImage, 0, 0, this);
-        g2.drawImage(AGraphics.flipBufferedImageX(mBackGroundImage), mBackGroundImage.getWidth(), 0, this);
+        g2.drawImage(GraphicsHelper.flipBufferedImageX(mBackGroundImage), mBackGroundImage.getWidth(), 0, this);
         super.paint(g);
     }
 

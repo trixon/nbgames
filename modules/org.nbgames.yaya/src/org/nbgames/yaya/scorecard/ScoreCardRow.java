@@ -8,7 +8,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import org.nbgames.yaya.Options;
 import org.nbgames.yaya.scorecard.rule.RowRule;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -146,9 +146,9 @@ public class ScoreCardRow {
 
         } else {
             if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(AGraphics.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.SUM), COLOR_MASK));
+                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.SUM), COLOR_MASK));
             } else {
-                label.setBackground(AGraphics.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.ROW), COLOR_MASK));
+                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.ROW), COLOR_MASK));
             }
 
             if (rowRule.isRollCounter()) {
@@ -223,7 +223,7 @@ public class ScoreCardRow {
     }
 
     private void mouseEnteredEvent(MouseEvent evt) {
-        label.setBackground(AGraphics.colorAndMask(label.getCurrentBackgroundColor(), COLOR_MASK));
+        label.setBackground(GraphicsHelper.colorAndMask(label.getCurrentBackgroundColor(), COLOR_MASK));
         scoreCard.hoverRowEntered(row);
     }
 

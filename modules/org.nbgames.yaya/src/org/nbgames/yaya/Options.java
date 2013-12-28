@@ -3,7 +3,7 @@ package org.nbgames.yaya;
 import java.awt.Color;
 import java.util.prefs.Preferences;
 import org.nbgames.yaya.scorecard.rule.Rule;
-import se.trixon.almond.util.AGraphics;
+import se.trixon.almond.GraphicsHelper;
 
 /**
  *
@@ -103,7 +103,7 @@ public enum Options {
         setRule(preferences.getInt("rule", DEFAULT_RULE.ordinal()));
 
         for (ColorSelectors colorSelectors : ColorSelectors.values()) {
-            setColor(colorSelectors, Color.decode("#" + preferences.get(colorSelectors.name(), AGraphics.colorToHex(DEFAULT_COLORS[colorSelectors.ordinal()]))));
+            setColor(colorSelectors, Color.decode("#" + preferences.get(colorSelectors.name(), GraphicsHelper.colorToHex(DEFAULT_COLORS[colorSelectors.ordinal()]))));
         }
     }
 
@@ -115,7 +115,7 @@ public enum Options {
         preferences.putInt("rule", rule.ordinal());
 
         for (ColorSelectors colorSelectors : ColorSelectors.values()) {
-            preferences.put(colorSelectors.name(), AGraphics.colorToHex(colors[colorSelectors.ordinal()]));
+            preferences.put(colorSelectors.name(), GraphicsHelper.colorToHex(colors[colorSelectors.ordinal()]));
         }
     }
 

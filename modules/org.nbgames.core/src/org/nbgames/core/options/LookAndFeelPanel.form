@@ -81,7 +81,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upperWindowBackgroundButtonActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new se.trixon.almond.swing.AColorChooserButton()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new se.trixon.almond.swing.ColorChooserButton()"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="lowerWindowBackgroundButton">
@@ -94,7 +94,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lowerWindowBackgroundButtonActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new se.trixon.almond.swing.AColorChooserButton()"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new se.trixon.almond.swing.ColorChooserButton()"/>
           </AuxValues>
         </Component>
       </SubComponents>
