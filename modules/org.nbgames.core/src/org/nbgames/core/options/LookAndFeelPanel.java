@@ -1,5 +1,9 @@
 package org.nbgames.core.options;
 
+import org.nbgames.core.GlobalOptions;
+import se.trixon.almond.dialogs.AColorChooser;
+import se.trixon.almond.swing.AColorChooserButton;
+
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
@@ -7,10 +11,17 @@ package org.nbgames.core.options;
 final class LookAndFeelPanel extends javax.swing.JPanel {
 
     private final LookAndFeelOptionsPanelController mController;
+    private final AColorChooserButton mLowerColorButton;
+    private final AColorChooserButton mUpperColorButton;
+    private final GlobalOptions mOptions = GlobalOptions.INSTANCE;
 
     LookAndFeelPanel(LookAndFeelOptionsPanelController controller) {
         mController = controller;
         initComponents();
+
+        mUpperColorButton = (AColorChooserButton) upperWindowBackgroundButton;
+        mLowerColorButton = (AColorChooserButton) lowerWindowBackgroundButton;
+
         // TODO listen to changes in form fields and call controller.changed()
     }
 
@@ -22,22 +33,85 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        windowBackgroundPanel = new javax.swing.JPanel();
+        upperWindowBackgroundButton = new se.trixon.almond.swing.AColorChooserButton();
+        lowerWindowBackgroundButton = new se.trixon.almond.swing.AColorChooserButton();
+
+        windowBackgroundPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.windowBackgroundPanel.border.title"))); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(upperWindowBackgroundButton, org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.upperWindowBackgroundButton.text")); // NOI18N
+        upperWindowBackgroundButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upperWindowBackgroundButtonActionPerformed(evt);
+            }
+        });
+
+        org.openide.awt.Mnemonics.setLocalizedText(lowerWindowBackgroundButton, org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.lowerWindowBackgroundButton.text")); // NOI18N
+        lowerWindowBackgroundButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowerWindowBackgroundButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout windowBackgroundPanelLayout = new javax.swing.GroupLayout(windowBackgroundPanel);
+        windowBackgroundPanel.setLayout(windowBackgroundPanelLayout);
+        windowBackgroundPanelLayout.setHorizontalGroup(
+            windowBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(windowBackgroundPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(windowBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(upperWindowBackgroundButton)
+                    .addComponent(lowerWindowBackgroundButton))
+                .addContainerGap(90, Short.MAX_VALUE))
+        );
+        windowBackgroundPanelLayout.setVerticalGroup(
+            windowBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(windowBackgroundPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(upperWindowBackgroundButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lowerWindowBackgroundButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 202, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(windowBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(windowBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(156, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void upperWindowBackgroundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upperWindowBackgroundButtonActionPerformed
+        mUpperColorButton.setColor(AColorChooser.showDialog(mUpperColorButton.getColor()));
+        mController.changed();
+
+    }//GEN-LAST:event_upperWindowBackgroundButtonActionPerformed
+
+    private void lowerWindowBackgroundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowerWindowBackgroundButtonActionPerformed
+        mLowerColorButton.setColor(AColorChooser.showDialog(mLowerColorButton.getColor()));
+        mController.changed();
+
+    }//GEN-LAST:event_lowerWindowBackgroundButtonActionPerformed
+
     void load() {
+        mLowerColorButton.setColor(mOptions.getColor(GlobalOptions.ColorItem.WINDOW_LOWER));
+        mUpperColorButton.setColor(mOptions.getColor(GlobalOptions.ColorItem.WINDOW_UPPER));
     }
 
     void store() {
+        mOptions.setColor(GlobalOptions.ColorItem.WINDOW_LOWER, mLowerColorButton.getColor());
+        mOptions.setColor(GlobalOptions.ColorItem.WINDOW_UPPER, mUpperColorButton.getColor());
     }
 
     boolean valid() {
@@ -45,5 +119,8 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton lowerWindowBackgroundButton;
+    private javax.swing.JButton upperWindowBackgroundButton;
+    private javax.swing.JPanel windowBackgroundPanel;
     // End of variables declaration//GEN-END:variables
 }

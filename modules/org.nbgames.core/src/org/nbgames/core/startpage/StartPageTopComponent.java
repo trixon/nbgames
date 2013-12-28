@@ -1,12 +1,7 @@
 package org.nbgames.core.startpage;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.prefs.Preferences;
-import org.nbgames.core.NbGames;
+import org.nbgames.core.BaseTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -39,7 +34,7 @@ import org.openide.windows.TopComponent;
     "CTL_StartPageTopComponent=Start Page",
     "HINT_StartPageTopComponent="
 })
-public final class StartPageTopComponent extends TopComponent {
+public final class StartPageTopComponent extends BaseTopComponent {
 
     public static final String KEY_SHOW_ON_STARTUP = "showOnStartup";
     private final Preferences mPreferences;
@@ -111,20 +106,6 @@ public final class StartPageTopComponent extends TopComponent {
 
     @Override
     public void componentClosed() {
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        int w = getWidth();
-        int h = getHeight();
-        Color color1 = Color.decode(NbGames.COLOR_GRADIENT_COLOR1);
-        Color color2 = Color.decode(NbGames.COLOR_GRADIENT_COLOR2);
-        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-        g2d.setPaint(gp);
-        g2d.fillRect(0, 0, w, h);
     }
 
     void writeProperties(java.util.Properties p) {
