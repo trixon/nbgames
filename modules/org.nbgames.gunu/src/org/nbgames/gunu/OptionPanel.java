@@ -2,20 +2,17 @@ package org.nbgames.gunu;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import se.trixon.almond.dialogs.AColorChooser;
-import se.trixon.almond.swing.ColorChooserButton;
+import se.trixon.almond.dialogs.ColorChooserDialog;
 
 final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
 
     private final OptionPanelController mController;
-    private final ColorChooserButton colorButton;
     private final Options mOptions = Options.INSTANCE;
 
     OptionPanel(OptionPanelController controller) {
         mController = controller;
         initComponents();
 
-        colorButton = (ColorChooserButton) backgroundButton;
         minFormattedTextField.getDocument().addDocumentListener(this);
         maxFormattedTextField.getDocument().addDocumentListener(this);
     }
@@ -75,16 +72,18 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fromLabel)
                     .addComponent(toLabel)
-                    .addComponent(backgroundButton)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(maxFormattedTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(minFormattedTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
-                .addContainerGap(222, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backgroundButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 141, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fromLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(minFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -92,26 +91,25 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
                 .addComponent(toLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(maxFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(backgroundButton)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(backgroundButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void backgroundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backgroundButtonActionPerformed
-        colorButton.setColor(AColorChooser.showDialog(colorButton.getColor()));
+        backgroundButton.setColor(ColorChooserDialog.showDialog(backgroundButton.getColor()));
     }//GEN-LAST:event_backgroundButtonActionPerformed
 
     void load() {
         minFormattedTextField.setValue(mOptions.getMin());
         maxFormattedTextField.setValue(mOptions.getMax());
-        colorButton.setColor(mOptions.getColorBackground());
+        backgroundButton.setColor(mOptions.getColorBackground());
     }
 
     void store() {
         mOptions.setMin((Long) minFormattedTextField.getValue());
         mOptions.setMax((Long) maxFormattedTextField.getValue());
-        mOptions.setColorBackground(colorButton.getColor());
+        mOptions.setColorBackground(backgroundButton.getColor());
     }
 
     boolean valid() {
@@ -125,7 +123,7 @@ final class OptionPanel extends javax.swing.JPanel implements DocumentListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backgroundButton;
+    private se.trixon.almond.swing.ColorChooserButton backgroundButton;
     private javax.swing.JLabel fromLabel;
     private javax.swing.JFormattedTextField maxFormattedTextField;
     private javax.swing.JFormattedTextField minFormattedTextField;
