@@ -20,7 +20,7 @@ public enum Options {
     private static final String DEFAULT_COLOR_HINT_LOW = "#EEBBBB";
     private static final String DEFAULT_COLOR_ROW = "#FFFFFF";
     private static final String DEFAULT_COLOR_SCORECARD = "#666666";
-    private static final String DEFAULT_COLOR_SUM = "#FF0000";
+    private static final String DEFAULT_COLOR_SUM = "#FFFF00";
     private static final int DEFAULT_NUM_OF_PLAYERS = 2;
     private static final Rule DEFAULT_RULE = Rule.YAHTZEE;
     private static final boolean DEFAULT_SHOW_HINTS = true;
