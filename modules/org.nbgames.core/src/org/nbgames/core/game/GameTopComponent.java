@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import org.nbgames.core.BaseTopComponent;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
 
 /**
  *
@@ -32,6 +33,14 @@ public abstract class GameTopComponent extends BaseTopComponent {
         mGamePanel = gamePanel;
         mTopPanel.removeAll();
         mTopPanel.add(mGamePanel);
+    }
+
+    protected void setActionCategoryVisible(String category, boolean visible) {
+//TODO
+//Hide/Show menus and toolbars
+        final String FOLDER = "Actions/" + category + "";
+        Lookup pathLookup = Lookups.forPath(FOLDER);
+
     }
 
     private void init() {
