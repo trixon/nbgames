@@ -5,6 +5,10 @@ import se.trixon.almond.GraphicsHelper;
 import se.trixon.almond.dialogs.ColorChooserDialog;
 import se.trixon.almond.swing.ColorChooserButton;
 
+/**
+ *
+ * @author Patrik Karlsson <patrik@trixon.se>
+ */
 final class OptionPanel extends javax.swing.JPanel {
 
     private final OptionPanelController mController;
@@ -114,7 +118,7 @@ final class OptionPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(colorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -1,6 +1,10 @@
 package org.nbgames.yaya;
 
 import org.nbgames.core.game.GameController;
+import org.nbgames.core.game.NewGameDialogDescriptor;
+import org.nbgames.core.game.NewGamePanel;
+import org.openide.DialogDisplayer;
+import org.openide.windows.WindowManager;
 
 /**
  *
@@ -19,6 +23,28 @@ public class YayaController extends GameController {
 
     @Override
     public void newGame() {
-        mGamePanel.newGame();
+        WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
+            @Override
+            public void run() {
+                YayaNewGameDialogDescriptor descriptor = new YayaNewGameDialogDescriptor(new YayaNewGamePanel());
+                DialogDisplayer.getDefault().notify(descriptor);
+            }
+        });
+    }
+
+    class YayaNewGameDialogDescriptor extends NewGameDialogDescriptor {
+
+        public YayaNewGameDialogDescriptor(NewGamePanel newGamePanel) {
+            super(newGamePanel);
+        }
+
+        @Override
+        protected void onCancelEvent() {
+        }
+
+        @Override
+        protected void onStartEvent() {
+            mGamePanel.newGame();
+        }
     }
 }

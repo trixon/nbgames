@@ -64,4 +64,17 @@ public final class YayaTopComponent extends GameTopComponent {
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
     }
+
+    @Override
+    protected void componentDeactivated() {
+        super.componentDeactivated();
+        setActionCategoryVisible("Yaya", false);
+    }
+
+    @Override
+    protected void componentActivated() {
+        super.componentActivated();
+        setActionCategoryVisible("Yaya", true);
+    }
+
 }
