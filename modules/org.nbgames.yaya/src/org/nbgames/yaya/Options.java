@@ -21,18 +21,18 @@ public enum Options {
     private static final String DEFAULT_COLOR_ROW = "#FFFFFF";
     private static final String DEFAULT_COLOR_SCORECARD = "#666666";
     private static final String DEFAULT_COLOR_SUM = "#FF0000";
-    private final int DEFAULT_NUMOFPLAYERS = 2;
-    private final Rule DEFAULT_RULE = Rule.YAHTZEE;
-    private final boolean DEFAULT_SHOWING_HICOL = false;
-    private final boolean DEFAULT_SHOWING_HINTS = true;
-    private final boolean DEFAULT_SHOWING_MAXCOL = false;
+    private static final int DEFAULT_NUM_OF_PLAYERS = 2;
+    private static final Rule DEFAULT_RULE = Rule.YAHTZEE;
+    private static final boolean DEFAULT_SHOW_HINTS = true;
+    private static final boolean DEFAULT_SHOW_HI_COL = false;
+    private static final boolean DEFAULT_SHOW_MAXCOL = false;
+    private static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
+    private static final String KEY_RULE = "rule";
+    private static final String KEY_SHOW_HINTS = "showHints";
+    private static final String KEY_SHOW_HI_COL = "showHiCol";
+    private static final String KEY_SHOW_MAX_COL = "showMaxCol";
     private final Preferences mPreferences = NbPreferences.forModule(getClass());
     private final Preferences mPreferencesColors = NbPreferences.forModule(getClass()).node("colors");
-    private int numOfPlayers;
-    private Rule rule;
-    private boolean showingHiCol;
-    private boolean showingHints;
-    private boolean showingMaxCol;
 
     private Options() {
         init();
@@ -43,7 +43,7 @@ public enum Options {
     }
 
     public int getNumOfPlayers() {
-        return numOfPlayers;
+        return mPreferences.getInt(KEY_NUM_OF_PLAYERS, DEFAULT_NUM_OF_PLAYERS);
     }
 
     public Preferences getPreferencesColors() {
@@ -51,27 +51,19 @@ public enum Options {
     }
 
     public Rule getRule() {
-        return rule;
+        return Rule.values()[mPreferences.getInt(KEY_RULE, DEFAULT_RULE.ordinal())];
     }
 
     public boolean isShowingHiCol() {
-        return showingHiCol;
+        return mPreferences.getBoolean(KEY_SHOW_HI_COL, DEFAULT_SHOW_HI_COL);
     }
 
     public boolean isShowingHints() {
-        return showingHints;
+        return mPreferences.getBoolean(KEY_SHOW_HINTS, DEFAULT_SHOW_HINTS);
     }
 
     public boolean isShowingMaxCol() {
-        return showingMaxCol;
-    }
-
-    public void restoreDefaults() {
-        numOfPlayers = DEFAULT_NUMOFPLAYERS;
-        rule = DEFAULT_RULE;
-        showingHints = DEFAULT_SHOWING_HINTS;
-        showingHiCol = DEFAULT_SHOWING_HICOL;
-        showingMaxCol = DEFAULT_SHOWING_MAXCOL;
+        return mPreferences.getBoolean(KEY_SHOW_MAX_COL, DEFAULT_SHOW_MAXCOL);
     }
 
     public void setColor(ColorItem colorItem, Color color) {
@@ -79,48 +71,31 @@ public enum Options {
     }
 
     public void setNumOfPlayers(int players) {
-        this.numOfPlayers = players;
+        mPreferences.putInt(KEY_NUM_OF_PLAYERS, players);
     }
 
-    public void setRule(Rule aRule) {
-        this.rule = aRule;
+    public void setRule(Rule rule) {
+        mPreferences.putInt(KEY_RULE, rule.ordinal());
     }
 
     public void setRule(int ordinal) {
         ordinal = Math.min(ordinal, Rule.values().length - 1);
-        this.rule = Rule.class.getEnumConstants()[ordinal];
+        mPreferences.putInt(KEY_RULE, ordinal);
     }
 
-    public void setShowingHiCol(boolean showingHiCol) {
-        this.showingHiCol = showingHiCol;
+    public void setShowHiCol(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_HI_COL, state);
     }
 
-    public void setShowingHints(boolean showingHints) {
-        this.showingHints = showingHints;
+    public void setShowHints(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_HINTS, state);
     }
 
-    public void setShowingMaxCol(boolean showingMaxCol) {
-        this.showingMaxCol = showingMaxCol;
-    }
-
-    protected void loadFromFile() {
-        setNumOfPlayers(mPreferences.getInt("numOfPlayers", DEFAULT_NUMOFPLAYERS));
-        setShowingHiCol(mPreferences.getBoolean("showHiCol", DEFAULT_SHOWING_HICOL));
-        setShowingHints(mPreferences.getBoolean("showHints", DEFAULT_SHOWING_HINTS));
-        setShowingMaxCol(mPreferences.getBoolean("showMaxCol", DEFAULT_SHOWING_MAXCOL));
-        setRule(mPreferences.getInt("rule", DEFAULT_RULE.ordinal()));
-    }
-
-    protected void saveToFile() {
-        mPreferences.putInt("numOfPlayers", numOfPlayers);
-        mPreferences.putBoolean("showHiCol", showingHiCol);
-        mPreferences.putBoolean("showHints", showingHints);
-        mPreferences.putBoolean("showMaxCol", showingMaxCol);
-        mPreferences.putInt("rule", rule.ordinal());
+    public void setShowMaxCol(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_MAX_COL, state);
     }
 
     private void init() {
-        restoreDefaults();
     }
 
     public enum ColorItem {
