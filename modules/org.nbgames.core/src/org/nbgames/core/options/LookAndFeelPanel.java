@@ -1,6 +1,7 @@
 package org.nbgames.core.options;
 
 import org.nbgames.core.GlobalOptions;
+import se.trixon.almond.AlmondOptions;
 import se.trixon.almond.dialogs.ColorChooserDialog;
 
 /**
@@ -27,9 +28,17 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        confirmExitCheckBox = new javax.swing.JCheckBox();
         windowBackgroundPanel = new javax.swing.JPanel();
         upperWindowBackgroundButton = new se.trixon.almond.swing.ColorChooserButton();
         lowerWindowBackgroundButton = new se.trixon.almond.swing.ColorChooserButton();
+
+        org.openide.awt.Mnemonics.setLocalizedText(confirmExitCheckBox, org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.confirmExitCheckBox.text")); // NOI18N
+        confirmExitCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmExitCheckBoxActionPerformed(evt);
+            }
+        });
 
         windowBackgroundPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(LookAndFeelPanel.class, "LookAndFeelPanel.windowBackgroundPanel.border.title"))); // NOI18N
 
@@ -72,15 +81,19 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(windowBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirmExitCheckBox)
+                    .addComponent(windowBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(confirmExitCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(windowBackgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -92,14 +105,20 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
         lowerWindowBackgroundButton.setColor(ColorChooserDialog.showDialog(lowerWindowBackgroundButton.getColor()));
     }//GEN-LAST:event_lowerWindowBackgroundButtonActionPerformed
 
+    private void confirmExitCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmExitCheckBoxActionPerformed
+        mController.changed();
+    }//GEN-LAST:event_confirmExitCheckBoxActionPerformed
+
     void load() {
         lowerWindowBackgroundButton.setColor(mOptions.getColor(GlobalOptions.ColorItem.WINDOW_LOWER));
         upperWindowBackgroundButton.setColor(mOptions.getColor(GlobalOptions.ColorItem.WINDOW_UPPER));
+        confirmExitCheckBox.setSelected(AlmondOptions.INSTANCE.getConfirmExit());
     }
 
     void store() {
         mOptions.setColor(GlobalOptions.ColorItem.WINDOW_LOWER, lowerWindowBackgroundButton.getColor());
         mOptions.setColor(GlobalOptions.ColorItem.WINDOW_UPPER, upperWindowBackgroundButton.getColor());
+        AlmondOptions.INSTANCE.setConfirmExit(confirmExitCheckBox.isSelected());
     }
 
     boolean valid() {
@@ -107,6 +126,7 @@ final class LookAndFeelPanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox confirmExitCheckBox;
     private se.trixon.almond.swing.ColorChooserButton lowerWindowBackgroundButton;
     private se.trixon.almond.swing.ColorChooserButton upperWindowBackgroundButton;
     private javax.swing.JPanel windowBackgroundPanel;
