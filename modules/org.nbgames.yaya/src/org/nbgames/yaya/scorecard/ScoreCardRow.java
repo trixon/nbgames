@@ -46,7 +46,7 @@ public class ScoreCardRow {
     public void clearPreview() {
         if (isPlayable() && !isRegistered()) {
             label.setText("");
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
 
             label.setBackground();
         }
@@ -111,7 +111,7 @@ public class ScoreCardRow {
 
     public void newGame() {
         registered = false;
-        label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+        label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
         label.setText(null);
         preview = 0;
         value = 0;
@@ -128,14 +128,14 @@ public class ScoreCardRow {
     public void setEnabled(boolean aState) {
         if (rowRule.isPlayable()) {
             label.setFont(label.getFont().deriveFont(Font.PLAIN));
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
         }
 
         if (aState) {
             if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.SUM));
+                label.setBackground(Options.INSTANCE.getColor(Options.ColorItem.SUM));
             } else {
-                label.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+                label.setBackground(Options.INSTANCE.getColor(Options.ColorItem.ROW));
             }
 
             if (rowRule.isRollCounter()) {
@@ -146,9 +146,9 @@ public class ScoreCardRow {
 
         } else {
             if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.SUM), COLOR_MASK));
+                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.SUM), COLOR_MASK));
             } else {
-                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.ROW), COLOR_MASK));
+                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.ROW), COLOR_MASK));
             }
 
             if (rowRule.isRollCounter()) {
@@ -200,12 +200,12 @@ public class ScoreCardRow {
             label.setHorizontalAlignment(SwingConstants.LEADING);
 
             if (preview < rowRule.getLim()) {
-                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.HINT_LO));
+                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_LOW));
             } else {
-                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.HINT_HI));
+                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_HIGH));
             }
         } else {
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorSelectors.ROW));
+            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
         }
 
         label.setText(text);

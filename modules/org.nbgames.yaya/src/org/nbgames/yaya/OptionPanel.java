@@ -1,13 +1,18 @@
 package org.nbgames.yaya;
 
+import java.awt.Color;
+import se.trixon.almond.GraphicsHelper;
+import se.trixon.almond.dialogs.ColorChooserDialog;
+import se.trixon.almond.swing.ColorChooserButton;
+
 final class OptionPanel extends javax.swing.JPanel {
 
-    private final OptionPanelController controller;
+    private final OptionPanelController mController;
+    private final Options mOptions = Options.INSTANCE;
 
     OptionPanel(OptionPanelController controller) {
-        this.controller = controller;
+        mController = controller;
         initComponents();
-        // TODO listen to changes in form fields and call controller.changed()
     }
 
     /**
@@ -18,43 +23,175 @@ final class OptionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        colorPanel = new javax.swing.JPanel();
+        backgroundColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        scorecardColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        headerColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        sumColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        rowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        hintHighColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        hintLowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        defaultColorsButton = new javax.swing.JButton();
+
+        colorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.colorPanel.border.title"))); // NOI18N
+        colorPanel.setLayout(new java.awt.GridLayout(2, 4));
+
+        org.openide.awt.Mnemonics.setLocalizedText(backgroundColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.backgroundColorChooserButton.text")); // NOI18N
+        backgroundColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(backgroundColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(scorecardColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.scorecardColorChooserButton.text")); // NOI18N
+        scorecardColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(scorecardColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(headerColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.headerColorChooserButton.text")); // NOI18N
+        headerColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(headerColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(sumColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.sumColorChooserButton.text")); // NOI18N
+        sumColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(sumColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(rowColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.rowColorChooserButton.text")); // NOI18N
+        rowColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(rowColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(hintHighColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.hintHighColorChooserButton.text")); // NOI18N
+        hintHighColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(hintHighColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(hintLowColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.hintLowColorChooserButton.text")); // NOI18N
+        hintLowColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colorChooserButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(hintLowColorChooserButton);
+
+        org.openide.awt.Mnemonics.setLocalizedText(defaultColorsButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.defaultColorsButton.text")); // NOI18N
+        defaultColorsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                defaultColorsButtonActionPerformed(evt);
+            }
+        });
+        colorPanel.add(defaultColorsButton);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 202, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(colorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(colorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(295, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void colorChooserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorChooserButtonActionPerformed
+        ColorChooserButton button = (ColorChooserButton) evt.getSource();
+        button.setColor(ColorChooserDialog.showDialog(button.getColor()));
+        updateDefaultButton();
+        mController.changed();
+    }//GEN-LAST:event_colorChooserButtonActionPerformed
+
+    private void defaultColorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultColorsButtonActionPerformed
+        backgroundColorChooserButton.setColor(Options.ColorItem.BACKGROUND.getDefaultColor());
+        scorecardColorChooserButton.setColor(Options.ColorItem.SCORECARD.getDefaultColor());
+        headerColorChooserButton.setColor(Options.ColorItem.HEADER.getDefaultColor());
+        sumColorChooserButton.setColor(Options.ColorItem.SUM.getDefaultColor());
+        rowColorChooserButton.setColor(Options.ColorItem.ROW.getDefaultColor());
+        hintHighColorChooserButton.setColor(Options.ColorItem.HINT_HIGH.getDefaultColor());
+        hintLowColorChooserButton.setColor(Options.ColorItem.HINT_LOW.getDefaultColor());
+
+        mController.changed();
+        updateDefaultButton();
+    }//GEN-LAST:event_defaultColorsButtonActionPerformed
+
+    private void updateDefaultButton() {
+        boolean hasChanged = colorHasChanged(backgroundColorChooserButton, Options.ColorItem.BACKGROUND)
+                || colorHasChanged(scorecardColorChooserButton, Options.ColorItem.SCORECARD)
+                || colorHasChanged(headerColorChooserButton, Options.ColorItem.HEADER)
+                || colorHasChanged(sumColorChooserButton, Options.ColorItem.SUM)
+                || colorHasChanged(rowColorChooserButton, Options.ColorItem.ROW)
+                || colorHasChanged(hintHighColorChooserButton, Options.ColorItem.HINT_HIGH)
+                || colorHasChanged(hintLowColorChooserButton, Options.ColorItem.HINT_LOW);
+
+        defaultColorsButton.setEnabled(hasChanged);
+    }
+
+    private boolean colorHasChanged(ColorChooserButton colorChooserButton, Options.ColorItem colorItem) {
+        Color currentColor = colorChooserButton.getColor();
+        Color defaultColor = colorItem.getDefaultColor();
+
+        return GraphicsHelper.colorToHexInt(currentColor) != GraphicsHelper.colorToHexInt(defaultColor);
+    }
+
     void load() {
-        // TODO read settings and initialize GUI
-        // Example:
-        // someCheckBox.setSelected(Preferences.userNodeForPackage(OptionPanel.class).getBoolean("someFlag", false));
-        // or for org.openide.util with API spec. version >= 7.4:
-        // someCheckBox.setSelected(NbPreferences.forModule(OptionPanel.class).getBoolean("someFlag", false));
-        // or:
-        // someTextField.setText(SomeSystemOption.getDefault().getSomeStringProperty());
+        backgroundColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.BACKGROUND));
+        scorecardColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.SCORECARD));
+        headerColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HEADER));
+        sumColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.SUM));
+        rowColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.ROW));
+        hintHighColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HINT_HIGH));
+        hintLowColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HINT_LOW));
+
+        updateDefaultButton();
     }
 
     void store() {
-        // TODO store modified settings
-        // Example:
-        // Preferences.userNodeForPackage(OptionPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
-        // or for org.openide.util with API spec. version >= 7.4:
-        // NbPreferences.forModule(OptionPanel.class).putBoolean("someFlag", someCheckBox.isSelected());
-        // or:
-        // SomeSystemOption.getDefault().setSomeStringProperty(someTextField.getText());
+        mOptions.setColor(Options.ColorItem.BACKGROUND, backgroundColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.SCORECARD, scorecardColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.HEADER, headerColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.SUM, sumColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.ROW, rowColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.HINT_HIGH, hintHighColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.HINT_LOW, hintLowColorChooserButton.getColor());
     }
 
     boolean valid() {
-        // TODO check whether form is consistent and complete
         return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private se.trixon.almond.swing.ColorChooserButton backgroundColorChooserButton;
+    private javax.swing.JPanel colorPanel;
+    private javax.swing.JButton defaultColorsButton;
+    private se.trixon.almond.swing.ColorChooserButton headerColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton hintHighColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton hintLowColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton rowColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton scorecardColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton sumColorChooserButton;
     // End of variables declaration//GEN-END:variables
 }

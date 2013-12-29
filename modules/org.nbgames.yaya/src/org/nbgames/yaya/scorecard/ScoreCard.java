@@ -8,6 +8,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -129,7 +131,7 @@ public class ScoreCard {
     }
 
     protected void hoverRowEntered(int aRow) {
-        Color activeColor = GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER), 0xEEEEEE);
+        Color activeColor = GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.HEADER), 0xEEEEEE);
 
         headerColumn.getRows()[aRow].getLabel().setBackground(activeColor);
         headerColumn.getHiScores()[aRow].getLabel().setBackground(activeColor);
@@ -137,9 +139,9 @@ public class ScoreCard {
     }
 
     protected void hoverRowExited(int aRow) {
-        headerColumn.getRows()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER));
-        headerColumn.getHiScores()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER));
-        headerColumn.getMax()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.HEADER));
+        headerColumn.getRows()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
+        headerColumn.getHiScores()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
+        headerColumn.getMax()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
     }
 
     protected void register() {
@@ -165,16 +167,16 @@ public class ScoreCard {
     }
 
     private void applyColors() {
-        panel.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.SCORECARD));
-        basePanel.setBackground(Options.INSTANCE.getColor(Options.ColorSelectors.BOARD));
+        panel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.SCORECARD));
+        basePanel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.BACKGROUND));
         Color color;
 
         for (int i = 0; i < numOfRows; i++) {
 
             if (headerColumn.getRows()[i].getRowRule().isSum() || headerColumn.getRows()[i].getRowRule().isBonus()) {
-                color = Options.INSTANCE.getColor(Options.ColorSelectors.SUM);
+                color = Options.INSTANCE.getColor(Options.ColorItem.SUM);
             } else {
-                color = Options.INSTANCE.getColor(Options.ColorSelectors.HEADER);
+                color = Options.INSTANCE.getColor(Options.ColorItem.HEADER);
             }
 
             headerColumn.getRows()[i].getLabel().setBackground(color);
@@ -186,9 +188,9 @@ public class ScoreCard {
         for (int i = 0; i < players.size(); i++) {
             for (int j = 0; j < numOfRows; j++) {
                 if (players.get(i).getRows()[j].getRowRule().isSum() || headerColumn.getRows()[j].getRowRule().isBonus()) {
-                    color = Options.INSTANCE.getColor(Options.ColorSelectors.SUM);
+                    color = Options.INSTANCE.getColor(Options.ColorItem.SUM);
                 } else {
-                    color = Options.INSTANCE.getColor(Options.ColorSelectors.ROW);
+                    color = Options.INSTANCE.getColor(Options.ColorItem.ROW);
                 }
                 players.get(i).getRows()[j].getLabel().setBackground(color);
                 players.get(i).getRows()[j].getLabel().setCurrentBackgroundColor(color);
@@ -258,6 +260,14 @@ public class ScoreCard {
 
         initLayout();
         applyColors();
+
+        Options.INSTANCE.getPreferencesColors().addPreferenceChangeListener(new PreferenceChangeListener() {
+
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                applyColors();
+            }
+        });
     }
 
     private void initActions() {
