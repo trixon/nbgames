@@ -9,8 +9,36 @@ import org.json.simple.JSONObject;
  */
 public class JsonHelper {
 
+    public static int getInt(JSONObject object, String key) {
+        return ((Long) object.get(key)).intValue();
+    }
+
     public static String getLanguageSuffix() {
         return "-" + Locale.getDefault().getLanguage();
+    }
+
+    public static boolean optBoolean(JSONObject object, String key) {
+        if (object.containsKey(key)) {
+            return (boolean) object.get(key);
+        } else {
+            return false;
+        }
+    }
+
+    public static int optInt(JSONObject object, String key) {
+        if (object.containsKey(key)) {
+            return getInt(object, key);
+        } else {
+            return 0;
+        }
+    }
+
+    public static String optString(JSONObject object, String key) {
+        if (object.containsKey(key)) {
+            return (String) object.get(key);
+        } else {
+            return "";
+        }
     }
 
     public static String parseLocalizedKey(JSONObject jsonObject, String key) {
@@ -25,5 +53,4 @@ public class JsonHelper {
 
         return value;
     }
-
 }
