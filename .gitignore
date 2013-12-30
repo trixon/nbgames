@@ -28,3 +28,5 @@ hs_err_pid*.log
 /modules/org.nbgames.yaya/build/
 /modules/org.nbgames.core.dice.data/nbproject/private/
 /modules/org.nbgames.yaya/nbproject/private/
+/modules/org.json.simple/build/
+/modules/org.json.simple/nbproject/private/

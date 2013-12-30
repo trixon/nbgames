@@ -82,9 +82,16 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
+                <package>org.json.simple</package>
+                <package>org.json.simple.parser</package>
                 <package>org.nbgames.core</package>
                 <package>org.nbgames.core.game</package>
+                <package>org.nbgames.core.json</package>
             </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/json-simple-1.1.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/json-simple-1.1.1.jar</binary-origin>
+            </class-path-extension>
         </data>
     </configuration>
 </project>
