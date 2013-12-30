@@ -18,7 +18,7 @@ public class GunuController extends GameController {
     }
 
     @Override
-    public void newGame() {
+    public void requestNewGame() {
         mGamePanel.newGame();
     }
 }

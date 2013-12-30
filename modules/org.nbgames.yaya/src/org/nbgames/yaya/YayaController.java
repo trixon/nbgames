@@ -1,8 +1,8 @@
 package org.nbgames.yaya;
 
 import org.nbgames.core.game.GameController;
-import org.nbgames.core.game.NewGameDialogDescriptor;
-import org.nbgames.core.game.NewGamePanel;
+import org.nbgames.core.game.NewGameDialogManager;
+import org.nbgames.core.game.NewGameDialogManager.NewGameController;
 import org.openide.DialogDisplayer;
 import org.openide.windows.WindowManager;
 
@@ -10,7 +10,7 @@ import org.openide.windows.WindowManager;
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class YayaController extends GameController {
+public class YayaController extends GameController implements NewGameController {
 
     private final YayaPanel mGamePanel;
 
@@ -22,29 +22,22 @@ public class YayaController extends GameController {
     }
 
     @Override
-    public void newGame() {
+    public void onCancelNewGame() {
+    }
+
+    @Override
+    public void onStartNewGame() {
+        mGamePanel.newGame();
+    }
+
+    @Override
+    public void requestNewGame() {
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
             @Override
             public void run() {
-                YayaNewGameDialogDescriptor descriptor = new YayaNewGameDialogDescriptor(new YayaNewGamePanel());
-                DialogDisplayer.getDefault().notify(descriptor);
+                NewGameDialogManager manager = new NewGameDialogManager(new YayaNewGamePanel(), YayaController.this);
+                DialogDisplayer.getDefault().notify(manager.getDialogDescriptor());
             }
         });
-    }
-
-    class YayaNewGameDialogDescriptor extends NewGameDialogDescriptor {
-
-        public YayaNewGameDialogDescriptor(NewGamePanel newGamePanel) {
-            super(newGamePanel);
-        }
-
-        @Override
-        protected void onCancelEvent() {
-        }
-
-        @Override
-        protected void onStartEvent() {
-            mGamePanel.newGame();
-        }
     }
 }

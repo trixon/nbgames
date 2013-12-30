@@ -13,7 +13,7 @@ public abstract class NewGamePanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    protected abstract void save();
+    protected abstract void saveState();
 
     /**
      * This method is called from within the constructor to initialize the form.

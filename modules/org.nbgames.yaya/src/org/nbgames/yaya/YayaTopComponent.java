@@ -50,7 +50,7 @@ public final class YayaTopComponent extends GameTopComponent {
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        mGameController.newGame();
+        mGameController.requestNewGame();
     }
 
     @Override

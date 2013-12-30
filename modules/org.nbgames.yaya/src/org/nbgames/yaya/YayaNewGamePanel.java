@@ -17,7 +17,7 @@ public class YayaNewGamePanel extends NewGamePanel {
     }
 
     @Override
-    protected void save() {
+    protected void saveState() {
         Options.INSTANCE.setNumOfPlayers(numOfPlayersComboBox.getSelectedIndex() + 1);
     }
 

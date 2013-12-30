@@ -49,7 +49,7 @@ public abstract class GameController {
         return mGameTopComponent;
     }
 
-    public abstract void newGame();
+    public abstract void requestNewGame();
 
     public void setGamePanel(GamePanel gamePanel) {
         mGamePanel = gamePanel;
@@ -76,7 +76,7 @@ public abstract class GameController {
 
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    newGame();
+                    requestNewGame();
                 }
             });
         } else {
