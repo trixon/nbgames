@@ -2,6 +2,8 @@ package org.nbgames.yaya.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.nbgames.core.NbGames;
+import org.nbgames.yaya.gamedef.GameDef;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -28,5 +30,7 @@ public final class HintsAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GameDef.INSTANCE.init();
+        NbGames.logErr(GameDef.INSTANCE.dump());
     }
 }
