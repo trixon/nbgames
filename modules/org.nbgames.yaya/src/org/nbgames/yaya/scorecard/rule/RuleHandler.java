@@ -84,7 +84,7 @@ public class RuleHandler extends DefaultHandler {
 
     private void parseSum(Attributes attributes, String tag) {
         if (attributes.getIndex(tag) > -1) {
-            mRowRule.setSumSet(AUtil.getSet(attributes.getValue(tag)));
+            mRowRule.setSumSet(AUtil.convertStringToIntSet(attributes.getValue(tag)));
         }
     }
 }
