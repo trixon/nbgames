@@ -31,8 +31,7 @@ import org.openide.windows.TopComponent;
 )
 @Messages({
     "CTL_StartPageAction=Start Page",
-    "CTL_StartPageTopComponent=Start Page",
-    "HINT_StartPageTopComponent="
+    "CTL_StartPageTopComponent=Start Page"
 })
 public final class StartPageTopComponent extends BaseTopComponent {
 
@@ -43,7 +42,6 @@ public final class StartPageTopComponent extends BaseTopComponent {
         mPreferences = NbPreferences.forModule(StartPageTopComponent.class);
         initComponents();
         setName(Bundle.CTL_StartPageTopComponent());
-        setToolTipText(Bundle.HINT_StartPageTopComponent());
     }
 
     /**
