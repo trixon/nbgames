@@ -1,12 +1,15 @@
 package org.nbgames.gunu;
 
 import org.nbgames.core.game.GameController;
+import org.nbgames.core.game.NewGameDialogManager;
+import org.openide.DialogDisplayer;
+import org.openide.windows.WindowManager;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class GunuController extends GameController {
+public class GunuController extends GameController implements NewGameDialogManager.NewGameController {
 
     private final GunuPanel mGamePanel;
 
@@ -18,7 +21,22 @@ public class GunuController extends GameController {
     }
 
     @Override
-    public void requestNewGame() {
+    public void onCancelNewGame() {
+    }
+
+    @Override
+    public void onStartNewGame() {
         mGamePanel.newGame();
+    }
+
+    @Override
+    public void requestNewGame() {
+        WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
+            @Override
+            public void run() {
+                NewGameDialogManager manager = new NewGameDialogManager(new GunuNewGamePanel(), GunuController.this);
+                DialogDisplayer.getDefault().notify(manager.getDialogDescriptor());
+            }
+        });
     }
 }

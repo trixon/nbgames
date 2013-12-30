@@ -1,6 +1,5 @@
 package org.nbgames.gunu;
 
-import java.awt.Dimension;
 import java.util.Random;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
@@ -31,7 +30,7 @@ public class GunuPanel extends GamePanel {
      */
     public GunuPanel() {
         initComponents();
-
+        setVisible(false);
         setBorder(new BevelBorder(BevelBorder.RAISED));
 //        Dimension dimension = new Dimension(400, 300);
 //
@@ -59,6 +58,7 @@ public class GunuPanel extends GamePanel {
 
     void newGame() {
         NbGames.log("Gunu: startNewGame");
+        setVisible(true);
 
         long min = Options.INSTANCE.getMin();
         long max = Options.INSTANCE.getMax();
