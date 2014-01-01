@@ -30,7 +30,6 @@ public final class HintsAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        GameDef.INSTANCE.init();
         NbGames.logErr(GameDef.INSTANCE.dump());
     }
 }

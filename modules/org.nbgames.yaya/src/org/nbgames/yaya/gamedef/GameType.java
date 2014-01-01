@@ -1,7 +1,11 @@
 package org.nbgames.yaya.gamedef;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
+import org.nbgames.yaya.YayaAction;
+import org.openide.util.NbBundle;
 
 /**
  *
@@ -18,6 +22,7 @@ public class GameType {
         }
 
     };
+    public static final String VARIANT = "Variant.";
     public static final String VARIANT_ASCENDING = "ascending";
     public static final String VARIANT_DESCENDING = "descending";
     public static final String VARIANT_LOWER_UPPER = "lower_upper";
@@ -25,36 +30,19 @@ public class GameType {
     public static final String VARIANT_STANDARD = "standard";
     public static final String VARIANT_UPPER_LOWER = "upper_lower";
     private String mAuthor;
+    private final ResourceBundle mBundle = NbBundle.getBundle(YayaAction.class);
     private int mDefaultVariant;
     private String mId;
+    private String[] mLocalizedVariants;
     private int mNumOfDice;
     private int mNumOfRolls;
     private int mResultRow;
     private LinkedList<GameRow> mRows = new LinkedList<GameRow>();
     private String mTitle;
-    private String[] mVariantValues;
+    private String[] mVariants;
     private String mVersionDate;
     private String mVersionName;
 
-//    public static String getEntry(String key) {
-//        int entryKey = R.string.txn__error;
-//
-//        if (key.equalsIgnoreCase(VARIANT_STANDARD)) {
-//            entryKey = R.string.settings_game_variant_standard;
-//        } else if (key.equalsIgnoreCase(VARIANT_DESCENDING)) {
-//            entryKey = R.string.settings_game_variant_descending;
-//        } else if (key.equalsIgnoreCase(VARIANT_ASCENDING)) {
-//            entryKey = R.string.settings_game_variant_ascending;
-//        } else if (key.equalsIgnoreCase(VARIANT_UPPER_LOWER)) {
-//            entryKey = R.string.settings_game_variant_upper_lower;
-//        } else if (key.equalsIgnoreCase(VARIANT_LOWER_UPPER)) {
-//            entryKey = R.string.settings_game_variant_lower_upper;
-//        } else if (key.equalsIgnoreCase(VARIANT_RANDOM)) {
-//            entryKey = R.string.settings_game_variant_random;
-//        }
-//
-//        return context.getString(entryKey);
-//    }
     public String dump() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -64,9 +52,9 @@ public class GameType {
         stringBuilder.append(getDefaultVariant()).append("\n");
         stringBuilder.append(getVersionDate()).append("\n");
         stringBuilder.append(getVersionName()).append("\n");
-        stringBuilder.append("resultRow " + getResultRow()).append("\n");
-        stringBuilder.append("numOfDice " + getNumOfDice()).append("\n");
-        stringBuilder.append("numOfRolls " + getNumOfRolls()).append("\n");
+        stringBuilder.append("resultRow ").append(getResultRow()).append("\n");
+        stringBuilder.append("numOfDice ").append(getNumOfDice()).append("\n");
+        stringBuilder.append("numOfRolls ").append(getNumOfRolls()).append("\n");
 
         for (GameRow row : getRows()) {
             stringBuilder.append(row.dump()).append("\n");
@@ -85,6 +73,26 @@ public class GameType {
 
     public String getId() {
         return mId;
+    }
+
+    public int getLocalizedIndexForVariantId(String id) {
+        int index = -1;
+        String[] localizedVariants = mLocalizedVariants.clone();
+        Arrays.sort(localizedVariants);
+        String localizedVariant = mBundle.getString(GameType.VARIANT + id);
+
+        for (int i = 0; i < localizedVariants.length; i++) {
+            if (localizedVariant.equalsIgnoreCase(localizedVariants[i])) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    public String[] getLocalizedVariants() {
+        return mLocalizedVariants;
     }
 
     public int getNumOfDice() {
@@ -107,34 +115,21 @@ public class GameType {
         return mTitle;
     }
 
-//    public String[] getVariantEntries() {
-//        String[] entries = new String[mVariantValues.length];
-//
-//        for (int i = 0; i < mVariantValues.length; i++) {
-//			// int entryKey = R.string.txn__default;
-//            // if (mVariantValues[i].equalsIgnoreCase(VARIANT_STANDARD)) {
-//            // entryKey = R.string.settings_game_variant_standard;
-//            // } else if (mVariantValues[i].equalsIgnoreCase(VARIANT_DESCENDING)) {
-//            // entryKey = R.string.settings_game_variant_descending;
-//            // } else if (mVariantValues[i].equalsIgnoreCase(VARIANT_ASCENDING)) {
-//            // entryKey = R.string.settings_game_variant_ascending;
-//            // } else if (mVariantValues[i].equalsIgnoreCase(VARIANT_UPPER_LOWER)) {
-//            // entryKey = R.string.settings_game_variant_upper_lower;
-//            // } else if (mVariantValues[i].equalsIgnoreCase(VARIANT_LOWER_UPPER)) {
-//            // entryKey = R.string.settings_game_variant_lower_upper;
-//            // } else if (mVariantValues[i].equalsIgnoreCase(VARIANT_RANDOM)) {
-//            // entryKey = R.string.settings_game_variant_random;
-//            // }
-//            //
-//            // entries[i] = context.getString(entryKey);
-//            
-//            entries[i] = getEntry(context, mVariantValues[i]);
-//        }
-//
-//        return entries;
-//    }
-    public String[] getVariantValues() {
-        return mVariantValues;
+    public String getVariantByTitle(String title) {
+        String result = "standard";
+
+        for (int i = 0; i < mLocalizedVariants.length; i++) {
+            if (mLocalizedVariants[i].equalsIgnoreCase(title)) {
+                result = mVariants[i];
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public String[] getVariants() {
+        return mVariants;
     }
 
     public String getVersionDate() {
@@ -177,12 +172,14 @@ public class GameType {
         mTitle = title;
     }
 
-    public void setVariantValues(String variants) {
-        mVariantValues = variants.split(" ");
+    public void setVariants(String variants) {
+        mVariants = variants.split(" ");
+        updateLocalizedVariants();
     }
 
     public void setVariants(String[] variants) {
-        mVariantValues = variants;
+        mVariants = variants;
+        updateLocalizedVariants();
     }
 
     public void setVersionDate(String versionDate) {
@@ -191,5 +188,13 @@ public class GameType {
 
     public void setVersionName(String versionName) {
         mVersionName = versionName;
+    }
+
+    private void updateLocalizedVariants() {
+        mLocalizedVariants = new String[mVariants.length];
+
+        for (int i = 0; i < mVariants.length; i++) {
+            mLocalizedVariants[i] = mBundle.getString(GameType.VARIANT + mVariants[i]);
+        }
     }
 }

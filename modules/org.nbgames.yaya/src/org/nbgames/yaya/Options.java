@@ -2,6 +2,7 @@ package org.nbgames.yaya;
 
 import java.awt.Color;
 import java.util.prefs.Preferences;
+import org.nbgames.yaya.gamedef.GameType;
 import org.nbgames.yaya.scorecard.rule.Rule;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.GraphicsHelper;
@@ -21,11 +22,14 @@ public enum Options {
     private static final String DEFAULT_COLOR_ROW = "#FFFFFF";
     private static final String DEFAULT_COLOR_SCORECARD = "#666666";
     private static final String DEFAULT_COLOR_SUM = "#FFFF00";
+    private static final String DEFAULT_GAME_TYPE_ID = "default";
+    private static final String DEFAULT_GAME_VARIANT = "standard";
     private static final int DEFAULT_NUM_OF_PLAYERS = 2;
     private static final Rule DEFAULT_RULE = Rule.YAHTZEE;
     private static final boolean DEFAULT_SHOW_HINTS = true;
     private static final boolean DEFAULT_SHOW_HI_COL = false;
     private static final boolean DEFAULT_SHOW_MAXCOL = false;
+    private static final String KEY_GAME_TYPE_ID = "gameType";
     private static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
     private static final String KEY_RULE = "rule";
     private static final String KEY_SHOW_HINTS = "showHints";
@@ -40,6 +44,14 @@ public enum Options {
 
     public Color getColor(ColorItem colorItem) {
         return Color.decode(mPreferencesColors.get(colorItem.getKey(), colorItem.getDefaultColorAsString()));
+    }
+
+    public String getGameTypeId() {
+        return mPreferences.get(KEY_GAME_TYPE_ID, DEFAULT_GAME_TYPE_ID);
+    }
+
+    public String getGameVariant(String type) {
+        return mPreferences.get(GameType.VARIANT + type, DEFAULT_GAME_VARIANT);
     }
 
     public int getNumOfPlayers() {
@@ -68,6 +80,14 @@ public enum Options {
 
     public void setColor(ColorItem colorItem, Color color) {
         mPreferencesColors.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
+    }
+
+    public void setGameTypeId(String typeId) {
+        mPreferences.put(KEY_GAME_TYPE_ID, typeId);
+    }
+
+    public void setGameVariant(String type, String variant) {
+        mPreferences.put(GameType.VARIANT + type, variant);
     }
 
     public void setNumOfPlayers(int players) {

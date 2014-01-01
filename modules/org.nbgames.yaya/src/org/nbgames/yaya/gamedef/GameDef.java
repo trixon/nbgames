@@ -42,6 +42,23 @@ public enum GameDef {
         return result;
     }
 
+    public String getIdForIndex(int index) {
+        return mGameTypes.get(index).getId();
+    }
+
+    public int getIndexForId(String id) {
+        int index = -1;
+
+        for (int i = 0; i < getIdArray().length; i++) {
+            if (id.equalsIgnoreCase(getIdArray()[i])) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
     public String getTitle(String id) {
         for (GameType gameType : mGameTypes) {
             if (gameType.getId().equalsIgnoreCase(id)) {
@@ -108,7 +125,7 @@ public enum GameDef {
             gameType.setResultRow(JsonHelper.getInt(gameObject, "resultRow"));
             gameType.setTitle(JsonHelper.parseLocalizedKey(gameObject, "title"));
             gameType.setDefaultVariant(JsonHelper.getInt(gameObject, "defaultVariant"));
-            gameType.setVariantValues((String) gameObject.get("variants"));
+            gameType.setVariants((String) gameObject.get("variants"));
             gameType.setVersionDate((String) gameObject.get("versionDate"));
             gameType.setVersionName((String) gameObject.get("versionName"));
 
