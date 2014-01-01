@@ -31,7 +31,7 @@ public class Installer extends ModuleInstall {
             }
         });
 
-        NbGames.log("Ready");
+        NbGames.outln(NbGames.LOG_TITLE, "nbGames Platform loaded");
     }
 
     private void openWindow(String id) {

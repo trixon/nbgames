@@ -3,6 +3,7 @@ package org.nbgames.yaya.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.nbgames.core.NbGames;
+import org.nbgames.yaya.YayaController;
 import org.nbgames.yaya.gamedef.GameDef;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -30,6 +31,6 @@ public final class HintsAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        NbGames.logErr(GameDef.INSTANCE.dump());
+        NbGames.outln(YayaController.LOG_TITLE, GameDef.INSTANCE.dump());
     }
 }

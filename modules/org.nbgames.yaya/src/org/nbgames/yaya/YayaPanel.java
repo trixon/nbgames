@@ -98,7 +98,7 @@ public class YayaPanel extends GamePanel implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     void newGame() {
-        NbGames.log("Yaya: startNewGame");
+        NbGames.outln(YayaController.LOG_TITLE, "newGame");
 //        if (numOfPlayers != settings.getNumOfPlayers()) {
 //            numOfPlayers = settings.getNumOfPlayers();
 //            initRule(settings.getRule());
@@ -155,5 +155,4 @@ public class YayaPanel extends GamePanel implements Observer {
         mScoreCard.getObservable().addObserver(this);
         add(mScoreCard.getCard(), BorderLayout.CENTER);
     }
-
 }

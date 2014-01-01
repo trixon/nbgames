@@ -32,11 +32,6 @@ public class GunuPanel extends GamePanel {
         initComponents();
         setVisible(false);
         setBorder(new BevelBorder(BevelBorder.RAISED));
-//        Dimension dimension = new Dimension(400, 300);
-//
-//        setMinimumSize(dimension);
-//        setPreferredSize(dimension);
-//        setSize(dimension);
         setBackground(Options.INSTANCE.getColorBackground());
         Options.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
 
@@ -57,7 +52,7 @@ public class GunuPanel extends GamePanel {
     }
 
     void newGame() {
-        NbGames.log("Gunu: startNewGame");
+        NbGames.outln(GunuController.LOG_TITLE, "newGame");
         setVisible(true);
 
         long min = Options.INSTANCE.getMin();

@@ -11,6 +11,7 @@ import org.openide.windows.WindowManager;
  */
 public class GunuController extends GameController implements NewGameDialogManager.NewGameController {
 
+    public static final String LOG_TITLE = "Gunu";
     private final GunuPanel mGamePanel;
 
     public GunuController(GunuTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {

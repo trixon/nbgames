@@ -12,6 +12,8 @@ import org.openide.windows.WindowManager;
  */
 public class YayaController extends GameController implements NewGameController {
 
+    public static final String LOG_TITLE = "Yaya";
+
     private final YayaPanel mGamePanel;
 
     public YayaController(YayaTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {

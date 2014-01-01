@@ -8,18 +8,13 @@ import se.trixon.almond.Monitor;
  */
 public class NbGames {
 
-    public static final String LOG_TITLE_DEFAULT = "global";
-    private static final Monitor sMonitor = new Monitor(NbGames.LOG_TITLE_DEFAULT, false, true);
+    public static final String LOG_TITLE = "core";
 
-    public static Monitor getMonitor() {
-        return sMonitor;
+    public static void errln(String name, String message) {
+        new Monitor(name, false, true).errln(message);
     }
 
-    public static void log(String string) {
-        sMonitor.outln(string);
-    }
-
-    public static void logErr(String string) {
-        sMonitor.errln(string);
+    public static void outln(String name, String message) {
+        new Monitor(name, false, true).outln(message);
     }
 }
