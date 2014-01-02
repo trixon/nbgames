@@ -9,20 +9,20 @@ import javax.swing.JLabel;
  */
 public class RowLabel extends JLabel {
 
-    private Color currentBackgroundColor;
+    private Color mCurrentBackgroundColor;
 
     public RowLabel() {
     }
 
     public Color getCurrentBackgroundColor() {
-        return currentBackgroundColor;
+        return mCurrentBackgroundColor;
     }
 
     public void setBackground() {
-        setBackground(currentBackgroundColor);
+        setBackground(mCurrentBackgroundColor);
     }
 
-    public void setCurrentBackgroundColor(Color currentBackgroundColor) {
-        this.currentBackgroundColor = currentBackgroundColor;
+    public void setCurrentBackgroundColor(Color color) {
+        mCurrentBackgroundColor = color;
     }
 }

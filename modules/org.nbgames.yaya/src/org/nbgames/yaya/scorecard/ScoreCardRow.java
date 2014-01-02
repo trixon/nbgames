@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import org.nbgames.yaya.Options;
-import org.nbgames.yaya.scorecard.rule.RowRule;
+import org.nbgames.yaya.gamedef.GameRow;
 import se.trixon.almond.GraphicsHelper;
 
 /**
@@ -17,44 +17,44 @@ import se.trixon.almond.GraphicsHelper;
 public class ScoreCardRow {
 
     private final int COLOR_MASK = 0xEEEEEE;
-    private boolean header = false;
-    private RowLabel label = new RowLabel();
-    private PlayerColumn playerColumn;
-    private int preview;
-    private boolean registered;
-    private int row;
-    private RowRule rowRule;
-    private ScoreCard scoreCard;
-    private int value;
+    private GameRow mGameRow;
+    private boolean mHeader = false;
+    private PlayerColumn mPlayerColumn;
+    private int mPreview;
+    private boolean mRegistered;
+    private int mRow;
+    private RowLabel mRowLabel = new RowLabel();
+    private ScoreCard mScoreCard;
+    private int mValue;
 
-    ScoreCardRow(ScoreCard aScoreCard, PlayerColumn aPlayerColumn, RowRule aRowRule, int aRow) {
-        this.scoreCard = aScoreCard;
-        this.playerColumn = aPlayerColumn;
-        this.rowRule = aRowRule;
-        this.row = aRow;
+    ScoreCardRow(ScoreCard scoreCard, PlayerColumn playerColumn, GameRow gameRow, int row) {
+        mScoreCard = scoreCard;
+        mPlayerColumn = playerColumn;
+        mGameRow = gameRow;
+        mRow = row;
         init();
     }
 
-    ScoreCardRow(ScoreCard aScoreCard, RowRule aRowRule, int aRow, boolean aHeader) {
-        this.scoreCard = aScoreCard;
-        this.rowRule = aRowRule;
-        this.row = aRow;
-        this.header = aHeader;
+    ScoreCardRow(ScoreCard scoreCard, GameRow gameRow, int row, boolean isHeader) {
+        mScoreCard = scoreCard;
+        mGameRow = gameRow;
+        mRow = row;
+        mHeader = isHeader;
         init();
     }
 
     public void clearPreview() {
         if (isPlayable() && !isRegistered()) {
-            label.setText("");
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
+            mRowLabel.setText("");
+            mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
 
-            label.setBackground();
+            mRowLabel.setBackground();
         }
     }
 
     public void enableHover() {
         if (isPlayable() && !isRegistered()) {
-            label.addMouseListener(new MouseAdapter() {
+            mRowLabel.addMouseListener(new MouseAdapter() {
 
                 @Override
                 public void mouseEntered(MouseEvent evt) {
@@ -71,7 +71,7 @@ public class ScoreCardRow {
 
     public void enableInput() {
         if (isPlayable() && !isRegistered()) {
-            label.addMouseListener(new MouseAdapter() {
+            mRowLabel.addMouseListener(new MouseAdapter() {
 
                 @Override
                 public void mousePressed(MouseEvent evt) {
@@ -81,171 +81,171 @@ public class ScoreCardRow {
         }
     }
 
+    public GameRow getGameRow() {
+        return mGameRow;
+    }
+
     public RowLabel getLabel() {
-        return label;
+        return mRowLabel;
     }
 
     public int getRow() {
-        return row;
-    }
-
-    public RowRule getRowRule() {
-        return rowRule;
+        return mRow;
     }
 
     public int getValue() {
-        return value;
+        return mValue;
     }
 
     public boolean isHeader() {
-        return header;
+        return mHeader;
     }
 
     public boolean isPlayable() {
-        return rowRule.isPlayable();
+        return mGameRow.isPlayable();
     }
 
     public boolean isRegistered() {
-        return registered;
+        return mRegistered;
     }
 
     public void newGame() {
-        registered = false;
-        label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
-        label.setText(null);
-        preview = 0;
-        value = 0;
-        if (rowRule.isRollCounter()) {
-            label.setText("0");
+        mRegistered = false;
+        mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
+        mRowLabel.setText(null);
+        mPreview = 0;
+        mValue = 0;
+        if (mGameRow.isRollCounter()) {
+            mRowLabel.setText("0");
         }
     }
 
     public void register() {
-        value = preview;
-        registered = true;
+        mValue = mPreview;
+        mRegistered = true;
     }
 
     public void setEnabled(boolean aState) {
-        if (rowRule.isPlayable()) {
-            label.setFont(label.getFont().deriveFont(Font.PLAIN));
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
+        if (mGameRow.isPlayable()) {
+            mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.PLAIN));
+            mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
         }
 
         if (aState) {
-            if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(Options.INSTANCE.getColor(Options.ColorItem.SUM));
+            if (mGameRow.isSum() || mGameRow.isBonus()) {
+                mRowLabel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.SUM));
             } else {
-                label.setBackground(Options.INSTANCE.getColor(Options.ColorItem.ROW));
+                mRowLabel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.ROW));
             }
 
-            if (rowRule.isRollCounter()) {
-                label.setFont(label.getFont().deriveFont(Font.BOLD));
+            if (mGameRow.isRollCounter()) {
+                mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.BOLD));
             }
 
             enableHover();
 
         } else {
-            if (rowRule.isSum() || rowRule.isBonus()) {
-                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.SUM), COLOR_MASK));
+            if (mGameRow.isSum() || mGameRow.isBonus()) {
+                mRowLabel.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.SUM), COLOR_MASK));
             } else {
-                label.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.ROW), COLOR_MASK));
+                mRowLabel.setBackground(GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.ROW), COLOR_MASK));
             }
 
-            if (rowRule.isRollCounter()) {
-                label.setFont(label.getFont().deriveFont(Font.PLAIN));
+            if (mGameRow.isRollCounter()) {
+                mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.PLAIN));
             }
 
-            MouseListener[] mouseListeners = (MouseListener[]) (label.getListeners(MouseListener.class));
+            MouseListener[] mouseListeners = (MouseListener[]) (mRowLabel.getListeners(MouseListener.class));
 
             for (MouseListener mouseListener : mouseListeners) {
-                label.removeMouseListener(mouseListener);
+                mRowLabel.removeMouseListener(mouseListener);
             }
         }
     }
 
     public void setPreview(int preview) {
-        this.preview = preview;
+        this.mPreview = preview;
     }
 
     public void setRegistered(boolean registered) {
-        this.registered = registered;
+        this.mRegistered = registered;
     }
 
     public void setText() {
         String text = "";
         if (isPlayable()) {
-            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+            mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.PLAIN));
             if (isRegistered()) {
-                label.setHorizontalAlignment(SwingConstants.TRAILING);
-                text = (value == 0) ? "0" : Integer.toString(value);
+                mRowLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+                text = (mValue == 0) ? "0" : Integer.toString(mValue);
             }
-            label.setText(text);
+            mRowLabel.setText(text);
         }
     }
 
     public void setValue(int value) {
-        this.value = value;
+        mValue = value;
     }
 
     public void setVisibleHint(boolean aVisible) {
-        if (preview == 0 || isRegistered()) {
+        if (mPreview == 0 || isRegistered()) {
             return;
         }
 
         String text = "";
 
         if (aVisible) {
-            text = Integer.toString(preview);
-            label.setFont(label.getFont().deriveFont(Font.BOLD));
-            label.setHorizontalAlignment(SwingConstants.LEADING);
+            text = Integer.toString(mPreview);
+            mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.BOLD));
+            mRowLabel.setHorizontalAlignment(SwingConstants.LEADING);
 
-            if (preview < rowRule.getLim()) {
-                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_LOW));
+            if (mPreview < mGameRow.getLim()) {
+                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_LOW));
             } else {
-                label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_HIGH));
+                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_HIGH));
             }
         } else {
-            label.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
+            mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
         }
 
-        label.setText(text);
-        label.setBackground();
+        mRowLabel.setText(text);
+        mRowLabel.setBackground();
     }
 
     private void init() {
-        label.setOpaque(true);
-        label.setHorizontalAlignment(SwingConstants.TRAILING);
-        label.setBorder(new EmptyBorder(2, 10, 2, 10));
+        mRowLabel.setOpaque(true);
+        mRowLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+        mRowLabel.setBorder(new EmptyBorder(2, 10, 2, 10));
 
-        if (rowRule.isSum() || rowRule.isBonus()) {
-            label.setFont(label.getFont().deriveFont(Font.BOLD));
+        if (mGameRow.isSum() || mGameRow.isBonus()) {
+            mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.BOLD));
         }
     }
 
     private void mouseEnteredEvent(MouseEvent evt) {
-        label.setBackground(GraphicsHelper.colorAndMask(label.getCurrentBackgroundColor(), COLOR_MASK));
-        scoreCard.hoverRowEntered(row);
+        mRowLabel.setBackground(GraphicsHelper.colorAndMask(mRowLabel.getCurrentBackgroundColor(), COLOR_MASK));
+        mScoreCard.hoverRowEntered(mRow);
     }
 
     private void mouseExitedEvent(MouseEvent evt) {
-        label.setBackground(label.getCurrentBackgroundColor());
-        scoreCard.hoverRowExited(row);
+        mRowLabel.setBackground(mRowLabel.getCurrentBackgroundColor());
+        mScoreCard.hoverRowExited(mRow);
     }
 
     private void mousePressedEvent(MouseEvent evt) {
         if (evt.getButton() == MouseEvent.BUTTON1) {
-            playerColumn.getRowStack().push(row);
-            scoreCard.hoverRowExited(row);
+            mPlayerColumn.getRowStack().push(mRow);
+            mScoreCard.hoverRowExited(mRow);
 
-            MouseListener[] mouseListeners = (MouseListener[]) (label.getListeners(MouseListener.class));
+            MouseListener[] mouseListeners = (MouseListener[]) (mRowLabel.getListeners(MouseListener.class));
 
             for (MouseListener mouseListener : mouseListeners) {
-                label.removeMouseListener(mouseListener);
+                mRowLabel.removeMouseListener(mouseListener);
             }
 
             register();
-            playerColumn.setText();
-            scoreCard.register();
+            mPlayerColumn.setText();
+            mScoreCard.register();
         }
     }
 }

@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 import org.nbgames.core.CircularInt;
 import org.nbgames.yaya.Options;
+import org.nbgames.yaya.gamedef.GameDef;
+import org.nbgames.yaya.gamedef.GameType;
 import org.nbgames.yaya.scorecard.ScoreCardObservable.ScoreCardEvent;
 import se.trixon.almond.GraphicsHelper;
 
@@ -29,46 +31,49 @@ import se.trixon.almond.GraphicsHelper;
  */
 public class ScoreCard {
 
-    private int activePlayer;
-    private JPanel basePanel = new JPanel();
-    private CircularInt currentPlayer;
-    private HeaderColumn headerColumn;
+    private int mActivePlayer;
+    private JPanel mBasePanel = new JPanel();
+    private CircularInt mCurrentPlayer;
+    private final GameDef mGameDef = GameDef.INSTANCE;
+    private final GameType mGameType;
+    private HeaderColumn mHeaderColumn;
     private int mNumOfPlayers;
-    private int numOfRolls;
-    private int numOfRows;
-    private ScoreCardObservable observable = new ScoreCardObservable();
-    private JPanel panel = new JPanel();
-    private LinkedList<PlayerColumn> playerPositions;
-    private LinkedList<PlayerColumn> players = new LinkedList<>();
-    private boolean registerable = false;
-    private AbstractAction undoAction;
-    private JButton undoButton;
-    private boolean viewHint;
+    private int mNumOfRolls;
+    private int mNumOfRows;
+    private final ScoreCardObservable mObservable = new ScoreCardObservable();
+    private final Options mOptions = Options.INSTANCE;
+    private JPanel mPanel = new JPanel();
+    private LinkedList<PlayerColumn> mPlayerPositions;
+    private LinkedList<PlayerColumn> mPlayers = new LinkedList<>();
+    private boolean mRegisterable = false;
+    private AbstractAction mUndoAction;
+    private JButton mUndoButton;
+    private boolean mViewHint;
 
     public ScoreCard() {
-        mNumOfPlayers = Options.INSTANCE.getNumOfPlayers();
-
+        mNumOfPlayers = mOptions.getNumOfPlayers();
+        mGameType = mGameDef.getType(mOptions.getGameTypeId());
         init();
     }
 
     public JPanel getCard() {
-        return basePanel;
+        return mBasePanel;
     }
 
     public HeaderColumn getHeaderColumn() {
-        return headerColumn;
+        return mHeaderColumn;
     }
 
     public int getNumOfRolls() {
-        return numOfRolls;
+        return mNumOfRolls;
     }
 
     public ScoreCardObservable getObservable() {
-        return observable;
+        return mObservable;
     }
 
     public AbstractAction getUndoAction() {
-        return undoAction;
+        return mUndoAction;
     }
 
     public boolean isRollable() {
@@ -76,128 +81,128 @@ public class ScoreCard {
     }
 
     public boolean isViewHint() {
-        return viewHint;
+        return mViewHint;
     }
 
     public void newGame() {
-        registerable = false;
-        undoAction.setEnabled(false);
-        activePlayer = 0;
-        numOfRolls = 0;
-        currentPlayer = new CircularInt(0, mNumOfPlayers - 1);
+        mRegisterable = false;
+        mUndoAction.setEnabled(false);
+        mActivePlayer = 0;
+        mNumOfRolls = 0;
+        mCurrentPlayer = new CircularInt(0, mNumOfPlayers - 1);
 
-        for (PlayerColumn playerColumn : players) {
+        for (PlayerColumn playerColumn : mPlayers) {
             playerColumn.newGame();
         }
 
-        players.get(activePlayer).setEnabled(true);
+        mPlayers.get(mActivePlayer).setEnabled(true);
     }
 
     public void newRoll() {
-        players.get(activePlayer).clearPreview();
+        mPlayers.get(mActivePlayer).clearPreview();
     }
 
     public void parseDice(LinkedList<Integer> values) {
         setEnabledRegister(true);
-        numOfRolls++;
-        players.get(activePlayer).incNumOfRolls();
-        players.get(activePlayer).parse(values);
+        mNumOfRolls++;
+        mPlayers.get(mActivePlayer).incNumOfRolls();
+        mPlayers.get(mActivePlayer).parse(values);
 
-        if (Options.INSTANCE.isShowingHints()) {
-            players.get(activePlayer).setVisibleHints(true);
+        if (mOptions.isShowingHints()) {
+            mPlayers.get(mActivePlayer).setVisibleHints(true);
         }
     }
 
-    public void setEnabledRegister(boolean aRegisterableState) {
-        registerable = aRegisterableState;
+    public void setEnabledRegister(boolean enabled) {
+        mRegisterable = enabled;
     }
 
-    public void setEnabledUndo(boolean anUndoableState) {
-        undoAction.setEnabled(anUndoableState);
+    public void setEnabledUndo(boolean enabled) {
+        mUndoAction.setEnabled(enabled);
     }
 
-    public void setVisibleHints(boolean viewHint) {
-        this.viewHint = viewHint;
-        players.get(activePlayer).setVisibleHints(viewHint);
+    public void setVisibleHints(boolean visible) {
+        mViewHint = visible;
+        mPlayers.get(mActivePlayer).setVisibleHints(visible);
     }
 
     protected void actionPerformedUndo() {
-        registerable = true;
-        players.get(activePlayer).setEnabled(false);
-        activePlayer = currentPlayer.dec();
-        players.get(activePlayer).undo();
+        mRegisterable = true;
+        mPlayers.get(mActivePlayer).setEnabled(false);
+        mActivePlayer = mCurrentPlayer.dec();
+        mPlayers.get(mActivePlayer).undo();
 
-        observable.notify(ScoreCardEvent.UNDO);
+        mObservable.notify(ScoreCardEvent.UNDO);
     }
 
-    protected void hoverRowEntered(int aRow) {
-        Color activeColor = GraphicsHelper.colorAndMask(Options.INSTANCE.getColor(Options.ColorItem.HEADER), 0xEEEEEE);
+    protected void hoverRowEntered(int row) {
+        Color activeColor = GraphicsHelper.colorAndMask(mOptions.getColor(Options.ColorItem.HEADER), 0xEEEEEE);
 
-        headerColumn.getRows()[aRow].getLabel().setBackground(activeColor);
-        headerColumn.getHiScores()[aRow].getLabel().setBackground(activeColor);
-        headerColumn.getMax()[aRow].getLabel().setBackground(activeColor);
+        mHeaderColumn.getRows()[row].getLabel().setBackground(activeColor);
+        mHeaderColumn.getHiScores()[row].getLabel().setBackground(activeColor);
+        mHeaderColumn.getMax()[row].getLabel().setBackground(activeColor);
     }
 
-    protected void hoverRowExited(int aRow) {
-        headerColumn.getRows()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
-        headerColumn.getHiScores()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
-        headerColumn.getMax()[aRow].getLabel().setBackground(Options.INSTANCE.getColor(Options.ColorItem.HEADER));
+    protected void hoverRowExited(int row) {
+        mHeaderColumn.getRows()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
+        mHeaderColumn.getHiScores()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
+        mHeaderColumn.getMax()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
     }
 
     protected void register() {
-        if (registerable) {
-            registerable = false;
-            numOfRolls = 0;
-            players.get(activePlayer).register();
+        if (mRegisterable) {
+            mRegisterable = false;
+            mNumOfRolls = 0;
+            mPlayers.get(mActivePlayer).register();
 
             updatePolePosition();
 
             if (isGameOver()) {
-                observable.notify(ScoreCardEvent.GAME_OVER);
+                mObservable.notify(ScoreCardEvent.GAME_OVER);
                 gameOver();
 
             } else {
-                undoAction.setEnabled(true);
-                observable.notify(ScoreCardEvent.REGISTER);
+                mUndoAction.setEnabled(true);
+                mObservable.notify(ScoreCardEvent.REGISTER);
 
-                activePlayer = currentPlayer.inc();
-                players.get(activePlayer).setEnabled(true);
+                mActivePlayer = mCurrentPlayer.inc();
+                mPlayers.get(mActivePlayer).setEnabled(true);
             }
         }
     }
 
     private void applyColors() {
-        panel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.SCORECARD));
-        basePanel.setBackground(Options.INSTANCE.getColor(Options.ColorItem.BACKGROUND));
+        mPanel.setBackground(mOptions.getColor(Options.ColorItem.SCORECARD));
+        mBasePanel.setBackground(mOptions.getColor(Options.ColorItem.BACKGROUND));
         Color color;
 
-        for (int i = 0; i < numOfRows; i++) {
+        for (int i = 0; i < mNumOfRows; i++) {
 
-            if (headerColumn.getRows()[i].getRowRule().isSum() || headerColumn.getRows()[i].getRowRule().isBonus()) {
-                color = Options.INSTANCE.getColor(Options.ColorItem.SUM);
+            if (mHeaderColumn.getRows()[i].getGameRow().isSum() || mHeaderColumn.getRows()[i].getGameRow().isBonus()) {
+                color = mOptions.getColor(Options.ColorItem.SUM);
             } else {
-                color = Options.INSTANCE.getColor(Options.ColorItem.HEADER);
+                color = mOptions.getColor(Options.ColorItem.HEADER);
             }
 
-            headerColumn.getRows()[i].getLabel().setBackground(color);
-            headerColumn.getHiScores()[i].getLabel().setBackground(color);
-            headerColumn.getMax()[i].getLabel().setBackground(color);
+            mHeaderColumn.getRows()[i].getLabel().setBackground(color);
+            mHeaderColumn.getHiScores()[i].getLabel().setBackground(color);
+            mHeaderColumn.getMax()[i].getLabel().setBackground(color);
 
         }
 
-        for (int i = 0; i < players.size(); i++) {
-            for (int j = 0; j < numOfRows; j++) {
-                if (players.get(i).getRows()[j].getRowRule().isSum() || headerColumn.getRows()[j].getRowRule().isBonus()) {
-                    color = Options.INSTANCE.getColor(Options.ColorItem.SUM);
+        for (int i = 0; i < mPlayers.size(); i++) {
+            for (int j = 0; j < mNumOfRows; j++) {
+                if (mPlayers.get(i).getRows()[j].getGameRow().isSum() || mHeaderColumn.getRows()[j].getGameRow().isBonus()) {
+                    color = mOptions.getColor(Options.ColorItem.SUM);
                 } else {
-                    color = Options.INSTANCE.getColor(Options.ColorItem.ROW);
+                    color = mOptions.getColor(Options.ColorItem.ROW);
                 }
-                players.get(i).getRows()[j].getLabel().setBackground(color);
-                players.get(i).getRows()[j].getLabel().setCurrentBackgroundColor(color);
+                mPlayers.get(i).getRows()[j].getLabel().setBackground(color);
+                mPlayers.get(i).getRows()[j].getLabel().setCurrentBackgroundColor(color);
             }
         }
 
-        if (Options.INSTANCE.isShowingHints()) {
+        if (mOptions.isShowingHints()) {
             setVisibleHints(true);
         }
 
@@ -205,9 +210,9 @@ public class ScoreCard {
 
     private void gameOver() {
 
-        while (!players.get(mNumOfPlayers - 1).getRowStack().empty()) {
+        while (!mPlayers.get(mNumOfPlayers - 1).getRowStack().empty()) {
 
-            for (PlayerColumn playerColumn : players) {
+            for (PlayerColumn playerColumn : mPlayers) {
                 int row = playerColumn.getRowStack().pop();
             }
         }
@@ -251,17 +256,15 @@ public class ScoreCard {
     }
 
     private void init() {
-//        DiceGame.getAApplication().getLexiconNotificationList().add(lexicon);
-
-        players.clear();
-        headerColumn = new HeaderColumn(this, Options.INSTANCE.getRule());
+        mPlayers.clear();
+        mHeaderColumn = new HeaderColumn(this, mGameType);
         initActions();
-        numOfRows = Options.INSTANCE.getRule().getNumOfRows();
+        mNumOfRows = mGameType.getGameRows().size();
 
         initLayout();
         applyColors();
 
-        Options.INSTANCE.getPreferencesColors().addPreferenceChangeListener(new PreferenceChangeListener() {
+        mOptions.getPreferencesColors().addPreferenceChangeListener(new PreferenceChangeListener() {
 
             @Override
             public void preferenceChange(PreferenceChangeEvent evt) {
@@ -272,16 +275,16 @@ public class ScoreCard {
 
     private void initActions() {
 
-        undoAction = new AbstractAction() {
+        mUndoAction = new AbstractAction() {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                undoAction.setEnabled(false);
+                mUndoAction.setEnabled(false);
                 actionPerformedUndo();
             }
         };
-        undoAction.setEnabled(false);
-        undoButton = new JButton(undoAction);
+        mUndoAction.setEnabled(false);
+        mUndoButton = new JButton(mUndoAction);
     }
 
     private void initLayout() {
@@ -291,16 +294,16 @@ public class ScoreCard {
         SoftBevelBorder loweredBevelBorder = new SoftBevelBorder(BevelBorder.LOWERED);
         CompoundBorder compoundBorder = new CompoundBorder(bevelBorder, emptyBorder);
 
-        panel.setBorder(compoundBorder);
-        panel.setBorder(new CompoundBorder(compoundBorder, loweredBevelBorder));
-        basePanel.setBorder(basePanelBorder);
-        basePanel.add(panel);
+        mPanel.setBorder(compoundBorder);
+        mPanel.setBorder(new CompoundBorder(compoundBorder, loweredBevelBorder));
+        mBasePanel.setBorder(basePanelBorder);
+        mBasePanel.add(mPanel);
 
-        basePanel.setOpaque(true);
-        panel.setOpaque(true);
+        mBasePanel.setOpaque(true);
+        mPanel.setOpaque(true);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        panel.setLayout(gridBagLayout);
+        mPanel.setLayout(gridBagLayout);
         GridBagConstraints gridBagConstraints;
 
         gridBagConstraints = new GridBagConstraints();
@@ -309,12 +312,12 @@ public class ScoreCard {
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagLayout.setConstraints(undoButton, gridBagConstraints);
-        panel.add(undoButton);
+        gridBagLayout.setConstraints(mUndoButton, gridBagConstraints);
+        mPanel.add(mUndoButton);
 
         Insets insets = new Insets(1, 0, 0, 0);
 
-        for (int i = 0; i < numOfRows; i++) {
+        for (int i = 0; i < mNumOfRows; i++) {
             gridBagConstraints = new GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.anchor = GridBagConstraints.LINE_START;
@@ -322,23 +325,23 @@ public class ScoreCard {
             gridBagConstraints.insets = insets;
 
             gridBagConstraints.gridy = i + 1;
-            gridBagLayout.setConstraints(headerColumn.getRows()[i].getLabel(), gridBagConstraints);
-            panel.add(headerColumn.getRows()[i].getLabel());
+            gridBagLayout.setConstraints(mHeaderColumn.getRows()[i].getLabel(), gridBagConstraints);
+            mPanel.add(mHeaderColumn.getRows()[i].getLabel());
 
             gridBagConstraints.gridx = 1;
-            gridBagLayout.setConstraints(headerColumn.getMax()[i].getLabel(), gridBagConstraints);
-            panel.add(headerColumn.getMax()[i].getLabel());
+            gridBagLayout.setConstraints(mHeaderColumn.getMax()[i].getLabel(), gridBagConstraints);
+            mPanel.add(mHeaderColumn.getMax()[i].getLabel());
 
             gridBagConstraints.gridx = 2;
-            gridBagLayout.setConstraints(headerColumn.getHiScores()[i].getLabel(), gridBagConstraints);
-            panel.add(headerColumn.getHiScores()[i].getLabel());
+            gridBagLayout.setConstraints(mHeaderColumn.getHiScores()[i].getLabel(), gridBagConstraints);
+            mPanel.add(mHeaderColumn.getHiScores()[i].getLabel());
         }
 
         int startGridX = 3;
         insets.left = 1;
         for (int i = 0; i < mNumOfPlayers; i++) {
-            players.add(new PlayerColumn(this, i, Options.INSTANCE.getRule()));
-            ScoreCardRow[] column = players.get(i).getRows();
+            mPlayers.add(new PlayerColumn(this, i, mGameType));
+            ScoreCardRow[] column = mPlayers.get(i).getRows();
 
             gridBagConstraints = new GridBagConstraints();
             gridBagConstraints.gridx = startGridX + i;
@@ -347,23 +350,23 @@ public class ScoreCard {
             gridBagConstraints.gridy = 0;
             gridBagConstraints.insets = insets;
 
-            gridBagLayout.setConstraints(players.get(i).getComboBox(), gridBagConstraints);
-            panel.add(players.get(i).getComboBox());
-            for (int j = 0; j < numOfRows; j++) {
+            gridBagLayout.setConstraints(mPlayers.get(i).getComboBox(), gridBagConstraints);
+            mPanel.add(mPlayers.get(i).getComboBox());
+            for (int j = 0; j < mNumOfRows; j++) {
                 gridBagConstraints.gridy = j + 1;
 
                 gridBagLayout.setConstraints(column[j].getLabel(), gridBagConstraints);
-                panel.add(column[j].getLabel());
+                mPanel.add(column[j].getLabel());
             }
         }
     }
 
     private boolean isGameOver() {
         boolean gameOver;
-        if (activePlayer == mNumOfPlayers - 1) {
+        if (mActivePlayer == mNumOfPlayers - 1) {
             gameOver = true;
-            for (int i = 0; i < players.get(mNumOfPlayers - 1).getRows().length; i++) {
-                ScoreCardRow scoreCardRow = players.get(mNumOfPlayers - 1).getRows()[i];
+            for (int i = 0; i < mPlayers.get(mNumOfPlayers - 1).getRows().length; i++) {
+                ScoreCardRow scoreCardRow = mPlayers.get(mNumOfPlayers - 1).getRows()[i];
 
                 if (scoreCardRow.isPlayable() && !scoreCardRow.isRegistered()) {
                     gameOver = false;
@@ -378,15 +381,15 @@ public class ScoreCard {
     }
 
     private void updatePolePosition() {
-        playerPositions = (LinkedList<PlayerColumn>) players.clone();
+        mPlayerPositions = (LinkedList<PlayerColumn>) mPlayers.clone();
         PlayerColumnComparator pcc = new PlayerColumnComparator(PlayerColumnComparator.DESCENDING);
-        Collections.sort(playerPositions, pcc);
+        Collections.sort(mPlayerPositions, pcc);
 
         float reducer = 0.F;
-        Font font = headerColumn.getRows()[Options.INSTANCE.getRule().getResultRow()].getLabel().getFont();
+        Font font = mHeaderColumn.getRows()[mGameType.getResultRow()].getLabel().getFont();
 
-        for (PlayerColumn playerColumn : playerPositions) {
-            JLabel label = playerColumn.getRows()[Options.INSTANCE.getRule().getResultRow()].getLabel();
+        for (PlayerColumn playerColumn : mPlayerPositions) {
+            JLabel label = playerColumn.getRows()[mGameType.getResultRow()].getLabel();
             label.setFont(font.deriveFont((16.0F - reducer)));
             reducer += 1.0;
         }

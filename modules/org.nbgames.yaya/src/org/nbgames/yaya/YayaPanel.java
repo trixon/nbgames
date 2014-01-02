@@ -7,6 +7,8 @@ import org.nbgames.core.NbGames;
 import org.nbgames.core.dice.DiceBoard;
 import org.nbgames.core.dice.DiceBoard.RollEvent;
 import org.nbgames.core.game.GamePanel;
+import org.nbgames.yaya.gamedef.GameDef;
+import org.nbgames.yaya.gamedef.GameType;
 import org.nbgames.yaya.scorecard.ScoreCard;
 import org.nbgames.yaya.scorecard.ScoreCardObservable.ScoreCardEvent;
 
@@ -18,22 +20,24 @@ public class YayaPanel extends GamePanel implements Observer {
 
     private YayaController mGameController;
     private DiceBoard mDiceBoard;
-    private boolean isRollable = true;
-    private int numOfPlayers;
+    private boolean mRollable = true;
+    private int mNumOfPlayers;
     private ScoreCard mScoreCard;
+    private final Options mOptions = Options.INSTANCE;
+    private GameType mGameType;
 
     /**
      * Creates new form YayaPanel
      */
     public YayaPanel() {
         initComponents();
-        init();
     }
 
     public YayaPanel(YayaController gameController) {
         this();
 
         mGameController = gameController;
+//        AAudioClip.setPlaySoundEffects(true);
     }
 
     @Override
@@ -42,8 +46,8 @@ public class YayaPanel extends GamePanel implements Observer {
             switch ((RollEvent) arg) {
                 case PRE_ROLL:
                     mScoreCard.setEnabledUndo(false);
-                    isRollable = mScoreCard.isRollable();
-                    if (isRollable) {
+                    mRollable = mScoreCard.isRollable();
+                    if (mRollable) {
                         mScoreCard.newRoll();
                         mDiceBoard.roll();
                     }
@@ -83,16 +87,7 @@ public class YayaPanel extends GamePanel implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -103,51 +98,27 @@ public class YayaPanel extends GamePanel implements Observer {
 //            numOfPlayers = settings.getNumOfPlayers();
 //            initRule(settings.getRule());
 //        }
-        initRule();
+        initGame();
         mScoreCard.newGame();
         mDiceBoard.newTurn();
-    }
-
-    private void init() {
-//        AAudioClip.setPlaySoundEffects(true);
-        numOfPlayers = 4;//settings.getNumOfPlayers();
-        setLayout(new BorderLayout());
-
-//        addHierarchyBoundsListener(new HierarchyBoundsListener() {
-//
-//            @Override
-//            public void ancestorMoved(HierarchyEvent evt) {
-//            }
-//
-//            @Override
-//            public void ancestorResized(HierarchyEvent evt) {
-//                centerInParent();
-//            }
-//        });
     }
 
     private void initDiceBoard() {
         mDiceBoard.addObserver(this);
         mDiceBoard.setDiceTofloor(1000);
-        mDiceBoard.setMaxRollCount(3);//settings.getRule().getNumOfRolls());
+        mDiceBoard.setMaxRollCount(mGameType.getNumOfRolls());
         add(mDiceBoard.getPanel(), BorderLayout.SOUTH);
     }
 
-    private void initRule() {
+    private void initGame() {
         removeAll();
-//        settings.setRule(aRule);
+        mGameType = GameDef.INSTANCE.getType(mOptions.getGameTypeId());
+        mNumOfPlayers = mOptions.getNumOfPlayers();
 
-        mDiceBoard = new DiceBoard(5);//settings.getRule().getNumOfDice());
+        mDiceBoard = new DiceBoard(mGameType.getNumOfDice());
         mScoreCard = new ScoreCard();
         initScoreCard();
         initDiceBoard();
-
-//        applyColors();
-//        getParent().doLayout();
-//        centerInParent();
-//        Dimension d = getSize();
-//        d = new Dimension(d.width + 40, d.height + 80);
-//        getAApplicationFrame().setMinimumSize(d);
 //        newGame();
     }
 

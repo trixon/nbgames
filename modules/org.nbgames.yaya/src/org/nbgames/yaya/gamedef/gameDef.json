@@ -17,6 +17,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -28,7 +30,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 12,
-                    "parse": "duplicates 2"
+                    "formula": "duplicates 2"
                 },
                 {
                     "id": "chance",
@@ -38,7 +40,7 @@
                     "isPlayable": true,
                     "lim": 8,
                     "max": 24,
-                    "parse": "sum"
+                    "formula": "sum"
                 },
                 {
                     "id": "total",
@@ -66,6 +68,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -77,7 +81,7 @@
                     "isPlayable": true,
                     "lim": 3,
                     "max": 5,
-                    "parse": "sum 1"
+                    "formula": "sum 1"
                 },
                 {
                     "id": "twos",
@@ -87,7 +91,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 10,
-                    "parse": "sum 2"
+                    "formula": "sum 2"
                 },
                 {
                     "id": "threes",
@@ -97,7 +101,7 @@
                     "isPlayable": true,
                     "lim": 9,
                     "max": 15,
-                    "parse": "sum 3"
+                    "formula": "sum 3"
                 },
                 {
                     "id": "fours",
@@ -107,7 +111,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 20,
-                    "parse": "sum 4"
+                    "formula": "sum 4"
                 },
                 {
                     "id": "fives",
@@ -117,7 +121,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 25,
-                    "parse": "sum 5"
+                    "formula": "sum 5"
                 },
                 {
                     "id": "sixes",
@@ -127,7 +131,7 @@
                     "isPlayable": true,
                     "lim": 18,
                     "max": 30,
-                    "parse": "sum 6"
+                    "formula": "sum 6"
                 },
                 {
                     "id": "fullStraight",
@@ -137,7 +141,7 @@
                     "isPlayable": true,
                     "lim": 21,
                     "max": 45,
-                    "parse": "straight 6"
+                    "formula": "straight 6"
                 },
                 {
                     "id": "total",
@@ -165,6 +169,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -176,7 +182,7 @@
                     "isPlayable": true,
                     "lim": 3,
                     "max": 5,
-                    "parse": "sum 1"
+                    "formula": "sum 1"
                 },
                 {
                     "id": "twos",
@@ -186,7 +192,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 10,
-                    "parse": "sum 2"
+                    "formula": "sum 2"
                 },
                 {
                     "id": "threes",
@@ -196,7 +202,7 @@
                     "isPlayable": true,
                     "lim": 9,
                     "max": 15,
-                    "parse": "sum 3"
+                    "formula": "sum 3"
                 },
                 {
                     "id": "fours",
@@ -206,7 +212,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 20,
-                    "parse": "sum 4"
+                    "formula": "sum 4"
                 },
                 {
                     "id": "fives",
@@ -216,7 +222,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 25,
-                    "parse": "sum 5"
+                    "formula": "sum 5"
                 },
                 {
                     "id": "sixes",
@@ -226,7 +232,7 @@
                     "isPlayable": true,
                     "lim": 18,
                     "max": 30,
-                    "parse": "sum 6"
+                    "formula": "sum 6"
                 },
                 {
                     "id": "sum1",
@@ -256,7 +262,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 12,
-                    "parse": "duplicates 2"
+                    "formula": "duplicates 2"
                 },
                 {
                     "id": "twoPair",
@@ -266,7 +272,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 22,
-                    "parse": "pair 2"
+                    "formula": "pair 2"
                 },
                 {
                     "id": "threeOfAKind",
@@ -276,7 +282,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 18,
-                    "parse": "duplicates 3"
+                    "formula": "duplicates 3"
                 },
                 {
                     "id": "fourOfAKind",
@@ -286,7 +292,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 24,
-                    "parse": "duplicates 4"
+                    "formula": "duplicates 4"
                 },
                 {
                     "id": "smallStraight",
@@ -296,7 +302,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 15,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "largeStraight",
@@ -306,7 +312,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 20,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "fullHouse",
@@ -316,7 +322,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 28,
-                    "parse": "house 3 2"
+                    "formula": "house 3 2"
                 },
                 {
                     "id": "chance",
@@ -326,7 +332,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 30,
-                    "parse": "sum"
+                    "formula": "sum"
                 },
                 {
                     "id": "yahtzee",
@@ -336,7 +342,7 @@
                     "isPlayable": true,
                     "lim": 50,
                     "max": 50,
-                    "parse": "duplicates 5"
+                    "formula": "duplicates 5"
                 },
                 {
                     "id": "sum2",
@@ -373,6 +379,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -384,7 +392,7 @@
                     "isPlayable": true,
                     "lim": 3,
                     "max": 5,
-                    "parse": "sum 1"
+                    "formula": "sum 1"
                 },
                 {
                     "id": "twos",
@@ -394,7 +402,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 10,
-                    "parse": "sum 2"
+                    "formula": "sum 2"
                 },
                 {
                     "id": "threes",
@@ -404,7 +412,7 @@
                     "isPlayable": true,
                     "lim": 9,
                     "max": 15,
-                    "parse": "sum 3"
+                    "formula": "sum 3"
                 },
                 {
                     "id": "fours",
@@ -414,7 +422,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 20,
-                    "parse": "sum 4"
+                    "formula": "sum 4"
                 },
                 {
                     "id": "fives",
@@ -424,7 +432,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 25,
-                    "parse": "sum 5"
+                    "formula": "sum 5"
                 },
                 {
                     "id": "sixes",
@@ -434,7 +442,7 @@
                     "isPlayable": true,
                     "lim": 18,
                     "max": 30,
-                    "parse": "sum 6"
+                    "formula": "sum 6"
                 },
                 {
                     "id": "sum1",
@@ -464,7 +472,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 12,
-                    "parse": "duplicates 2"
+                    "formula": "duplicates 2"
                 },
                 {
                     "id": "twoPair",
@@ -474,7 +482,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 22,
-                    "parse": "pair 2"
+                    "formula": "pair 2"
                 },
                 {
                     "id": "threeOfAKind",
@@ -484,7 +492,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 18,
-                    "parse": "duplicates 3"
+                    "formula": "duplicates 3"
                 },
                 {
                     "id": "fourOfAKind",
@@ -494,7 +502,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 24,
-                    "parse": "duplicates 4"
+                    "formula": "duplicates 4"
                 },
                 {
                     "id": "smallStraight",
@@ -504,7 +512,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 15,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "largeStraight",
@@ -514,7 +522,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 20,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "fullHouse",
@@ -524,7 +532,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 28,
-                    "parse": "house 3 2"
+                    "formula": "house 3 2"
                 },
                 {
                     "id": "chance",
@@ -534,7 +542,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 30,
-                    "parse": "sum"
+                    "formula": "sum"
                 },
                 {
                     "id": "yahtzee",
@@ -544,7 +552,7 @@
                     "isPlayable": true,
                     "lim": 50,
                     "max": 50,
-                    "parse": "duplicates 5"
+                    "formula": "duplicates 5"
                 },
                 {
                     "id": "sum2",
@@ -581,6 +589,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -592,7 +602,7 @@
                     "isPlayable": true,
                     "lim": 3,
                     "max": 6,
-                    "parse": "sum 1"
+                    "formula": "sum 1"
                 },
                 {
                     "id": "twos",
@@ -602,7 +612,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 12,
-                    "parse": "sum 2"
+                    "formula": "sum 2"
                 },
                 {
                     "id": "threes",
@@ -612,7 +622,7 @@
                     "isPlayable": true,
                     "lim": 9,
                     "max": 18,
-                    "parse": "sum 3"
+                    "formula": "sum 3"
                 },
                 {
                     "id": "fours",
@@ -622,7 +632,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 24,
-                    "parse": "sum 4"
+                    "formula": "sum 4"
                 },
                 {
                     "id": "fives",
@@ -632,7 +642,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 30,
-                    "parse": "sum 5"
+                    "formula": "sum 5"
                 },
                 {
                     "id": "sixes",
@@ -642,7 +652,7 @@
                     "isPlayable": true,
                     "lim": 18,
                     "max": 36,
-                    "parse": "sum 6"
+                    "formula": "sum 6"
                 },
                 {
                     "id": "sum1",
@@ -672,7 +682,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 12,
-                    "parse": "duplicates 2"
+                    "formula": "duplicates 2"
                 },
                 {
                     "id": "twoPair",
@@ -682,7 +692,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 22,
-                    "parse": "pair 2"
+                    "formula": "pair 2"
                 },
                 {
                     "id": "threePair",
@@ -692,7 +702,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 30,
-                    "parse": "pair 3"
+                    "formula": "pair 3"
                 },
                 {
                     "id": "threeOfAKind",
@@ -702,7 +712,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 18,
-                    "parse": "duplicates 3"
+                    "formula": "duplicates 3"
                 },
                 {
                     "id": "fourOfAKind",
@@ -712,7 +722,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 24,
-                    "parse": "duplicates 4"
+                    "formula": "duplicates 4"
                 },
                 {
                     "id": "fiveOfAKind",
@@ -722,7 +732,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 30,
-                    "parse": "duplicates 5"
+                    "formula": "duplicates 5"
                 },
                 {
                     "id": "smallStraight",
@@ -732,7 +742,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 15,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "largeStraight",
@@ -742,7 +752,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 20,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "fullStraight",
@@ -752,7 +762,7 @@
                     "isPlayable": true,
                     "lim": 21,
                     "max": 21,
-                    "parse": "straight 6"
+                    "formula": "straight 6"
                 },
                 {
                     "id": "fullHouse",
@@ -762,7 +772,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 28,
-                    "parse": "house 3 2"
+                    "formula": "house 3 2"
                 },
                 {
                     "id": "villa",
@@ -772,7 +782,7 @@
                     "isPlayable": true,
                     "lim": 21,
                     "max": 33,
-                    "parse": "house 3 3"
+                    "formula": "house 3 3"
                 },
                 {
                     "id": "tower",
@@ -782,7 +792,7 @@
                     "isPlayable": true,
                     "lim": 26,
                     "max": 34,
-                    "parse": "house 4 2"
+                    "formula": "house 4 2"
                 },
                 {
                     "id": "chance",
@@ -792,7 +802,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 30,
-                    "parse": "sum"
+                    "formula": "sum"
                 },
                 {
                     "id": "yahtzee",
@@ -802,7 +812,7 @@
                     "isPlayable": true,
                     "lim": 50,
                     "max": 50,
-                    "parse": "duplicates 5"
+                    "formula": "duplicates 5"
                 },
                 {
                     "id": "maxi_yahtzee",
@@ -812,7 +822,7 @@
                     "isPlayable": true,
                     "lim": 100,
                     "max": 100,
-                    "parse": "duplicates 6"
+                    "formula": "duplicates 6"
                 },
                 {
                     "id": "sum2",
@@ -849,6 +859,8 @@
             "rows": [
                 {
                     "id": "rolls",
+                    "title": "Throws",
+                    "title-sv": "Slag",
                     "isSum": true,
                     "isRollCounter": true
                 },
@@ -860,7 +872,7 @@
                     "isPlayable": true,
                     "lim": 3,
                     "max": 5,
-                    "parse": "sum 1"
+                    "formula": "sum 1"
                 },
                 {
                     "id": "twos",
@@ -870,7 +882,7 @@
                     "isPlayable": true,
                     "lim": 6,
                     "max": 10,
-                    "parse": "sum 2"
+                    "formula": "sum 2"
                 },
                 {
                     "id": "threes",
@@ -880,7 +892,7 @@
                     "isPlayable": true,
                     "lim": 9,
                     "max": 15,
-                    "parse": "sum 3"
+                    "formula": "sum 3"
                 },
                 {
                     "id": "fours",
@@ -890,7 +902,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 20,
-                    "parse": "sum 4"
+                    "formula": "sum 4"
                 },
                 {
                     "id": "fives",
@@ -900,7 +912,7 @@
                     "isPlayable": true,
                     "lim": 15,
                     "max": 25,
-                    "parse": "sum 5"
+                    "formula": "sum 5"
                 },
                 {
                     "id": "sixes",
@@ -910,7 +922,7 @@
                     "isPlayable": true,
                     "lim": 18,
                     "max": 30,
-                    "parse": "sum 6"
+                    "formula": "sum 6"
                 },
                 {
                     "id": "sum1",
@@ -940,7 +952,7 @@
                     "isPlayable": true,
                     "lim": 12,
                     "max": 18,
-                    "parse": "duplicates 3"
+                    "formula": "duplicates 3"
                 },
                 {
                     "id": "fourOfAKind",
@@ -950,7 +962,7 @@
                     "isPlayable": true,
                     "lim": 16,
                     "max": 24,
-                    "parse": "duplicates 4"
+                    "formula": "duplicates 4"
                 },
                 {
                     "id": "smallStraight",
@@ -960,7 +972,7 @@
                     "isPlayable": true,
                     "lim": 25,
                     "max": 25,
-                    "parse": "straight 4"
+                    "formula": "straight 4"
                 },
                 {
                     "id": "largeStraight",
@@ -970,7 +982,7 @@
                     "isPlayable": true,
                     "lim": 30,
                     "max": 30,
-                    "parse": "straight 5"
+                    "formula": "straight 5"
                 },
                 {
                     "id": "fullHouse",
@@ -980,7 +992,7 @@
                     "isPlayable": true,
                     "lim": 40,
                     "max": 40,
-                    "parse": "house 3 2"
+                    "formula": "house 3 2"
                 },
                 {
                     "id": "the_yacht",
@@ -990,7 +1002,7 @@
                     "isPlayable": true,
                     "lim": 50,
                     "max": 50,
-                    "parse": "duplicates 5"
+                    "formula": "duplicates 5"
                 },
                 {
                     "id": "chance",
@@ -1000,7 +1012,7 @@
                     "isPlayable": true,
                     "lim": 20,
                     "max": 30,
-                    "parse": "sum"
+                    "formula": "sum"
                 },
                 {
                     "id": "sum2",

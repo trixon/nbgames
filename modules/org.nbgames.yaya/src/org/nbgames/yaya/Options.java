@@ -3,7 +3,6 @@ package org.nbgames.yaya;
 import java.awt.Color;
 import java.util.prefs.Preferences;
 import org.nbgames.yaya.gamedef.GameType;
-import org.nbgames.yaya.scorecard.rule.Rule;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.GraphicsHelper;
 
@@ -25,13 +24,11 @@ public enum Options {
     private static final String DEFAULT_GAME_TYPE_ID = "default";
     private static final String DEFAULT_GAME_VARIANT = "standard";
     private static final int DEFAULT_NUM_OF_PLAYERS = 2;
-    private static final Rule DEFAULT_RULE = Rule.YAHTZEE;
     private static final boolean DEFAULT_SHOW_HINTS = true;
     private static final boolean DEFAULT_SHOW_HI_COL = false;
     private static final boolean DEFAULT_SHOW_MAXCOL = false;
     private static final String KEY_GAME_TYPE_ID = "gameType";
     private static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
-    private static final String KEY_RULE = "rule";
     private static final String KEY_SHOW_HINTS = "showHints";
     private static final String KEY_SHOW_HI_COL = "showHiCol";
     private static final String KEY_SHOW_MAX_COL = "showMaxCol";
@@ -62,10 +59,6 @@ public enum Options {
         return mPreferencesColors;
     }
 
-    public Rule getRule() {
-        return Rule.values()[mPreferences.getInt(KEY_RULE, DEFAULT_RULE.ordinal())];
-    }
-
     public boolean isShowingHiCol() {
         return mPreferences.getBoolean(KEY_SHOW_HI_COL, DEFAULT_SHOW_HI_COL);
     }
@@ -92,15 +85,6 @@ public enum Options {
 
     public void setNumOfPlayers(int players) {
         mPreferences.putInt(KEY_NUM_OF_PLAYERS, players);
-    }
-
-    public void setRule(Rule rule) {
-        mPreferences.putInt(KEY_RULE, rule.ordinal());
-    }
-
-    public void setRule(int ordinal) {
-        ordinal = Math.min(ordinal, Rule.values().length - 1);
-        mPreferences.putInt(KEY_RULE, ordinal);
     }
 
     public void setShowHiCol(boolean state) {

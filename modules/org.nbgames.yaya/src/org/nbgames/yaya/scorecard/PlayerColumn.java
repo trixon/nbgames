@@ -5,10 +5,9 @@ import java.util.LinkedList;
 import java.util.Stack;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
-import org.nbgames.yaya.Options;
-import org.nbgames.yaya.scorecard.rule.RowRule;
-import org.nbgames.yaya.scorecard.rule.RowsRule;
-import org.nbgames.yaya.scorecard.rule.Rule;
+import org.nbgames.yaya.gamedef.GameRow;
+import org.nbgames.yaya.gamedef.GameRows;
+import org.nbgames.yaya.gamedef.GameType;
 
 /**
  *
@@ -16,93 +15,94 @@ import org.nbgames.yaya.scorecard.rule.Rule;
  */
 public class PlayerColumn {
 
-    private boolean active;
-    private JComboBox comboBox = new JComboBox();
-    private int currentScore;
-    private LinkedList<Integer> dice;
-    private String name;
-    private int numOfRolls;
-    private int playOrder;
-    private Stack<Integer> rowStack = new Stack<Integer>();
-    private ScoreCardRow[] rows;
-    private Rule rule;
-    private ScoreCard scoreCard;
+    private boolean mActive;
+    private JComboBox mComboBox = new JComboBox();
+    private int mCurrentScore;
+    private LinkedList<Integer> mDice;
+    private GameType mGameType;
+    private String mName;
+    private int mNumOfRolls;
+    private int mPlayOrder;
+    private Stack<Integer> mRowStack = new Stack<Integer>();
+    private ScoreCardRow[] mRows;
+    private ScoreCard mScoreCard;
 
-    public PlayerColumn(ScoreCard aScoreCard, int aPlayOrder, Rule aRule) {
-        this.scoreCard = aScoreCard;
-        this.playOrder = aPlayOrder;
-        this.rule = aRule;
+    public PlayerColumn(ScoreCard scoreCard, int playOrder, GameType gameType) {
+        mScoreCard = scoreCard;
+        mPlayOrder = playOrder;
+        mGameType = gameType;
         init();
     }
 
     public void clearPreview() {
-        for (ScoreCardRow scoreCardRow : rows) {
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.clearPreview();
         }
     }
 
     public void decNumOfRolls() {
-        numOfRolls--;
+        mNumOfRolls--;
     }
 
     public JComboBox getComboBox() {
-        return comboBox;
+        return mComboBox;
     }
 
     public int getCurrentScore() {
-        return currentScore;
+        return mCurrentScore;
     }
 
     public String getName() {
-        return "player_" + playOrder;
+        return "player_" + mPlayOrder;
     }
 
     public int getNumOfRolls() {
-        return numOfRolls;
+        return mNumOfRolls;
     }
 
     public int getPlayOrder() {
-        return playOrder;
+        return mPlayOrder;
     }
 
     public Stack<Integer> getRowStack() {
-        return rowStack;
+        return mRowStack;
     }
 
     public ScoreCardRow[] getRows() {
-        return rows;
+        return mRows;
     }
 
     public void incNumOfRolls() {
-        numOfRolls++;
+        mNumOfRolls++;
     }
 
     public void newGame() {
-        numOfRolls = 0;
-        rowStack.clear();
+        mNumOfRolls = 0;
+        mRowStack.clear();
         setEnabled(false);
-        for (ScoreCardRow scoreCardRow : rows) {
+
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.newGame();
         }
+
         setRollCounterLabel();
     }
 
     public void parse(LinkedList<Integer> values) {
-        dice = values;
-        for (ScoreCardRow scoreCardRow : rows) {
-            if (scoreCardRow.getRowRule().isRollCounter()) {
+        mDice = values;
+        for (ScoreCardRow scoreCardRow : mRows) {
+            if (scoreCardRow.getGameRow().isRollCounter()) {
                 String rolls = Integer.toString(getNumOfRolls());
-                int maxRolls = Options.INSTANCE.getRule().getNumOfRolls();
+                int maxRolls = mGameType.getNumOfRolls();
                 if (maxRolls > 0) {
-//                    rolls += " (" + scoreCard.getNumOfRolls() + "/" + maxRolls + ")";
-                    rolls = "STATUS BAR";
+                    rolls += " (" + mScoreCard.getNumOfRolls() + "/" + maxRolls + ")";
                 }
                 scoreCardRow.getLabel().setText(rolls);
             }
 
-            String formula = scoreCardRow.getRowRule().getForumla();
+            String formula = scoreCardRow.getGameRow().getFormula();
             if (!formula.isEmpty() && !scoreCardRow.isRegistered()) {
-                scoreCardRow.setPreview(FormulaParser.parseFormula(formula, dice, scoreCardRow.getRowRule()));
+                scoreCardRow.setPreview(FormulaParser.parseFormula(formula, mDice, scoreCardRow.getGameRow()));
             }
             scoreCardRow.enableInput();
         }
@@ -114,107 +114,107 @@ public class PlayerColumn {
     }
 
     public void setEnabled(boolean aState) {
-        active = aState;
-        String text = (numOfRolls == 0) ? "0" : Integer.toString(numOfRolls);
+        mActive = aState;
+        String text = (mNumOfRolls == 0) ? "0" : Integer.toString(mNumOfRolls);
 
-        for (ScoreCardRow scoreCardRow : rows) {
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.setEnabled(aState);
-            if (scoreCardRow.getRowRule().isRollCounter()) {
+            if (scoreCardRow.getGameRow().isRollCounter()) {
                 scoreCardRow.getLabel().setText(text);
             }
         }
     }
 
     public void setNumOfRolls(int numOfRolls) {
-        this.numOfRolls = numOfRolls;
+        this.mNumOfRolls = numOfRolls;
         Integer i;
     }
 
     public void setPlayOrder(int playOrder) {
-        this.playOrder = playOrder;
+        this.mPlayOrder = playOrder;
     }
 
     public void setText() {
-        for (ScoreCardRow scoreCardRow : rows) {
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.setText();
         }
     }
 
     public void setVisibleHints(boolean aVisible) {
-        for (ScoreCardRow scoreCardRow : rows) {
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.setVisibleHint(aVisible);
         }
     }
 
     public void undo() {
-        int undoRow = rowStack.pop();
-        rows[undoRow].setRegistered(false);
-        rows[undoRow].setValue(0);
-        rows[undoRow].getLabel().setText("");
+        int undoRow = mRowStack.pop();
+        mRows[undoRow].setRegistered(false);
+        mRows[undoRow].setValue(0);
+        mRows[undoRow].getLabel().setText("");
         decNumOfRolls();
         updateSums();
         setEnabled(true);
 
-        for (ScoreCardRow scoreCardRow : rows) {
+        for (ScoreCardRow scoreCardRow : mRows) {
             scoreCardRow.enableHover();
         }
     }
 
     private void init() {
-        RowsRule rowsRule = rule.getRowsRule();
-        rows = new ScoreCardRow[rule.getNumOfRows()];
-        Dimension d = comboBox.getPreferredSize();
+        GameRows rowsRule = mGameType.getGameRows();
+        mRows = new ScoreCardRow[rowsRule.size()];
+        Dimension d = mComboBox.getPreferredSize();
         d.width = 90;
-        comboBox.setPreferredSize(d);
-        comboBox.setEditable(true);
+        mComboBox.setPreferredSize(d);
+        mComboBox.setEditable(true);
 
-        for (int i = 0; i < rows.length; i++) {
-            RowRule rowRule = rowsRule.get(i);
-            rows[i] = new ScoreCardRow(scoreCard, this, rowRule, i);
+        for (int i = 0; i < mRows.length; i++) {
+            GameRow rowRule = rowsRule.get(i);
+            mRows[i] = new ScoreCardRow(mScoreCard, this, rowRule, i);
 
             if (i == 0) {
-                rows[i].getLabel().setHorizontalAlignment(SwingConstants.CENTER);
+                mRows[i].getLabel().setHorizontalAlignment(SwingConstants.CENTER);
             }
         }
     }
 
     private void setRollCounterLabel() {
-        if (active) {
+        if (mActive) {
         } else {
         }
     }
 
     private void updateSums() {
-        for (ScoreCardRow scoreCardRow : rows) {
-            if (scoreCardRow.getRowRule().getSumSet() != null) {
+        for (ScoreCardRow scoreCardRow : mRows) {
+            if (scoreCardRow.getGameRow().getSumSet() != null) {
 
-                if (scoreCardRow.getRowRule().isBonus()) {
+                if (scoreCardRow.getGameRow().isBonus()) {
                     int sum = 0;
 
-                    for (Integer row : scoreCardRow.getRowRule().getSumSet()) {
-                        sum += rows[row].getValue();
+                    for (Integer row : scoreCardRow.getGameRow().getSumSet()) {
+                        sum += mRows[row].getValue();
                     }
 
-                    if (sum >= scoreCardRow.getRowRule().getLim()) {
-                        int bonus = scoreCardRow.getRowRule().getMax();
+                    if (sum >= scoreCardRow.getGameRow().getLim()) {
+                        int bonus = scoreCardRow.getGameRow().getMax();
                         scoreCardRow.getLabel().setText(Integer.toString(bonus));
                         scoreCardRow.setValue(bonus);
                     }
                 }
 
-                if (scoreCardRow.getRowRule().isSum()) {
+                if (scoreCardRow.getGameRow().isSum()) {
                     int sum = 0;
 
-                    for (Integer row : scoreCardRow.getRowRule().getSumSet()) {
-                        sum += rows[row].getValue();
+                    for (Integer row : scoreCardRow.getGameRow().getSumSet()) {
+                        sum += mRows[row].getValue();
                     }
 
-                    if (scoreCardRow.getRow() == rule.getResultRow()) {
+                    if (scoreCardRow.getRow() == mGameType.getResultRow()) {
                         scoreCardRow.setValue(sum);
-                        currentScore = sum;
+                        mCurrentScore = sum;
                     }
 
-                    if (!scoreCardRow.getRowRule().isBonus()) {
+                    if (!scoreCardRow.getGameRow().isBonus()) {
                         scoreCardRow.getLabel().setText(Integer.toString(sum));
                     }
 

@@ -10,6 +10,7 @@ import se.trixon.almond.util.AUtil;
 public class GameRow {
 
     private boolean mBonus;
+    private String mFormula;
     private String mId;
     private int mLim = 0;
     private int mMax = 0;
@@ -25,12 +26,14 @@ public class GameRow {
         stringBuilder.append("id=").append(getId()).append("\n");
         stringBuilder.append("title=").append(getTitle()).append("\n");
         stringBuilder.append("titleSymbol=").append(getTitleSymbol()).append("\n");
+        stringBuilder.append("formula=").append(getFormula()).append("\n");
         stringBuilder.append("lim=").append(getLim()).append("\n");
         stringBuilder.append("max=").append(getMax()).append("\n");
         stringBuilder.append("isBonus=").append(isBonus()).append("\n");
         stringBuilder.append("isPlayable=").append(isPlayable()).append("\n");
         stringBuilder.append("isRollCounter=").append(isRollCounter()).append("\n");
         stringBuilder.append("isSum=").append(isSum()).append("\n");
+
         if (mSumSet != null) {
             stringBuilder.append("sumSet=").append(mSumSet.toString()).append("\n");
         } else {
@@ -38,6 +41,10 @@ public class GameRow {
         }
 
         return stringBuilder.toString();
+    }
+
+    public String getFormula() {
+        return mFormula;
     }
 
     public String getId() {
@@ -82,6 +89,10 @@ public class GameRow {
 
     public void setBonus(boolean bonus) {
         mBonus = bonus;
+    }
+
+    public void setFormula(String formula) {
+        mFormula = formula;
     }
 
     public void setId(String id) {

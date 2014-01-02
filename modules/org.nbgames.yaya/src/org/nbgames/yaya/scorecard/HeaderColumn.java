@@ -2,9 +2,9 @@ package org.nbgames.yaya.scorecard;
 
 import javax.swing.SwingConstants;
 import org.nbgames.yaya.Options;
-import org.nbgames.yaya.scorecard.rule.RowRule;
-import org.nbgames.yaya.scorecard.rule.RowsRule;
-import org.nbgames.yaya.scorecard.rule.Rule;
+import org.nbgames.yaya.gamedef.GameRow;
+import org.nbgames.yaya.gamedef.GameRows;
+import org.nbgames.yaya.gamedef.GameType;
 
 /**
  *
@@ -12,17 +12,17 @@ import org.nbgames.yaya.scorecard.rule.Rule;
  */
 public class HeaderColumn {
 
+    private final GameType mGameType;
     private ScoreCardRow[] mHiScores;
     private int[] mLimValues;
     private ScoreCardRow[] mMax;
     private int[] mMaxValues;
     private int mNumOfRows;
     private ScoreCardRow[] mRows;
-    private final Rule mRule;
     private final ScoreCard mScoreCard;
 
-    public HeaderColumn(ScoreCard scoreCard, Rule rule) {
-        mRule = rule;
+    public HeaderColumn(ScoreCard scoreCard, GameType gameType) {
+        mGameType = gameType;
         mScoreCard = scoreCard;
         init();
     }
@@ -53,13 +53,12 @@ public class HeaderColumn {
 
     private void init() {
         initRows();
-        initLexicons();
+        initLabelTexts();
     }
 
-    private void initLexicons() {
-        for (int i = 0; i < mRule.getNumOfRows(); i++) {
-//            mScoreCard.getLexicon().setPair(mRows[i].getLabel(), mRule.getKey()[i]);
-//            TODO
+    private void initLabelTexts() {
+        for (int i = 0; i < mGameType.getGameRows().size(); i++) {
+            mRows[i].getLabel().setText(mGameType.getGameRows().get(i).getTitle());
         }
     }
 
@@ -67,21 +66,21 @@ public class HeaderColumn {
         boolean showMaxCol = Options.INSTANCE.isShowingMaxCol();
         boolean showHiCol = Options.INSTANCE.isShowingHiCol();
 
-        RowsRule rowsRule = mRule.getRowsRule();
-        mLimValues = mRule.getLim();
-        mMaxValues = mRule.getMax();
+        GameRows rowsRule = mGameType.getGameRows();
+        mLimValues = rowsRule.getLim();
+        mMaxValues = rowsRule.getMax();
 
-        mNumOfRows = mRule.getNumOfRows();
+        mNumOfRows = rowsRule.size();
         mRows = new ScoreCardRow[mNumOfRows];
         mMax = new ScoreCardRow[mNumOfRows];
         mHiScores = new ScoreCardRow[mNumOfRows];
 
         for (int i = 0; i < mNumOfRows; i++) {
-            RowRule rowRule = rowsRule.get(i);
+            GameRow gameRow = rowsRule.get(i);
 
-            mRows[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
-            mMax[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
-            mHiScores[i] = new ScoreCardRow(mScoreCard, rowRule, i, true);
+            mRows[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
+            mMax[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
+            mHiScores[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
 
             mRows[i].getLabel().setHorizontalAlignment(SwingConstants.LEADING);
             mMax[i].getLabel().setText(Integer.toString(mMaxValues[i]));
@@ -90,13 +89,13 @@ public class HeaderColumn {
             mMax[i].getLabel().setVisible(showMaxCol);
             mHiScores[i].getLabel().setVisible(showHiCol);
 
-            String toolTip = mRows[i].getRowRule().getToolTip();
-            mRows[i].getLabel().setToolTipText(toolTip);
-            mMax[i].getLabel().setToolTipText(toolTip);
-            mHiScores[i].getLabel().setToolTipText(toolTip);
+//            String toolTip = mRows[i].getGameRow().getToolTip();
+//            mRows[i].getLabel().setToolTipText(toolTip);
+//            mMax[i].getLabel().setToolTipText(toolTip);
+//            mHiScores[i].getLabel().setToolTipText(toolTip);
         }
 
-        int row = Options.INSTANCE.getRule().getResultRow();
+        int row = mGameType.getResultRow();
         mRows[row].getLabel().setFont(mRows[row].getLabel().getFont().deriveFont((16.0F)));
     }
 }

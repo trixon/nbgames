@@ -2,7 +2,6 @@ package org.nbgames.yaya.gamedef;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import org.nbgames.yaya.YayaAction;
 import org.openide.util.NbBundle;
@@ -32,12 +31,12 @@ public class GameType {
     private String mAuthor;
     private final ResourceBundle mBundle = NbBundle.getBundle(YayaAction.class);
     private int mDefaultVariant;
+    private GameRows mGameRows = new GameRows();
     private String mId;
     private String[] mLocalizedVariants;
     private int mNumOfDice;
     private int mNumOfRolls;
     private int mResultRow;
-    private LinkedList<GameRow> mRows = new LinkedList<GameRow>();
     private String mTitle;
     private String[] mVariants;
     private String mVersionDate;
@@ -56,7 +55,7 @@ public class GameType {
         stringBuilder.append("numOfDice ").append(getNumOfDice()).append("\n");
         stringBuilder.append("numOfRolls ").append(getNumOfRolls()).append("\n");
 
-        for (GameRow row : getRows()) {
+        for (GameRow row : getGameRows()) {
             stringBuilder.append(row.dump()).append("\n");
         }
 
@@ -69,6 +68,10 @@ public class GameType {
 
     public int getDefaultVariant() {
         return mDefaultVariant;
+    }
+
+    public GameRows getGameRows() {
+        return mGameRows;
     }
 
     public String getId() {
@@ -105,10 +108,6 @@ public class GameType {
 
     public int getResultRow() {
         return mResultRow;
-    }
-
-    public LinkedList<GameRow> getRows() {
-        return mRows;
     }
 
     public String getTitle() {
@@ -148,6 +147,10 @@ public class GameType {
         mDefaultVariant = defaultVariant;
     }
 
+    public void setGameRows(GameRows gameRows) {
+        mGameRows = gameRows;
+    }
+
     public void setId(String id) {
         mId = id;
     }
@@ -162,10 +165,6 @@ public class GameType {
 
     public void setResultRow(int resultRow) {
         mResultRow = resultRow;
-    }
-
-    public void setRows(LinkedList<GameRow> rows) {
-        mRows = rows;
     }
 
     public void setTitle(String title) {

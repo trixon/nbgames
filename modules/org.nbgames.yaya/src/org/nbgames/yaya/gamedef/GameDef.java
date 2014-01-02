@@ -99,7 +99,7 @@ public enum GameDef {
 
     public void init() {
         final String resourcesPath = "/org/nbgames/yaya/gamedef/gameDef.json";
-        InputStream inputStream = this.getClass().getResourceAsStream(resourcesPath);
+        InputStream inputStream = getClass().getResourceAsStream(resourcesPath);
 
         String jsonString = FileHelper.convertStreamToString(inputStream);
         parse(jsonString);
@@ -129,7 +129,7 @@ public enum GameDef {
             gameType.setVersionDate((String) gameObject.get("versionDate"));
             gameType.setVersionName((String) gameObject.get("versionName"));
 
-            LinkedList<GameRow> rows = new LinkedList<GameRow>();
+            GameRows gameRows = new GameRows();
             JSONArray rowsArray = (JSONArray) gameObject.get("rows");
 
             for (int j = 0; j < rowsArray.size(); j++) {
@@ -138,6 +138,7 @@ public enum GameDef {
                 gameRow.setId((String) rowObject.get("id"));
                 gameRow.setTitle(JsonHelper.parseLocalizedKey(rowObject, "title"));
                 gameRow.setTitleSymbol(JsonHelper.optString(rowObject, "titleSym"));
+                gameRow.setFormula(JsonHelper.optString(rowObject, "formula"));
                 gameRow.setLim(JsonHelper.optInt(rowObject, "lim"));
                 gameRow.setMax(JsonHelper.optInt(rowObject, "max"));
                 gameRow.setSum(JsonHelper.optBoolean(rowObject, "isSum"));
@@ -149,10 +150,11 @@ public enum GameDef {
                     gameRow.setSumSet((String) rowObject.get("sum"));
 
                 }
-                rows.add(gameRow);
+
+                gameRows.add(gameRow);
             }
 
-            gameType.setRows(rows);
+            gameType.setGameRows(gameRows);
             mGameTypes.add(gameType);
         }
 
