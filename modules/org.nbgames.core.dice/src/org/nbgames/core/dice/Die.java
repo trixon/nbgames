@@ -19,7 +19,7 @@ class Die {
     private final int MAX_DR_2 = 20;
     private final int MAX_DR_3 = 4;
     private final String PATH = "org/nbgames/core/dice/data/image/dice/";
-    private final String PATH_SND = "/org/nbgames/core/dice/data/sound/";
+    private final String PATH_SND = "org/nbgames/core/dice/data/sound/";
     private Thread animator = new Thread();
     private AudioClip audioClip;
     private BufferedImage bufferedImage;
