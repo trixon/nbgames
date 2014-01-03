@@ -36,6 +36,7 @@ final class OptionPanel extends javax.swing.JPanel {
         hintHighColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
         hintLowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
         defaultColorsButton = new javax.swing.JButton();
+        useSymbolsCheckBox = new javax.swing.JCheckBox();
 
         colorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.colorPanel.border.title"))); // NOI18N
         colorPanel.setLayout(new java.awt.GridLayout(2, 4));
@@ -104,19 +105,32 @@ final class OptionPanel extends javax.swing.JPanel {
         });
         colorPanel.add(defaultColorsButton);
 
+        org.openide.awt.Mnemonics.setLocalizedText(useSymbolsCheckBox, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.useSymbolsCheckBox.text")); // NOI18N
+        useSymbolsCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useSymbolsCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(colorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(colorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(useSymbolsCheckBox)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(useSymbolsCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(colorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -142,6 +156,10 @@ final class OptionPanel extends javax.swing.JPanel {
         updateDefaultButton();
     }//GEN-LAST:event_defaultColorsButtonActionPerformed
 
+    private void useSymbolsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useSymbolsCheckBoxActionPerformed
+        mController.changed();
+    }//GEN-LAST:event_useSymbolsCheckBoxActionPerformed
+
     private void updateDefaultButton() {
         boolean hasChanged = colorHasChanged(backgroundColorChooserButton, Options.ColorItem.BACKGROUND)
                 || colorHasChanged(scorecardColorChooserButton, Options.ColorItem.SCORECARD)
@@ -162,6 +180,7 @@ final class OptionPanel extends javax.swing.JPanel {
     }
 
     void load() {
+        useSymbolsCheckBox.setSelected(mOptions.isUsingSymbols());
         backgroundColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.BACKGROUND));
         scorecardColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.SCORECARD));
         headerColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HEADER));
@@ -174,6 +193,7 @@ final class OptionPanel extends javax.swing.JPanel {
     }
 
     void store() {
+        mOptions.setUseSymbols(useSymbolsCheckBox.isSelected());
         mOptions.setColor(Options.ColorItem.BACKGROUND, backgroundColorChooserButton.getColor());
         mOptions.setColor(Options.ColorItem.SCORECARD, scorecardColorChooserButton.getColor());
         mOptions.setColor(Options.ColorItem.HEADER, headerColorChooserButton.getColor());
@@ -197,5 +217,6 @@ final class OptionPanel extends javax.swing.JPanel {
     private se.trixon.almond.swing.ColorChooserButton rowColorChooserButton;
     private se.trixon.almond.swing.ColorChooserButton scorecardColorChooserButton;
     private se.trixon.almond.swing.ColorChooserButton sumColorChooserButton;
+    private javax.swing.JCheckBox useSymbolsCheckBox;
     // End of variables declaration//GEN-END:variables
 }

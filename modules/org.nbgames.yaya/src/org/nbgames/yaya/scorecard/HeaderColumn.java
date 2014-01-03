@@ -1,5 +1,7 @@
 package org.nbgames.yaya.scorecard;
 
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import javax.swing.SwingConstants;
 import org.nbgames.yaya.Options;
 import org.nbgames.yaya.gamedef.GameRow;
@@ -18,6 +20,7 @@ public class HeaderColumn {
     private ScoreCardRow[] mMax;
     private int[] mMaxValues;
     private int mNumOfRows;
+    private final Options mOptions = Options.INSTANCE;
     private ScoreCardRow[] mRows;
     private final ScoreCard mScoreCard;
 
@@ -54,11 +57,29 @@ public class HeaderColumn {
     private void init() {
         initRows();
         initLabelTexts();
+        mOptions.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
+
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                if (evt.getKey().equals(Options.KEY_USE_SYMBOLS)) {
+                    initLabelTexts();
+                }
+            }
+        });
+
     }
 
     private void initLabelTexts() {
         for (int i = 0; i < mGameType.getGameRows().size(); i++) {
-            mRows[i].getLabel().setText(mGameType.getGameRows().get(i).getTitle());
+            String text;
+
+            if (mOptions.isUsingSymbols() && !mGameType.getGameRows().get(i).getTitleSymbol().equalsIgnoreCase("")) {
+                text = mGameType.getGameRows().get(i).getTitleSymbol();
+            } else {
+                text = mGameType.getGameRows().get(i).getTitle();
+            }
+
+            mRows[i].getLabel().setText(text);
         }
     }
 

@@ -13,7 +13,12 @@ import se.trixon.almond.GraphicsHelper;
 public enum Options {
 
     INSTANCE;
-
+    public static final String KEY_GAME_TYPE_ID = "gameType";
+    public static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
+    public static final String KEY_SHOW_HINTS = "showHints";
+    public static final String KEY_SHOW_HI_COL = "showHiCol";
+    public static final String KEY_SHOW_MAX_COL = "showMaxCol";
+    public static final String KEY_USE_SYMBOLS = "useSymbols";
     private static final String DEFAULT_COLOR_BACKGROUND = "#333333";
     private static final String DEFAULT_COLOR_HEADER = "#FFC800";
     private static final String DEFAULT_COLOR_HINT_HIGH = "#BBEEBB";
@@ -27,11 +32,7 @@ public enum Options {
     private static final boolean DEFAULT_SHOW_HINTS = true;
     private static final boolean DEFAULT_SHOW_HI_COL = false;
     private static final boolean DEFAULT_SHOW_MAXCOL = false;
-    private static final String KEY_GAME_TYPE_ID = "gameType";
-    private static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
-    private static final String KEY_SHOW_HINTS = "showHints";
-    private static final String KEY_SHOW_HI_COL = "showHiCol";
-    private static final String KEY_SHOW_MAX_COL = "showMaxCol";
+    private static final boolean DEFAULT_USE_SYMBOLS = false;
     private final Preferences mPreferences = NbPreferences.forModule(getClass());
     private final Preferences mPreferencesColors = NbPreferences.forModule(getClass()).node("colors");
 
@@ -55,6 +56,10 @@ public enum Options {
         return mPreferences.getInt(KEY_NUM_OF_PLAYERS, DEFAULT_NUM_OF_PLAYERS);
     }
 
+    public Preferences getPreferences() {
+        return mPreferences;
+    }
+
     public Preferences getPreferencesColors() {
         return mPreferencesColors;
     }
@@ -69,6 +74,10 @@ public enum Options {
 
     public boolean isShowingMaxCol() {
         return mPreferences.getBoolean(KEY_SHOW_MAX_COL, DEFAULT_SHOW_MAXCOL);
+    }
+
+    public boolean isUsingSymbols() {
+        return mPreferences.getBoolean(KEY_USE_SYMBOLS, DEFAULT_USE_SYMBOLS);
     }
 
     public void setColor(ColorItem colorItem, Color color) {
@@ -97,6 +106,10 @@ public enum Options {
 
     public void setShowMaxCol(boolean state) {
         mPreferences.putBoolean(KEY_SHOW_MAX_COL, state);
+    }
+
+    public void setUseSymbols(boolean state) {
+        mPreferences.putBoolean(KEY_USE_SYMBOLS, state);
     }
 
     private void init() {
