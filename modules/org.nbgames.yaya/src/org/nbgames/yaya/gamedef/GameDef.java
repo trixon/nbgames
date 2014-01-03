@@ -56,6 +56,10 @@ public enum GameDef {
             }
         }
 
+        if (index == -1) {
+            index = getIndexForId("default");
+        }
+
         return index;
     }
 
