@@ -21,6 +21,7 @@ public class YayaNewGamePanel extends NewGamePanel {
      */
     public YayaNewGamePanel() {
         initComponents();
+        mGameDef.init();
         typeComboBox.setModel(new DefaultComboBoxModel(mGameDef.getTitleArray()));
         typeComboBox.setSelectedIndex(mGameDef.getIndexForId(mOptions.getGameTypeId()));
         numOfPlayersComboBox.setSelectedIndex(mOptions.getNumOfPlayers() - 1);

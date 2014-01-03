@@ -30,3 +30,13 @@ hs_err_pid*.log
 /modules/org.nbgames.yaya/nbproject/private/
 /modules/org.json.simple/build/
 /modules/org.json.simple/nbproject/private/
+/modules/org.nbgames.yaya.quickie/build/
+/modules/org.nbgames.yaya.yahtzee_scandinavian/build/
+/modules/org.nbgames.yaya.straight/build/
+/modules/org.nbgames.yaya.maxi_yahtzee/build/
+/modules/org.nbgames.yaya.yacht/build/
+/modules/org.nbgames.yaya.quickie/nbproject/private/
+/modules/org.nbgames.yaya.straight/nbproject/private/
+/modules/org.nbgames.yaya.yahtzee_scandinavian/nbproject/private/
+/modules/org.nbgames.yaya.maxi_yahtzee/nbproject/private/
+/modules/org.nbgames.yaya.yacht/nbproject/private/

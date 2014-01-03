@@ -1,12 +1,16 @@
 package org.nbgames.yaya.gamedef;
 
-import java.io.InputStream;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.nbgames.core.NbGames;
 import org.nbgames.core.json.JsonHelper;
+import org.nbgames.yaya.YayaController;
+import org.nbgames.yaya.api.GameLoader;
+import org.openide.util.Lookup;
 import se.trixon.almond.FileHelper;
 
 /**
@@ -17,13 +21,9 @@ public enum GameDef {
 
     INSTANCE;
     private LinkedList<GameType> mGameTypes;
-    private String mVersionDate;
-    private String mVersionName;
 
     public String dump() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mVersionDate).append("\n");
-        stringBuilder.append(mVersionName).append("\n");
 
         for (GameType gameType : mGameTypes) {
             stringBuilder.append(gameType.dump());
@@ -89,75 +89,58 @@ public enum GameDef {
         return getType("default");
     }
 
-    public String getVersionDate() {
-        return mVersionDate;
-    }
-
-    public String getVersionName() {
-        return mVersionName;
-    }
-
     public void init() {
-        final String resourcesPath = "/org/nbgames/yaya/gamedef/gameDef.json";
-        InputStream inputStream = getClass().getResourceAsStream(resourcesPath);
-
-        String jsonString = FileHelper.convertStreamToString(inputStream);
-        parse(jsonString);
-    }
-
-    private void parse(String jsonString) {
-        JSONObject gameDefObject = (JSONObject) JSONValue.parse(jsonString);
         mGameTypes = new LinkedList<GameType>();
+        Collection<? extends GameLoader> allGameLoaders = Lookup.getDefault().lookupAll(GameLoader.class);
 
-        mVersionDate = (String) gameDefObject.get("versionDate");
-        mVersionName = (String) gameDefObject.get("versionName");
-
-        JSONArray gamesArray = (JSONArray) gameDefObject.get("games");
-
-        for (int i = 0; i < gamesArray.size(); i++) {
-            JSONObject gameObject = (JSONObject) gamesArray.get(i);
-
-            GameType gameType = new GameType();
-            gameType.setAuthor((String) gameObject.get("author"));
-            gameType.setId((String) gameObject.get("id"));
-            gameType.setNumOfDice(JsonHelper.getInt(gameObject, "numOfDice"));
-            gameType.setNumOfRolls(JsonHelper.getInt(gameObject, "numOfRolls"));
-            gameType.setResultRow(JsonHelper.getInt(gameObject, "resultRow"));
-            gameType.setTitle(JsonHelper.parseLocalizedKey(gameObject, "title"));
-            gameType.setDefaultVariant(JsonHelper.getInt(gameObject, "defaultVariant"));
-            gameType.setVariants((String) gameObject.get("variants"));
-            gameType.setVersionDate((String) gameObject.get("versionDate"));
-            gameType.setVersionName((String) gameObject.get("versionName"));
-
-            GameRows gameRows = new GameRows();
-            JSONArray rowsArray = (JSONArray) gameObject.get("rows");
-
-            for (int j = 0; j < rowsArray.size(); j++) {
-                JSONObject rowObject = (JSONObject) rowsArray.get(j);
-                GameRow gameRow = new GameRow();
-                gameRow.setId((String) rowObject.get("id"));
-                gameRow.setTitle(JsonHelper.parseLocalizedKey(rowObject, "title"));
-                gameRow.setTitleSymbol(JsonHelper.optString(rowObject, "titleSym"));
-                gameRow.setFormula(JsonHelper.optString(rowObject, "formula"));
-                gameRow.setLim(JsonHelper.optInt(rowObject, "lim"));
-                gameRow.setMax(JsonHelper.optInt(rowObject, "max"));
-                gameRow.setSum(JsonHelper.optBoolean(rowObject, "isSum"));
-                gameRow.setBonus(JsonHelper.optBoolean(rowObject, "isBonus"));
-                gameRow.setRollCounter(JsonHelper.optBoolean(rowObject, "isRollCounter"));
-                gameRow.setPlayable(JsonHelper.optBoolean(rowObject, "isPlayable"));
-
-                if (rowObject.containsKey("sum")) {
-                    gameRow.setSumSet((String) rowObject.get("sum"));
-
-                }
-
-                gameRows.add(gameRow);
-            }
-
-            gameType.setGameRows(gameRows);
-            mGameTypes.add(gameType);
+        for (GameLoader gameLoader : allGameLoaders) {
+            NbGames.outln(YayaController.LOG_TITLE, String.format("Found GameLoader in %s.", gameLoader.getId()));
+            String jsonString = FileHelper.convertStreamToString(gameLoader.getInputStream());
+            parse(jsonString);
         }
 
         Collections.sort(mGameTypes, GameType.NameComparator);
+    }
+
+    private void parse(String jsonString) {
+        JSONObject gameObject = (JSONObject) JSONValue.parse(jsonString);
+        GameType gameType = new GameType();
+        gameType.setAuthor((String) gameObject.get("author"));
+        gameType.setId((String) gameObject.get("id"));
+        gameType.setNumOfDice(JsonHelper.getInt(gameObject, "numOfDice"));
+        gameType.setNumOfRolls(JsonHelper.getInt(gameObject, "numOfRolls"));
+        gameType.setResultRow(JsonHelper.getInt(gameObject, "resultRow"));
+        gameType.setTitle(JsonHelper.parseLocalizedKey(gameObject, "title"));
+        gameType.setDefaultVariant(JsonHelper.getInt(gameObject, "defaultVariant"));
+        gameType.setVariants((String) gameObject.get("variants"));
+        gameType.setVersionDate((String) gameObject.get("versionDate"));
+        gameType.setVersionName((String) gameObject.get("versionName"));
+
+        GameRows gameRows = new GameRows();
+        JSONArray rowsArray = (JSONArray) gameObject.get("rows");
+
+        for (int j = 0; j < rowsArray.size(); j++) {
+            JSONObject rowObject = (JSONObject) rowsArray.get(j);
+            GameRow gameRow = new GameRow();
+            gameRow.setId((String) rowObject.get("id"));
+            gameRow.setTitle(JsonHelper.parseLocalizedKey(rowObject, "title"));
+            gameRow.setTitleSymbol(JsonHelper.optString(rowObject, "titleSym"));
+            gameRow.setFormula(JsonHelper.optString(rowObject, "formula"));
+            gameRow.setLim(JsonHelper.optInt(rowObject, "lim"));
+            gameRow.setMax(JsonHelper.optInt(rowObject, "max"));
+            gameRow.setSum(JsonHelper.optBoolean(rowObject, "isSum"));
+            gameRow.setBonus(JsonHelper.optBoolean(rowObject, "isBonus"));
+            gameRow.setRollCounter(JsonHelper.optBoolean(rowObject, "isRollCounter"));
+            gameRow.setPlayable(JsonHelper.optBoolean(rowObject, "isPlayable"));
+
+            if (rowObject.containsKey("sum")) {
+                gameRow.setSumSet((String) rowObject.get("sum"));
+            }
+
+            gameRows.add(gameRow);
+        }
+
+        gameType.setGameRows(gameRows);
+        mGameTypes.add(gameType);
     }
 }

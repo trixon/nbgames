@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.nbgames.yaya.maxi_yahtzee
+OpenIDE-Module-Localizing-Bundle: org/nbgames/yaya/maxi_yahtzee/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
