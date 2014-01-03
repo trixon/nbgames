@@ -57,6 +57,12 @@ public final class GunuTopComponent extends GameTopComponent {
     public void componentClosed() {
     }
 
+    @Override
+    protected void componentActivated() {
+        super.componentActivated();
+        mGameController.updateStatusBar();
+    }
+
     void writeProperties(java.util.Properties p) {
         p.setProperty("version", "1.0");
     }

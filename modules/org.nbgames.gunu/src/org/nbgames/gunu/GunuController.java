@@ -3,6 +3,7 @@ package org.nbgames.gunu;
 import org.nbgames.core.game.GameController;
 import org.nbgames.core.game.NewGameDialogManager;
 import org.openide.DialogDisplayer;
+import org.openide.awt.StatusDisplayer;
 import org.openide.windows.WindowManager;
 
 /**
@@ -28,6 +29,7 @@ public class GunuController extends GameController implements NewGameDialogManag
     @Override
     public void onStartNewGame() {
         mGamePanel.newGame();
+        updateStatusBar();
     }
 
     @Override
@@ -39,5 +41,10 @@ public class GunuController extends GameController implements NewGameDialogManag
                 DialogDisplayer.getDefault().notify(manager.getDialogDescriptor());
             }
         });
+    }
+
+    @Override
+    public void updateStatusBar() {
+        StatusDisplayer.getDefault().setStatusText(mGamePanel.getGameTitle(), StatusDisplayer.IMPORTANCE_ERROR_HIGHLIGHT);
     }
 }

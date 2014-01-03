@@ -51,6 +51,10 @@ public class GunuPanel extends GamePanel {
         mGunuController = gunuController;
     }
 
+    String getGameTitle() {
+        return "Gunu";
+    }
+
     void newGame() {
         NbGames.outln(GunuController.LOG_TITLE, "newGame");
         setVisible(true);
