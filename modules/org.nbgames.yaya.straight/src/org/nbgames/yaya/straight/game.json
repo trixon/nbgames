@@ -7,7 +7,7 @@
     "resultRow": 8,
     "defaultVariant": 0,
     "variants": "standard downwards upwards random",
-    "versionName": "1",
+    "versionName": "2",
     "versionDate": "2014-01-03",
     "author": "Patrik Karlsson",
     "rows": [
@@ -95,7 +95,7 @@
             "titleSym": "∑",
             "isSum": true,
             "max": 171,
-            "sum": "0-6"
+            "sum": "1-7"
         }
     ]
 }
