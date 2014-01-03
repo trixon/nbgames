@@ -24,21 +24,17 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="typeLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="variantLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="numOfPlayersLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="byLineLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="variantLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="numOfPlayersLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="223" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="130" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="byLineLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -54,7 +50,7 @@
               <Component id="variantLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="variantComboBox" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="numOfPlayersLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="numOfPlayersComboBox" min="-2" max="-2" attributes="0"/>
