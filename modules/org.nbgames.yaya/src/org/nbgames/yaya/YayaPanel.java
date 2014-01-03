@@ -40,6 +40,10 @@ public class YayaPanel extends GamePanel implements Observer {
 //        AAudioClip.setPlaySoundEffects(true);
     }
 
+    public String getGameTitle() {
+        return mGameType.getTitle();
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof RollEvent) {

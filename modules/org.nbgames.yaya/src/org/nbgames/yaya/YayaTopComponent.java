@@ -22,7 +22,7 @@ import org.openide.windows.TopComponent;
 @Messages({
     "CTL_InfoVersion=0.0.1",
     "CTL_InfoDescription=Yet Another Yahtzee",
-    "CTL_InfoCopyright=© 2013 Patrik Karlsson"})
+    "CTL_InfoCopyright=© 2013-2014 Patrik Karlsson"})
 
 public final class YayaTopComponent extends GameTopComponent {
 
@@ -75,6 +75,10 @@ public final class YayaTopComponent extends GameTopComponent {
     protected void componentActivated() {
         super.componentActivated();
         setActionCategoryVisible("Yaya", true);
-    }
 
+        try {
+            mGameController.updateStatusBar();
+        } catch (Exception e) {
+        }
+    }
 }
