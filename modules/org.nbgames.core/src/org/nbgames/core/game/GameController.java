@@ -49,10 +49,14 @@ public abstract class GameController {
         return mGameTopComponent;
     }
 
-    public abstract void requestNewGame();
+    public void requestNewGame() {
+    }
 
     public void setGamePanel(GamePanel gamePanel) {
         mGamePanel = gamePanel;
+    }
+
+    public void updateStatusBar() {
     }
 
     protected void setActiveInformation(boolean state) {

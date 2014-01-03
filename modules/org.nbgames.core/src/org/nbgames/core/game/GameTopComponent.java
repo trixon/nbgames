@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import org.nbgames.core.BaseTopComponent;
+import org.openide.awt.StatusDisplayer;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
 
@@ -33,6 +34,11 @@ public abstract class GameTopComponent extends BaseTopComponent {
         mGamePanel = gamePanel;
         mTopPanel.removeAll();
         mTopPanel.add(mGamePanel);
+    }
+    @Override
+    protected void componentDeactivated() {
+        super.componentDeactivated();
+        StatusDisplayer.getDefault()  .setStatusText("",StatusDisplayer.IMPORTANCE_ERROR_HIGHLIGHT);
     }
 
     protected void setActionCategoryVisible(String category, boolean visible) {
