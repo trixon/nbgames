@@ -4,10 +4,10 @@
     "title-sv": "Snabben",
     "numOfDice": 6,
     "numOfRolls": 4,
-    "resultRow": 2,
+    "resultRow": 3,
     "defaultVariant": 0,
     "variants": "standard downwards upwards random",
-    "versionName": "1",
+    "versionName": "2",
     "versionDate": "2014-01-03",
     "author": "Patrik Karlsson",
     "rows": [
@@ -15,6 +15,7 @@
             "id": "rolls",
             "title": "Throws",
             "title-sv": "Slag",
+            "titleSym": "✋",
             "isSum": true,
             "isRollCounter": true
         },
@@ -45,7 +46,7 @@
             "titleSym": "∑",
             "isSum": true,
             "max": 36,
-            "sum": "0-1"
+            "sum": "1-2"
         }
     ]
 }
