@@ -5,6 +5,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.nbgames.core.game.NewGamePanel;
 import org.nbgames.yaya.gamedef.GameDef;
 import org.nbgames.yaya.gamedef.GameType;
+import org.openide.util.NbBundle;
 
 /**
  *
@@ -50,6 +51,7 @@ public class YayaNewGamePanel extends NewGamePanel {
 
         typeLabel = new javax.swing.JLabel();
         typeComboBox = new javax.swing.JComboBox();
+        byLineLabel = new javax.swing.JLabel();
         variantLabel = new javax.swing.JLabel();
         variantComboBox = new javax.swing.JComboBox();
         numOfPlayersLabel = new javax.swing.JLabel();
@@ -63,6 +65,9 @@ public class YayaNewGamePanel extends NewGamePanel {
                 typeComboBoxActionPerformed(evt);
             }
         });
+
+        byLineLabel.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(byLineLabel, "byLine"); // NOI18N
 
         variantLabel.setLabelFor(variantComboBox);
         org.openide.awt.Mnemonics.setLocalizedText(variantLabel, org.openide.util.NbBundle.getMessage(YayaNewGamePanel.class, "YayaNewGamePanel.variantLabel.text")); // NOI18N
@@ -84,10 +89,16 @@ public class YayaNewGamePanel extends NewGamePanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(typeLabel)
-                            .addComponent(variantLabel)
-                            .addComponent(numOfPlayersLabel))
-                        .addGap(0, 160, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(numOfPlayersLabel))
+                            .addComponent(variantLabel))
+                        .addGap(0, 223, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(byLineLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,11 +106,13 @@ public class YayaNewGamePanel extends NewGamePanel {
                 .addComponent(typeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(byLineLabel)
                 .addGap(18, 18, 18)
                 .addComponent(variantLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(variantComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(numOfPlayersLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numOfPlayersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -109,6 +122,8 @@ public class YayaNewGamePanel extends NewGamePanel {
 
     private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
         mGameType = mGameDef.getType(mGameDef.getIdForIndex(typeComboBox.getSelectedIndex()));
+        String byLine = NbBundle.getMessage(getClass(), "ByLine", mGameType.getAuthor());
+        byLineLabel.setText(byLine);
         String[] localizedVariant = mGameType.getLocalizedVariants().clone();
         Arrays.sort(localizedVariant);
         variantComboBox.setModel(new DefaultComboBoxModel(localizedVariant));
@@ -116,6 +131,7 @@ public class YayaNewGamePanel extends NewGamePanel {
     }//GEN-LAST:event_typeComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel byLineLabel;
     private javax.swing.JComboBox numOfPlayersComboBox;
     private javax.swing.JLabel numOfPlayersLabel;
     private javax.swing.JComboBox typeComboBox;
