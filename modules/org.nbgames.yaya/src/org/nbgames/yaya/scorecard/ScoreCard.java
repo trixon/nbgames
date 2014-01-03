@@ -19,6 +19,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 import org.nbgames.core.CircularInt;
+import org.nbgames.core.NbGames;
 import org.nbgames.yaya.Options;
 import org.nbgames.yaya.gamedef.GameDef;
 import org.nbgames.yaya.gamedef.GameType;
@@ -32,7 +33,7 @@ import se.trixon.almond.GraphicsHelper;
 public class ScoreCard {
 
     private int mActivePlayer;
-    private JPanel mBasePanel = new JPanel();
+    private final JPanel mBasePanel = new JPanel();
     private CircularInt mCurrentPlayer;
     private final GameDef mGameDef = GameDef.INSTANCE;
     private final GameType mGameType;
@@ -42,10 +43,10 @@ public class ScoreCard {
     private int mNumOfRows;
     private final ScoreCardObservable mObservable = new ScoreCardObservable();
     private final Options mOptions = Options.INSTANCE;
-    private JPanel mPanel = new JPanel();
+    private final JPanel mPanel = new JPanel();
     private LinkedList<PlayerColumn> mPlayerPositions;
     private LinkedList<PlayerColumn> mPlayers = new LinkedList<>();
-    private boolean mRegisterable = false;
+    private boolean mRegisterable;
     private AbstractAction mUndoAction;
     private JButton mUndoButton;
     private boolean mViewHint;
@@ -274,8 +275,7 @@ public class ScoreCard {
     }
 
     private void initActions() {
-
-        mUndoAction = new AbstractAction() {
+        mUndoAction = new AbstractAction(NbGames.getBundle().getString("Undo")) {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
