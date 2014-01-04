@@ -140,9 +140,9 @@ public class PlayerColumn {
         }
     }
 
-    public void setVisibleHints(boolean aVisible) {
+    public void setVisibleIndicators(boolean visible) {
         for (ScoreCardRow scoreCardRow : mRows) {
-            scoreCardRow.setVisibleHint(aVisible);
+            scoreCardRow.setVisibleIndicator(visible);
         }
     }
 

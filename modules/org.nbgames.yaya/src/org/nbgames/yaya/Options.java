@@ -15,23 +15,23 @@ public enum Options {
     INSTANCE;
     public static final String KEY_GAME_TYPE_ID = "gameType";
     public static final String KEY_NUM_OF_PLAYERS = "numOfPlayers";
-    public static final String KEY_SHOW_HINTS = "showHints";
-    public static final String KEY_SHOW_HI_COL = "showHiCol";
-    public static final String KEY_SHOW_MAX_COL = "showMaxCol";
+    public static final String KEY_SHOW_HI_SCORE_COLUMN = "showHiScoreColumn";
+    public static final String KEY_SHOW_INDICATORS = "showIndicators";
+    public static final String KEY_SHOW_MAX_COLUMN = "showMaxColumn";
     public static final String KEY_USE_SYMBOLS = "useSymbols";
     private static final String DEFAULT_COLOR_BACKGROUND = "#333333";
     private static final String DEFAULT_COLOR_HEADER = "#FFC800";
-    private static final String DEFAULT_COLOR_HINT_HIGH = "#BBEEBB";
-    private static final String DEFAULT_COLOR_HINT_LOW = "#EEBBBB";
+    private static final String DEFAULT_COLOR_INDICATOR_HI = "#BBEEBB";
+    private static final String DEFAULT_COLOR_INDICATOR_LO = "#EEBBBB";
     private static final String DEFAULT_COLOR_ROW = "#FFFFFF";
     private static final String DEFAULT_COLOR_SCORECARD = "#666666";
     private static final String DEFAULT_COLOR_SUM = "#FFFF00";
     private static final String DEFAULT_GAME_TYPE_ID = "default";
     private static final String DEFAULT_GAME_VARIANT = "standard";
     private static final int DEFAULT_NUM_OF_PLAYERS = 2;
-    private static final boolean DEFAULT_SHOW_HINTS = true;
-    private static final boolean DEFAULT_SHOW_HI_COL = false;
-    private static final boolean DEFAULT_SHOW_MAXCOL = false;
+    private static final boolean DEFAULT_SHOW_HI_SCORE_COLUMN = false;
+    private static final boolean DEFAULT_SHOW_INDICATORS = true;
+    private static final boolean DEFAULT_SHOW_MAX_COLUMN = false;
     private static final boolean DEFAULT_USE_SYMBOLS = false;
     private final Preferences mPreferences = NbPreferences.forModule(getClass());
     private final Preferences mPreferencesColors = NbPreferences.forModule(getClass()).node("colors");
@@ -64,16 +64,16 @@ public enum Options {
         return mPreferencesColors;
     }
 
-    public boolean isShowingHiCol() {
-        return mPreferences.getBoolean(KEY_SHOW_HI_COL, DEFAULT_SHOW_HI_COL);
+    public boolean isShowingHiScoreColumn() {
+        return mPreferences.getBoolean(KEY_SHOW_HI_SCORE_COLUMN, DEFAULT_SHOW_HI_SCORE_COLUMN);
     }
 
-    public boolean isShowingHints() {
-        return mPreferences.getBoolean(KEY_SHOW_HINTS, DEFAULT_SHOW_HINTS);
+    public boolean isShowingIndicators() {
+        return mPreferences.getBoolean(KEY_SHOW_INDICATORS, DEFAULT_SHOW_INDICATORS);
     }
 
-    public boolean isShowingMaxCol() {
-        return mPreferences.getBoolean(KEY_SHOW_MAX_COL, DEFAULT_SHOW_MAXCOL);
+    public boolean isShowingMaxColumn() {
+        return mPreferences.getBoolean(KEY_SHOW_MAX_COLUMN, DEFAULT_SHOW_MAX_COLUMN);
     }
 
     public boolean isUsingSymbols() {
@@ -96,20 +96,35 @@ public enum Options {
         mPreferences.putInt(KEY_NUM_OF_PLAYERS, players);
     }
 
-    public void setShowHiCol(boolean state) {
-        mPreferences.putBoolean(KEY_SHOW_HI_COL, state);
+    public void setShowHiScoreColumn(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_HI_SCORE_COLUMN, state);
     }
 
-    public void setShowHints(boolean state) {
-        mPreferences.putBoolean(KEY_SHOW_HINTS, state);
+    public void setShowIndicators(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_INDICATORS, state);
     }
 
-    public void setShowMaxCol(boolean state) {
-        mPreferences.putBoolean(KEY_SHOW_MAX_COL, state);
+    public void setShowMaxColumn(boolean state) {
+        mPreferences.putBoolean(KEY_SHOW_MAX_COLUMN, state);
     }
 
     public void setUseSymbols(boolean state) {
         mPreferences.putBoolean(KEY_USE_SYMBOLS, state);
+    }
+
+    public void toggleHiScoreColumn() {
+        boolean oldState = isShowingHiScoreColumn();
+        setShowHiScoreColumn(!oldState);
+    }
+
+    public void toggleIndicators() {
+        boolean oldState = isShowingIndicators();
+        setShowIndicators(!oldState);
+    }
+
+    public void toggleMaxColumn() {
+        boolean oldState = isShowingMaxColumn();
+        setShowMaxColumn(!oldState);
     }
 
     private void init() {
@@ -118,12 +133,12 @@ public enum Options {
     public enum ColorItem {
 
         BACKGROUND(DEFAULT_COLOR_BACKGROUND),
-        SCORECARD(DEFAULT_COLOR_SCORECARD),
         HEADER(DEFAULT_COLOR_HEADER),
-        SUM(DEFAULT_COLOR_SUM),
+        INDICATOR_HI(DEFAULT_COLOR_INDICATOR_HI),
+        INDICATOR_LO(DEFAULT_COLOR_INDICATOR_LO),
         ROW(DEFAULT_COLOR_ROW),
-        HINT_HIGH(DEFAULT_COLOR_HINT_HIGH),
-        HINT_LOW(DEFAULT_COLOR_HINT_LOW);
+        SCORECARD(DEFAULT_COLOR_SCORECARD),
+        SUM(DEFAULT_COLOR_SUM);
 
         private final String mDefaultColor;
 

@@ -33,8 +33,8 @@ final class OptionPanel extends javax.swing.JPanel {
         headerColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
         sumColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
         rowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
-        hintHighColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
-        hintLowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        indicatorHighColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
+        indicatorLowColorChooserButton = new se.trixon.almond.swing.ColorChooserButton();
         defaultColorsButton = new javax.swing.JButton();
         useSymbolsCheckBox = new javax.swing.JCheckBox();
 
@@ -81,21 +81,21 @@ final class OptionPanel extends javax.swing.JPanel {
         });
         colorPanel.add(rowColorChooserButton);
 
-        org.openide.awt.Mnemonics.setLocalizedText(hintHighColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.hintHighColorChooserButton.text")); // NOI18N
-        hintHighColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(indicatorHighColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.indicatorHighColorChooserButton.text")); // NOI18N
+        indicatorHighColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 colorChooserButtonActionPerformed(evt);
             }
         });
-        colorPanel.add(hintHighColorChooserButton);
+        colorPanel.add(indicatorHighColorChooserButton);
 
-        org.openide.awt.Mnemonics.setLocalizedText(hintLowColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.hintLowColorChooserButton.text")); // NOI18N
-        hintLowColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(indicatorLowColorChooserButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.indicatorLowColorChooserButton.text")); // NOI18N
+        indicatorLowColorChooserButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 colorChooserButtonActionPerformed(evt);
             }
         });
-        colorPanel.add(hintLowColorChooserButton);
+        colorPanel.add(indicatorLowColorChooserButton);
 
         org.openide.awt.Mnemonics.setLocalizedText(defaultColorsButton, org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.defaultColorsButton.text")); // NOI18N
         defaultColorsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -149,8 +149,8 @@ final class OptionPanel extends javax.swing.JPanel {
         headerColorChooserButton.setColor(Options.ColorItem.HEADER.getDefaultColor());
         sumColorChooserButton.setColor(Options.ColorItem.SUM.getDefaultColor());
         rowColorChooserButton.setColor(Options.ColorItem.ROW.getDefaultColor());
-        hintHighColorChooserButton.setColor(Options.ColorItem.HINT_HIGH.getDefaultColor());
-        hintLowColorChooserButton.setColor(Options.ColorItem.HINT_LOW.getDefaultColor());
+        indicatorHighColorChooserButton.setColor(Options.ColorItem.INDICATOR_HI.getDefaultColor());
+        indicatorLowColorChooserButton.setColor(Options.ColorItem.INDICATOR_LO.getDefaultColor());
 
         mController.changed();
         updateDefaultButton();
@@ -166,8 +166,8 @@ final class OptionPanel extends javax.swing.JPanel {
                 || colorHasChanged(headerColorChooserButton, Options.ColorItem.HEADER)
                 || colorHasChanged(sumColorChooserButton, Options.ColorItem.SUM)
                 || colorHasChanged(rowColorChooserButton, Options.ColorItem.ROW)
-                || colorHasChanged(hintHighColorChooserButton, Options.ColorItem.HINT_HIGH)
-                || colorHasChanged(hintLowColorChooserButton, Options.ColorItem.HINT_LOW);
+                || colorHasChanged(indicatorHighColorChooserButton, Options.ColorItem.INDICATOR_HI)
+                || colorHasChanged(indicatorLowColorChooserButton, Options.ColorItem.INDICATOR_LO);
 
         defaultColorsButton.setEnabled(hasChanged);
     }
@@ -186,8 +186,8 @@ final class OptionPanel extends javax.swing.JPanel {
         headerColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HEADER));
         sumColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.SUM));
         rowColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.ROW));
-        hintHighColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HINT_HIGH));
-        hintLowColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.HINT_LOW));
+        indicatorHighColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.INDICATOR_HI));
+        indicatorLowColorChooserButton.setColor(mOptions.getColor(Options.ColorItem.INDICATOR_LO));
 
         updateDefaultButton();
     }
@@ -199,8 +199,8 @@ final class OptionPanel extends javax.swing.JPanel {
         mOptions.setColor(Options.ColorItem.HEADER, headerColorChooserButton.getColor());
         mOptions.setColor(Options.ColorItem.SUM, sumColorChooserButton.getColor());
         mOptions.setColor(Options.ColorItem.ROW, rowColorChooserButton.getColor());
-        mOptions.setColor(Options.ColorItem.HINT_HIGH, hintHighColorChooserButton.getColor());
-        mOptions.setColor(Options.ColorItem.HINT_LOW, hintLowColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.INDICATOR_HI, indicatorHighColorChooserButton.getColor());
+        mOptions.setColor(Options.ColorItem.INDICATOR_LO, indicatorLowColorChooserButton.getColor());
     }
 
     boolean valid() {
@@ -212,8 +212,8 @@ final class OptionPanel extends javax.swing.JPanel {
     private javax.swing.JPanel colorPanel;
     private javax.swing.JButton defaultColorsButton;
     private se.trixon.almond.swing.ColorChooserButton headerColorChooserButton;
-    private se.trixon.almond.swing.ColorChooserButton hintHighColorChooserButton;
-    private se.trixon.almond.swing.ColorChooserButton hintLowColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton indicatorHighColorChooserButton;
+    private se.trixon.almond.swing.ColorChooserButton indicatorLowColorChooserButton;
     private se.trixon.almond.swing.ColorChooserButton rowColorChooserButton;
     private se.trixon.almond.swing.ColorChooserButton scorecardColorChooserButton;
     private se.trixon.almond.swing.ColorChooserButton sumColorChooserButton;

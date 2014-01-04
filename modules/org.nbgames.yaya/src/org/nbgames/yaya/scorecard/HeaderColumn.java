@@ -15,9 +15,9 @@ import org.nbgames.yaya.gamedef.GameType;
 public class HeaderColumn {
 
     private final GameType mGameType;
-    private ScoreCardRow[] mHiScores;
+    private ScoreCardRow[] mHiScoreColumn;
     private int[] mLimValues;
-    private ScoreCardRow[] mMax;
+    private ScoreCardRow[] mMaxColumn;
     private int[] mMaxValues;
     private int mNumOfRows;
     private final Options mOptions = Options.INSTANCE;
@@ -30,12 +30,12 @@ public class HeaderColumn {
         init();
     }
 
-    public ScoreCardRow[] getHiScores() {
-        return mHiScores;
+    public ScoreCardRow[] getHiScoreColumn() {
+        return mHiScoreColumn;
     }
 
-    public ScoreCardRow[] getMax() {
-        return mMax;
+    public ScoreCardRow[] getMaxColumn() {
+        return mMaxColumn;
     }
 
     public ScoreCardRow[] getRows() {
@@ -44,13 +44,13 @@ public class HeaderColumn {
 
     public void setVisibleColumnHiscore(boolean visible) {
         for (int i = 0; i < mNumOfRows; i++) {
-            mHiScores[i].getLabel().setVisible(visible);
+            mHiScoreColumn[i].getLabel().setVisible(visible);
         }
     }
 
     public void setVisibleColumnMax(boolean visible) {
         for (int i = 0; i < mNumOfRows; i++) {
-            mMax[i].getLabel().setVisible(visible);
+            mMaxColumn[i].getLabel().setVisible(visible);
         }
     }
 
@@ -63,10 +63,13 @@ public class HeaderColumn {
             public void preferenceChange(PreferenceChangeEvent evt) {
                 if (evt.getKey().equals(Options.KEY_USE_SYMBOLS)) {
                     initLabelTexts();
+                } else if (evt.getKey().equalsIgnoreCase(Options.KEY_SHOW_HI_SCORE_COLUMN)) {
+                    setVisibleColumnHiscore(mOptions.isShowingHiScoreColumn());
+                } else if (evt.getKey().equalsIgnoreCase(Options.KEY_SHOW_MAX_COLUMN)) {
+                    setVisibleColumnMax(mOptions.isShowingMaxColumn());
                 }
             }
         });
-
     }
 
     private void initLabelTexts() {
@@ -84,8 +87,8 @@ public class HeaderColumn {
     }
 
     private void initRows() {
-        boolean showMaxCol = Options.INSTANCE.isShowingMaxCol();
-        boolean showHiCol = Options.INSTANCE.isShowingHiCol();
+        boolean showMaxColumn = Options.INSTANCE.isShowingMaxColumn();
+        boolean showHiScoreColumn = Options.INSTANCE.isShowingHiScoreColumn();
 
         GameRows rowsRule = mGameType.getGameRows();
         mLimValues = rowsRule.getLim();
@@ -93,27 +96,27 @@ public class HeaderColumn {
 
         mNumOfRows = rowsRule.size();
         mRows = new ScoreCardRow[mNumOfRows];
-        mMax = new ScoreCardRow[mNumOfRows];
-        mHiScores = new ScoreCardRow[mNumOfRows];
+        mMaxColumn = new ScoreCardRow[mNumOfRows];
+        mHiScoreColumn = new ScoreCardRow[mNumOfRows];
 
         for (int i = 0; i < mNumOfRows; i++) {
             GameRow gameRow = rowsRule.get(i);
 
             mRows[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
-            mMax[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
-            mHiScores[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
+            mMaxColumn[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
+            mHiScoreColumn[i] = new ScoreCardRow(mScoreCard, gameRow, i, true);
 
             mRows[i].getLabel().setHorizontalAlignment(SwingConstants.LEADING);
-            mMax[i].getLabel().setText(Integer.toString(mMaxValues[i]));
-            mHiScores[i].getLabel().setText(Integer.toString(mLimValues[i]));
+            mMaxColumn[i].getLabel().setText(Integer.toString(mMaxValues[i]));
+            mHiScoreColumn[i].getLabel().setText(Integer.toString(mLimValues[i]));
 
-            mMax[i].getLabel().setVisible(showMaxCol);
-            mHiScores[i].getLabel().setVisible(showHiCol);
+            mMaxColumn[i].getLabel().setVisible(showMaxColumn);
+            mHiScoreColumn[i].getLabel().setVisible(showHiScoreColumn);
 
 //            String toolTip = mRows[i].getGameRow().getToolTip();
 //            mRows[i].getLabel().setToolTipText(toolTip);
-//            mMax[i].getLabel().setToolTipText(toolTip);
-//            mHiScores[i].getLabel().setToolTipText(toolTip);
+//            mMaxColumn[i].getLabel().setToolTipText(toolTip);
+//            mHiScoreColumn[i].getLabel().setToolTipText(toolTip);
         }
 
         int row = mGameType.getResultRow();

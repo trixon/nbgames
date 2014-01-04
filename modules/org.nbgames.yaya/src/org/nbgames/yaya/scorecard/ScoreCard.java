@@ -47,9 +47,9 @@ public class ScoreCard {
     private LinkedList<PlayerColumn> mPlayerPositions;
     private LinkedList<PlayerColumn> mPlayers = new LinkedList<>();
     private boolean mRegisterable;
+    private boolean mShowIndicators;
     private AbstractAction mUndoAction;
     private JButton mUndoButton;
-    private boolean mViewHint;
 
     public ScoreCard() {
         mNumOfPlayers = mOptions.getNumOfPlayers();
@@ -81,8 +81,8 @@ public class ScoreCard {
         return true;
     }
 
-    public boolean isViewHint() {
-        return mViewHint;
+    public boolean isShowingIndicators() {
+        return mShowIndicators;
     }
 
     public void newGame() {
@@ -109,9 +109,7 @@ public class ScoreCard {
         mPlayers.get(mActivePlayer).incNumOfRolls();
         mPlayers.get(mActivePlayer).parse(values);
 
-        if (mOptions.isShowingHints()) {
-            mPlayers.get(mActivePlayer).setVisibleHints(true);
-        }
+        mPlayers.get(mActivePlayer).setVisibleIndicators(mOptions.isShowingIndicators());
     }
 
     public void setEnabledRegister(boolean enabled) {
@@ -122,9 +120,9 @@ public class ScoreCard {
         mUndoAction.setEnabled(enabled);
     }
 
-    public void setVisibleHints(boolean visible) {
-        mViewHint = visible;
-        mPlayers.get(mActivePlayer).setVisibleHints(visible);
+    public void setVisibleIndicators(boolean visible) {
+        mShowIndicators = visible;
+        mPlayers.get(mActivePlayer).setVisibleIndicators(visible);
     }
 
     protected void actionPerformedUndo() {
@@ -140,14 +138,14 @@ public class ScoreCard {
         Color activeColor = GraphicsHelper.colorAndMask(mOptions.getColor(Options.ColorItem.HEADER), 0xEEEEEE);
 
         mHeaderColumn.getRows()[row].getLabel().setBackground(activeColor);
-        mHeaderColumn.getHiScores()[row].getLabel().setBackground(activeColor);
-        mHeaderColumn.getMax()[row].getLabel().setBackground(activeColor);
+        mHeaderColumn.getHiScoreColumn()[row].getLabel().setBackground(activeColor);
+        mHeaderColumn.getMaxColumn()[row].getLabel().setBackground(activeColor);
     }
 
     protected void hoverRowExited(int row) {
         mHeaderColumn.getRows()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
-        mHeaderColumn.getHiScores()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
-        mHeaderColumn.getMax()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
+        mHeaderColumn.getHiScoreColumn()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
+        mHeaderColumn.getMaxColumn()[row].getLabel().setBackground(mOptions.getColor(Options.ColorItem.HEADER));
     }
 
     protected void register() {
@@ -186,9 +184,8 @@ public class ScoreCard {
             }
 
             mHeaderColumn.getRows()[i].getLabel().setBackground(color);
-            mHeaderColumn.getHiScores()[i].getLabel().setBackground(color);
-            mHeaderColumn.getMax()[i].getLabel().setBackground(color);
-
+            mHeaderColumn.getHiScoreColumn()[i].getLabel().setBackground(color);
+            mHeaderColumn.getMaxColumn()[i].getLabel().setBackground(color);
         }
 
         for (int i = 0; i < mPlayers.size(); i++) {
@@ -203,21 +200,17 @@ public class ScoreCard {
             }
         }
 
-        if (mOptions.isShowingHints()) {
-            setVisibleHints(true);
-        }
-
+        setVisibleIndicators(mOptions.isShowingIndicators());
     }
 
     private void gameOver() {
 
-        while (!mPlayers.get(mNumOfPlayers - 1).getRowStack().empty()) {
-
-            for (PlayerColumn playerColumn : mPlayers) {
-                int row = playerColumn.getRowStack().pop();
-            }
-        }
-
+//        while (!mPlayers.get(mNumOfPlayers - 1).getRowStack().empty()) {
+//
+//            for (PlayerColumn playerColumn : mPlayers) {
+//                int row = playerColumn.getRowStack().pop();
+//            }
+//        }
 //        AGameOver gameOver = new AGameOver();
 //        gameOver.getUI().setPreferredSize(new Dimension(300, 280));
 //        gameOver.getUI().pack();
@@ -265,6 +258,15 @@ public class ScoreCard {
         initLayout();
         applyColors();
 
+        mOptions.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
+
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                if (evt.getKey().equalsIgnoreCase(Options.KEY_SHOW_INDICATORS)) {
+                    setVisibleIndicators(mOptions.isShowingIndicators());
+                }
+            }
+        });
         mOptions.getPreferencesColors().addPreferenceChangeListener(new PreferenceChangeListener() {
 
             @Override
@@ -329,12 +331,12 @@ public class ScoreCard {
             mPanel.add(mHeaderColumn.getRows()[i].getLabel());
 
             gridBagConstraints.gridx = 1;
-            gridBagLayout.setConstraints(mHeaderColumn.getMax()[i].getLabel(), gridBagConstraints);
-            mPanel.add(mHeaderColumn.getMax()[i].getLabel());
+            gridBagLayout.setConstraints(mHeaderColumn.getMaxColumn()[i].getLabel(), gridBagConstraints);
+            mPanel.add(mHeaderColumn.getMaxColumn()[i].getLabel());
 
             gridBagConstraints.gridx = 2;
-            gridBagLayout.setConstraints(mHeaderColumn.getHiScores()[i].getLabel(), gridBagConstraints);
-            mPanel.add(mHeaderColumn.getHiScores()[i].getLabel());
+            gridBagLayout.setConstraints(mHeaderColumn.getHiScoreColumn()[i].getLabel(), gridBagConstraints);
+            mPanel.add(mHeaderColumn.getHiScoreColumn()[i].getLabel());
         }
 
         int startGridX = 3;

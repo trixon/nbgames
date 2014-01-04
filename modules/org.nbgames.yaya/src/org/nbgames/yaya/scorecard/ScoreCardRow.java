@@ -187,22 +187,22 @@ public class ScoreCardRow {
         mValue = value;
     }
 
-    public void setVisibleHint(boolean aVisible) {
+    public void setVisibleIndicator(boolean visible) {
         if (mPreview == 0 || isRegistered()) {
             return;
         }
 
         String text = "";
 
-        if (aVisible) {
+        if (visible) {
             text = Integer.toString(mPreview);
             mRowLabel.setFont(mRowLabel.getFont().deriveFont(Font.BOLD));
             mRowLabel.setHorizontalAlignment(SwingConstants.LEADING);
 
             if (mPreview < mGameRow.getLim()) {
-                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_LOW));
+                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.INDICATOR_LO));
             } else {
-                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.HINT_HIGH));
+                mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.INDICATOR_HI));
             }
         } else {
             mRowLabel.setCurrentBackgroundColor(Options.INSTANCE.getColor(Options.ColorItem.ROW));
