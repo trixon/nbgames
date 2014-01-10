@@ -12,6 +12,7 @@ import org.openide.util.Lookup;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @OptionsPanelController.SubRegistration(
+        id = "nbGames/LookAndFeel",
         position = 10,
         location = "nbGames",
         displayName = "#AdvancedOption_DisplayName_LookAndFeel",
@@ -20,6 +21,7 @@ import org.openide.util.Lookup;
 )
 public final class LookAndFeelOptionsPanelController extends OptionsPanelController {
 
+    public static final String ID = "nbGames/LookAndFeel";
     private boolean mChanged;
     private LookAndFeelPanel mPanel;
     private final PropertyChangeSupport mPcs = new PropertyChangeSupport(this);

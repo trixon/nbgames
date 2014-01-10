@@ -12,6 +12,7 @@ import org.openide.util.Lookup;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @OptionsPanelController.SubRegistration(
+        id = PlayersOptionsPanelController.ID,
         position = 20,
         location = "nbGames",
         displayName = "#AdvancedOption_DisplayName_Players",
@@ -20,6 +21,7 @@ import org.openide.util.Lookup;
 )
 public final class PlayersOptionsPanelController extends OptionsPanelController {
 
+    public static final String ID = "nbGames/Players";
     private boolean mChanged;
     private PlayersPanel mPanel;
     private final PropertyChangeSupport mPcs = new PropertyChangeSupport(this);
