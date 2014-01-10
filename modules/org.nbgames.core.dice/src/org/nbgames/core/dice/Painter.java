@@ -1,6 +1,5 @@
 package org.nbgames.core.dice;
 
-import org.nbgames.core.HandMode;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +12,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
+import org.nbgames.core.Player.Handedness;
 
 /**
  *
@@ -146,7 +146,7 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
         g2 = (Graphics2D) g;
         AffineTransform originalAffineTransform = g2.getTransform();
 
-        if (diceBoard.getHandMode() == HandMode.RIGHT) {
+        if (diceBoard.getHandMode() == Handedness.RIGHT) {
             AffineTransform affineTransform = originalAffineTransform;
             affineTransform.scale(-1, 1);
             affineTransform.translate(-this.getWidth(), 0);
@@ -239,7 +239,7 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     private Point translateMousePoint(Point aPoint) {
         Point point = aPoint;
 
-        if (diceBoard.getHandMode() == HandMode.RIGHT) {
+        if (diceBoard.getHandMode() == Handedness.RIGHT) {
             point.x = this.getWidth() - point.x;
         }
 

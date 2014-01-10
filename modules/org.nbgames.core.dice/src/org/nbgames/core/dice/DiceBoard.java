@@ -3,7 +3,7 @@ package org.nbgames.core.dice;
 import java.util.LinkedList;
 import java.util.Observable;
 import javax.swing.JPanel;
-import org.nbgames.core.HandMode;
+import org.nbgames.core.Player.Handedness;
 
 /**
  *
@@ -16,7 +16,7 @@ public class DiceBoard extends Observable {
     private final DiceBoardPanel mDiceBoardPanel = new DiceBoardPanel();
     private boolean mDiceOnFloor = false;
     private Thread mDieWatcherThread;
-    private HandMode mHandMode;
+    private Handedness mHandMode;
     private int mMaxRollCount = 3;
     private int mNumOfDice;
     private int mNumOfRolls = 0;
@@ -88,7 +88,7 @@ public class DiceBoard extends Observable {
         }
     }
 
-    public void setHandMode(HandMode handMode) {
+    public void setHandMode(Handedness handMode) {
         mHandMode = handMode;
     }
 
@@ -126,7 +126,7 @@ public class DiceBoard extends Observable {
         return mRoller;
     }
 
-    HandMode getHandMode() {
+    Handedness getHandMode() {
         return mHandMode;
     }
 
@@ -192,8 +192,8 @@ public class DiceBoard extends Observable {
     private void init() {
         mDiceBoardPanel.add(mPainter);
 
-        setHandMode(HandMode.LEFT);
-        setHandMode(HandMode.RIGHT);
+        setHandMode(Handedness.LEFT);
+        setHandMode(Handedness.RIGHT);
     }
 
     private void reset() {
