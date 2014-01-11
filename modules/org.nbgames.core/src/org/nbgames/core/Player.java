@@ -6,7 +6,7 @@ package org.nbgames.core;
  */
 public class Player {
 
-    private Handedness mHandedness;
+    private Handedness mHandedness = Handedness.RIGHT;
     private long mId;
     private String mName;
 

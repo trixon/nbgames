@@ -1,5 +1,12 @@
 package org.nbgames.core.options;
 
+import org.nbgames.core.NbGames;
+import org.nbgames.core.Player;
+import org.openide.DialogDescriptor;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
+import org.openide.util.NbBundle;
+
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
@@ -28,28 +35,33 @@ final class PlayersPanel extends javax.swing.JPanel {
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
-        saveButton = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
         list = new javax.swing.JList();
-        nameLabel = new javax.swing.JLabel();
-        nameTextField = new javax.swing.JTextField();
-        handednessPanel = new javax.swing.JPanel();
-        leftRadioButton = new javax.swing.JRadioButton();
-        rightRadioButton = new javax.swing.JRadioButton();
+
+        setPreferredSize(new java.awt.Dimension(360, 160));
 
         buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/list-add-user.png"))); // NOI18N
-        addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.addButton.toolTipText")); // NOI18N
+        addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(addButton);
 
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/user-properties.png"))); // NOI18N
-        editButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.editButton.toolTipText")); // NOI18N
+        editButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit")); // NOI18N
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(editButton);
 
         removeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/list-remove-user.png"))); // NOI18N
-        removeButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.removeButton.toolTipText")); // NOI18N
-        removeButton.setEnabled(false);
+        removeButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
@@ -58,41 +70,22 @@ final class PlayersPanel extends javax.swing.JPanel {
         buttonPanel.add(removeButton);
 
         removeAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/user-group-delete.png"))); // NOI18N
-        removeAllButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.removeAllButton.toolTipText")); // NOI18N
-        removeAllButton.setEnabled(false);
+        removeAllButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll")); // NOI18N
+        removeAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeAllButtonActionPerformed(evt);
+            }
+        });
         buttonPanel.add(removeAllButton);
-
-        saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/document-save.png"))); // NOI18N
-        saveButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.saveButton.toolTipText")); // NOI18N
-        buttonPanel.add(saveButton);
 
         list.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Alpha", "Bravo", "Charlie", "Delta", "Echo" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
         scrollPane.setViewportView(list);
-
-        org.openide.awt.Mnemonics.setLocalizedText(nameLabel, org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.nameLabel.text")); // NOI18N
-
-        nameTextField.setText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.nameTextField.text")); // NOI18N
-
-        handednessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersPanel.handednessPanel.border.title"))); // NOI18N
-        handednessPanel.setLayout(new java.awt.GridLayout(1, 0));
-
-        buttonGroup1.add(leftRadioButton);
-        leftRadioButton.setFont(leftRadioButton.getFont().deriveFont((float)36));
-        leftRadioButton.setSelected(true);
-        org.openide.awt.Mnemonics.setLocalizedText(leftRadioButton, "☛"); // NOI18N
-        leftRadioButton.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        leftRadioButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        handednessPanel.add(leftRadioButton);
-
-        buttonGroup1.add(rightRadioButton);
-        rightRadioButton.setFont(rightRadioButton.getFont().deriveFont((float)36));
-        org.openide.awt.Mnemonics.setLocalizedText(rightRadioButton, "☚"); // NOI18N
-        handednessPanel.add(rightRadioButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,37 +93,77 @@ final class PlayersPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPane)
-                    .addComponent(nameTextField)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(handednessPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollPane)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 227, Short.MAX_VALUE))
+                .addGap(0, 135, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(handednessPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+        NotifyDescriptor d = new NotifyDescriptor(
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.remove", getSelectedPlayer().getName()),
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove"),
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.WARNING_MESSAGE,
+                null,
+                null);
+        Object retval = DialogDisplayer.getDefault().notify(d);
+
+        if (retval == NotifyDescriptor.OK_OPTION) {
+            NbGames.errln(NbGames.LOG_TITLE, "Remove...");
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void removeAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAllButtonActionPerformed
+        NotifyDescriptor d = new NotifyDescriptor(
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.removeAll"),
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll"),
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.WARNING_MESSAGE,
+                null,
+                null);
+        Object retval = DialogDisplayer.getDefault().notify(d);
+
+        if (retval == NotifyDescriptor.OK_OPTION) {
+            NbGames.errln(NbGames.LOG_TITLE, "Remove all...");
+        }
+    }//GEN-LAST:event_removeAllButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        PlayerPanel playerPanel = new PlayerPanel();
+        DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add"));
+        Object retval = DialogDisplayer.getDefault().notify(d);
+
+        if (retval == NotifyDescriptor.OK_OPTION) {
+            NbGames.errln(NbGames.LOG_TITLE, "Add...");
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        PlayerPanel playerPanel = new PlayerPanel();
+        playerPanel.setPlayer(getSelectedPlayer());
+        DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit"));
+        Object retval = DialogDisplayer.getDefault().notify(d);
+
+        if (retval == NotifyDescriptor.OK_OPTION) {
+            NbGames.errln(NbGames.LOG_TITLE, "Save edit...");
+        }
+    }//GEN-LAST:event_editButtonActionPerformed
+
+    private Player getSelectedPlayer() {
+        Player player = new Player(1, "pata", Player.Handedness.LEFT);
+        return player;
+    }
 
     void load() {
     }
@@ -147,15 +180,9 @@ final class PlayersPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton editButton;
-    private javax.swing.JPanel handednessPanel;
-    private javax.swing.JRadioButton leftRadioButton;
     private javax.swing.JList list;
-    private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField nameTextField;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
-    private javax.swing.JRadioButton rightRadioButton;
-    private javax.swing.JButton saveButton;
     private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 }
