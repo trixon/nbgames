@@ -18,6 +18,7 @@ final class PlayersPanel extends javax.swing.JPanel {
     PlayersPanel(PlayersOptionsPanelController controller) {
         mController = controller;
         initComponents();
+//        jToolBar1.setBackground(new java.awt.Color(214, 217, 223));
         // TODO listen to changes in form fields and call controller.changed()
     }
 
@@ -29,8 +30,7 @@ final class PlayersPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonPanel = new javax.swing.JPanel();
+        toolBar = new javax.swing.JToolBar();
         addButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
@@ -40,72 +40,67 @@ final class PlayersPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(360, 160));
 
-        buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.LINE_AXIS));
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);
+        toolBar.setOpaque(true);
 
-        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/list-add-user.png"))); // NOI18N
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/list-add-user24.png"))); // NOI18N
         addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
-        buttonPanel.add(addButton);
+        toolBar.add(addButton);
 
-        editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/user-properties.png"))); // NOI18N
+        editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/user-properties24.png"))); // NOI18N
         editButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit")); // NOI18N
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
             }
         });
-        buttonPanel.add(editButton);
+        toolBar.add(editButton);
 
-        removeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/list-remove-user.png"))); // NOI18N
+        removeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/list-remove-user24.png"))); // NOI18N
         removeButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
             }
         });
-        buttonPanel.add(removeButton);
+        toolBar.add(removeButton);
 
-        removeAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/options/user-group-delete.png"))); // NOI18N
+        removeAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/user-group-delete24.png"))); // NOI18N
         removeAllButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll")); // NOI18N
         removeAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeAllButtonActionPerformed(evt);
             }
         });
-        buttonPanel.add(removeAllButton);
+        toolBar.add(removeAllButton);
 
-        list.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Alpha", "Bravo", "Charlie", "Delta", "Echo" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
+        list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMouseClicked(evt);
+            }
+        });
         scrollPane.setViewportView(list);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollPane)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 135, Short.MAX_VALUE))
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,6 +155,12 @@ final class PlayersPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
+        if (evt.getClickCount() == 2) {
+            editButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_listMouseClicked
+
     private Player getSelectedPlayer() {
         Player player = new Player(1, "pata", Player.Handedness.LEFT);
         return player;
@@ -177,12 +178,11 @@ final class PlayersPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton editButton;
     private javax.swing.JList list;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }
