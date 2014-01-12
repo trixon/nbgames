@@ -1,7 +1,12 @@
 package org.nbgames.core.startpage;
 
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 import org.nbgames.core.BaseTopComponent;
+import org.nbgames.core.PlayerManager;
+import org.nbgames.core.options.PlayersOptionsPanelController;
+import org.netbeans.api.options.OptionsDisplayer;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -35,13 +40,24 @@ import org.openide.windows.TopComponent;
 })
 public final class StartPageTopComponent extends BaseTopComponent {
 
-    public static final String KEY_SHOW_ON_STARTUP = "showOnStartup";
+    public static final String KEY_SHOW_START_PAGE_ON_STARTUP = "showStartPageOnStartup";
     private final Preferences mPreferences;
 
     public StartPageTopComponent() {
         mPreferences = NbPreferences.forModule(StartPageTopComponent.class);
         initComponents();
         setName(Bundle.CTL_StartPageTopComponent());
+        PlayerManager.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
+
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                updatePlayerManagerPanel();
+            }
+        });
+    }
+
+    private void updatePlayerManagerPanel() {
+        playerManagerPanel.setVisible(PlayerManager.INSTANCE.getPlayers().isEmpty());
     }
 
     /**
@@ -54,6 +70,9 @@ public final class StartPageTopComponent extends BaseTopComponent {
 
         headerLabel = new javax.swing.JLabel();
         startCheckBox = new javax.swing.JCheckBox();
+        playerManagerPanel = new javax.swing.JPanel();
+        playerManagerLabel = new javax.swing.JLabel();
+        playerManagerButton = new javax.swing.JButton();
 
         headerLabel.setFont(new java.awt.Font("Lucida Grande", 3, 36)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(headerLabel, org.openide.util.NbBundle.getMessage(StartPageTopComponent.class, "StartPageTopComponent.headerLabel.text")); // NOI18N
@@ -65,17 +84,52 @@ public final class StartPageTopComponent extends BaseTopComponent {
             }
         });
 
+        playerManagerPanel.setBackground(new java.awt.Color(255, 255, 0));
+
+        org.openide.awt.Mnemonics.setLocalizedText(playerManagerLabel, org.openide.util.NbBundle.getMessage(StartPageTopComponent.class, "StartPageTopComponent.playerManagerLabel.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(playerManagerButton, org.openide.util.NbBundle.getMessage(StartPageTopComponent.class, "StartPageTopComponent.playerManagerButton.text")); // NOI18N
+        playerManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playerManagerButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout playerManagerPanelLayout = new javax.swing.GroupLayout(playerManagerPanel);
+        playerManagerPanel.setLayout(playerManagerPanelLayout);
+        playerManagerPanelLayout.setHorizontalGroup(
+            playerManagerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(playerManagerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(playerManagerLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerManagerButton)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        playerManagerPanelLayout.setVerticalGroup(
+            playerManagerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(playerManagerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(playerManagerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(playerManagerLabel)
+                    .addComponent(playerManagerButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(headerLabel)
-                .addContainerGap(206, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(260, Short.MAX_VALUE)
-                .addComponent(startCheckBox)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(startCheckBox))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(headerLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(playerManagerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -85,21 +139,31 @@ public final class StartPageTopComponent extends BaseTopComponent {
                 .addComponent(startCheckBox)
                 .addGap(4, 4, 4)
                 .addComponent(headerLabel)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void startCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startCheckBoxActionPerformed
-        mPreferences.putBoolean(KEY_SHOW_ON_STARTUP, startCheckBox.isSelected());
+        mPreferences.putBoolean(KEY_SHOW_START_PAGE_ON_STARTUP, startCheckBox.isSelected());
     }//GEN-LAST:event_startCheckBoxActionPerformed
+
+    private void playerManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerManagerButtonActionPerformed
+        OptionsDisplayer.getDefault().open(PlayersOptionsPanelController.ID);
+    }//GEN-LAST:event_playerManagerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headerLabel;
+    private javax.swing.JButton playerManagerButton;
+    private javax.swing.JLabel playerManagerLabel;
+    private javax.swing.JPanel playerManagerPanel;
     private javax.swing.JCheckBox startCheckBox;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        startCheckBox.setSelected(mPreferences.getBoolean(KEY_SHOW_ON_STARTUP, true));
+        startCheckBox.setSelected(mPreferences.getBoolean(KEY_SHOW_START_PAGE_ON_STARTUP, true));
+        updatePlayerManagerPanel();
     }
 
     @Override

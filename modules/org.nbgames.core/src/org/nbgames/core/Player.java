@@ -7,8 +7,8 @@ package org.nbgames.core;
 public class Player implements Comparable<Player> {
 
     private Handedness mHandedness = Handedness.RIGHT;
-    private long mId;
-    private String mName;
+    private long mId = System.currentTimeMillis();
+    private String mName = "";
 
     public Player() {
     }

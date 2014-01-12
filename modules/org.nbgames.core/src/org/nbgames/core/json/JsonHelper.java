@@ -17,6 +17,10 @@ public class JsonHelper {
         return "-" + Locale.getDefault().getLanguage();
     }
 
+    public static long getLong(JSONObject object, String key) {
+        return (Long) object.get(key);
+    }
+
     public static boolean optBoolean(JSONObject object, String key) {
         if (object.containsKey(key)) {
             return (boolean) object.get(key);

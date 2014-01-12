@@ -20,28 +20,11 @@ import org.openide.util.NbBundle;
 final class PlayersPanel extends javax.swing.JPanel {
 
     private final PlayersOptionsPanelController mController;
-    private final DefaultListModel mModel = new DefaultListModel();
+    private DefaultListModel mModel = new DefaultListModel();
 
     PlayersPanel(PlayersOptionsPanelController controller) {
         mController = controller;
         initComponents();
-        mModel.addListDataListener(new ListDataListener() {
-
-            @Override
-            public void contentsChanged(ListDataEvent e) {
-                mController.changed();
-            }
-
-            @Override
-            public void intervalAdded(ListDataEvent e) {
-                mController.changed();
-            }
-
-            @Override
-            public void intervalRemoved(ListDataEvent e) {
-                mController.changed();
-            }
-        });
     }
 
     /**
@@ -165,6 +148,7 @@ final class PlayersPanel extends javax.swing.JPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         PlayerPanel playerPanel = new PlayerPanel();
+        playerPanel.setPlayer(new Player());
         DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add"));
         Object retval = DialogDisplayer.getDefault().notify(d);
 
@@ -211,6 +195,7 @@ final class PlayersPanel extends javax.swing.JPanel {
         Object[] players = mModel.toArray();
         Arrays.sort(players);
         mModel.clear();
+
         for (Object object : players) {
             mModel.addElement(object);
         }
@@ -226,16 +211,30 @@ final class PlayersPanel extends javax.swing.JPanel {
     }
 
     void load() {
-        mModel.clear();
-        for (Player player : PlayerManager.INSTANCE.getPlayers()) {
-            mModel.addElement(player);
-        }
+        mModel = PlayerManager.INSTANCE.load(mModel);
+        mModel.addListDataListener(new ListDataListener() {
 
-        sortModel();
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                mController.changed();
+            }
+
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                mController.changed();
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                mController.changed();
+            }
+        });
+
         list.setModel(mModel);
     }
 
     void store() {
+        PlayerManager.INSTANCE.store(mModel);
     }
 
     boolean valid() {

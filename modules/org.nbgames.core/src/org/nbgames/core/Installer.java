@@ -24,7 +24,7 @@ public class Installer extends ModuleInstall {
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
             @Override
             public void run() {
-                if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_ON_STARTUP, true)) {
+                if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, true)) {
                     openWindow("StartPageTopComponent");
                 }
                 openWindow("output");

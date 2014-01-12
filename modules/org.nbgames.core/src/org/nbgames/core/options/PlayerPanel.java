@@ -21,16 +21,7 @@ public class PlayerPanel extends JPanel {
 
     public Player getPlayer() {
         Handedness handedness = rightRadioButton.isSelected() ? Handedness.RIGHT : Handedness.LEFT;
-
-        if (mPlayer == null) {
-            mPlayer = new Player(System.currentTimeMillis(), nameTextField.getText(), handedness);
-        } else {
-            mPlayer = new Player(mPlayer.getId(), nameTextField.getText(), handedness);
-            mPlayer.setName(nameTextField.getText().trim());
-            mPlayer.setHandedness(handedness);
-        }
-
-        return mPlayer;
+        return new Player(mPlayer.getId(), nameTextField.getText(), handedness);
     }
 
     public void setPlayer(Player player) {
