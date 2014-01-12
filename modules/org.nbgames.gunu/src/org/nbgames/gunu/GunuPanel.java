@@ -70,7 +70,7 @@ public class GunuPanel extends GamePanel {
         valueTextField.selectAll();
 
         guessButton.setEnabled(true);
-        statusLabel.setText(NbBundle.getMessage(this.getClass(), "GunuPanel.statusLabel.text"));
+        statusLabel.setText(NbBundle.getMessage(this.getClass(), "GunuPanel.statusLabel.text", Options.INSTANCE.getPlayer()));
 
         mValue = min + mRandom.nextInt((int) (max - min + 1));
         mCounter = 0;

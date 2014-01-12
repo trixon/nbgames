@@ -18,6 +18,7 @@ public enum Options {
     public static final String KEY_COLOR_BACKGROUND = "background";
     public static final String KEY_MAX = "max";
     public static final String KEY_MIN = "min";
+    public static final String KEY_PLAYER = "player";
     private Preferences mPreferences = NbPreferences.forModule(Options.class);
 
     public Color getColorBackground() {
@@ -30,6 +31,10 @@ public enum Options {
 
     public long getMin() {
         return mPreferences.getLong(KEY_MIN, DEFAULT_MIN);
+    }
+
+    public String getPlayer() {
+        return mPreferences.get(KEY_PLAYER, "");
     }
 
     public Preferences getPreferences() {
@@ -46,6 +51,10 @@ public enum Options {
 
     public void setMin(long min) {
         mPreferences.putLong(KEY_MIN, min);
+    }
+
+    public void setPlayer(String player) {
+        mPreferences.put(KEY_PLAYER, player);
     }
 
     public void setPreferences(Preferences preferences) {

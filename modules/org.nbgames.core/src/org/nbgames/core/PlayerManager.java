@@ -32,6 +32,10 @@ public enum PlayerManager {
         return mPlayers;
     }
 
+    public Object[] getPlayersArray() {
+        return mPlayers.toArray();
+    }
+
     public Preferences getPreferences() {
         return mPreferences;
     }

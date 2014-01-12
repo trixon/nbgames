@@ -1,5 +1,8 @@
 package org.nbgames.gunu;
 
+import javax.swing.DefaultComboBoxModel;
+import org.nbgames.core.Player;
+import org.nbgames.core.PlayerManager;
 import org.nbgames.core.game.NewGamePanel;
 
 /**
@@ -13,10 +16,14 @@ public class GunuNewGamePanel extends NewGamePanel {
      */
     public GunuNewGamePanel() {
         initComponents();
+        Object[] players = PlayerManager.INSTANCE.getPlayersArray();
+        playerComboBox.setModel(new DefaultComboBoxModel(players));
     }
 
     @Override
     protected void saveState() {
+        String name = ((Player) playerComboBox.getSelectedItem()).getName();
+        Options.INSTANCE.setPlayer(name);
     }
 
     /**
@@ -28,9 +35,10 @@ public class GunuNewGamePanel extends NewGamePanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        messageLabel = new javax.swing.JLabel();
+        playerComboBox = new javax.swing.JComboBox();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(GunuNewGamePanel.class, "GunuNewGamePanel.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(messageLabel, org.openide.util.NbBundle.getMessage(GunuNewGamePanel.class, "GunuNewGamePanel.messageLabel.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -38,19 +46,24 @@ public class GunuNewGamePanel extends NewGamePanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(messageLabel)
+                    .addComponent(playerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addComponent(messageLabel)
+                .addGap(18, 18, 18)
+                .addComponent(playerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JComboBox playerComboBox;
     // End of variables declaration//GEN-END:variables
 }
