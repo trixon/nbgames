@@ -1,7 +1,13 @@
 package org.nbgames.core.options;
 
-import org.nbgames.core.NbGames;
+import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import org.nbgames.core.Player;
+import org.nbgames.core.PlayerManager;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -14,12 +20,28 @@ import org.openide.util.NbBundle;
 final class PlayersPanel extends javax.swing.JPanel {
 
     private final PlayersOptionsPanelController mController;
+    private final DefaultListModel mModel = new DefaultListModel();
 
     PlayersPanel(PlayersOptionsPanelController controller) {
         mController = controller;
         initComponents();
-//        jToolBar1.setBackground(new java.awt.Color(214, 217, 223));
-        // TODO listen to changes in form fields and call controller.changed()
+        mModel.addListDataListener(new ListDataListener() {
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                mController.changed();
+            }
+
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                mController.changed();
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                mController.changed();
+            }
+        });
     }
 
     /**
@@ -42,7 +64,6 @@ final class PlayersPanel extends javax.swing.JPanel {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        toolBar.setOpaque(true);
 
         addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/list-add-user24.png"))); // NOI18N
         addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
@@ -104,33 +125,41 @@ final class PlayersPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        NotifyDescriptor d = new NotifyDescriptor(
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.remove", getSelectedPlayer().getName()),
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove"),
-                NotifyDescriptor.OK_CANCEL_OPTION,
-                NotifyDescriptor.WARNING_MESSAGE,
-                null,
-                null);
-        Object retval = DialogDisplayer.getDefault().notify(d);
+    private boolean isValidPlayer(Player player) {
+        return !player.getName().isEmpty();
+    }
 
-        if (retval == NotifyDescriptor.OK_OPTION) {
-            NbGames.errln(NbGames.LOG_TITLE, "Remove...");
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        if (getSelectedPlayer() != null) {
+            NotifyDescriptor d = new NotifyDescriptor(
+                    NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.remove", getSelectedPlayer().getName()),
+                    NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove"),
+                    NotifyDescriptor.OK_CANCEL_OPTION,
+                    NotifyDescriptor.WARNING_MESSAGE,
+                    null,
+                    null);
+            Object retval = DialogDisplayer.getDefault().notify(d);
+
+            if (retval == NotifyDescriptor.OK_OPTION) {
+                mModel.removeElement(getSelectedPlayer());
+            }
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void removeAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAllButtonActionPerformed
-        NotifyDescriptor d = new NotifyDescriptor(
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.removeAll"),
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll"),
-                NotifyDescriptor.OK_CANCEL_OPTION,
-                NotifyDescriptor.WARNING_MESSAGE,
-                null,
-                null);
-        Object retval = DialogDisplayer.getDefault().notify(d);
+        if (!mModel.isEmpty()) {
+            NotifyDescriptor d = new NotifyDescriptor(
+                    NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.removeAll"),
+                    NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll"),
+                    NotifyDescriptor.OK_CANCEL_OPTION,
+                    NotifyDescriptor.WARNING_MESSAGE,
+                    null,
+                    null);
+            Object retval = DialogDisplayer.getDefault().notify(d);
 
-        if (retval == NotifyDescriptor.OK_OPTION) {
-            NbGames.errln(NbGames.LOG_TITLE, "Remove all...");
+            if (retval == NotifyDescriptor.OK_OPTION) {
+                mModel.removeAllElements();
+            }
         }
     }//GEN-LAST:event_removeAllButtonActionPerformed
 
@@ -140,33 +169,70 @@ final class PlayersPanel extends javax.swing.JPanel {
         Object retval = DialogDisplayer.getDefault().notify(d);
 
         if (retval == NotifyDescriptor.OK_OPTION) {
-            NbGames.errln(NbGames.LOG_TITLE, "Add...");
+            if (isValidPlayer(playerPanel.getPlayer())) {
+                mModel.addElement(playerPanel.getPlayer());
+                sortModel();
+            } else {
+                showInvalidPlayerDialog();
+            }
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        PlayerPanel playerPanel = new PlayerPanel();
-        playerPanel.setPlayer(getSelectedPlayer());
-        DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit"));
-        Object retval = DialogDisplayer.getDefault().notify(d);
+        if (getSelectedPlayer() != null) {
+            PlayerPanel playerPanel = new PlayerPanel();
+            playerPanel.setPlayer(getSelectedPlayer());
+            DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit"));
+            Object retval = DialogDisplayer.getDefault().notify(d);
 
-        if (retval == NotifyDescriptor.OK_OPTION) {
-            NbGames.errln(NbGames.LOG_TITLE, "Save edit...");
+            if (retval == NotifyDescriptor.OK_OPTION) {
+                if (isValidPlayer(playerPanel.getPlayer())) {
+                    mModel.set(mModel.indexOf(getSelectedPlayer()), playerPanel.getPlayer());
+                    sortModel();
+                } else {
+                    showInvalidPlayerDialog();
+                }
+            }
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void showInvalidPlayerDialog() {
+        NotifyDescriptor d = new NotifyDescriptor(
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.invalidPlayer"),
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.invalidInput"),
+                NotifyDescriptor.ERROR_MESSAGE,
+                NotifyDescriptor.ERROR_MESSAGE,
+                new JButton[]{new JButton("Ok")},
+                null);
+        DialogDisplayer.getDefault().notify(d);
+    }
+
+    private void sortModel() {
+        Object[] players = mModel.toArray();
+        Arrays.sort(players);
+        mModel.clear();
+        for (Object object : players) {
+            mModel.addElement(object);
+        }
+    }
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
-        if (evt.getClickCount() == 2) {
+        if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
             editButtonActionPerformed(null);
         }
     }//GEN-LAST:event_listMouseClicked
 
     private Player getSelectedPlayer() {
-        Player player = new Player(1, "pata", Player.Handedness.LEFT);
-        return player;
+        return (Player) list.getSelectedValue();
     }
 
     void load() {
+        mModel.clear();
+        for (Player player : PlayerManager.INSTANCE.getPlayers()) {
+            mModel.addElement(player);
+        }
+
+        sortModel();
+        list.setModel(mModel);
     }
 
     void store() {

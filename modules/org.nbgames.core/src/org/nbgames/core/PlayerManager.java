@@ -15,6 +15,9 @@ public enum PlayerManager {
     private final Preferences mPreferences = NbPreferences.forModule(PlayerManager.class);
 
     private PlayerManager() {
+        mPlayers.add(new Player(System.currentTimeMillis(), "Adam", Player.Handedness.LEFT));
+        mPlayers.add(new Player(System.currentTimeMillis(), "Cesar", Player.Handedness.LEFT));
+        mPlayers.add(new Player(System.currentTimeMillis(), "Bertil", Player.Handedness.RIGHT));
     }
 
     public LinkedList<Player> getPlayers() {

@@ -25,7 +25,8 @@ public class PlayerPanel extends JPanel {
         if (mPlayer == null) {
             mPlayer = new Player(System.currentTimeMillis(), nameTextField.getText(), handedness);
         } else {
-            mPlayer.setName(nameTextField.getText());
+            mPlayer = new Player(mPlayer.getId(), nameTextField.getText(), handedness);
+            mPlayer.setName(nameTextField.getText().trim());
             mPlayer.setHandedness(handedness);
         }
 

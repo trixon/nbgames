@@ -4,7 +4,7 @@ package org.nbgames.core;
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class Player {
+public class Player implements Comparable<Player> {
 
     private Handedness mHandedness = Handedness.RIGHT;
     private long mId;
@@ -17,6 +17,11 @@ public class Player {
         mId = id;
         mName = name;
         mHandedness = handedness;
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return mName.compareTo(o.getName());
     }
 
     public Handedness getHandedness() {
@@ -41,6 +46,11 @@ public class Player {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    @Override
+    public String toString() {
+        return mName;
     }
 
     public enum Handedness {
