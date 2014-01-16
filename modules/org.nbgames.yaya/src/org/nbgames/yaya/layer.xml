@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="View">
+            <file name="org-nbgames-yaya-ShowIndicatorsAction.instance">
+                <attr name="preferencesNode" methodvalue="org.nbgames.yaya.Options.getPreferences" />
+                <attr name="preferencesKey" stringvalue="showIndicators"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.checkbox"/>
+                <attr name="displayName" bundlevalue="org.nbgames.yaya.Bundle#CTL_ShowIndicatorsAction"/>
+                <attr name="noIconInMenu" boolvalue="true"/>
+            </file>
+            <file name="org-nbgames-yaya-ShowMaxColumnAction.instance">
+                <attr name="preferencesNode" methodvalue="org.nbgames.yaya.Options.getPreferences" />
+                <attr name="preferencesKey" stringvalue="showMaxColumn"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.checkbox"/>
+                <attr name="displayName" bundlevalue="org.nbgames.yaya.Bundle#CTL_ShowMaxColumnAction"/>
+                <attr name="noIconInMenu" boolvalue="true"/>
+            </file>
+            <file name="org-nbgames-yaya-ShowHiScoreColumnAction.instance">
+                <attr name="preferencesNode" methodvalue="org.nbgames.yaya.Options.getPreferences" />
+                <attr name="preferencesKey" stringvalue="showHiScoreColumn"/>
+                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.checkbox"/>
+                <attr name="displayName" bundlevalue="org.nbgames.yaya.Bundle#CTL_ShowHiScoreColumnAction"/>
+                <attr name="noIconInMenu" boolvalue="true"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="View">
+            <file name="org-nbgames-yaya-ShowIndicatorsAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowIndicatorsAction.instance"/>
+                <attr name="position" intvalue="1"/>
+            </file>
+            <file name="org-nbgames-yaya-MaxColumnAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowMaxColumnAction.instance"/>
+                <attr name="position" intvalue="2"/>
+            </file>
+            <file name="org-nbgames-yaya-ShowHiScoreColumnAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowHiScoreColumnAction.instance"/>
+                <attr name="position" intvalue="3"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Shortcuts">
+        <file name="F5.shadow">
+            <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowIndicatorsAction.instance"/>
+        </file>
+        <file name="F6.shadow">
+            <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowMaxColumnAction.instance"/>
+        </file>
+        <file name="F7.shadow">
+            <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowHiScoreColumnAction.instance"/>
+        </file>
+    </folder>
+</filesystem>

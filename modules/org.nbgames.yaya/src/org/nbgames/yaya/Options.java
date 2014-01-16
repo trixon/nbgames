@@ -33,8 +33,12 @@ public enum Options {
     private static final boolean DEFAULT_SHOW_INDICATORS = true;
     private static final boolean DEFAULT_SHOW_MAX_COLUMN = false;
     private static final boolean DEFAULT_USE_SYMBOLS = false;
-    private final Preferences mPreferences = NbPreferences.forModule(getClass());
+    private static final Preferences mPreferences = NbPreferences.forModule(Options.class);
     private final Preferences mPreferencesColors = NbPreferences.forModule(getClass()).node("colors");
+
+    public static Preferences getPreferences() {
+        return mPreferences;
+    }
 
     private Options() {
         init();
@@ -54,10 +58,6 @@ public enum Options {
 
     public int getNumOfPlayers() {
         return mPreferences.getInt(KEY_NUM_OF_PLAYERS, DEFAULT_NUM_OF_PLAYERS);
-    }
-
-    public Preferences getPreferences() {
-        return mPreferences;
     }
 
     public Preferences getPreferencesColors() {
@@ -110,21 +110,6 @@ public enum Options {
 
     public void setUseSymbols(boolean state) {
         mPreferences.putBoolean(KEY_USE_SYMBOLS, state);
-    }
-
-    public void toggleHiScoreColumn() {
-        boolean oldState = isShowingHiScoreColumn();
-        setShowHiScoreColumn(!oldState);
-    }
-
-    public void toggleIndicators() {
-        boolean oldState = isShowingIndicators();
-        setShowIndicators(!oldState);
-    }
-
-    public void toggleMaxColumn() {
-        boolean oldState = isShowingMaxColumn();
-        setShowMaxColumn(!oldState);
     }
 
     private void init() {
