@@ -42,3 +42,5 @@ hs_err_pid*.log
 /modules/org.nbgames.yaya.yacht/nbproject/private/
 /modules/org.nbgames.core.cards/build/
 /modules/org.nbgames.core.cards.data/build/
+/modules/org.nbgames.core.cards/nbproject/private/
+/modules/org.nbgames.core.cards.data/nbproject/private/
