@@ -40,3 +40,5 @@ hs_err_pid*.log
 /modules/org.nbgames.yaya.yahtzee_scandinavian/nbproject/private/
 /modules/org.nbgames.yaya.maxi_yahtzee/nbproject/private/
 /modules/org.nbgames.yaya.yacht/nbproject/private/
+/modules/org.nbgames.core.cards/build/
+/modules/org.nbgames.core.cards.data/build/
