@@ -2,7 +2,7 @@ package org.nbgames.branding;
 
 import java.util.ResourceBundle;
 import org.openide.util.ImageUtilities;
-import se.trixon.almond.about.About;
+import se.trixon.almond.about.AboutAction;
 
 /**
  *
@@ -11,8 +11,8 @@ import se.trixon.almond.about.About;
 public class AboutInitializer {
 
     public static void init() {
-        About.setAboutBundle(ResourceBundle.getBundle("org/nbgames/branding/about"));
-        About.setLicenseBundle(ResourceBundle.getBundle("org/nbgames/branding/license"));
-        About.setImageIcon(ImageUtilities.loadImageIcon("org/nbgames/branding/nbgames.png", false));
+        AboutAction.setAboutBundle(ResourceBundle.getBundle("org/nbgames/branding/about"));
+        AboutAction.setLicenseBundle(ResourceBundle.getBundle("org/nbgames/branding/license"));
+        AboutAction.setImageIcon(ImageUtilities.loadImageIcon("org/nbgames/branding/nbgames.png", false));
     }
 }
