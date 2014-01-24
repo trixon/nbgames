@@ -11,50 +11,51 @@ import org.openide.util.Lookup;
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class CardDeckLoader {
+public enum CardDeckManager {
 
+    INSTANCE;
     public static final String DEFAULT_PATH_BACK_0 = "ro/nicubunu/cards/backs/back01.png";
     public static final String DEFAULT_PATH_BACK_1 = "ro/nicubunu/cards/backs/back02.png";
     public static final String DEFAULT_PATH_FRONT_0 = "ro/nicubunu/cards/ornamental/";
     public static final String DEFAULT_PATH_FRONT_1 = "ro/nicubunu/cards/ornamental/";
-    private static LinkedList<ImageIcon> backImages = new LinkedList<ImageIcon>();
-    private static LinkedList<ImageIcon> frontImages = new LinkedList<ImageIcon>();
-    private static LinkedList<String> backList = new LinkedList<String>();
-    private static LinkedList<String> frontList = new LinkedList<String>();
+    private final LinkedList<ImageIcon> mBackImages = new LinkedList<ImageIcon>();
+    private final LinkedList<ImageIcon> mFrontImages = new LinkedList<ImageIcon>();
+    private final LinkedList<String> mBackList = new LinkedList<String>();
+    private final LinkedList<String> mFrontList = new LinkedList<String>();
 
-    public static LinkedList<ImageIcon> getBackImages() {
-        return backImages;
+    public LinkedList<ImageIcon> getBackImages() {
+        return mBackImages;
     }
 
-    public static LinkedList<String> getBackList() {
-        return backList;
+    public LinkedList<String> getBackList() {
+        return mBackList;
     }
 
-    public static LinkedList<ImageIcon> getFrontImages() {
-        return frontImages;
+    public LinkedList<ImageIcon> getFrontImages() {
+        return mFrontImages;
     }
 
-    public static LinkedList<String> getFrontList() {
-        return frontList;
+    public LinkedList<String> getFrontList() {
+        return mFrontList;
     }
 
-    public static void initialize() {
+    public void init() {
         initBack();
         initFront();
     }
 
-    private static void initBack() {
-        backList.clear();
-        backImages.clear();
+    private void initBack() {
+        mBackList.clear();
+        mBackImages.clear();
         for (CardBackSupplier cardBackSupplier : Lookup.getDefault().lookupAll(CardBackSupplier.class)) {
             String name = cardBackSupplier.getName();
             String path = cardBackSupplier.getPath();
             ImageIcon imageIcon = ImageUtilities.loadImageIcon(path, false);
 
             if (imageIcon != null) {
-                backList.add(path);
+                mBackList.add(path);
                 imageIcon.setDescription(name);
-                backImages.add(imageIcon);
+                mBackImages.add(imageIcon);
             } else {
                 System.err.println("INVALID BACK:");
                 System.err.println(name);
@@ -63,20 +64,20 @@ public class CardDeckLoader {
         }
     }
 
-    private static void initFront() {
-        frontList.clear();
-        frontImages.clear();
+    private void initFront() {
+        mFrontList.clear();
+        mFrontImages.clear();
         for (CardDeckSupplier cardDeckSupplier : Lookup.getDefault().lookupAll(CardDeckSupplier.class)) {
             String name = cardDeckSupplier.getName();
             String path = cardDeckSupplier.getPath();
 
             if (isValidDeck(path)) {
-                frontList.add(path);
+                mFrontList.add(path);
                 PlayingCard playingCard = new PlayingCard(Suit.DIAMOND, Value.KING);
                 playingCard.setPathFront(path);
                 ImageIcon imageIcon = playingCard.getImageFront();
                 imageIcon.setDescription(name);
-                frontImages.add(imageIcon);
+                mFrontImages.add(imageIcon);
             } else {
                 System.err.println("INVALID DECK:");
                 System.err.println(name);
@@ -85,7 +86,7 @@ public class CardDeckLoader {
         }
     }
 
-    private static boolean isValidDeck(String path) {
+    private boolean isValidDeck(String path) {
         CardDeck cardDeck = new CardDeck();
         boolean result = true;
         String file;

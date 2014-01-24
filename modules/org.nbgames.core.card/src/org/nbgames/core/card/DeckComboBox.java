@@ -25,11 +25,11 @@ public class DeckComboBox extends JComboBox {
 
         switch (side) {
             case BACK:
-                imageList.addAll(CardDeckLoader.getBackImages());
+                imageList.addAll(CardDeckManager.INSTANCE.getBackImages());
                 break;
 
             case FRONT:
-                imageList.addAll(CardDeckLoader.getFrontImages());
+                imageList.addAll(CardDeckManager.INSTANCE.getFrontImages());
                 break;
 
         }

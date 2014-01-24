@@ -10,6 +10,6 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        CardDeckLoader.initialize();
+        CardDeckManager.INSTANCE.init();
     }
 }

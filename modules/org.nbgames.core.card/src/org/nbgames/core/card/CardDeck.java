@@ -13,8 +13,8 @@ public class CardDeck extends CardList {
         initNewCollection();
     }
 
-    public CardDeck(int aNumOfDecks) {
-        for (int i = 0; i < aNumOfDecks; i++) {
+    public CardDeck(int numOfDecks) {
+        for (int i = 0; i < numOfDecks; i++) {
             initNewCollection();
         }
     }
@@ -24,16 +24,16 @@ public class CardDeck extends CardList {
         initNewCollection();
     }
 
-    public void setBack(String aPath) {
+    public void setBack(String path) {
         for (PlayingCard playingCard : this) {
-            playingCard.setPathBack(aPath);
+            playingCard.setPathBack(path);
 
         }
     }
 
-    public void setFront(String aPath) {
+    public void setFront(String path) {
         for (PlayingCard playingCard : this) {
-            playingCard.setPathFront(aPath);
+            playingCard.setPathFront(path);
         }
     }
 

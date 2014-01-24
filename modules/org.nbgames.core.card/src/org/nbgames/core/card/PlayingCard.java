@@ -167,7 +167,7 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
     public ImageIcon getImageBack() {
         ImageIcon imageIcon = ImageUtilities.loadImageIcon(getPathBack(), false);
         if (imageIcon == null) {
-            setPathBack(CardDeckLoader.DEFAULT_PATH_BACK_0);
+            setPathBack(CardDeckManager.DEFAULT_PATH_BACK_0);
             imageIcon = ImageUtilities.loadImageIcon(getPathBack(), false);
         }
         return imageIcon;
@@ -176,7 +176,7 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
     public ImageIcon getImageFront() {
         ImageIcon imageIcon = ImageUtilities.loadImageIcon(getPathFront() + getFilename(), false);
         if (imageIcon == null) {
-            setPathFront(CardDeckLoader.DEFAULT_PATH_FRONT_0);
+            setPathFront(CardDeckManager.DEFAULT_PATH_FRONT_0);
             imageIcon = ImageUtilities.loadImageIcon(getPathFront() + getFilename(), false);
         }
         return imageIcon;
@@ -266,8 +266,8 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
     }
 
     private void init() {
-        pathBack = CardDeckLoader.DEFAULT_PATH_BACK_0;
-        pathFront = CardDeckLoader.DEFAULT_PATH_FRONT_0;
+        pathBack = CardDeckManager.DEFAULT_PATH_BACK_0;
+        pathFront = CardDeckManager.DEFAULT_PATH_FRONT_0;
     }
 
     public enum Color {
