@@ -12,26 +12,20 @@ import org.nbgames.core.card.PlayingCard.Side;
  */
 public class DeckComboBox extends JComboBox {
 
-    private Side side;
+    private final Side mSide;
 
-    public DeckComboBox(PlayingCard.Side aSide) {
-        side = aSide;
+    public DeckComboBox(Side side) {
+        mSide = side;
         init();
     }
 
     public void reset() {
-
         LinkedList<ImageIcon> imageList = new LinkedList<ImageIcon>();
 
-        switch (side) {
-            case BACK:
-                imageList.addAll(CardDeckManager.INSTANCE.getBackImages());
-                break;
-
-            case FRONT:
-                imageList.addAll(CardDeckManager.INSTANCE.getFrontImages());
-                break;
-
+        if (mSide == Side.BACK) {
+            imageList.addAll(CardDeckManager.INSTANCE.getBackImages());
+        } else {
+            imageList.addAll(CardDeckManager.INSTANCE.getFrontImages());
         }
 
         int listSize = imageList.size();

@@ -9,30 +9,30 @@ import org.openide.util.ImageUtilities;
  */
 public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
 
-    private String pathBack;
-    private String pathFront;
-    private Color color;
-    private Suit suit;
-    private Value value;
-    private String[] pip = {"♣", "♦", "♥", "♠"};
-    private boolean aceHigh = true;
+    private boolean mAceHigh = true;
+    private final Color mColor;
+    private String mPathBack;
+    private String mPathFront;
+    private final String[] mPip = {"♣", "♦", "♥", "♠"};
+    private Suit mSuit;
+    private Value mValue;
 
     public PlayingCard() {
         init();
-        suit = Suit.CLUB;
-        value = Value.TWO;
-        color = Color.BLACK;
+        mSuit = Suit.CLUB;
+        mValue = Value.TWO;
+        mColor = Color.BLACK;
     }
 
-    public PlayingCard(Suit aSuit, Value aValue) {
+    public PlayingCard(Suit suit, Value value) {
         init();
-        suit = aSuit;
-        value = aValue;
+        mSuit = suit;
+        mValue = value;
 
-        if ((aSuit == Suit.DIAMOND) || (aSuit == Suit.HEART)) {
-            color = Color.RED;
+        if ((suit == Suit.DIAMOND) || (suit == Suit.HEART)) {
+            mColor = Color.RED;
         } else {
-            color = Color.BLACK;
+            mColor = Color.BLACK;
         }
     }
 
@@ -48,92 +48,92 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
     }
 
     @Override
-    public int compareTo(PlayingCard aCard) {
-        Integer result = new Integer(this.suit.ordinal());
-        result = result.compareTo(aCard.suit.ordinal());
+    public int compareTo(PlayingCard playingCard) {
+        Integer result = new Integer(mSuit.ordinal());
+        result = result.compareTo(playingCard.mSuit.ordinal());
 
         if (result == 0) {
-            result = this.value.ordinal();
-            result = result.compareTo(aCard.value.ordinal());
+            result = mValue.ordinal();
+            result = result.compareTo(playingCard.mValue.ordinal());
         }
 
         return result;
     }
 
     @Override
-    public boolean equals(Object anObject) {
+    public boolean equals(Object object) {
 
-        if (anObject == null) {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != anObject.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
-        final PlayingCard other = (PlayingCard) anObject;
-        if (this.value != other.value) {
+        final PlayingCard other = (PlayingCard) object;
+        if (mValue != other.mValue) {
             return false;
         }
 
-        if (this.suit != other.suit) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean equalsSuit(Object anObject) {
-
-        if (anObject == null) {
-            return false;
-        }
-
-        if (getClass() != anObject.getClass()) {
-            return false;
-        }
-
-        final PlayingCard other = (PlayingCard) anObject;
-
-        if (this.suit != other.suit) {
+        if (mSuit != other.mSuit) {
             return false;
         }
 
         return true;
     }
 
-    public boolean equalsValue(Object anObject) {
+    public boolean equalsColor(Object object) {
 
-        if (anObject == null) {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != anObject.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
-        final PlayingCard other = (PlayingCard) anObject;
+        final PlayingCard other = (PlayingCard) object;
 
-        if (this.value != other.value) {
+        if (mColor != other.mColor) {
             return false;
         }
 
         return true;
     }
 
-    public boolean equalsColor(Object anObject) {
+    public boolean equalsSuit(Object object) {
 
-        if (anObject == null) {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != anObject.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
-        final PlayingCard other = (PlayingCard) anObject;
+        final PlayingCard other = (PlayingCard) object;
 
-        if (this.color != other.color) {
+        if (mSuit != other.mSuit) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean equalsValue(Object object) {
+
+        if (object == null) {
+            return false;
+        }
+
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+
+        final PlayingCard other = (PlayingCard) object;
+
+        if (mValue != other.mValue) {
             return false;
         }
 
@@ -141,24 +141,21 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
     }
 
     public Color getColor() {
-        return color;
+        return mColor;
     }
 
     public String getFilename() {
-        return suit.toString().substring(0, 1) + value.valueString + ".png";
+        return mSuit.toString().substring(0, 1) + mValue.valueString + ".png";
     }
 
-    public ImageIcon getImage(Side aSide) {
-        String path = "";
-        ImageIcon imageIcon = null;
+    public ImageIcon getImage(Side side) {
+        ImageIcon imageIcon;
 
-        switch (aSide) {
-            case BACK:
-                imageIcon = getImageBack();
-                break;
-            case FRONT:
-                imageIcon = getImageFront();
-                break;
+        if (side == Side.BACK) {
+            imageIcon = getImageBack();
+
+        } else {
+            imageIcon = getImageFront();
         }
 
         return imageIcon;
@@ -166,108 +163,112 @@ public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
 
     public ImageIcon getImageBack() {
         ImageIcon imageIcon = ImageUtilities.loadImageIcon(getPathBack(), false);
+
         if (imageIcon == null) {
             setPathBack(CardDeckManager.DEFAULT_PATH_BACK_0);
             imageIcon = ImageUtilities.loadImageIcon(getPathBack(), false);
         }
+
         return imageIcon;
     }
 
     public ImageIcon getImageFront() {
         ImageIcon imageIcon = ImageUtilities.loadImageIcon(getPathFront() + getFilename(), false);
+
         if (imageIcon == null) {
             setPathFront(CardDeckManager.DEFAULT_PATH_FRONT_0);
             imageIcon = ImageUtilities.loadImageIcon(getPathFront() + getFilename(), false);
         }
+
         return imageIcon;
     }
 
     public String getPathBack() {
-        return pathBack;
+        return mPathBack;
     }
 
     public String getPathFront() {
-        return pathFront;
+        return mPathFront;
     }
 
     /**
-     * Get the value of suit
+     * Get the mValue of mSuit
      *
-     * @return the value of suit
+     * @return the mValue of mSuit
      */
     public Suit getSuit() {
-        return suit;
+        return mSuit;
     }
 
     /**
-     * Get the value of value
+     * Get the mValue of mValue
      *
-     * @return the value of value
+     * @return the mValue of mValue
      */
     public Value getValue() {
-        return value;
+        return mValue;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + this.value.hashCode();
-        hash = 71 * hash + this.suit.hashCode();
+        hash = 71 * hash + mValue.hashCode();
+        hash = 71 * hash + mSuit.hashCode();
         return hash;
     }
 
     /**
-     * Get the value of aceHigh
+     * Get the mValue of mAceHigh
      *
-     * @return the value of aceHigh
+     * @return the mValue of mAceHigh
      */
     public boolean isAceHigh() {
-        return aceHigh;
+        return mAceHigh;
     }
 
     /**
-     * Set the value of aceHigh
+     * Set the mValue of mAceHigh
      *
-     * @param aceHigh new value of aceHigh
+     * @param aceHigh new mValue of mAceHigh
      */
-    public void setAceHigh(boolean anAceHigh) {
-        aceHigh = anAceHigh;
+    public void setAceHigh(boolean aceHigh) {
+        mAceHigh = aceHigh;
     }
 
-    public void setPathBack(String aPath) {
-        pathBack = aPath;
+    public void setPathBack(String path) {
+        mPathBack = path;
     }
 
-    public void setPathFront(String aPath) {
-        pathFront = aPath;
+    public void setPathFront(String path) {
+        mPathFront = path;
     }
 
     /**
-     * Set the value of suit
+     * Set the mValue of mSuit
      *
-     * @param aSuit
+     * @param suit
      */
-    public void setSuit(Suit aSuit) {
-        suit = aSuit;
+    public void setSuit(Suit suit) {
+        mSuit = suit;
     }
 
     /**
-     * Set the value of value
+     * Set the mValue of mValue
      *
-     * @param aValue
+     * @param value
      */
-    public void setValue(Value aValue) {
-        value = aValue;
+    public void setValue(Value value) {
+        mValue = value;
     }
 
     @Override
     public String toString() {
-        return pip[suit.ordinal()] + " " + value;
+        return mPip[mSuit.ordinal()] + " " + mValue;
     }
 
     private void init() {
-        pathBack = CardDeckManager.DEFAULT_PATH_BACK_0;
-        pathFront = CardDeckManager.DEFAULT_PATH_FRONT_0;
+        mPathBack = CardDeckManager.DEFAULT_PATH_BACK_0;
+        mPathFront = CardDeckManager.DEFAULT_PATH_FRONT_0;
     }
 
     public enum Color {

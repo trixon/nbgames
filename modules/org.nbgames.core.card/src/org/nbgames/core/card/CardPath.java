@@ -8,32 +8,34 @@ import org.nbgames.core.card.PlayingCard.Side;
  */
 public class CardPath {
 
-    private String pathBack;
-    private String pathFront;
+    private String mPathBack;
+    private String mPathFront;
 
     public CardPath() {
     }
 
-    public CardPath(String aFront, String aBack) {
-        pathBack = aBack;
-        pathFront = aFront;
+    public CardPath(String front, String back) {
+        mPathBack = back;
+        mPathFront = front;
     }
 
-    public String getPath(Side aSide) {
+    public String getPath(Side side) {
         String path;
-        if (aSide == Side.BACK) {
-            path = pathBack;
+
+        if (side == Side.BACK) {
+            path = mPathBack;
         } else {
-            path = pathFront;
+            path = mPathFront;
         }
+
         return path;
     }
 
-    public void setPath(Side aSide, String aPath) {
-        if (aSide == Side.BACK) {
-            pathBack = aPath;
+    public void setPath(Side side, String path) {
+        if (side == Side.BACK) {
+            mPathBack = path;
         } else {
-            pathFront = aPath;
+            mPathFront = path;
         }
     }
 }

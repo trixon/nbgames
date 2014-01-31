@@ -19,8 +19,8 @@ public enum CardDeckManager {
     public static final String DEFAULT_PATH_FRONT_0 = "ro/nicubunu/cards/ornamental/";
     public static final String DEFAULT_PATH_FRONT_1 = "ro/nicubunu/cards/ornamental/";
     private final LinkedList<ImageIcon> mBackImages = new LinkedList<ImageIcon>();
-    private final LinkedList<ImageIcon> mFrontImages = new LinkedList<ImageIcon>();
     private final LinkedList<String> mBackList = new LinkedList<String>();
+    private final LinkedList<ImageIcon> mFrontImages = new LinkedList<ImageIcon>();
     private final LinkedList<String> mFrontList = new LinkedList<String>();
 
     public LinkedList<ImageIcon> getBackImages() {

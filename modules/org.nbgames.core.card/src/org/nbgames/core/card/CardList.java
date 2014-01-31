@@ -9,15 +9,15 @@ import java.util.LinkedList;
  */
 public abstract class CardList extends LinkedList<PlayingCard> {
 
-    public void applyThemeBack(String aPath) {
+    public void applyThemeBack(String path) {
         for (PlayingCard card : this) {
-            card.setPathBack(aPath);
+            card.setPathBack(path);
         }
     }
 
-    public void applyThemeFront(String aPath) {
+    public void applyThemeFront(String path) {
         for (PlayingCard card : this) {
-            card.setPathFront(aPath);
+            card.setPathFront(path);
         }
     }
 

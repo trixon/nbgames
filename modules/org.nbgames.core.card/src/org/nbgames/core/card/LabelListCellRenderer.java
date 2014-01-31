@@ -14,10 +14,10 @@ import javax.swing.border.EmptyBorder;
  */
 public class LabelListCellRenderer extends JLabel implements ListCellRenderer {
 
-    private ImageIcon[] images;
+    private final ImageIcon[] mImages;
 
     public LabelListCellRenderer(ImageIcon[] anImageArray) {
-        images = anImageArray;
+        mImages = anImageArray;
 
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setOpaque(true);
@@ -28,22 +28,23 @@ public class LabelListCellRenderer extends JLabel implements ListCellRenderer {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList aList, Object anObject, int anIndex, boolean anIsSelected, boolean anCellHasFocus) {
-        int selectedIndex = ((Integer) anObject).intValue();
+    public Component getListCellRendererComponent(JList list, Object object, int index, boolean isSelected, boolean cellHasFocus) {
+        int selectedIndex = ((Integer) object).intValue();
 
-        if (anIsSelected) {
-            setBackground(aList.getSelectionBackground());
-            setForeground(aList.getSelectionForeground());
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
         } else {
-            setBackground(aList.getBackground());
-            setForeground(aList.getForeground());
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
         }
 
-        ImageIcon icon = images[selectedIndex];
+        ImageIcon icon = mImages[selectedIndex];
         setIcon(icon);
+
         if (icon != null) {
             setText(icon.getDescription());
-            setFont(aList.getFont());
+            setFont(list.getFont());
         }
 
         return this;

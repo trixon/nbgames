@@ -17,16 +17,15 @@ import org.openide.util.Lookup;
         keywords = "#AdvancedOption_Keywords_CardDeck",
         keywordsCategory = "Cardic/CardDeck",
         position = Integer.MIN_VALUE)
-public final class CardDeckOptionsPanelController extends OptionsPanelController {
+public final class OptionPanelController extends OptionsPanelController {
 
-    private CardDeckPanel panel;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean changed;
+    private OptionPanel panel;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     @Override
-    public void update() {
-        getPanel().load();
-        changed = false;
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        pcs.addPropertyChangeListener(l);
     }
 
     @Override
@@ -41,13 +40,8 @@ public final class CardDeckOptionsPanelController extends OptionsPanelController
     }
 
     @Override
-    public boolean isValid() {
-        return getPanel().valid();
-    }
-
-    @Override
-    public boolean isChanged() {
-        return changed;
+    public JComponent getComponent(Lookup masterLookup) {
+        return getPanel();
     }
 
     @Override
@@ -56,13 +50,13 @@ public final class CardDeckOptionsPanelController extends OptionsPanelController
     }
 
     @Override
-    public JComponent getComponent(Lookup masterLookup) {
-        return getPanel();
+    public boolean isChanged() {
+        return changed;
     }
 
     @Override
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        pcs.addPropertyChangeListener(l);
+    public boolean isValid() {
+        return getPanel().valid();
     }
 
     @Override
@@ -70,11 +64,10 @@ public final class CardDeckOptionsPanelController extends OptionsPanelController
         pcs.removePropertyChangeListener(l);
     }
 
-    private CardDeckPanel getPanel() {
-        if (panel == null) {
-            panel = new CardDeckPanel(this);
-        }
-        return panel;
+    @Override
+    public void update() {
+        getPanel().load();
+        changed = false;
     }
 
     void changed() {
@@ -83,5 +76,12 @@ public final class CardDeckOptionsPanelController extends OptionsPanelController
             pcs.firePropertyChange(OptionsPanelController.PROP_CHANGED, false, true);
         }
         pcs.firePropertyChange(OptionsPanelController.PROP_VALID, null, null);
+    }
+
+    private OptionPanel getPanel() {
+        if (panel == null) {
+            panel = new OptionPanel(this);
+        }
+        return panel;
     }
 }

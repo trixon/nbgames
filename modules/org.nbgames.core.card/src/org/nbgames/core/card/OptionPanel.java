@@ -2,19 +2,20 @@ package org.nbgames.core.card;
 
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
+import org.nbgames.core.card.PlayingCard.Side;
 import org.openide.util.NbPreferences;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public final class CardDeckPanel extends javax.swing.JPanel {
+public final class OptionPanel extends javax.swing.JPanel {
 
-    private final CardDeckOptionsPanelController controller;
-    private final Preferences preferences = NbPreferences.forModule(CardDeckPanel.class);
+    private final OptionPanelController mController;
+    private final Preferences mPreferences = NbPreferences.forModule(OptionPanel.class);
 
-    CardDeckPanel(CardDeckOptionsPanelController controller) {
-        this.controller = controller;
+    OptionPanel(OptionPanelController controller) {
+        mController = controller;
         initComponents();
     }
 
@@ -33,12 +34,12 @@ public final class CardDeckPanel extends javax.swing.JPanel {
         front1DeckComboBox = new DeckComboBox(PlayingCard.Side.FRONT);
         back1DeckComboBox = new DeckComboBox(PlayingCard.Side.BACK);
 
-        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CardDeckPanel.class, "CardDeckPanel.deck1Panel.border.title"))); // NOI18N
+        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.deck1Panel.border.title"))); // NOI18N
         deck1Panel.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
         deck1Panel.add(front0DeckComboBox);
         deck1Panel.add(back0DeckComboBox);
 
-        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CardDeckPanel.class, "CardDeckPanel.deck2Panel.border.title"))); // NOI18N
+        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.deck2Panel.border.title"))); // NOI18N
         deck2Panel.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
         deck2Panel.add(front1DeckComboBox);
         deck2Panel.add(back1DeckComboBox);
@@ -71,59 +72,58 @@ public final class CardDeckPanel extends javax.swing.JPanel {
         ((DeckComboBox) front1DeckComboBox).reset();
         ((DeckComboBox) back0DeckComboBox).reset();
         ((DeckComboBox) back1DeckComboBox).reset();
+
         String path;
         int index;
-        path = preferences.get("back0", CardDeckManager.DEFAULT_PATH_BACK_0);
+
+        path = mPreferences.get("back0", CardDeckManager.DEFAULT_PATH_BACK_0);
         index = getIndex(PlayingCard.Side.BACK, path, CardDeckManager.DEFAULT_PATH_BACK_0);
         back0DeckComboBox.setSelectedIndex(index);
-        path = preferences.get("back1", CardDeckManager.DEFAULT_PATH_BACK_1);
+
+        path = mPreferences.get("back1", CardDeckManager.DEFAULT_PATH_BACK_1);
         index = getIndex(PlayingCard.Side.BACK, path, CardDeckManager.DEFAULT_PATH_BACK_1);
         back1DeckComboBox.setSelectedIndex(index);
-        path = preferences.get("front0", CardDeckManager.DEFAULT_PATH_FRONT_0);
+
+        path = mPreferences.get("front0", CardDeckManager.DEFAULT_PATH_FRONT_0);
         index = getIndex(PlayingCard.Side.FRONT, path, CardDeckManager.DEFAULT_PATH_FRONT_0);
         front0DeckComboBox.setSelectedIndex(index);
-        path = preferences.get("front1", CardDeckManager.DEFAULT_PATH_FRONT_1);
+
+        path = mPreferences.get("front1", CardDeckManager.DEFAULT_PATH_FRONT_1);
         index = getIndex(PlayingCard.Side.FRONT, path, CardDeckManager.DEFAULT_PATH_FRONT_1);
         front1DeckComboBox.setSelectedIndex(index);
     }
 
     void store() {
-        preferences.put("front0", CardDeckManager.INSTANCE.getFrontList().get(front0DeckComboBox.getSelectedIndex()));
-        preferences.put("front1", CardDeckManager.INSTANCE.getFrontList().get(front1DeckComboBox.getSelectedIndex()));
-        preferences.put("back0", CardDeckManager.INSTANCE.getBackList().get(back0DeckComboBox.getSelectedIndex()));
-        preferences.put("back1", CardDeckManager.INSTANCE.getBackList().get(back1DeckComboBox.getSelectedIndex()));
+        mPreferences.put("front0", CardDeckManager.INSTANCE.getFrontList().get(front0DeckComboBox.getSelectedIndex()));
+        mPreferences.put("front1", CardDeckManager.INSTANCE.getFrontList().get(front1DeckComboBox.getSelectedIndex()));
+        mPreferences.put("back0", CardDeckManager.INSTANCE.getBackList().get(back0DeckComboBox.getSelectedIndex()));
+        mPreferences.put("back1", CardDeckManager.INSTANCE.getBackList().get(back1DeckComboBox.getSelectedIndex()));
     }
 
     boolean valid() {
         return true;
     }
 
-    private int getIndex(PlayingCard.Side aSide, String aPath, String aDefaultPath) {
+    private int getIndex(Side side, String path, String defaultPath) {
         int result = -1;
         LinkedList<String> strings = new LinkedList<String>();
-
-        switch (aSide) {
-            case BACK:
-                strings.addAll(CardDeckManager.INSTANCE.getBackList());
-                break;
-
-            case FRONT:
-                strings.addAll(CardDeckManager.INSTANCE.getFrontList());
-                break;
-
+        if (side == Side.BACK) {
+            strings.addAll(CardDeckManager.INSTANCE.getBackList());
+        } else {
+            strings.addAll(CardDeckManager.INSTANCE.getFrontList());
         }
 
         for (String string : strings) {
-            if (string.equalsIgnoreCase(aPath)) {
-                result = strings.indexOf(aPath);
+            if (string.equalsIgnoreCase(path)) {
+                result = strings.indexOf(path);
                 break;
             }
         }
 
         if (result == -1) {
             for (String string : strings) {
-                if (string.equalsIgnoreCase(aDefaultPath)) {
-                    result = strings.indexOf(aDefaultPath);
+                if (string.equalsIgnoreCase(defaultPath)) {
+                    result = strings.indexOf(defaultPath);
                     break;
                 }
             }
