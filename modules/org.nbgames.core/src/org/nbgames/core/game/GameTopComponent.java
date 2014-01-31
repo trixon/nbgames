@@ -35,10 +35,11 @@ public abstract class GameTopComponent extends BaseTopComponent {
         mTopPanel.removeAll();
         mTopPanel.add(mGamePanel);
     }
+
     @Override
     protected void componentDeactivated() {
         super.componentDeactivated();
-        StatusDisplayer.getDefault()  .setStatusText("",StatusDisplayer.IMPORTANCE_ERROR_HIGHLIGHT);
+        StatusDisplayer.getDefault().setStatusText("", StatusDisplayer.IMPORTANCE_ERROR_HIGHLIGHT);
     }
 
     protected void setActionCategoryVisible(String category, boolean visible) {
