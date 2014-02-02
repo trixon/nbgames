@@ -27,6 +27,13 @@
         </folder>
     </folder>
     <folder name="Menu">
+        <folder name="File">
+            <folder name="Dice">
+                <attr name="displayName" bundlevalue="org.nbgames.core.dice.Bundle#Name"/>
+                <attr name="noIconInMenu" boolvalue="false"/>
+                <attr name="position" intvalue="430"/>
+            </folder>
+        </folder>
         <folder name="View">
             <file name="org-nbgames-yaya-ShowIndicatorsAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/View/org-nbgames-yaya-ShowIndicatorsAction.instance"/>
