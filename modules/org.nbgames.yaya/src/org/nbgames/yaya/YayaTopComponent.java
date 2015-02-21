@@ -17,6 +17,8 @@ package org.nbgames.yaya;
 
 import org.nbgames.core.game.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
@@ -24,6 +26,11 @@ import org.openide.windows.TopComponent;
 /**
  * Top component which displays something.
  */
+@ActionID(
+        category = "File/Dice",
+        id = "org.nbgames.yaya.YayaAction"
+)
+@ActionReference(path = "Menu/File/Dice", position = 3333)
 @ConvertAsProperties(
         dtd = "-//org.nbgames.yaya//Yaya//EN",
         autostore = false
@@ -31,13 +38,17 @@ import org.openide.windows.TopComponent;
 @TopComponent.Description(
         preferredID = "YayaTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
+@TopComponent.OpenActionRegistration(
+        displayName = "#CTL_Name",
+        preferredID = "YayaTopComponent"
+)
 @Messages({
-    "CTL_InfoVersion=0.0.1",
+    "CTL_InfoVersion=0.0.2",
     "CTL_InfoDescription=Yet Another Yahtzee",
-    "CTL_InfoCopyright=© 2013-2014 Patrik Karlsson"})
+    "CTL_InfoCopyright=© 2013-2015 Patrik Karlsson"})
 
 public final class YayaTopComponent extends GameTopComponent {
 
