@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
 OpenIDE-Module: org.nbgames.gunu
 OpenIDE-Module-Layer: org/nbgames/gunu/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/nbgames/gunu/Bundle.properties
