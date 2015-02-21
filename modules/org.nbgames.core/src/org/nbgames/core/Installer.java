@@ -16,12 +16,15 @@
 package org.nbgames.core;
 
 import java.util.prefs.Preferences;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import org.nbgames.core.about.AboutInitializer;
 import org.nbgames.core.startpage.StartPageTopComponent;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.NbPreferences;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import se.trixon.almond.swing.NoTabsTabDisplayerUI;
 
 /**
  *
@@ -38,6 +41,11 @@ public class Installer extends ModuleInstall {
     @Override
     public void restored() {
         AboutInitializer.init();
+
+        SwingUtilities.invokeLater(() -> {
+            UIManager.put("EditorTabDisplayerUI", NoTabsTabDisplayerUI.ID);
+            UIManager.put("NbMainWindow.showCustomBackground", Boolean.TRUE);
+        });
 
         WindowManager.getDefault().invokeWhenUIReady(() -> {
             if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, false)) {
