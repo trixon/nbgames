@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: false
-OpenIDE-Module: org.nbgames.branding
-OpenIDE-Module-Install: org/nbgames/branding/Installer.class
-OpenIDE-Module-Layer: org/nbgames/branding/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/nbgames/branding/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-

@@ -16,6 +16,7 @@
 package org.nbgames.core;
 
 import java.util.prefs.Preferences;
+import org.nbgames.core.about.AboutInitializer;
 import org.nbgames.core.startpage.StartPageTopComponent;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.NbPreferences;
@@ -36,6 +37,8 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
+        AboutInitializer.init();
+
         WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
             @Override
             public void run() {
