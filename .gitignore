@@ -45,3 +45,4 @@ hs_err_pid*.log
 /modules/org.nbgames.core.cards/nbproject/private/
 /modules/org.nbgames.core.cards.data/nbproject/private/
 /modules/org.nbgames.memroyal/build/
+/modules/org.nbgames.core.card.data/build/
