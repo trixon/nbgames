@@ -17,7 +17,7 @@ import org.openide.windows.TopComponent;
         //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @NbBundle.Messages({
     "CTL_InfoVersion=0.0.1",
     "CTL_InfoDescription=Memory game",

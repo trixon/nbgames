@@ -39,14 +39,11 @@ public class Installer extends ModuleInstall {
     public void restored() {
         AboutInitializer.init();
 
-        WindowManager.getDefault().invokeWhenUIReady(new Runnable() {
-            @Override
-            public void run() {
-                if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, true)) {
-                    openWindow("StartPageTopComponent");
-                }
-                openWindow("output");
+        WindowManager.getDefault().invokeWhenUIReady(() -> {
+            if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, false)) {
+                openWindow("StartPageTopComponent");
             }
+            openWindow("output");
         });
 
         NbGames.outln(NbGames.LOG_TITLE, "nbGames Platform loaded");
