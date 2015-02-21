@@ -9,9 +9,9 @@ import org.openide.util.lookup.ServiceProvider;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @ServiceProvider(service = GameLoader.class)
-public class Default implements GameLoader {
+public class MaxiYahtzee implements GameLoader {
 
-    private final String RESOURCE_PATH = "/org/nbgames/yaya/game/default.json";
+    private final String RESOURCE_PATH = "/org/nbgames/yaya/game/maxi_yahtzee.json";
 
     @Override
     public String getId() {
@@ -22,4 +22,5 @@ public class Default implements GameLoader {
     public InputStream getInputStream() {
         return getClass().getResourceAsStream(RESOURCE_PATH);
     }
+
 }

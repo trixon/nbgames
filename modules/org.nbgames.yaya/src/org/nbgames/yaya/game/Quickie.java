@@ -9,9 +9,9 @@ import org.openide.util.lookup.ServiceProvider;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @ServiceProvider(service = GameLoader.class)
-public class Default implements GameLoader {
+public class Quickie implements GameLoader {
 
-    private final String RESOURCE_PATH = "/org/nbgames/yaya/game/default.json";
+    private final String RESOURCE_PATH = "/org/nbgames/yaya/game/quickie.json";
 
     @Override
     public String getId() {
