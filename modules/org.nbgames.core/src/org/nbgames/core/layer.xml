@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
     <folder name="Menu">
@@ -63,7 +62,7 @@ limitations under the License.
         <folder name="File">
             <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
         </folder>
-        <folder name="System" >
+        <folder name="System">
             <attr name="position" intvalue="9999"/>
             <file name="Spacer.instance">
                 <attr name="instanceCreate" methodvalue="javax.swing.Box.createHorizontalGlue"/>
