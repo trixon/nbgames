@@ -42,7 +42,7 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @TopComponent.OpenActionRegistration(
-        displayName = "#CTL_Name",
+        displayName = "CTL_Name",
         preferredID = "YayaTopComponent"
 )
 @Messages({

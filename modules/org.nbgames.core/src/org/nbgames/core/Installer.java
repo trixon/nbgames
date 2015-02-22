@@ -51,7 +51,7 @@ public class Installer extends ModuleInstall {
             if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, false)) {
                 openWindow("StartPageTopComponent");
             }
-            openWindow("output");
+            //openWindow("output");
         });
 
         NbGames.outln(NbGames.LOG_TITLE, "nbGames Platform loaded");
