@@ -61,6 +61,7 @@ public final class SystemMenuAction extends AbstractAction implements Presenter.
     public SystemMenuAction() {
         SwingUtilities.invokeLater(() -> {
             JMenu menu;
+            add(mPopup, "Game", "org.nbgames.yaya.YayaAction");
             add(mPopup, "Window", "org.nbgames.core.StartPageTopComponent");
             add(mPopup, "Window", "org.netbeans.core.windows.actions.ToggleFullScreenAction");
             add(mPopup, "Window", "org.netbeans.core.windows.actions.ShowEditorOnlyAction");

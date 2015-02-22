@@ -5,7 +5,7 @@ import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import javax.swing.border.BevelBorder;
 import org.nbgames.core.NbGames;
-import org.nbgames.core.game.GamePanel;
+import org.nbgames.core.base.GamePanel;
 import org.openide.util.NbBundle;
 
 /**
@@ -56,7 +56,7 @@ public class GunuPanel extends GamePanel {
     }
 
     void newGame() {
-        NbGames.outln(GunuController.LOG_TITLE, "newGame");
+        NbGames.outln(GunuController.TAG, "newGame");
         setVisible(true);
 
         long min = Options.INSTANCE.getMin();

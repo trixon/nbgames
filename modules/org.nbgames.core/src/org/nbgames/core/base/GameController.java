@@ -13,47 +13,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.game;
+package org.nbgames.core.base;
 
 import java.awt.event.ActionEvent;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
-import org.nbgames.core.actions.AboutCallbackAction;
+import org.nbgames.core.actions.GameInfoAction;
 import org.nbgames.core.actions.NewGameCallbackAction;
 import org.nbgames.core.actions.OptionsCallbackAction;
+import org.nbgames.core.api.GameProvider;
 import org.netbeans.api.options.OptionsDisplayer;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.modules.Modules;
 import org.openide.util.NbBundle;
+import se.trixon.almond.SystemHelper;
+import se.trixon.almond.news.NewsProvider;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public abstract class GameController {
+public class GameController implements GameProvider, NewsProvider {
 
     private ActionMap mActionMap;
     private GamePanel mGamePanel;
     private GameTopComponent mGameTopComponent;
-    private String mInfoCopyright;
-    private String mInfoDescription;
-    private String mInfoName;
-    private String mInfoVersion;
-    private String mOptionsPath;
 
-    public GameController(GameTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {
+    public GameController() {
+    }
+
+    public GameController(GameTopComponent gameTopComponent) {
         mGameTopComponent = gameTopComponent;
         mActionMap = gameTopComponent.getActionMap();
-        mInfoName = infoName;
-        mInfoVersion = infoVersion;
-        mInfoDescription = infoDescription;
-        mInfoCopyright = infoCopyright;
-        mOptionsPath = optionsPath;
 
         init();
     }
 
-    private GameController() {
+    @Override
+    public String getCategory() {
+        return getResource("Game-Category");
+    }
+
+    @Override
+    public String getCopyright() {
+        return getResource("Game-Copyright");
+    }
+
+    @Override
+    public String getCredit() {
+        return getResource("Game-Credit");
+    }
+
+    @Override
+    public String getDescription() {
+        return getResource("Game-Description");
     }
 
     public GamePanel getGamePanel() {
@@ -62,6 +78,48 @@ public abstract class GameController {
 
     public GameTopComponent getGameTopComponent() {
         return mGameTopComponent;
+    }
+
+    @Override
+    public String getLicense() {
+        return getResource("Game-License");
+    }
+
+    @Override
+    public String getModuleName() {
+        return Modules.getDefault().ownerOf(this.getClass()).getDisplayName();
+    }
+
+    @Override
+    public String getName() {
+        return getResource("Game-Name");
+    }
+
+    @Override
+    public ResourceBundle getNewsBundle() {
+        return null;
+    }
+
+    @Override
+    public String getOptionsPath() {
+        return null;
+    }
+
+    public String getPackageAsPath() {
+        return SystemHelper.getPackageAsPath(this.getClass());
+    }
+
+    public String getResource(String key) {
+        try {
+            return NbBundle.getMessage(this.getClass(), key);
+        } catch (MissingResourceException e) {
+            return "";
+        }
+    }
+
+    @Override
+    public String getVersion() {
+        return getResource("Game-Version");
     }
 
     public void requestNewGame() {
@@ -77,15 +135,15 @@ public abstract class GameController {
     protected void setActiveInformation(boolean state) {
 
         if (state) {
-            mActionMap.put(AboutCallbackAction.KEY, new AbstractAction() {
+            mActionMap.put(GameInfoAction.KEY, new AbstractAction() {
 
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    showInformation();
+                    showDescription();
                 }
             });
         } else {
-            mActionMap.remove(AboutCallbackAction.KEY);
+            mActionMap.remove(GameInfoAction.KEY);
         }
     }
 
@@ -120,18 +178,24 @@ public abstract class GameController {
     private void init() {
         setActiveInformation(true);
         setActiveNewGame(true);
-        setActiveOptions(mOptionsPath != null);
+        setActiveOptions(getOptionsPath() != null);
     }
 
-    private void showInformation() {
-        String message = String.format("%s %s\n%s\n\n%s", mInfoName, mInfoVersion, mInfoDescription, mInfoCopyright);
+    private void showDescription() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getName()).append(" ").append(getVersion()).append("\n");
+        builder.append(getDescription()).append("\n\n");
+        builder.append(getCopyright());
+        if (!getCredit().isEmpty()) {
+            builder.append("\n\n").append(getCredit());
+        }
 
-        NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(message, NotifyDescriptor.INFORMATION_MESSAGE);
-        notifyDescriptor.setTitle(NbBundle.getMessage(AboutCallbackAction.class, "CTL_GameAboutAction"));
+        NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
+        notifyDescriptor.setTitle(NbBundle.getMessage(GameInfoAction.class, "CTL_GameInfoAction"));
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
 
     private void showOptions() {
-        OptionsDisplayer.getDefault().open(mOptionsPath);
+        OptionsDisplayer.getDefault().open(getOptionsPath());
     }
 }

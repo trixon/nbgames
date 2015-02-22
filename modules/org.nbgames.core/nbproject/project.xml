@@ -102,6 +102,8 @@
                 <package>org.json.simple</package>
                 <package>org.json.simple.parser</package>
                 <package>org.nbgames.core</package>
+                <package>org.nbgames.core.api</package>
+                <package>org.nbgames.core.base</package>
                 <package>org.nbgames.core.dictionary</package>
                 <package>org.nbgames.core.game</package>
                 <package>org.nbgames.core.json</package>

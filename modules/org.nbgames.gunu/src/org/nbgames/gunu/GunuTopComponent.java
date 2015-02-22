@@ -1,9 +1,8 @@
 package org.nbgames.gunu;
 
-import org.nbgames.core.game.GameTopComponent;
+import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
-import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 /**
@@ -17,22 +16,20 @@ import org.openide.windows.TopComponent;
 @TopComponent.Description(
         preferredID = "GunuTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-@Messages({
-    "CTL_InfoVersion=1.0.0",
-    "CTL_InfoDescription=Simple reference game",
-    "CTL_InfoCopyright=© 2013 Patrik Karlsson"})
 public final class GunuTopComponent extends GameTopComponent {
 
     private final GunuController mGameController;
 
     public GunuTopComponent() {
+        super();
+        mBundle = NbBundle.getBundle(this.getClass());
+        mGameName = mBundle.getString("Game-Name");
         initComponents();
-        String name = NbBundle.getMessage(GunuTopComponent.class, "CTL_Name");
-        setName(name);
-        mGameController = new GunuController(this, name, Bundle.CTL_InfoVersion(), Bundle.CTL_InfoDescription(), Bundle.CTL_InfoCopyright(), "Logic/Gunu");
+        setName(mGameName);
+        mGameController = new GunuController(this);
     }
 
     /**

@@ -18,6 +18,7 @@ package org.nbgames.core.actions;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -27,6 +28,7 @@ import javax.swing.event.PopupMenuListener;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
+import org.openide.awt.Actions;
 import org.openide.awt.DropDownButtonFactory;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
@@ -71,17 +73,19 @@ public final class NewGameAction extends AbstractAction implements Presenter.Too
     }
 
     @Override
+    public void actionPerformed(ActionEvent e) {
+        Action action = Actions.forID("File", "org.nbgames.core.actions.NewGameAction");
+        action.actionPerformed(e);
+    }
+
+    @Override
     public Component getToolbarPresenter() {
         JButton dropdown = DropDownButtonFactory.createDropDownButton(ImageUtilities.loadImageIcon("org/nbgames/core/res/document-new24.png", false),
                 mPopup);
 
         dropdown.addActionListener(this);
         dropdown.setToolTipText(NbBundle.getMessage(this.getClass(), "CTL_GameNewAction"));
-        return dropdown;
-    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("start new game in active game");
+        return dropdown;
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.game;
+package org.nbgames.core.base;
 
 /**
  *
@@ -28,7 +28,7 @@ public abstract class NewGamePanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    protected abstract void saveState();
+    public abstract void saveState();
 
     /**
      * This method is called from within the constructor to initialize the form.

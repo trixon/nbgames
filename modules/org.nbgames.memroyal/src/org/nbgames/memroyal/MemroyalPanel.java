@@ -1,6 +1,6 @@
 package org.nbgames.memroyal;
 
-import org.nbgames.core.game.GamePanel;
+import org.nbgames.core.base.GamePanel;
 
 /**
  *

@@ -2,27 +2,44 @@ package org.nbgames.memroyal;
 
 import java.util.Observable;
 import java.util.Observer;
-import org.nbgames.core.game.GameController;
+import org.nbgames.core.api.CardGameProvider;
+import org.nbgames.core.api.GameProvider;
+import org.nbgames.core.base.GameController;
 import org.nbgames.core.game.NewGameDialogManager;
 import org.openide.DialogDisplayer;
 import org.openide.awt.StatusDisplayer;
+import org.openide.util.lookup.ServiceProvider;
+import org.openide.util.lookup.ServiceProviders;
 import org.openide.windows.WindowManager;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class MemroyalController extends GameController implements NewGameDialogManager.NewGameController, Observer {
+@ServiceProviders(value = {
+    @ServiceProvider(service = GameProvider.class),
+    @ServiceProvider(service = CardGameProvider.class)}
+)
+public class MemroyalController extends GameController implements CardGameProvider, NewGameDialogManager.NewGameController, Observer {
 
-    public static final String LOG_TITLE = "Memroyal";
+    public static final String TAG = "Memroyal";
     private final MemroyalPanel mGamePanel;
     private Rules rules;
 
-    public MemroyalController(MemroyalTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {
-        super(gameTopComponent, infoName, infoVersion, infoDescription, infoCopyright, optionsPath);
+    public MemroyalController() {
+        mGamePanel = null;
+    }
+
+    public MemroyalController(MemroyalTopComponent gameTopComponent) {
+        super(gameTopComponent);
         mGamePanel = new MemroyalPanel(this);
         setGamePanel(mGamePanel);
         gameTopComponent.setGamePanel(mGamePanel);
+    }
+
+    @Override
+    public String getOptionsPath() {
+        return "Card/Memroyal";
     }
 
     @Override

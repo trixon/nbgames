@@ -17,7 +17,7 @@ package org.nbgames.yaya;
 
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
-import org.nbgames.core.game.NewGamePanel;
+import org.nbgames.core.base.NewGamePanel;
 import org.nbgames.yaya.gamedef.GameDef;
 import org.nbgames.yaya.gamedef.GameType;
 import org.openide.util.NbBundle;
@@ -44,7 +44,7 @@ public class YayaNewGamePanel extends NewGamePanel {
     }
 
     @Override
-    protected void saveState() {
+    public void saveState() {
         String gameTypeId = mGameDef.getIdForIndex(typeComboBox.getSelectedIndex());
 
         mOptions.setGameTypeId(gameTypeId);

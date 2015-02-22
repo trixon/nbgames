@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core;
+package org.nbgames.core.base;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import org.nbgames.core.GlobalOptions;
 import org.openide.util.Lookup;
 import org.openide.windows.TopComponent;
 

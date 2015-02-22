@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.game;
+package org.nbgames.core.base;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.util.ResourceBundle;
 import javax.swing.JPanel;
-import org.nbgames.core.BaseTopComponent;
 import org.openide.awt.StatusDisplayer;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
@@ -29,6 +29,8 @@ import org.openide.util.lookup.Lookups;
  */
 public abstract class GameTopComponent extends BaseTopComponent {
 
+    protected ResourceBundle mBundle;
+    protected String mGameName;
     private GamePanel mGamePanel;
     private JPanel mTopPanel;
 

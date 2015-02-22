@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.game;
 
+import org.nbgames.core.base.NewGamePanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;

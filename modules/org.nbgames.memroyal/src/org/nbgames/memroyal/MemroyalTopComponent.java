@@ -1,6 +1,6 @@
 package org.nbgames.memroyal;
 
-import org.nbgames.core.game.GameTopComponent;
+import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
@@ -15,13 +15,9 @@ import org.openide.windows.TopComponent;
 @TopComponent.Description(
         preferredID = "MemroyalTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
-@NbBundle.Messages({
-    "CTL_InfoVersion=0.0.1",
-    "CTL_InfoDescription=Memory game",
-    "CTL_InfoCopyright=© 2014 Patrik Karlsson"})
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
@@ -31,10 +27,12 @@ public final class MemroyalTopComponent extends GameTopComponent {
     private final MemroyalController mGameController;
 
     public MemroyalTopComponent() {
+        super();
+        mBundle = NbBundle.getBundle(this.getClass());
+        mGameName = mBundle.getString("Game-Name");
         initComponents();
-        String name = NbBundle.getMessage(MemroyalTopComponent.class, "CTL_Name");
-        setName(name);
-        mGameController = new MemroyalController(this, name, Bundle.CTL_InfoVersion(), Bundle.CTL_InfoDescription(), Bundle.CTL_InfoCopyright(), "Card/Memroyal");
+        setName(mGameName);
+        mGameController = new MemroyalController(this);
     }
 
     /**

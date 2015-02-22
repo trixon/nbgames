@@ -15,19 +15,18 @@
  */
 package org.nbgames.yaya;
 
-import org.nbgames.core.game.GameTopComponent;
+import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle;
-import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
 /**
  * Top component which displays something.
  */
 @ActionID(
-        category = "File/Dice",
+        category = "Game",
         id = "org.nbgames.yaya.YayaAction"
 )
 @ActionReference(path = "Menu/File/Dice", position = 3333)
@@ -42,23 +41,20 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @TopComponent.OpenActionRegistration(
-        displayName = "CTL_Name",
+        displayName = "#Game-Name",
         preferredID = "YayaTopComponent"
 )
-@Messages({
-    "CTL_InfoVersion=0.0.2",
-    "CTL_InfoDescription=Yet Another Yahtzee",
-    "CTL_InfoCopyright=© 2013-2015 Patrik Karlsson"})
-
 public final class YayaTopComponent extends GameTopComponent {
 
     private final YayaController mGameController;
 
     public YayaTopComponent() {
+        super();
+        mBundle = NbBundle.getBundle(this.getClass());
+        mGameName = mBundle.getString("Game-Name");
         initComponents();
-        String name = NbBundle.getMessage(YayaTopComponent.class, "CTL_Name");
-        setName(name);
-        mGameController = new YayaController(this, name, Bundle.CTL_InfoVersion(), Bundle.CTL_InfoDescription(), Bundle.CTL_InfoCopyright(), "Dice/Yaya");
+        setName(mGameName);
+        mGameController = new YayaController(this);
     }
 
     /**

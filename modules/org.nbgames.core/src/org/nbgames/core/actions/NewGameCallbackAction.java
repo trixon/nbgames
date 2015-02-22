@@ -26,14 +26,12 @@ import org.openide.awt.ActionRegistration;
  */
 public class NewGameCallbackAction {
 
-    @ActionID(category = "game",
+    @ActionID(category = "File",
             id = "org.nbgames.core.actions.NewGameAction")
     @ActionRegistration(iconBase = "org/nbgames/core/res/document-new.png",
             displayName = "org.nbgames.core.actions.Bundle#CTL_GameNewAction",
             iconInMenu = true)
     @ActionReferences({
-        @ActionReference(path = "Menu/File", position = 10),
-        @ActionReference(path = "Toolbars/File", position = 10),
         @ActionReference(path = "Shortcuts", name = "D-N")
 
     })

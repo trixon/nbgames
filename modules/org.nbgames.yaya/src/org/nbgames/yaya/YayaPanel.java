@@ -21,7 +21,7 @@ import java.util.Observer;
 import org.nbgames.core.NbGames;
 import org.nbgames.core.dice.DiceBoard;
 import org.nbgames.core.dice.DiceBoard.RollEvent;
-import org.nbgames.core.game.GamePanel;
+import org.nbgames.core.base.GamePanel;
 import org.nbgames.yaya.gamedef.GameDef;
 import org.nbgames.yaya.gamedef.GameType;
 import org.nbgames.yaya.scorecard.ScoreCard;

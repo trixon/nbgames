@@ -15,31 +15,48 @@
  */
 package org.nbgames.yaya;
 
-import org.nbgames.core.game.GameController;
+import org.nbgames.core.api.DiceGameProvider;
+import org.nbgames.core.api.GameProvider;
+import org.nbgames.core.base.GameController;
 import org.nbgames.core.game.NewGameDialogManager;
 import org.nbgames.core.game.NewGameDialogManager.NewGameController;
 import org.openide.DialogDisplayer;
 import org.openide.awt.StatusDisplayer;
 import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+import org.openide.util.lookup.ServiceProviders;
 import org.openide.windows.WindowManager;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class YayaController extends GameController implements NewGameController {
+@ServiceProviders(value = {
+    @ServiceProvider(service = GameProvider.class),
+    @ServiceProvider(service = DiceGameProvider.class)}
+)
+public class YayaController extends GameController implements DiceGameProvider, NewGameController {
 
     public static final String LOG_TITLE = "Yaya";
 
     private final YayaPanel mGamePanel;
     private YayaTopComponent mGameTopComponent;
 
-    public YayaController(YayaTopComponent gameTopComponent, String infoName, String infoVersion, String infoDescription, String infoCopyright, String optionsPath) {
-        super(gameTopComponent, infoName, infoVersion, infoDescription, infoCopyright, optionsPath);
+    public YayaController() {
+        mGamePanel = null;
+    }
+
+    public YayaController(YayaTopComponent gameTopComponent) {
+        super(gameTopComponent);
         mGameTopComponent = gameTopComponent;
         mGamePanel = new YayaPanel(this);
         setGamePanel(mGamePanel);
         gameTopComponent.setGamePanel(mGamePanel);
+    }
+
+    @Override
+    public String getOptionsPath() {
+        return "Dice/Yaya";
     }
 
     @Override

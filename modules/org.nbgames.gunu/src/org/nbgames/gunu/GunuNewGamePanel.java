@@ -3,7 +3,7 @@ package org.nbgames.gunu;
 import javax.swing.DefaultComboBoxModel;
 import org.nbgames.core.Player;
 import org.nbgames.core.PlayerManager;
-import org.nbgames.core.game.NewGamePanel;
+import org.nbgames.core.base.NewGamePanel;
 
 /**
  *
@@ -21,7 +21,7 @@ public class GunuNewGamePanel extends NewGamePanel {
     }
 
     @Override
-    protected void saveState() {
+    public void saveState() {
         String name = ((Player) playerComboBox.getSelectedItem()).getName();
         Options.INSTANCE.setPlayer(name);
     }

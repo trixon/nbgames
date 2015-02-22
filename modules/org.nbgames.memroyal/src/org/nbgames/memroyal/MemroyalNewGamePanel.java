@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import javax.swing.DefaultComboBoxModel;
 import org.nbgames.core.PlayerManager;
 import org.nbgames.core.dictionary.DictNbg;
-import org.nbgames.core.game.NewGamePanel;
+import org.nbgames.core.base.NewGamePanel;
 import org.openide.util.NbBundle;
 
 /**
@@ -25,7 +25,7 @@ public class MemroyalNewGamePanel extends NewGamePanel {
     }
 
     @Override
-    protected void saveState() {
+    public void saveState() {
 //        Options.INSTANCE.setPlayer(name);
         mOptions.setLevel(levelSlider.getValue());
         mOptions.setVariation(Rules.Variation.values()[variationComboBox.getSelectedIndex()]);

@@ -18,7 +18,7 @@ package org.nbgames.core.startpage;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
-import org.nbgames.core.BaseTopComponent;
+import org.nbgames.core.base.BaseTopComponent;
 import org.nbgames.core.PlayerManager;
 import org.nbgames.core.options.PlayersOptionsPanelController;
 import org.netbeans.api.options.OptionsDisplayer;
