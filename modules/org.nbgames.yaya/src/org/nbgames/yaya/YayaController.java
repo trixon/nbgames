@@ -19,7 +19,7 @@ import org.nbgames.core.api.DiceGameProvider;
 import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.base.GameController;
 import org.nbgames.core.game.NewGameDialogManager;
-import org.nbgames.core.game.NewGameDialogManager.NewGameController;
+import org.nbgames.core.game.NewGameController;
 import org.openide.DialogDisplayer;
 import org.openide.awt.StatusDisplayer;
 import org.openide.util.NbBundle;
@@ -60,11 +60,11 @@ public class YayaController extends GameController implements DiceGameProvider, 
     }
 
     @Override
-    public void onCancelNewGame() {
+    public void onRequestNewGameCancel() {
     }
 
     @Override
-    public void onStartNewGame() {
+    public void onRequestNewGameStart() {
         mGamePanel.newGame();
         updateStatusBar();
         String name = NbBundle.getMessage(getClass(), "CTL_NameType", mGamePanel.getGameTitle());

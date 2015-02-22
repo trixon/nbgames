@@ -20,6 +20,7 @@ import java.util.Observer;
 import org.nbgames.core.api.CardGameProvider;
 import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.base.GameController;
+import org.nbgames.core.game.NewGameController;
 import org.nbgames.core.game.NewGameDialogManager;
 import org.openide.DialogDisplayer;
 import org.openide.awt.StatusDisplayer;
@@ -35,7 +36,7 @@ import org.openide.windows.WindowManager;
     @ServiceProvider(service = GameProvider.class),
     @ServiceProvider(service = CardGameProvider.class)}
 )
-public class MemroyalController extends GameController implements CardGameProvider, NewGameDialogManager.NewGameController, Observer {
+public class MemroyalController extends GameController implements CardGameProvider, NewGameController, Observer {
 
     public static final String TAG = "Memroyal";
     private final MemroyalPanel mGamePanel;
@@ -58,11 +59,11 @@ public class MemroyalController extends GameController implements CardGameProvid
     }
 
     @Override
-    public void onCancelNewGame() {
+    public void onRequestNewGameCancel() {
     }
 
     @Override
-    public void onStartNewGame() {
+    public void onRequestNewGameStart() {
         mGamePanel.newGame();
         updateStatusBar();
 //                topPanel.removeAll();

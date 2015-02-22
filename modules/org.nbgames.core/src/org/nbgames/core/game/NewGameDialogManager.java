@@ -46,9 +46,9 @@ public class NewGameDialogManager {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (actionEvent.getSource() == mStartButton) {
                     newGamePanel.saveState();
-                    newGameController.onStartNewGame();
+                    newGameController.onRequestNewGameStart();
                 } else if (actionEvent.getSource() == mCancelButton) {
-                    newGameController.onCancelNewGame();
+                    newGameController.onRequestNewGameCancel();
                 }
             }
         };
@@ -67,12 +67,5 @@ public class NewGameDialogManager {
 
     public DialogDescriptor getDialogDescriptor() {
         return mDialogDescriptor;
-    }
-
-    public interface NewGameController {
-
-        public void onCancelNewGame();
-
-        public void onStartNewGame();
     }
 }
