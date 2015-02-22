@@ -16,39 +16,8 @@ limitations under the License.
 -->
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
-    <folder name="Menu">
-        <file name="Edit_hidden"/>
-        <folder name="File">
-            <file name="Separator2.instance_hidden"/>
-            <file name="Separator3.instance_hidden"/>
-            <file name="org-netbeans-core-actions-SystemExit.shadow_hidden"/>
-            <file name="org-netbeans-modules-print-action-PageSetupAction.shadow_hidden"/>
-            <file name="org-netbeans-modules-print-action-PrintAction.shadow_hidden"/>
-            <file name="org-openide-actions-PageSetupAction.shadow_hidden"/>
-            <file name="org-openide-actions-PrintAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAllAction.shadow_hidden"/>
-            <file name="org-openide-actions-SaveAsAction.shadow_hidden"/>
-        </folder>
-        <file name="GoTo_hidden"/>
-        <folder name="Window">
-            <file name="CloseAllButThisAction.shadow_hidden"/>
-            <file name="CloseAllDocumentsAction.shadow_hidden"/>
-            <file name="CloseWindowAction.shadow_hidden"/>
-            <folder name="ConfigureWindow">
-                <file name="CloneDocumentAction.shadow_hidden"/>
-                <file name="CollapseDocumentTabGroupAction.shadow_hidden"/>
-                <file name="NewDocumentTabGroupAction.shadow_hidden"/>
-                <file name="Separator1.instance_hidden"/>
-                <file name="org-netbeans-core-multiview-SplitAction.instance_hidden"/>
-            </folder>
-            <file name="DocumentsAction.shadow_hidden"/>
-            <file name="Separator4.instance_hidden"/>
-            <file name="SwitchToRecentDocumentAction.shadow_hidden"/>
-            <file name="Tools_hidden"/>
-            <file name="Web_hidden"/>
-        </folder>
-    </folder>
+    <file name="Menu_hidden"/>
+
     <folder name="OptionsDialog">
         <file name="Advanced_hidden"/>
         <folder name="Appearance">
@@ -70,4 +39,11 @@ limitations under the License.
             </file> 
         </folder>
     </folder>
+
+    <folder name="Shortcuts">
+        <file name="F12.shadow">
+            <attr name="originalFile" stringvalue="Actions/Window/org-netbeans-core-windows-actions-ShowEditorOnlyAction.instance"/>
+        </file>
+    </folder>
+
 </filesystem>

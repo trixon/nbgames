@@ -30,7 +30,6 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
 import org.openide.awt.Mnemonics;
-import org.openide.filesystems.FileUtil;
 import se.trixon.almond.dictionary.Dict;
 
 /**
@@ -46,32 +45,38 @@ import se.trixon.almond.dictionary.Dict;
         displayName = "#CTL_SystemMenuAction"
 )
 @ActionReferences({
-    @ActionReference(path = "Toolbars/System", position = 9999)
+    @ActionReference(path = "Toolbars/System", position = 9999),
+    @ActionReference(path = "Shortcuts", name = "O-F10")
 })
 public final class SystemMenuAction implements ActionListener {
 
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public SystemMenuAction() {
-
         JMenu menu;
-        mPopup.add(new JMenuItem(String.valueOf(System.currentTimeMillis())));
 
-        menu = FileUtil.getConfigObject("Menu/File/Dice.shadow", JMenu.class);
-        try {
-            mPopup.add(menu);
-        } catch (Exception e) {
-        }
-
+        add(mPopup, "Window", "org.nbgames.core.StartPageTopComponent");
+        add(mPopup, "Window", "org.netbeans.core.windows.actions.ToggleFullScreenAction");
+        add(mPopup, "Window", "org.netbeans.core.windows.actions.ShowEditorOnlyAction");
         mPopup.add(new JSeparator());
 
         add(mPopup, "System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction");
         add(mPopup, "Window", "org.netbeans.modules.options.OptionsWindowAction");
         add(mPopup, "Window", "org.netbeans.core.windows.actions.ToolbarsListAction");
+        //FIXME Does not populate...
+        mPopup.add(new JSeparator());
+
+        menu = new JMenu(Dict.SYSTEM.getString());
+        add(menu, "Window", "org.netbeans.core.windows.actions.ResetWindowsAction");
+        menu.add(new JSeparator());
+        add(menu, "Window", "org.netbeans.core.io.ui.IOWindowAction");
+        add(menu, "View", "org.netbeans.core.actions.LogAction");
+        mPopup.add(menu);
         mPopup.add(new JSeparator());
 
         menu = new JMenu(Dict.HELP.getString());
         add(menu, "Help", "org.nbgames.core.actions.HelpAction");
+        add(menu, "System", "org.netbeans.modules.autoupdate.ui.actions.CheckForUpdatesAction");
         add(menu, "Help", "org.netbeans.core.actions.AboutAction");
         mPopup.add(menu);
         mPopup.add(new JSeparator());
