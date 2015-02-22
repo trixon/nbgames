@@ -28,7 +28,7 @@ public enum GlobalOptions {
 
     INSTANCE;
     private static final String DEFAULT_COLOR_WINDOW_LOWER = "#003300";
-    private static final String DEFAULT_COLOR_WINDOW_UPPER = "#00EE00";
+    private static final String DEFAULT_COLOR_WINDOW_UPPER = "#009900";
     private Preferences mPreferences = NbPreferences.forModule(GlobalOptions.class);
 
     public Color getColor(ColorItem colorItem) {
