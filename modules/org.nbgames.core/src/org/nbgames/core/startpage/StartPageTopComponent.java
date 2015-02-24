@@ -16,7 +16,6 @@
 package org.nbgames.core.startpage;
 
 import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 import java.util.prefs.Preferences;
 import org.nbgames.core.base.BaseTopComponent;
 import org.nbgames.core.PlayerManager;
@@ -25,34 +24,36 @@ import org.netbeans.api.options.OptionsDisplayer;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.NbPreferences;
 import org.openide.windows.TopComponent;
 
-/**
- *
- * @author Patrik Karlsson <patrik@trixon.se>
- */
 @ConvertAsProperties(
         dtd = "-//org.nbgames.core//StartPage//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "StartPageTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
+        iconBase = "org/nbgames/core/res/go-home.png",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.nbgames.core.StartPageTopComponent")
-@ActionReference(path = "Menu/Help" /*, position = 333 */)
+@ActionReferences({
+    @ActionReference(path = "Menu/Help"),
+    @ActionReference(path = "Toolbars/File", position = 999)})
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_StartPageAction",
         preferredID = "StartPageTopComponent"
 )
 @Messages({
     "CTL_StartPageAction=Start Page",
-    "CTL_StartPageTopComponent=Start Page"
 })
+/**
+ *
+ * @author Patrik Karlsson <patrik@trixon.se>
+ */
 public final class StartPageTopComponent extends BaseTopComponent {
 
     public static final String KEY_SHOW_START_PAGE_ON_STARTUP = "showStartPageOnStartup";
@@ -62,12 +63,8 @@ public final class StartPageTopComponent extends BaseTopComponent {
         mPreferences = NbPreferences.forModule(StartPageTopComponent.class);
         initComponents();
         setName(Bundle.CTL_StartPageTopComponent());
-        PlayerManager.INSTANCE.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
-
-            @Override
-            public void preferenceChange(PreferenceChangeEvent evt) {
-                updatePlayerManagerPanel();
-            }
+        PlayerManager.INSTANCE.getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
+            updatePlayerManagerPanel();
         });
     }
 
