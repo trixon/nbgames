@@ -49,3 +49,7 @@ hs_err_pid*.log
 /modules/org.nbgames.memroyal/nbproject/private/
 /modules/org.nbgames.core.strategy/nbproject/private/
 /modules/org.nbgames.core.card.data/nbproject/private/
+/meta/build/
+/meta/nbproject/private/
+/modules/meta/build/
+/modules/meta/nbproject/private/
