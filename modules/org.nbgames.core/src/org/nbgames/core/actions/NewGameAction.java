@@ -17,27 +17,29 @@ package org.nbgames.core.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.nbgames.core.api.GameProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
 import org.openide.awt.DropDownButtonFactory;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
 import org.openide.util.actions.Presenter;
 
 @ActionID(
         category = "File",
-        id = "org.nbgames.core.actions.NewGame2Action"
+        id = "org.nbgames.core.actions.NewGameAction"
 )
 @ActionRegistration(
         displayName = "#CTL_NewGameAction", lazy = false
@@ -46,10 +48,13 @@ import org.openide.util.actions.Presenter;
 @Messages("CTL_NewGameAction=New")
 public final class NewGameAction extends AbstractAction implements Presenter.Toolbar {
 
+    private final JMenuItem mDummyMenuItem;
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public NewGameAction() {
-        mPopup.add(new JMenuItem("dummy"));
+        mDummyMenuItem = new JMenuItem("No installed games");
+        mDummyMenuItem.setEnabled(false);
+        mPopup.add(mDummyMenuItem);
 
         mPopup.addPopupMenuListener(new PopupMenuListener() {
 
@@ -63,29 +68,44 @@ public final class NewGameAction extends AbstractAction implements Presenter.Too
 
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                mPopup.removeAll();
-                mPopup.add(new JMenuItem(String.valueOf(System.currentTimeMillis())));
-                mPopup.add(new JMenuItem("<html><strong>Yaya</strong><br />Dice game</html>"));
-                mPopup.add(new JSeparator());
-                mPopup.add(new JMenuItem("<html>Gunu2<br /><i>Guess the number</i></html>"));
+                populate();
             }
         });
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Action action = Actions.forID("File", "org.nbgames.core.actions.NewGameAction");
+        Action action = Actions.forID("Game", "org.nbgames.core.actions.NewGameCallbackAction");
         action.actionPerformed(e);
     }
 
     @Override
     public Component getToolbarPresenter() {
-        JButton dropdown = DropDownButtonFactory.createDropDownButton(ImageUtilities.loadImageIcon("org/nbgames/core/res/document-new24.png", false),
+        JButton dropDown = DropDownButtonFactory.createDropDownButton(ImageUtilities.loadImageIcon("org/nbgames/core/res/document-new24.png", false),
                 mPopup);
 
-        dropdown.addActionListener(this);
-        dropdown.setToolTipText(NbBundle.getMessage(this.getClass(), "CTL_GameNewAction"));
+        dropDown.addActionListener(this);
+        dropDown.setToolTipText(NbBundle.getMessage(this.getClass(), "CTL_GameNewAction"));
 
-        return dropdown;
+        return dropDown;
+    }
+
+    private void populate() {
+        mPopup.removeAll();
+
+        Collection<? extends GameProvider> gameProviders = Lookup.getDefault().lookupAll(GameProvider.class);
+        gameProviders.stream().forEach((gameProvider) -> {
+            String category = gameProvider.getActionCategory();
+            String id = gameProvider.getActionId();
+            JMenuItem menuItem = new JMenuItem(Actions.forID(category, id));
+            String text = String.format("<html><b>%s</b><br /><i>%s</i></html>", gameProvider.getName(), gameProvider.getActionCategory());
+            menuItem.setText(text);
+
+            mPopup.add(menuItem);
+        });
+
+        if (gameProviders.isEmpty()) {
+            mPopup.add(mDummyMenuItem);
+        }
     }
 }

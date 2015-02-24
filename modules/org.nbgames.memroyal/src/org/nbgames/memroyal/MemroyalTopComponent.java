@@ -15,24 +15,30 @@
  */
 package org.nbgames.memroyal;
 
+import org.nbgames.core.NbGames;
 import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.awt.ActionID;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
-/**
- * Top component which displays something.
- */
+@ActionID(
+        category = "Game/Card",
+        id = "org.nbgames.memroyal.MemroyalAction"
+)
 @ConvertAsProperties(
         dtd = "-//org.nbgames.memroyal//Memroyal//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "MemroyalTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
+@TopComponent.OpenActionRegistration(
+        displayName = "#Game-Name",
+        preferredID = "MemroyalTopComponent"
+)
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
@@ -48,6 +54,7 @@ public final class MemroyalTopComponent extends GameTopComponent {
         initComponents();
         setName(mGameName);
         mGameController = new MemroyalController(this);
+        NbGames.outln(NbGames.LOG_TITLE, mGameName);
     }
 
     /**

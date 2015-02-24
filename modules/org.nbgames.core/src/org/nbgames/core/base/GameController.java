@@ -53,6 +53,16 @@ public class GameController implements GameProvider, NewsProvider {
     }
 
     @Override
+    public String getActionCategory() {
+        return getResource("Game-ActionCategory");
+    }
+
+    @Override
+    public String getActionId() {
+        return getResource("Game-ActionId");
+    }
+
+    @Override
     public String getCategory() {
         return getResource("Game-Category");
     }

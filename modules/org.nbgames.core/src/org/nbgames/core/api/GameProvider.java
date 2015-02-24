@@ -21,6 +21,10 @@ package org.nbgames.core.api;
  */
 public interface GameProvider {
 
+    String getActionCategory();
+
+    String getActionId();
+
     String getCategory();
 
     String getCopyright();

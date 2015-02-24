@@ -15,25 +15,34 @@
  */
 package org.nbgames.gunu;
 
+import org.nbgames.core.NbGames;
 import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.awt.ActionID;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
-/**
- *
- * @author Patrik Karlsson <patrik@trixon.se>
- */
+@ActionID(
+        category = "Game/Logic",
+        id = "org.nbgames.gunu.GunuAction"
+)
 @ConvertAsProperties(
         dtd = "-//org.nbgames.gunu//Gunu//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "GunuTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
+@TopComponent.OpenActionRegistration(
+        displayName = "#Game-Name",
+        preferredID = "GunuTopComponent"
+)
+/**
+ *
+ * @author Patrik Karlsson <patrik@trixon.se>
+ */
 public final class GunuTopComponent extends GameTopComponent {
 
     private final GunuController mGameController;
@@ -45,6 +54,7 @@ public final class GunuTopComponent extends GameTopComponent {
         initComponents();
         setName(mGameName);
         mGameController = new GunuController(this);
+        NbGames.outln(NbGames.LOG_TITLE, mGameName);
     }
 
     /**

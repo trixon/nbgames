@@ -35,7 +35,7 @@ public enum Options {
     public static final int DEFAULT_LEVEL = 13;
     public static final boolean DEFAULT_SHOW_COUNTERS = true;
     public static final Variation DEFAULT_VARIATION = Variation.ONE_DECK_ANY_COLOR;
-    private final Preferences mPreferences = NbPreferences.forModule(MemroyalAction.class);
+    private final Preferences mPreferences = NbPreferences.forModule(Options.class);
     private final Preferences mPreferencesColor = mPreferences.node("color");
 
     private Options() {

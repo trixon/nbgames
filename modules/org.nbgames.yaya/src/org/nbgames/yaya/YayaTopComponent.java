@@ -15,28 +15,23 @@
  */
 package org.nbgames.yaya;
 
+import org.nbgames.core.NbGames;
 import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 
-/**
- * Top component which displays something.
- */
 @ActionID(
-        category = "Game",
+        category = "Game/Dice",
         id = "org.nbgames.yaya.YayaAction"
 )
-@ActionReference(path = "Menu/File/Dice", position = 3333)
 @ConvertAsProperties(
         dtd = "-//org.nbgames.yaya//Yaya//EN",
         autostore = false
 )
 @TopComponent.Description(
         preferredID = "YayaTopComponent",
-        //iconBase="SET/PATH/TO/ICON/HERE",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
@@ -44,6 +39,10 @@ import org.openide.windows.TopComponent;
         displayName = "#Game-Name",
         preferredID = "YayaTopComponent"
 )
+/**
+ *
+ * @author Patrik Karlsson <patrik@trixon.se>
+ */
 public final class YayaTopComponent extends GameTopComponent {
 
     private final YayaController mGameController;
@@ -55,6 +54,7 @@ public final class YayaTopComponent extends GameTopComponent {
         initComponents();
         setName(mGameName);
         mGameController = new YayaController(this);
+        NbGames.outln(NbGames.LOG_TITLE, mGameName);
     }
 
     /**

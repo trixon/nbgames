@@ -26,8 +26,8 @@ import org.openide.awt.ActionRegistration;
  */
 public class NewGameCallbackAction {
 
-    @ActionID(category = "File",
-            id = "org.nbgames.core.actions.NewGameAction")
+    @ActionID(category = "Game",
+            id = "org.nbgames.core.actions.NewGameCallbackAction")
     @ActionRegistration(iconBase = "org/nbgames/core/res/document-new.png",
             displayName = "org.nbgames.core.actions.Bundle#CTL_GameNewAction",
             iconInMenu = true)
