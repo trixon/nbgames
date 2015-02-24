@@ -62,7 +62,7 @@ public final class StartPageTopComponent extends BaseTopComponent {
     public StartPageTopComponent() {
         mPreferences = NbPreferences.forModule(StartPageTopComponent.class);
         initComponents();
-        setName(Bundle.CTL_StartPageTopComponent());
+        setName(Bundle.CTL_StartPageAction());
         PlayerManager.INSTANCE.getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
             updatePlayerManagerPanel();
         });
