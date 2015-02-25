@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2015 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,35 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api;
-
-import org.nbgames.core.GameCategory;
+package org.nbgames.core;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public interface GameProvider {
+public enum GameCategory {
 
-    String getActionCategory();
+    ARCADE, BOARD, CARD, DICE, LOGIC, STRATEGY;
 
-    String getActionId();
-
-    GameCategory getCategory();
-
-    String getCopyright();
-
-    String getCredit();
-
-    String getDescription();
-
-    String getLicense();
-
-    String getModuleName();
-
-    String getName();
-
-    String getOptionsPath();
-
-    String getVersion();
+    public String getString() {
+        return NbGames.getBundle().getString("category_" + name().toLowerCase());
+    }
 }

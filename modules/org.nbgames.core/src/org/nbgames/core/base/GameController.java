@@ -20,6 +20,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import org.nbgames.core.GameCategory;
+import org.nbgames.core.NbGames;
 import org.nbgames.core.actions.GameInfoAction;
 import org.nbgames.core.actions.NewGameCallbackAction;
 import org.nbgames.core.actions.OptionsCallbackAction;
@@ -63,8 +65,8 @@ public class GameController implements GameProvider, NewsProvider {
     }
 
     @Override
-    public String getCategory() {
-        return getResource("Game-Category");
+    public GameCategory getCategory() {
+        return null;
     }
 
     @Override

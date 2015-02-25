@@ -15,12 +15,14 @@
  */
 package org.nbgames.core.actions;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
@@ -95,6 +97,9 @@ public final class NewGameAction extends AbstractAction implements Presenter.Too
 
         Collection<? extends GameProvider> gameProviders = Lookup.getDefault().lookupAll(GameProvider.class);
         gameProviders.stream().forEach((gameProvider) -> {
+            JLabel label=new JLabel(gameProvider.getCategory().getString());
+            label.setEnabled(false);
+            mPopup.add(label);
             String category = gameProvider.getActionCategory();
             String id = gameProvider.getActionId();
             JMenuItem menuItem = new JMenuItem(Actions.forID(category, id));
