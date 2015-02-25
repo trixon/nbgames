@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.base;
+package org.nbgames.core;
 
 import java.awt.event.ActionEvent;
 import java.util.MissingResourceException;
@@ -21,11 +21,12 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import org.nbgames.core.GameCategory;
-import org.nbgames.core.NbGames;
 import org.nbgames.core.actions.GameInfoAction;
 import org.nbgames.core.actions.NewGameCallbackAction;
 import org.nbgames.core.actions.OptionsCallbackAction;
 import org.nbgames.core.api.GameProvider;
+import org.nbgames.core.base.GamePanel;
+import org.nbgames.core.base.GameTopComponent;
 import org.netbeans.api.options.OptionsDisplayer;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;

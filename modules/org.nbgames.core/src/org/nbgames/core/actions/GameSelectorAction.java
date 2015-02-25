@@ -26,7 +26,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import org.nbgames.core.GameCategory;
 import org.nbgames.core.api.GameProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -41,19 +40,19 @@ import org.openide.util.actions.Presenter;
 
 @ActionID(
         category = "File",
-        id = "org.nbgames.core.actions.NewGameAction"
+        id = "org.nbgames.core.actions.GameSelectorAction"
 )
 @ActionRegistration(
         displayName = "#CTL_NewGameAction", lazy = false
 )
 @ActionReference(path = "Toolbars/File", position = -90)
 @Messages("CTL_NewGameAction=New")
-public final class NewGameAction extends AbstractAction implements Presenter.Toolbar {
+public final class GameSelectorAction extends AbstractAction implements Presenter.Toolbar {
 
     private final JMenuItem mDummyMenuItem;
     private final JPopupMenu mPopup = new JPopupMenu();
 
-    public NewGameAction() {
+    public GameSelectorAction() {
         mDummyMenuItem = new JMenuItem("No installed games");
         mDummyMenuItem.setEnabled(false);
         mPopup.add(mDummyMenuItem);
