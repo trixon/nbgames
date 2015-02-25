@@ -43,5 +43,7 @@ public interface GameProvider {
 
     String getOptionsPath();
 
+    String getShortDescription();
+
     String getVersion();
 }

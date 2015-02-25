@@ -15,7 +15,6 @@
  */
 package org.nbgames.core.actions;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
@@ -27,6 +26,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.nbgames.core.GameCategory;
 import org.nbgames.core.api.GameProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -103,7 +103,7 @@ public final class NewGameAction extends AbstractAction implements Presenter.Too
             String category = gameProvider.getActionCategory();
             String id = gameProvider.getActionId();
             JMenuItem menuItem = new JMenuItem(Actions.forID(category, id));
-            String text = String.format("<html><b>%s</b><br /><i>%s</i></html>", gameProvider.getName(), gameProvider.getActionCategory());
+            String text = String.format("<html><b>%s</b><br /> <i>- %s</i></html>", gameProvider.getName(), gameProvider.getShortDescription());
             menuItem.setText(text);
 
             mPopup.add(menuItem);

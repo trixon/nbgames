@@ -130,6 +130,11 @@ public class GameController implements GameProvider, NewsProvider {
     }
 
     @Override
+    public String getShortDescription() {
+        return getResource("Game-ShortDescription");
+    }
+
+    @Override
     public String getVersion() {
         return getResource("Game-Version");
     }
