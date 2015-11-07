@@ -25,7 +25,10 @@ import org.openide.util.NbBundle;
  */
 public enum DictNbg {
 
-    GAME_OVER, GAME_TYPE, LEVEL;
+    GAME_OVER,
+    GAME_TYPE,
+    LEVEL,
+    SHUFFLE;
     private final ResourceBundle mDefaultResourceBundle = ResourceBundle.getBundle("org/nbgames/core/dictionary/Bundle", Locale.getDefault());
     private final ResourceBundle mResourceBundle = NbBundle.getBundle(DictNbg.class);
 

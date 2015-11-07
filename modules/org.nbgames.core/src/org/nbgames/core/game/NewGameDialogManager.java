@@ -40,16 +40,13 @@ public class NewGameDialogManager {
         mCancelButton.setText(bundle.getString("cancelButton.text"));
         mStartButton.setText(bundle.getString("startButton.text"));
         Object[] buttons = new Object[]{mCancelButton, mStartButton};
-        mActionListener = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (actionEvent.getSource() == mStartButton) {
-                    newGamePanel.saveState();
-                    newGameController.onRequestNewGameStart();
-                } else if (actionEvent.getSource() == mCancelButton) {
-                    newGameController.onRequestNewGameCancel();
-                }
+        
+        mActionListener = (ActionEvent actionEvent) -> {
+            if (actionEvent.getSource() == mStartButton) {
+                newGamePanel.saveState();
+                newGameController.onRequestNewGameStart();
+            } else if (actionEvent.getSource() == mCancelButton) {
+                newGameController.onRequestNewGameCancel();
             }
         };
 
