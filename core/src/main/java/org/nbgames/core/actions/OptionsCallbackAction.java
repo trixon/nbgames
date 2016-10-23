@@ -27,15 +27,19 @@ import org.openide.util.NbBundle;
  */
 public class OptionsCallbackAction {
 
-    @ActionID(category = "game",
+    @ActionID(category = "File",
             id = "org.nbgames.core.actions.OptionsAction")
-    @ActionRegistration(iconBase = "org/nbgames/core/res/games-config-options.png",
+    @ActionRegistration(
             displayName = "#CTL_GameOptionsAction",
             iconInMenu = true)
     @ActionReferences({
         @ActionReference(path = "Menu/File", position = 20)
         ,
-        @ActionReference(path = "Toolbars/File", position = 20),})
+        @ActionReference(path = "Toolbars/File", position = 20)
+        ,
+            @ActionReference(path = "Shortcuts", name = "D-P")
+
+    })
     @NbBundle.Messages("CTL_GameOptionsAction=Options")
     public static final String KEY = "OptionsCallbackAction";
 }

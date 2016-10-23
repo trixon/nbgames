@@ -35,7 +35,6 @@ import org.openide.windows.TopComponent;
 )
 @TopComponent.Description(
         preferredID = "StartPageTopComponent",
-        iconBase = "org/nbgames/core/res/go-home.png",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)

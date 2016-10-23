@@ -26,6 +26,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
 import org.openide.awt.Mnemonics;
@@ -41,10 +42,14 @@ import se.trixon.almond.util.Dict;
         id = "org.nbgames.core.actions.SystemMenuAction"
 )
 @ActionRegistration(
-        iconBase = "org/nbgames/core/res/format-justify-fill.png",
-        displayName = "#CTL_SystemMenuAction", lazy = true
+        displayName = "#CTL_SystemMenuAction"
 )
-@ActionReference(path = "Toolbars/System", position = 9999)
+@ActionReferences({
+    @ActionReference(path = "Toolbars/System", position = 9999)
+    ,
+@ActionReference(path = "Shortcuts", name = "D-M")
+})
+
 @NbBundle.Messages("CTL_SystemMenuAction=System")
 public final class SystemMenuAction implements ActionListener {
 
@@ -54,13 +59,12 @@ public final class SystemMenuAction implements ActionListener {
         JMenu menu;
         add(mPopup, "Window", "org.nbgames.core.StartPageTopComponent");
         add(mPopup, "Window", "org.netbeans.core.windows.actions.ToggleFullScreenAction");
-        add(mPopup, "Window", "org.netbeans.core.windows.actions.ShowEditorOnlyAction");
+        //add(mPopup, "Window", "org.netbeans.core.windows.actions.ShowEditorOnlyAction");
         mPopup.add(new JSeparator());
 
         add(mPopup, "System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction");
         add(mPopup, "Window", "org.netbeans.modules.options.OptionsWindowAction");
-        add(mPopup, "Window", "org.netbeans.core.windows.actions.ToolbarsListAction");
-        //FIXME Does not populate...
+        //add(mPopup, "Window", "org.netbeans.core.windows.actions.ToolbarsListAction");
         mPopup.add(new JSeparator());
 
         menu = new JMenu(Dict.SYSTEM.toString());

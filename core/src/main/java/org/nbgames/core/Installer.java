@@ -49,9 +49,6 @@ public class Installer extends ModuleInstall {
         });
 
         WindowManager.getDefault().invokeWhenUIReady(() -> {
-            if (mPreferences.getBoolean(StartPageTopComponent.KEY_SHOW_START_PAGE_ON_STARTUP, true)) {
-                openWindow("StartPageTopComponent");
-            }
             //openWindow("output");
         });
 
