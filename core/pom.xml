@@ -22,6 +22,7 @@
                         <publicPackage>org.nbgames.core.dictionary</publicPackage>
                         <publicPackage>org.nbgames.core.game</publicPackage>
                         <publicPackage>org.nbgames.core.json</publicPackage>
+                        <publicPackage>org.json.simple</publicPackage>
                         <publicPackage>se.trixon.almond.nbp.news</publicPackage>
                     </publicPackages>
                 </configuration>

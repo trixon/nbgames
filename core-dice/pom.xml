@@ -14,6 +14,11 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
+                <configuration>
+                    <publicPackages>
+                        <publicPackage>org.nbgames.core.dice</publicPackage>
+                    </publicPackages>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -48,7 +53,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>nbgames-core</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
@@ -64,6 +69,16 @@
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-util</artifactId>
             <version>1.1.8-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-options-api</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-modules</artifactId>
+            <version>${netbeans.version}</version>
         </dependency>
     </dependencies>
     <properties>
