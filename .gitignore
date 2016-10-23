@@ -53,3 +53,12 @@ hs_err_pid*.log
 /meta/nbproject/private/
 /modules/meta/build/
 /modules/meta/nbproject/private/
+/core/target/
+/core-card-data/target/
+/core-board/target/
+/core-card/target/
+/core-dice-data/target/
+/core-arcade/target/
+/core-logic/target/
+/core-strategy/target/
+/core-dice/target/
