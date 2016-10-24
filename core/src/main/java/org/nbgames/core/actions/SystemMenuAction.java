@@ -70,7 +70,7 @@ public final class SystemMenuAction implements ActionListener {
         menu = new JMenu(Dict.SYSTEM.toString());
         add(menu, "Window", "org.netbeans.core.windows.actions.ResetWindowsAction");
         menu.add(new JSeparator());
-        add(menu, "Window", "org.netbeans.core.io.ui.IOWindowAction");
+        //add(menu, "Window", "org.netbeans.core.io.ui.IOWindowAction");
         add(menu, "View", "org.netbeans.core.actions.LogAction");
         mPopup.add(menu);
         mPopup.add(new JSeparator());

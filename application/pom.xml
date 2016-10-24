@@ -11,7 +11,7 @@
     <artifactId>nbgames-app</artifactId>
     <packaging>nbm-application</packaging>
 
-    <name>nbgames-app</name>
+    <name>nbGames-app</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,35 +19,37 @@
     </properties>
 
     <dependencies>
+        <!--NetBeans-->
         <dependency>
-            <groupId>org.netbeans.cluster</groupId>
-            <artifactId>platform</artifactId>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-core-startup</artifactId>
             <version>${netbeans.version}</version>
-            <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-core-windows</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-core-ui</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-autoupdate-ui</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+
+        <!--NbGames-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>nbgames-branding</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- NbModuleSuite functional in RELEASE70 or later: -->
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-nbjunit</artifactId>
-            <version>${netbeans.version}</version>
-            <scope>test</scope> <!-- beyond platform cluster, this often needs to be dropped down to compile/runtime, some other modules in IDE clusters depend on it -->
-        </dependency>
-        <!-- To use Jelly Tools in your functional tests, add or replace with:
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-jellytools-platform</artifactId>
-            <version>${netbeans.version}</version>
-            <scope>test</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core</artifactId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -80,21 +82,8 @@
             <artifactId>nbgames-core-strategy</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>se.trixon.almond</groupId>
-            <artifactId>almond-nbp-actions</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>se.trixon.almond</groupId>
-            <artifactId>almond-nbp-actions-osx</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        <!--        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>gunu</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
+
+        <!--Games-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>gunu</artifactId>
@@ -105,6 +94,18 @@
             <artifactId>nbgames-yaya</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--Other-->
+        <dependency>
+            <groupId>se.trixon.almond</groupId>
+            <artifactId>almond-nbp-actions</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>se.trixon.almond</groupId>
+            <artifactId>almond-nbp-actions-osx</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -112,18 +113,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
-            </plugin>
-            <!-- Permits NbModuleSuite to be run in integration-test phase: -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.2</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <all.clusters>${all.clusters}</all.clusters>
-                        <branding.token>${brandingToken}</branding.token>
-                    </systemPropertyVariables>
-                </configuration>
             </plugin>
         </plugins>
     </build>
