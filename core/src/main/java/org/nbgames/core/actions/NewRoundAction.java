@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,16 +24,14 @@ import org.openide.awt.ActionRegistration;
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class NewGameCallbackAction {
+public class NewRoundAction {
 
     @ActionID(category = "Game",
-            id = "org.nbgames.core.actions.NewGameCallbackAction")
-    @ActionRegistration(iconBase = "org/nbgames/core/res/document-new.png",
-            displayName = "org.nbgames.core.actions.Bundle_CTL_GameNewAction",
-            iconInMenu = true)
+            id = "org.nbgames.core.actions.NewRoundAction")
+    @ActionRegistration(displayName = "org.nbgames.core.actions.Bundle_CTL_GameNewAction")
     @ActionReferences({
         @ActionReference(path = "Shortcuts", name = "D-N")
 
     })
-    public static final String KEY = "NewGameCallbackAction";
+    public static final String KEY = "NewRoundAction";
 }

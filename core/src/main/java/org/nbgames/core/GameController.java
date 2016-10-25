@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import org.nbgames.core.actions.GameInfoAction;
-import org.nbgames.core.actions.NewGameCallbackAction;
+import org.nbgames.core.actions.NewRoundAction;
 import org.nbgames.core.actions.OptionsCallbackAction;
 import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.base.GamePanel;
@@ -166,7 +166,7 @@ public class GameController implements GameProvider, NewsProvider {
 
     protected void setActiveNewGame(boolean state) {
         if (state) {
-            mActionMap.put(NewGameCallbackAction.KEY, new AbstractAction() {
+            mActionMap.put(NewRoundAction.KEY, new AbstractAction() {
 
                 @Override
                 public void actionPerformed(ActionEvent ae) {
@@ -174,7 +174,7 @@ public class GameController implements GameProvider, NewsProvider {
                 }
             });
         } else {
-            mActionMap.remove(NewGameCallbackAction.KEY);
+            mActionMap.remove(NewRoundAction.KEY);
         }
     }
 
