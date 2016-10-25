@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,8 +79,15 @@ public final class NbGamesTopComponent extends BaseTopComponent {
     public NbGamesTopComponent() {
         initComponents();
         setName(Bundle.CTL_NbGamesTopComponent());
+        putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.TRUE);
+        putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
 
         init();
+    }
+
+    public void goHome() {
+        System.err.println("go homex");
     }
 
     private void init() {
@@ -88,28 +95,28 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         String category;
         String id;
 
-        category = "Actions/Window";
-        id = "org.nbgames.core.StartPageTopComponent";
+        category = "File";
+        id = "org.nbgames.core.actions.HomeAction";
         initActionButton(category, id, homeButton, MaterialIcon._Action.HOME.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HOME.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Actions/File";
+        category = "File";
         id = "org.nbgames.core.actions.PlayerManagerAction";
         initActionButton(category, id, playersButton, MaterialIcon._Social.PEOPLE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Social.PEOPLE.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Actions/File";
+        category = "File";
         id = "org.nbgames.core.actions.OptionsAction";
         initActionButton(category, id, optionsButton, MaterialIcon._Action.SETTINGS.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.SETTINGS.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Actions/Window";
+        category = "Window";
         id = "org.netbeans.core.windows.actions.ToggleFullScreenAction";
-        final Action fullScreenAction = ActionHelper.getAction(category, id);
+        final Action fullScreenAction = Actions.forID(category, id);
         ActionHelper.setIconSmall(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.get(Almond.ICON_SMALL, mIconColor));
         ActionHelper.setIconLarge(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.get(Almond.ICON_LARGE, mIconColor));
 
         fullscreenButton.setAction(fullScreenAction);
         fullscreenButton.setText("");
 
-        category = "Actions/System";
+        category = "System";
         id = "org.nbgames.core.actions.SystemMenuAction";
         initActionButton(category, id, menuButton, MaterialIcon._Navigation.MENU.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Navigation.MENU.get(Almond.ICON_SMALL, mIconColor));
 
@@ -149,7 +156,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
     }
 
     private void initActionButton(String category, String id, JButton button, Icon largeIcon, Icon smallIcon) {
-        Action action = ActionHelper.getAction(category, id);
+        Action action = Actions.forID(category, id);
         ActionHelper.setIconSmall(action, smallIcon);
         ActionHelper.setIconLarge(action, largeIcon);
 
@@ -198,6 +205,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         fullscreenButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         menuButton = new javax.swing.JButton();
+        gamePanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -212,6 +220,11 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(newButton);
 
         playersButton.setFocusable(false);
@@ -236,11 +249,19 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         toolBar.add(menuButton);
 
         add(toolBar, java.awt.BorderLayout.NORTH);
+
+        gamePanel.setOpaque(false);
+        add(gamePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        System.out.println("new");
+    }//GEN-LAST:event_newButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton fullscreenButton;
+    private javax.swing.JPanel gamePanel;
     private javax.swing.JButton homeButton;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton newButton;

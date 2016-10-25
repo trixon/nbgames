@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,6 @@
 package org.nbgames.core.actions;
 
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
@@ -29,13 +27,7 @@ public class GameInfoAction {
 
     @ActionID(category = "game",
             id = "org.nbgames.core.actions.AboutCallbackAction")
-    @ActionRegistration(iconBase = "org/nbgames/core/res/dialog-information.png",
-            displayName = "#CTL_GameInfoAction",
-            iconInMenu = true)
-    @ActionReferences({
-        @ActionReference(path = "Menu/File", position = 30, separatorAfter = 31)
-        ,
-        @ActionReference(path = "Toolbars/File", position = 30),})
+    @ActionRegistration(displayName = "#CTL_GameInfoAction")
     @NbBundle.Messages("CTL_GameInfoAction=Game Information")
     public static final String KEY = "GameInfoAction";
 }

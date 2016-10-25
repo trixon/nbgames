@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-OpenIDE-Module-Layer: org/nbgames/core/strategy/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/nbgames/core/strategy/Bundle.properties
 

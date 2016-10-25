@@ -16,27 +16,22 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import org.nbgames.core.options.PlayersOptionsPanelController;
-import org.netbeans.api.options.OptionsDisplayer;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
-/**
- *
- * @author Patrik Karlsson <patrik@trixon.se>
- */
 @ActionID(
         category = "File",
-        id = "org.nbgames.core.actions.PlayerManagerAction"
+        id = "org.nbgames.core.actions.HomeAction"
 )
-@ActionRegistration(displayName = "#CTL_PlayerManagerAction")
-@NbBundle.Messages("CTL_PlayerManagerAction=Players")
-public final class PlayerManagerAction implements ActionListener {
+@ActionRegistration(
+        displayName = "#CTL_HomeAction"
+)
+@NbBundle.Messages("CTL_HomeAction=Home")
+public final class HomeAction extends NbGameAction {
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        OptionsDisplayer.getDefault().open(PlayersOptionsPanelController.ID);
+    public void actionPerformed(ActionEvent e) {
+        getTopComponent().goHome();
     }
 }

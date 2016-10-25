@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Action;
 import javax.swing.JComponent;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -31,7 +30,6 @@ import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
-import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -45,9 +43,7 @@ import se.trixon.almond.util.Dict;
         displayName = "#CTL_SystemMenuAction"
 )
 @ActionReferences({
-    @ActionReference(path = "Toolbars/System", position = 9999)
-    ,
-@ActionReference(path = "Shortcuts", name = "D-M")
+    @ActionReference(path = "Shortcuts", name = "D-M")
 })
 
 @NbBundle.Messages("CTL_SystemMenuAction=System")
@@ -56,30 +52,12 @@ public final class SystemMenuAction implements ActionListener {
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public SystemMenuAction() {
-        JMenu menu;
-        add(mPopup, "Window", "org.nbgames.core.StartPageTopComponent");
-        add(mPopup, "Window", "org.netbeans.core.windows.actions.ToggleFullScreenAction");
-        //add(mPopup, "Window", "org.netbeans.core.windows.actions.ShowEditorOnlyAction");
+        add(mPopup, "Help", "org.nbgames.core.actions.HelpAction");
+        add(mPopup, "Help", "org.netbeans.core.actions.AboutAction");
         mPopup.add(new JSeparator());
 
         add(mPopup, "System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction");
         add(mPopup, "Window", "org.netbeans.modules.options.OptionsWindowAction");
-        //add(mPopup, "Window", "org.netbeans.core.windows.actions.ToolbarsListAction");
-        mPopup.add(new JSeparator());
-
-        menu = new JMenu(Dict.SYSTEM.toString());
-        add(menu, "Window", "org.netbeans.core.windows.actions.ResetWindowsAction");
-        menu.add(new JSeparator());
-        //add(menu, "Window", "org.netbeans.core.io.ui.IOWindowAction");
-        add(menu, "View", "org.netbeans.core.actions.LogAction");
-        mPopup.add(menu);
-        mPopup.add(new JSeparator());
-
-        menu = new JMenu(Dict.HELP.toString());
-        add(menu, "Help", "org.nbgames.core.actions.HelpAction");
-        add(menu, "System", "org.netbeans.modules.autoupdate.ui.actions.CheckForUpdatesAction");
-        add(menu, "Help", "org.netbeans.core.actions.AboutAction");
-        mPopup.add(menu);
         mPopup.add(new JSeparator());
 
         add(mPopup, "File", "se.trixon.almond.nbp.actions.QuitAction");

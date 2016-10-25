@@ -86,7 +86,7 @@
         <!--Games-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>gunu</artifactId>
+            <artifactId>logic-gunu</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

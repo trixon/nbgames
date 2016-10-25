@@ -15,24 +15,17 @@
  */
 package org.nbgames.core.actions;
 
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import java.awt.event.ActionListener;
+import org.nbgames.core.NbGamesTopComponent;
+import org.openide.windows.WindowManager;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public class OptionsCallbackAction {
+public abstract class NbGameAction implements ActionListener {
 
-    @ActionID(category = "File",
-            id = "org.nbgames.core.actions.OptionsAction")
-    @ActionRegistration(displayName = "#CTL_GameOptionsAction")
-    @ActionReferences({
-        @ActionReference(path = "Shortcuts", name = "D-P")
-    })
-    @NbBundle.Messages("CTL_GameOptionsAction=Options")
-    public static final String KEY = "OptionsCallbackAction";
+    public NbGamesTopComponent getTopComponent() {
+        return (NbGamesTopComponent) WindowManager.getDefault().findTopComponent("NbGamesTopComponent");
+    }
 }

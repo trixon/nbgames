@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Install: org/nbgames/core/card/Installer.class
-OpenIDE-Module-Layer: org/nbgames/core/card/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/nbgames/core/card/Bundle.properties
 
