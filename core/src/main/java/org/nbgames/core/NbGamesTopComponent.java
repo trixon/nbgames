@@ -61,6 +61,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
     static {
         Almond.ICON_LARGE = 48;
+        Almond.ICON_SMALL = 36;
     }
 
     public NbGamesTopComponent() {

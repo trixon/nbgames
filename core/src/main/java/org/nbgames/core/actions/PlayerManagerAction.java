@@ -17,8 +17,12 @@ package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.nbgames.core.DictNbg;
 import org.nbgames.core.options.PlayersOptionsPanelController;
-import org.netbeans.api.options.OptionsDisplayer;
+import org.nbgames.core.options.PlayersPanel;
+import org.openide.DialogDescriptor;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
@@ -37,6 +41,15 @@ public final class PlayerManagerAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        OptionsDisplayer.getDefault().open(PlayersOptionsPanelController.ID);
+        PlayersOptionsPanelController controller = new PlayersOptionsPanelController();
+        PlayersPanel playersPanel = new PlayersPanel(controller);
+        playersPanel.load();
+        DialogDescriptor d = new DialogDescriptor(playersPanel, DictNbg.PLAYERS.toString());
+        Object retval = DialogDisplayer.getDefault().notify(d);
+
+        if (retval == NotifyDescriptor.OK_OPTION) {
+            playersPanel.store();
+        } else {
+        }
     }
 }

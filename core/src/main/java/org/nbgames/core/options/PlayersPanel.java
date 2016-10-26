@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,19 +27,32 @@ import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.NbBundle;
+import se.trixon.almond.nbp.Almond;
+import se.trixon.almond.util.AlmondOptions;
+import se.trixon.almond.util.icons.IconColor;
+import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-final class PlayersPanel extends javax.swing.JPanel {
+public final class PlayersPanel extends javax.swing.JPanel {
 
     private final PlayersOptionsPanelController mController;
     private DefaultListModel mModel = new DefaultListModel();
+    private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
 
-    PlayersPanel(PlayersOptionsPanelController controller) {
+    public PlayersPanel(PlayersOptionsPanelController controller) {
         mController = controller;
         initComponents();
+        init();
+    }
+
+    private void init() {
+        addButton.setIcon(MaterialIcon._Content.ADD.get(Almond.ICON_LARGE, mIconColor));
+        editButton.setIcon(MaterialIcon._Content.CREATE.get(Almond.ICON_LARGE, mIconColor));
+        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(Almond.ICON_LARGE, mIconColor));
+        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(Almond.ICON_LARGE, mIconColor));
     }
 
     /**
@@ -58,12 +71,11 @@ final class PlayersPanel extends javax.swing.JPanel {
         scrollPane = new javax.swing.JScrollPane();
         list = new javax.swing.JList();
 
-        setPreferredSize(new java.awt.Dimension(360, 160));
+        setPreferredSize(new java.awt.Dimension(360, 280));
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
 
-        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/list-add-user24.png"))); // NOI18N
         addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,7 +84,6 @@ final class PlayersPanel extends javax.swing.JPanel {
         });
         toolBar.add(addButton);
 
-        editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/user-properties24.png"))); // NOI18N
         editButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit")); // NOI18N
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +92,6 @@ final class PlayersPanel extends javax.swing.JPanel {
         });
         toolBar.add(editButton);
 
-        removeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/list-remove-user24.png"))); // NOI18N
         removeButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +100,6 @@ final class PlayersPanel extends javax.swing.JPanel {
         });
         toolBar.add(removeButton);
 
-        removeAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/nbgames/core/res/user-group-delete24.png"))); // NOI18N
         removeAllButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll")); // NOI18N
         removeAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,14 +121,14 @@ final class PlayersPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(scrollPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
+                .addComponent(scrollPane))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -225,7 +234,7 @@ final class PlayersPanel extends javax.swing.JPanel {
         return (Player) list.getSelectedValue();
     }
 
-    void load() {
+    public void load() {
         mModel = PlayerManager.INSTANCE.load(mModel);
         mModel.addListDataListener(new ListDataListener() {
 
@@ -248,7 +257,7 @@ final class PlayersPanel extends javax.swing.JPanel {
         list.setModel(mModel);
     }
 
-    void store() {
+    public void store() {
         PlayerManager.INSTANCE.store(mModel);
     }
 
