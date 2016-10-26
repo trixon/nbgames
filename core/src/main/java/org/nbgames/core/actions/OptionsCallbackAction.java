@@ -27,7 +27,7 @@ import org.openide.util.NbBundle;
  */
 public class OptionsCallbackAction {
 
-    @ActionID(category = "File",
+    @ActionID(category = "Game",
             id = "org.nbgames.core.actions.OptionsAction")
     @ActionRegistration(displayName = "#CTL_GameOptionsAction")
     @ActionReferences({

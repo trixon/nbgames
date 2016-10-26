@@ -32,7 +32,7 @@ import org.openide.util.NbBundle;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 @ActionID(
-        category = "File",
+        category = "Game",
         id = "org.nbgames.core.actions.PlayerManagerAction"
 )
 @ActionRegistration(displayName = "#CTL_PlayerManagerAction")

@@ -25,8 +25,8 @@ import org.openide.util.NbBundle;
  */
 public class GameInfoAction {
 
-    @ActionID(category = "game",
-            id = "org.nbgames.core.actions.AboutCallbackAction")
+    @ActionID(category = "Game",
+            id = "org.nbgames.core.actions.GameInfoAction")
     @ActionRegistration(displayName = "#CTL_GameInfoAction")
     @NbBundle.Messages("CTL_GameInfoAction=Game Information")
     public static final String KEY = "GameInfoAction";

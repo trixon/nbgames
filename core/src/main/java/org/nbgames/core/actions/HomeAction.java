@@ -21,7 +21,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
 @ActionID(
-        category = "File",
+        category = "Game",
         id = "org.nbgames.core.actions.HomeAction"
 )
 @ActionRegistration(

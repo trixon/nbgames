@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,7 @@ import org.openide.util.actions.Presenter;
 import se.trixon.almond.nbp.NbLog;
 
 @ActionID(
-        category = "File",
+        category = "Game",
         id = "org.nbgames.core.actions.GameSelectorAction"
 )
 @ActionRegistration(
