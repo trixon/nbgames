@@ -15,16 +15,16 @@
  */
 package org.nbgames.core;
 
-import java.util.prefs.Preferences;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import org.nbgames.core.about.AboutInitializer;
-import org.nbgames.core.startpage.StartPageTopComponent;
 import org.openide.modules.ModuleInstall;
-import org.openide.util.NbPreferences;
+import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
+import se.trixon.almond.nbp.about.AboutAction;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
+import se.trixon.almond.util.BundleHelper;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -32,15 +32,14 @@ import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
  */
 public class Installer extends ModuleInstall {
 
-    private final Preferences mPreferences;
-
     public Installer() {
-        mPreferences = NbPreferences.forModule(StartPageTopComponent.class);
     }
 
     @Override
     public void restored() {
-        AboutInitializer.init();
+        AboutAction.setAboutBundle(BundleHelper.getBundle(getClass(), "about"));
+        AboutAction.setLicenseBundle(BundleHelper.getBundle(getClass(), "license"));
+        AboutAction.setImageIcon(ImageUtilities.loadImageIcon(SystemHelper.getPackageAsPath(getClass()) + "nbgames.png", false));
 
         SwingUtilities.invokeLater(() -> {
             UIManager.put("EditorTabDisplayerUI", NoTabsTabDisplayerUI.ID);

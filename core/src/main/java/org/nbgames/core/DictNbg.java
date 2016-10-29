@@ -25,11 +25,16 @@ import se.trixon.almond.util.SystemHelper;
  */
 public enum DictNbg {
 
+    GAME_OVER,
     GAME_SELECTOR,
+    GAME_TYPE,
     GO_HOME,
+    LEVEL,
     NEW_ROUND,
     PLAYER,
-    PLAYERS;
+    PLAYERS,
+    SHUFFLE;
+
     private final ResourceBundle mResourceBundle = ResourceBundle.getBundle(SystemHelper.getPackageAsPath(DictNbg.class) + "DictNbg", Locale.getDefault());
 
     @Override

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
  */
 package org.nbgames.core.game;
 
-import org.nbgames.core.dictionary.DictNbg;
+import org.nbgames.core.DictNbg;
 
 /**
  *
@@ -57,9 +57,9 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
 
         numberSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 8, 1));
 
-        org.openide.awt.Mnemonics.setLocalizedText(shuffleButton, DictNbg.SHUFFLE.getString());
+        org.openide.awt.Mnemonics.setLocalizedText(shuffleButton, DictNbg.SHUFFLE.toString());
 
-        mainPanel.setLayout(new java.awt.GridLayout());
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
@@ -113,7 +113,6 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel leftPanel;

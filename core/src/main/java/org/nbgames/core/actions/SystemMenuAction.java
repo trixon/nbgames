@@ -52,7 +52,6 @@ public final class SystemMenuAction implements ActionListener {
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public SystemMenuAction() {
-        add(mPopup, "Help", "org.nbgames.core.actions.HelpAction");
         add(mPopup, "Help", "org.netbeans.core.actions.AboutAction");
         mPopup.add(new JSeparator());
 

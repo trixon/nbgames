@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.options;
+package org.nbgames.core.tab;
 
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
@@ -21,6 +21,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import org.nbgames.core.DictNbg;
 import org.nbgames.core.Player;
 import org.nbgames.core.PlayerManager;
 import org.openide.DialogDescriptor;
@@ -38,21 +39,21 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
  */
 public final class PlayersPanel extends javax.swing.JPanel {
 
-    private final PlayersOptionsPanelController mController;
     private DefaultListModel mModel = new DefaultListModel();
     private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
 
-    public PlayersPanel(PlayersOptionsPanelController controller) {
-        mController = controller;
+    public PlayersPanel() {
         initComponents();
         init();
+        load();
     }
 
     private void init() {
-        addButton.setIcon(MaterialIcon._Content.ADD.get(Almond.ICON_LARGE, mIconColor));
-        editButton.setIcon(MaterialIcon._Content.CREATE.get(Almond.ICON_LARGE, mIconColor));
-        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(Almond.ICON_LARGE, mIconColor));
-        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(Almond.ICON_LARGE, mIconColor));
+        int iconSize = (int) (Almond.ICON_LARGE / 1.5);
+        addButton.setIcon(MaterialIcon._Content.ADD.get(iconSize, mIconColor));
+        editButton.setIcon(MaterialIcon._Content.CREATE.get(iconSize, mIconColor));
+        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(iconSize, mIconColor));
+        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(iconSize, mIconColor));
     }
 
     /**
@@ -64,6 +65,9 @@ public final class PlayersPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         toolBar = new javax.swing.JToolBar();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
+        jLabel1 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         addButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
@@ -75,6 +79,12 @@ public final class PlayersPanel extends javax.swing.JPanel {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
+        toolBar.add(filler2);
+
+        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+4f));
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, DictNbg.PLAYERS.toString());
+        toolBar.add(jLabel1);
+        toolBar.add(filler1);
 
         addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -234,30 +244,30 @@ public final class PlayersPanel extends javax.swing.JPanel {
         return (Player) list.getSelectedValue();
     }
 
-    public void load() {
+    private void load() {
         mModel = PlayerManager.INSTANCE.load(mModel);
         mModel.addListDataListener(new ListDataListener() {
 
             @Override
             public void contentsChanged(ListDataEvent e) {
-                mController.changed();
+                store();
             }
 
             @Override
             public void intervalAdded(ListDataEvent e) {
-                mController.changed();
+                store();
             }
 
             @Override
             public void intervalRemoved(ListDataEvent e) {
-                mController.changed();
+                store();
             }
         });
 
         list.setModel(mModel);
     }
 
-    public void store() {
+    private void store() {
         PlayerManager.INSTANCE.store(mModel);
     }
 
@@ -268,6 +278,9 @@ public final class PlayersPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton editButton;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList list;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;

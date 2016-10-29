@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,18 +16,13 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
-import se.trixon.almond.nbp.dialogs.NbMessage;
-import se.trixon.almond.util.Dict;
 
 @ActionID(
-        category = "Help",
+        category = "Game",
         id = "org.nbgames.core.actions.HelpAction"
 )
 @ActionRegistration(
@@ -35,15 +30,10 @@ import se.trixon.almond.util.Dict;
 )
 @ActionReference(path = "Shortcuts", name = "F1")
 @NbBundle.Messages("CTL_HelpAction=Help")
-public final class HelpAction implements ActionListener {
+public final class HelpAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String helpId = "org.nbgames.core.about";
-        SwingUtilities.invokeLater(() -> {
-            if (!new HelpCtx(helpId).display()) {
-                NbMessage.error(Dict.Dialog.TITLE_HELP_NOT_FOUND.toString(), String.format(Dict.Dialog.MESSAGE_HELP_NOT_FOUND.toString(), helpId));
-            }
-        });
+        getTopComponent().showHelp();
     }
 }

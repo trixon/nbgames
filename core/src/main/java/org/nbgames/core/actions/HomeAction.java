@@ -32,6 +32,6 @@ public final class HomeAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getTopComponent().goHome();
+        getTopComponent().showHome();
     }
 }

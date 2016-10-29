@@ -16,13 +16,6 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import org.nbgames.core.DictNbg;
-import org.nbgames.core.options.PlayersOptionsPanelController;
-import org.nbgames.core.options.PlayersPanel;
-import org.openide.DialogDescriptor;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
@@ -37,19 +30,10 @@ import org.openide.util.NbBundle;
 )
 @ActionRegistration(displayName = "#CTL_PlayerManagerAction")
 @NbBundle.Messages("CTL_PlayerManagerAction=Players")
-public final class PlayerManagerAction implements ActionListener {
+public final class PlayerManagerAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        PlayersOptionsPanelController controller = new PlayersOptionsPanelController();
-        PlayersPanel playersPanel = new PlayersPanel(controller);
-        playersPanel.load();
-        DialogDescriptor d = new DialogDescriptor(playersPanel, DictNbg.PLAYERS.toString());
-        Object retval = DialogDisplayer.getDefault().notify(d);
-
-        if (retval == NotifyDescriptor.OK_OPTION) {
-            playersPanel.store();
-        } else {
-        }
+        getTopComponent().showPlayers();
     }
 }
