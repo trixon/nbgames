@@ -22,11 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import org.nbgames.core.actions.GameInfoAction;
 import org.nbgames.core.actions.NewRoundAction;
-import org.nbgames.core.actions.OptionsCallbackAction;
 import org.nbgames.core.api.GameProvider;
-import org.nbgames.core.base.GamePanel;
-import org.nbgames.core.base.GameTopComponent;
-import org.netbeans.api.options.OptionsDisplayer;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.modules.Modules;
@@ -36,37 +32,14 @@ import se.trixon.almond.util.SystemHelper;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public class GameController implements GameProvider, NewsProvider {
+public abstract class GameController implements GameProvider, NewsProvider {
 
     private ActionMap mActionMap;
-    private GamePanel mGamePanel;
-    private GameTopComponent mGameTopComponent;
 
     public GameController() {
-    }
-
-    public GameController(GameTopComponent gameTopComponent) {
-        mGameTopComponent = gameTopComponent;
-        mActionMap = gameTopComponent.getActionMap();
-
         init();
-    }
-
-    @Override
-    public String getActionCategory() {
-        return getResource("Game-ActionCategory");
-    }
-
-    @Override
-    public String getActionId() {
-        return getResource("Game-ActionId");
-    }
-
-    @Override
-    public GameCategory getCategory() {
-        return null;
     }
 
     @Override
@@ -84,14 +57,6 @@ public class GameController implements GameProvider, NewsProvider {
         return getResource("Game-Description");
     }
 
-    public GamePanel getGamePanel() {
-        return mGamePanel;
-    }
-
-    public GameTopComponent getGameTopComponent() {
-        return mGameTopComponent;
-    }
-
     @Override
     public String getLicense() {
         return getResource("Game-License");
@@ -99,7 +64,7 @@ public class GameController implements GameProvider, NewsProvider {
 
     @Override
     public String getModuleName() {
-        return Modules.getDefault().ownerOf(this.getClass()).getDisplayName();
+        return Modules.getDefault().ownerOf(getClass()).getDisplayName();
     }
 
     @Override
@@ -112,18 +77,13 @@ public class GameController implements GameProvider, NewsProvider {
         return null;
     }
 
-    @Override
-    public String getOptionsPath() {
-        return null;
-    }
-
     public String getPackageAsPath() {
-        return SystemHelper.getPackageAsPath(this.getClass());
+        return SystemHelper.getPackageAsPath(getClass());
     }
 
     public String getResource(String key) {
         try {
-            return NbBundle.getMessage(this.getClass(), key);
+            return NbBundle.getMessage(getClass(), key);
         } catch (MissingResourceException e) {
             return "";
         }
@@ -140,10 +100,6 @@ public class GameController implements GameProvider, NewsProvider {
     }
 
     public void requestNewGame() {
-    }
-
-    public void setGamePanel(GamePanel gamePanel) {
-        mGamePanel = gamePanel;
     }
 
     public void updateStatusBar() {
@@ -178,24 +134,23 @@ public class GameController implements GameProvider, NewsProvider {
         }
     }
 
-    protected void setActiveOptions(boolean state) {
-        if (state) {
-            mActionMap.put(OptionsCallbackAction.KEY, new AbstractAction() {
-
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    showOptions();
-                }
-            });
-        } else {
-            mActionMap.remove(OptionsCallbackAction.KEY);
-        }
-    }
-
+//    protected void setActiveOptions(boolean state) {
+//        if (state) {
+//            mActionMap.put(OptionsCallbackAction.KEY, new AbstractAction() {
+//
+//                @Override
+//                public void actionPerformed(ActionEvent ae) {
+//                    showOptions();
+//                }
+//            });
+//        } else {
+//            mActionMap.remove(OptionsCallbackAction.KEY);
+//        }
+//    }
     private void init() {
-        setActiveInformation(true);
-        setActiveNewGame(true);
-        setActiveOptions(getOptionsPath() != null);
+//        setActiveInformation(true);
+//        setActiveNewGame(true);
+//        setActiveOptions(getOptionsPath() != null);
     }
 
     private void showDescription() {
@@ -212,7 +167,7 @@ public class GameController implements GameProvider, NewsProvider {
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
 
-    private void showOptions() {
-        OptionsDisplayer.getDefault().open(getOptionsPath());
-    }
+//    private void showOptions() {
+//        OptionsDisplayer.getDefault().open(getOptionsPath());
+//    }
 }

@@ -16,16 +16,13 @@
 package org.nbgames.core.api;
 
 import org.nbgames.core.GameCategory;
+import org.nbgames.core.base.GamePanel;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 public interface GameProvider {
-
-    String getActionCategory();
-
-    String getActionId();
 
     GameCategory getCategory();
 
@@ -35,13 +32,15 @@ public interface GameProvider {
 
     String getDescription();
 
+    GamePanel getGamePanel();
+
+    String getId();
+
     String getLicense();
 
     String getModuleName();
 
     String getName();
-
-    String getOptionsPath();
 
     String getShortDescription();
 

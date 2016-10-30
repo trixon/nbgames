@@ -23,6 +23,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.nbgames.core.base.BaseTopComponent;
+import org.nbgames.core.base.GamePanel;
 import org.nbgames.core.tab.HelpPanel;
 import org.nbgames.core.tab.HomePanel;
 import org.nbgames.core.tab.PlayersPanel;
@@ -81,6 +82,20 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
         mCardLayout = (CardLayout) mainPanel.getLayout();
         init();
+    }
+
+    public JButton getSelectorButton() {
+        return selectorButton;
+    }
+
+    public void show(GameController gameController) {
+        GamePanel gamePanel = gameController.getGamePanel();
+
+        if (gamePanel.getParent() == null) {
+            mainPanel.add(gamePanel, gameController.getId());
+        }
+
+        mCardLayout.show(mainPanel, gameController.getId());
     }
 
     public void showHelp() {

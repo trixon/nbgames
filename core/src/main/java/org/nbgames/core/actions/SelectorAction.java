@@ -17,22 +17,20 @@ package org.nbgames.core.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collection;
+import javax.swing.AbstractAction;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import org.nbgames.core.api.GameProvider;
+import org.nbgames.core.GameController;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
-import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import se.trixon.almond.nbp.NbLog;
 
 /**
  *
@@ -50,7 +48,7 @@ import se.trixon.almond.nbp.NbLog;
 })
 
 @NbBundle.Messages("CTL_SelectorAction=Selector")
-public final class SelectorAction implements ActionListener {
+public final class SelectorAction extends NbGameAction {
 
     private final JPopupMenu mPopup = new JPopupMenu();
 
@@ -72,22 +70,24 @@ public final class SelectorAction implements ActionListener {
 
             private void populateDropDown() {
                 mPopup.removeAll();
-                Collection<? extends GameProvider> gameProviders = Lookup.getDefault().lookupAll(GameProvider.class);
-                gameProviders.stream().forEach((gameProvider) -> {
-                    NbLog.d(getClass(), gameProvider.getName());
-                    JLabel label = new JLabel(gameProvider.getCategory().getString());
+                Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
+                gameControllers.stream().forEach((gameController) -> {
+                    JLabel label = new JLabel(gameController.getCategory().getString());
                     label.setEnabled(false);
                     mPopup.add(label);
-                    String category = gameProvider.getActionCategory();
-                    String id = gameProvider.getActionId();
-                    JMenuItem menuItem = new JMenuItem(Actions.forID(category, id));
-                    String text = String.format("<html><b>%s</b><br /> <i>- %s</i></html>", gameProvider.getName(), gameProvider.getShortDescription());
-                    menuItem.setText(text);
+                    JMenuItem menuItem = new JMenuItem();
+                    String text = String.format("<html><b>%s</b><br /> <i>- %s</i></html>", gameController.getName(), gameController.getShortDescription());
+                    menuItem.setAction(new AbstractAction(text) {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            getTopComponent().show(gameController);
+                        }
+                    });
 
                     mPopup.add(menuItem);
                 });
 
-                if (gameProviders.isEmpty()) {
+                if (gameControllers.isEmpty()) {
                     JMenuItem dummyMenuItem = new JMenuItem("No installed games");
                     dummyMenuItem.setEnabled(false);
 
@@ -100,6 +100,7 @@ public final class SelectorAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         Component component = (Component) actionEvent.getSource();
+        component = getTopComponent().getSelectorButton();
 
         mPopup.show(component, component.getWidth() - mPopup.getWidth(), component.getHeight());
 
