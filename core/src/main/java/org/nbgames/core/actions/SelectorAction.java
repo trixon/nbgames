@@ -25,6 +25,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import org.nbgames.core.GameController;
+import org.nbgames.core.api.ComponentProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -80,7 +81,7 @@ public final class SelectorAction extends NbGameAction {
                     menuItem.setAction(new AbstractAction(text) {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            getTopComponent().show(gameController);
+                            getTopComponent().show((ComponentProvider) gameController);
                         }
                     });
 

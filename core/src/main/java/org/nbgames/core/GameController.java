@@ -22,6 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import org.nbgames.core.actions.GameInfoAction;
 import org.nbgames.core.actions.NewRoundAction;
+import org.nbgames.core.api.ComponentProvider;
 import org.nbgames.core.api.GameProvider;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -34,7 +35,7 @@ import se.trixon.almond.util.SystemHelper;
  *
  * @author Patrik Karlsson
  */
-public abstract class GameController implements GameProvider, NewsProvider {
+public abstract class GameController implements ComponentProvider, GameProvider, NewsProvider {
 
     private ActionMap mActionMap;
 

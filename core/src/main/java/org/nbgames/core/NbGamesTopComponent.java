@@ -22,11 +22,9 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import org.nbgames.core.api.ComponentProvider;
 import org.nbgames.core.base.BaseTopComponent;
-import org.nbgames.core.base.GamePanel;
-import org.nbgames.core.tab.HelpPanel;
-import org.nbgames.core.tab.HomePanel;
-import org.nbgames.core.tab.PlayersPanel;
+import org.nbgames.core.tab.HomeProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.Actions;
@@ -64,9 +62,6 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
     private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
     private final CardLayout mCardLayout;
-    private final HomePanel mHomePanel = new HomePanel();
-    private final HelpPanel mHelpPanel = new HelpPanel();
-    private PlayersPanel mPlayersPanel = new PlayersPanel();
 
     static {
         Almond.ICON_LARGE = 48;
@@ -88,34 +83,13 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         return selectorButton;
     }
 
-    public void show(GameController gameController) {
-        GamePanel gamePanel = gameController.getGamePanel();
-
-        if (gamePanel.getParent() == null) {
-            mainPanel.add(gamePanel, gameController.getId());
+    public void show(ComponentProvider componentProvider) {
+        if (componentProvider.getPanel().getParent() != mainPanel) {
+            mainPanel.add(componentProvider.getPanel(), componentProvider.getId());
         }
 
-        mCardLayout.show(mainPanel, gameController.getId());
-    }
-
-    public void showHelp() {
-        show(HelpPanel.class);
-    }
-
-    public void showHome() {
-        show(HomePanel.class);
-    }
-
-    public void showPlayers() {
-        if (mPlayersPanel.getParent() != mainPanel) {
-            mainPanel.add(mPlayersPanel, PlayersPanel.class.getName());
-        }
-
-        show(PlayersPanel.class);
-    }
-
-    private void show(Class clazz) {
-        mCardLayout.show(mainPanel, clazz.getName());
+        mCardLayout.show(mainPanel, componentProvider.getId());
+        //TODO Set toolbar buttons enable states
     }
 
     private void init() {
@@ -180,8 +154,8 @@ public final class NbGamesTopComponent extends BaseTopComponent {
             frame.setTitle(Bundle.CTL_NbGamesTopComponent());
         });
 
-        mainPanel.add(mHomePanel, HomePanel.class.getName());
-        mainPanel.add(mHelpPanel, HelpPanel.class.getName());
+        HomeProvider homeProvider = HomeProvider.getInstance();
+        mainPanel.add(homeProvider.getPanel(), homeProvider.getId());
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {

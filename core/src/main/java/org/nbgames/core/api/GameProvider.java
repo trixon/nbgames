@@ -16,7 +16,6 @@
 package org.nbgames.core.api;
 
 import org.nbgames.core.GameCategory;
-import org.nbgames.core.base.GamePanel;
 
 /**
  *
@@ -26,23 +25,5 @@ public interface GameProvider {
 
     GameCategory getCategory();
 
-    String getCopyright();
-
-    String getCredit();
-
-    String getDescription();
-
-    GamePanel getGamePanel();
-
-    String getId();
-
-    String getLicense();
-
-    String getModuleName();
-
-    String getName();
-
-    String getShortDescription();
-
-    String getVersion();
+//    GamePanel getGamePanel();
 }

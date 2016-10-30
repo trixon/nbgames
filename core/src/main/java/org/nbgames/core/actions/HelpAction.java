@@ -16,6 +16,7 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
+import org.nbgames.core.tab.HelpProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
@@ -34,6 +35,6 @@ public final class HelpAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getTopComponent().showHelp();
+        getTopComponent().show(HelpProvider.getInstance());
     }
 }
