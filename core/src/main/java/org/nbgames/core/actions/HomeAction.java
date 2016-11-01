@@ -16,14 +16,17 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import org.nbgames.core.tab.HomeProvider;
+import org.nbgames.core.presenter.HomeProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
+/**
+ *
+ * @author Patrik Karlsson
+ */
 @ActionID(
-        category = "Game",
-        id = "org.nbgames.core.actions.HomeAction"
+        category = "Game", id = "org.nbgames.core.actions.HomeAction"
 )
 @ActionRegistration(
         displayName = "#CTL_HomeAction"

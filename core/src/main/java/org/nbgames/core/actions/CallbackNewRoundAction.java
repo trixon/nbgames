@@ -13,36 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api;
+package org.nbgames.core.actions;
 
-import javax.swing.JPanel;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
+import org.openide.util.NbBundle;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public interface ComponentProvider {
+public class CallbackNewRoundAction {
 
-    JPanel getPanel();
+    @ActionID(category = "Game",
+            id = "org.nbgames.core.actions.NewRoundAction")
+    @ActionRegistration(displayName = "CTL_NewRoundAction")
+    @ActionReferences({
+        @ActionReference(path = "Shortcuts", name = "D-N")
+    })
+    @NbBundle.Messages("CTL_NewRoundAction=New round")
 
-    JPanel getSettingsPanel();
-
-    String getCredit();
-
-    String getDescription();
-
-    String getId();
-
-    String getLicense();
-
-    String getModuleName();
-
-    String getName();
-
-    String getShortDescription();
-
-    String getVersion();
-
-    String getCopyright();
-
+    public static final String KEY = "NewRoundAction";
 }

@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.tab;
+package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
-import org.nbgames.core.api.ComponentProvider;
+import org.nbgames.core.options.NbGamesOptionsPanel;
+import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class HomeProvider implements ComponentProvider {
+public class HomeProvider implements PresenterProvider {
 
-    private final HomePanel mHomePanel = new HomePanel();
+    private NbGamesOptionsPanel mOptionsPanel = new NbGamesOptionsPanel();
+    private final HomePanel mPanel = new HomePanel();
 
     public static HomeProvider getInstance() {
         return Holder.INSTANCE;
@@ -49,6 +51,11 @@ public class HomeProvider implements ComponentProvider {
     }
 
     @Override
+    public String getHelp() {
+        return "nbg help";
+    }
+
+    @Override
     public String getId() {
         return getClass().getName();
     }
@@ -69,13 +76,13 @@ public class HomeProvider implements ComponentProvider {
     }
 
     @Override
-    public JPanel getPanel() {
-        return mHomePanel;
+    public JPanel getOptionsPanel() {
+        return mOptionsPanel;
     }
 
     @Override
-    public JPanel getSettingsPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public JPanel getPanel() {
+        return mPanel;
     }
 
     @Override

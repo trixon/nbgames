@@ -15,14 +15,9 @@
  */
 package org.nbgames.core;
 
-import java.awt.event.ActionEvent;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import org.nbgames.core.actions.GameInfoAction;
-import org.nbgames.core.actions.NewRoundAction;
-import org.nbgames.core.api.ComponentProvider;
+import org.nbgames.core.actions.InfoAction;
 import org.nbgames.core.api.GameProvider;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -30,14 +25,13 @@ import org.openide.modules.Modules;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.news.NewsProvider;
 import se.trixon.almond.util.SystemHelper;
+import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public abstract class GameController implements ComponentProvider, GameProvider, NewsProvider {
-
-    private ActionMap mActionMap;
+public abstract class GameController implements PresenterProvider, GameProvider, NewsProvider {
 
     public GameController() {
         init();
@@ -106,52 +100,7 @@ public abstract class GameController implements ComponentProvider, GameProvider,
     public void updateStatusBar() {
     }
 
-    protected void setActiveInformation(boolean state) {
-
-        if (state) {
-            mActionMap.put(GameInfoAction.KEY, new AbstractAction() {
-
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    showDescription();
-                }
-            });
-        } else {
-            mActionMap.remove(GameInfoAction.KEY);
-        }
-    }
-
-    protected void setActiveNewGame(boolean state) {
-        if (state) {
-            mActionMap.put(NewRoundAction.KEY, new AbstractAction() {
-
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    requestNewGame();
-                }
-            });
-        } else {
-            mActionMap.remove(NewRoundAction.KEY);
-        }
-    }
-
-//    protected void setActiveOptions(boolean state) {
-//        if (state) {
-//            mActionMap.put(OptionsCallbackAction.KEY, new AbstractAction() {
-//
-//                @Override
-//                public void actionPerformed(ActionEvent ae) {
-//                    showOptions();
-//                }
-//            });
-//        } else {
-//            mActionMap.remove(OptionsCallbackAction.KEY);
-//        }
-//    }
     private void init() {
-//        setActiveInformation(true);
-//        setActiveNewGame(true);
-//        setActiveOptions(getOptionsPath() != null);
     }
 
     private void showDescription() {
@@ -164,11 +113,7 @@ public abstract class GameController implements ComponentProvider, GameProvider,
         }
 
         NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
-        notifyDescriptor.setTitle(NbBundle.getMessage(GameInfoAction.class, "CTL_GameInfoAction"));
+        notifyDescriptor.setTitle(NbBundle.getMessage(InfoAction.class, "CTL_GameInfoAction"));
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
-
-//    private void showOptions() {
-//        OptionsDisplayer.getDefault().open(getOptionsPath());
-//    }
 }

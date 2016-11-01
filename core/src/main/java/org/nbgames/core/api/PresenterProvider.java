@@ -13,25 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.api;
 
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
-import org.openide.awt.ActionRegistration;
+import javax.swing.JPanel;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public class NewRoundAction {
+public interface PresenterProvider {
 
-    @ActionID(category = "Game",
-            id = "org.nbgames.core.actions.NewRoundAction")
-    @ActionRegistration(displayName = "org.nbgames.core.actions.Bundle_CTL_GameNewAction")
-    @ActionReferences({
-        @ActionReference(path = "Shortcuts", name = "D-N")
+    String getCopyright();
 
-    })
-    public static final String KEY = "NewRoundAction";
+    String getCredit();
+
+    String getDescription();
+
+    String getHelp();
+
+    String getId();
+
+    String getLicense();
+
+    String getModuleName();
+
+    String getName();
+
+    JPanel getOptionsPanel();
+
+    JPanel getPanel();
+
+    String getShortDescription();
+
+    String getVersion();
 }

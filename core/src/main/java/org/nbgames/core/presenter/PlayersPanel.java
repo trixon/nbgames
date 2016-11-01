@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.tab;
+package org.nbgames.core.presenter;
 
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
@@ -28,19 +28,15 @@ import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.NbBundle;
-import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.AlmondOptions;
-import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public final class PlayersPanel extends javax.swing.JPanel {
+public final class PlayersPanel extends ContainerPanel {
 
     private DefaultListModel mModel = new DefaultListModel();
-    private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
 
     public PlayersPanel() {
         initComponents();
@@ -49,11 +45,11 @@ public final class PlayersPanel extends javax.swing.JPanel {
     }
 
     private void init() {
-        int iconSize = (int) (Almond.ICON_LARGE / 1.5);
-        addButton.setIcon(MaterialIcon._Content.ADD.get(iconSize, mIconColor));
-        editButton.setIcon(MaterialIcon._Content.CREATE.get(iconSize, mIconColor));
-        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(iconSize, mIconColor));
-        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(iconSize, mIconColor));
+        backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
+        addButton.setIcon(MaterialIcon._Content.ADD.get(mIconSize, mIconColor));
+        editButton.setIcon(MaterialIcon._Content.CREATE.get(mIconSize, mIconColor));
+        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(mIconSize, mIconColor));
+        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(mIconSize, mIconColor));
     }
 
     /**
@@ -66,6 +62,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
 
         toolBar = new javax.swing.JToolBar();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
+        backButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         addButton = new javax.swing.JButton();
@@ -80,6 +77,16 @@ public final class PlayersPanel extends javax.swing.JPanel {
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
         toolBar.add(filler2);
+
+        backButton.setFocusable(false);
+        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(backButton);
 
         jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+4f));
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, DictNbg.PLAYERS.toString());
@@ -240,6 +247,10 @@ public final class PlayersPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_listMouseClicked
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        goBack();
+    }//GEN-LAST:event_backButtonActionPerformed
+
     private Player getSelectedPlayer() {
         return (Player) list.getSelectedValue();
     }
@@ -277,6 +288,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton editButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;

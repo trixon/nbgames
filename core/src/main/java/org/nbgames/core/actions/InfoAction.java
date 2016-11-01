@@ -16,25 +16,23 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import org.nbgames.core.tab.HelpProvider;
+import org.nbgames.core.presenter.InfoProvider;
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
-@ActionID(
-        category = "Game",
-        id = "org.nbgames.core.actions.HelpAction"
-)
-@ActionRegistration(
-        displayName = "#CTL_HelpAction"
-)
-@ActionReference(path = "Shortcuts", name = "F1")
-@NbBundle.Messages("CTL_HelpAction=Help")
-public final class HelpAction extends NbGameAction {
+/**
+ *
+ * @author Patrik Karlsson
+ */
+@ActionID(category = "Game",
+        id = "org.nbgames.core.actions.InfoAction")
+@ActionRegistration(displayName = "#CTL_InfoAction")
+@NbBundle.Messages("CTL_InfoAction=Information")
+public final class InfoAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getTopComponent().show(HelpProvider.getInstance());
+        getTopComponent().show(InfoProvider.getInstance());
     }
 }

@@ -16,18 +16,23 @@
 package org.nbgames.core.actions;
 
 import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public class GameInfoAction {
+public class CallbackOptionsAction {
 
     @ActionID(category = "Game",
-            id = "org.nbgames.core.actions.GameInfoAction")
-    @ActionRegistration(displayName = "#CTL_GameInfoAction")
-    @NbBundle.Messages("CTL_GameInfoAction=Game Information")
-    public static final String KEY = "GameInfoAction";
+            id = "org.nbgames.core.actions.OptionsAction")
+    @ActionRegistration(displayName = "#CTL_OptionsAction")
+    @ActionReferences({
+        @ActionReference(path = "Shortcuts", name = "D-P")
+    })
+    @NbBundle.Messages("CTL_OptionsAction=Options")
+    public static final String KEY = "OptionsAction";
 }

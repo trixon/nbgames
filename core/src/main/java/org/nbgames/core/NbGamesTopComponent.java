@@ -16,15 +16,25 @@
 package org.nbgames.core;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import org.nbgames.core.api.ComponentProvider;
+import org.nbgames.core.actions.CallbackHelpAction;
+import org.nbgames.core.actions.CallbackNewRoundAction;
+import org.nbgames.core.actions.CallbackOptionsAction;
+import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.base.BaseTopComponent;
-import org.nbgames.core.tab.HomeProvider;
+import org.nbgames.core.presenter.HelpProvider;
+import org.nbgames.core.presenter.HomeProvider;
+import org.nbgames.core.presenter.OptionsProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.Actions;
@@ -37,6 +47,7 @@ import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
+import org.nbgames.core.api.PresenterProvider;
 
 /**
  * Top component which displays something.
@@ -61,7 +72,9 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
 public final class NbGamesTopComponent extends BaseTopComponent {
 
     private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
+    private final ActionMap mActionMap = getActionMap();
     private final CardLayout mCardLayout;
+    private final Deque<PresenterProvider> mStack = new ArrayDeque<>();
 
     static {
         Almond.ICON_LARGE = 48;
@@ -77,23 +90,84 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
         mCardLayout = (CardLayout) mainPanel.getLayout();
         init();
+
     }
 
     public JButton getSelectorButton() {
         return selectorButton;
     }
 
-    public void show(ComponentProvider componentProvider) {
+    public void showPrevious() {
+        mStack.pop();
+        show(mStack.pop());
+    }
+
+    public void show(PresenterProvider componentProvider) {
+        if (componentProvider == mStack.peek()) {
+            return;
+        }
+
         if (componentProvider.getPanel().getParent() != mainPanel) {
             mainPanel.add(componentProvider.getPanel(), componentProvider.getId());
         }
 
+        mStack.remove(componentProvider);
+        mStack.addFirst(componentProvider);
         mCardLayout.show(mainPanel, componentProvider.getId());
-        //TODO Set toolbar buttons enable states
+
+        System.out.println("STACK");
+        for (PresenterProvider componentProvider1 : mStack) {
+            System.out.println(componentProvider1.getId());
+        }
+        System.out.println("");
+
+        mActionMap.remove(CallbackHelpAction.KEY);
+        mActionMap.remove(CallbackNewRoundAction.KEY);
+        mActionMap.remove(CallbackOptionsAction.KEY);
+
+        newButton.setEnabled(false);
+//        helpButton.setEnabled(false);
+//        optionsButton.setEnabled(false);
+
+        if (componentProvider.getOptionsPanel() != null) {
+            mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("give me the settings");
+                    show(OptionsProvider.getInstance());
+                }
+            });
+        }
+
+        if (componentProvider.getHelp() != null) {
+            mActionMap.put(CallbackHelpAction.KEY, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    show(HelpProvider.getInstance());
+                }
+            });
+        }
+
+//        mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("give me the info");
+//            }
+//        });
+        if (componentProvider instanceof GameProvider) {
+            mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("start new round");
+                }
+            });
+        }
+
+        optionsButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").isEnabled());
+        helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
     }
 
     private void init() {
-
         String category;
         String id;
 
@@ -118,7 +192,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         initActionButton(category, id, optionsButton, Dict.OPTIONS.toString(), MaterialIcon._Action.SETTINGS.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.SETTINGS.get(Almond.ICON_SMALL, mIconColor));
 
         category = "Game";
-        id = "org.nbgames.core.actions.GameInfoAction";
+        id = "org.nbgames.core.actions.InfoAction";
         initActionButton(category, id, infoButton, Dict.INFORMATION.toString(), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
 
         category = "Game";
@@ -154,8 +228,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
             frame.setTitle(Bundle.CTL_NbGamesTopComponent());
         });
 
-        HomeProvider homeProvider = HomeProvider.getInstance();
-        mainPanel.add(homeProvider.getPanel(), homeProvider.getId());
+        show(HomeProvider.getInstance());
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {
@@ -199,7 +272,6 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        toolBar.setOpaque(false);
 
         homeButton.setFocusable(false);
         homeButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

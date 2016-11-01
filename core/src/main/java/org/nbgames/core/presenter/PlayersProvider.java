@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.tab;
+package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
-import org.nbgames.core.api.ComponentProvider;
+import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class HelpProvider implements ComponentProvider {
+public class PlayersProvider implements PresenterProvider {
 
-    private final HelpPanel mHelpPanel = new HelpPanel();
+    private final HomeProvider mHomeProvider = HomeProvider.getInstance();
+    private final PlayersPanel mPanel = new PlayersPanel();
 
-    public static HelpProvider getInstance() {
+    public static PlayersProvider getInstance() {
         return Holder.INSTANCE;
     }
 
-    private HelpProvider() {
+    private PlayersProvider() {
     }
 
     @Override
@@ -46,6 +47,11 @@ public class HelpProvider implements ComponentProvider {
     @Override
     public String getDescription() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getHelp() {
+        return mHomeProvider.getHelp();
     }
 
     @Override
@@ -69,13 +75,13 @@ public class HelpProvider implements ComponentProvider {
     }
 
     @Override
-    public JPanel getPanel() {
-        return mHelpPanel;
+    public JPanel getOptionsPanel() {
+        return HomeProvider.getInstance().getOptionsPanel();
     }
 
     @Override
-    public JPanel getSettingsPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public JPanel getPanel() {
+        return mPanel;
     }
 
     @Override
@@ -90,6 +96,6 @@ public class HelpProvider implements ComponentProvider {
 
     private static class Holder {
 
-        private static final HelpProvider INSTANCE = new HelpProvider();
+        private static final PlayersProvider INSTANCE = new PlayersProvider();
     }
 }

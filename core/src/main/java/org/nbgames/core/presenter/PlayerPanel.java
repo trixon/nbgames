@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.tab;
+package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
 import org.nbgames.core.Player;
