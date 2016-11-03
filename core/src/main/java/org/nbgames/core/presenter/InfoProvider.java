@@ -80,7 +80,7 @@ public class InfoProvider implements PresenterProvider {
     }
 
     @Override
-    public JPanel getPanel() {
+    public InfoPanel getPanel() {
         return mPanel;
     }
 

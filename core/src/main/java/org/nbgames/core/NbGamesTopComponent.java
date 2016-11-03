@@ -30,10 +30,16 @@ import javax.swing.JFrame;
 import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
+import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.api.GameProvider;
+import org.nbgames.core.api.PresenterProvider;
 import org.nbgames.core.base.BaseTopComponent;
+import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
 import org.nbgames.core.presenter.HomeProvider;
+import org.nbgames.core.presenter.InfoPanel;
+import org.nbgames.core.presenter.InfoProvider;
+import org.nbgames.core.presenter.OptionsPanel;
 import org.nbgames.core.presenter.OptionsProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -47,7 +53,6 @@ import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
-import org.nbgames.core.api.PresenterProvider;
 
 /**
  * Top component which displays something.
@@ -102,18 +107,19 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         show(mStack.pop());
     }
 
-    public void show(PresenterProvider componentProvider) {
-        if (componentProvider == mStack.peek()) {
+    public void show(PresenterProvider presenterProvider) {
+        if (presenterProvider == mStack.peek()) {
             return;
         }
 
-        if (componentProvider.getPanel().getParent() != mainPanel) {
-            mainPanel.add(componentProvider.getPanel(), componentProvider.getId());
+        if (presenterProvider.getPanel().getParent() != mainPanel) {
+            mainPanel.add(presenterProvider.getPanel(), presenterProvider.getId());
         }
 
-        mStack.remove(componentProvider);
-        mStack.addFirst(componentProvider);
-        mCardLayout.show(mainPanel, componentProvider.getId());
+        PresenterProvider prevPresenterProvider = mStack.peek();
+        mStack.remove(presenterProvider);
+        mStack.addFirst(presenterProvider);
+        mCardLayout.show(mainPanel, presenterProvider.getId());
 
         System.out.println("STACK");
         for (PresenterProvider componentProvider1 : mStack) {
@@ -124,37 +130,51 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         mActionMap.remove(CallbackHelpAction.KEY);
         mActionMap.remove(CallbackNewRoundAction.KEY);
         mActionMap.remove(CallbackOptionsAction.KEY);
+        mActionMap.remove(CallbackInfoAction.KEY);
 
         newButton.setEnabled(false);
 //        helpButton.setEnabled(false);
 //        optionsButton.setEnabled(false);
 
-        if (componentProvider.getOptionsPanel() != null) {
+        if (presenterProvider.getOptionsPanel() != null) {
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("give me the settings");
+                    OptionsPanel optionsPanel = (OptionsPanel) OptionsProvider.getInstance().getPanel();
+                    optionsPanel.add(presenterProvider);
                     show(OptionsProvider.getInstance());
                 }
             });
         }
 
-        if (componentProvider.getHelp() != null) {
+        if (presenterProvider.getHelp() != null) {
             mActionMap.put(CallbackHelpAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    show(HelpProvider.getInstance());
+                    final HelpProvider helpProvider = HelpProvider.getInstance();
+                    HelpPanel helpPanel = helpProvider.getPanel();
+                    helpPanel.setTitle(String.format("%s - %s", Dict.HELP.toString(), presenterProvider.getName()));
+                    helpPanel.load(presenterProvider.getHelp());
+                    show(helpProvider);
                 }
             });
         }
+        mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final InfoProvider helpProvider = InfoProvider.getInstance();
+                InfoPanel helpPanel = helpProvider.getPanel();
+                helpPanel.setTitle(String.format("%s - %s", Dict.INFORMATION.toString(), presenterProvider.getName()));
+                helpPanel.load(presenterProvider);
+                show(helpProvider);
+            }
+        });
 
-//        mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("give me the info");
-//            }
-//        });
-        if (componentProvider instanceof GameProvider) {
+        if (presenterProvider instanceof InfoProvider) {
+//            InfoPanel infoPanel = (InfoPanel) presenterProvider.getPanel();
+//            infoPanel.setTitle(String.format("%s - %s", Dict.INFORMATION.toString(), presenterProvider.getName()));
+//            infoPanel.load(presenterProvider);
+        } else if (presenterProvider instanceof GameProvider) {
             mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -175,27 +195,21 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         id = "org.nbgames.core.actions.NewRoundAction";
         initActionButton(category, id, newButton, DictNbg.NEW_ROUND.toString(), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.SelectorAction";
         initActionButton(category, id, selectorButton, DictNbg.GAME_SELECTOR.toString(), MaterialIcon._Av.GAMES.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Av.GAMES.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.HomeAction";
         initActionButton(category, id, homeButton, DictNbg.GO_HOME.toString(), MaterialIcon._Action.HOME.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HOME.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.PlayerManagerAction";
         initActionButton(category, id, playersButton, DictNbg.PLAYERS.toString(), MaterialIcon._Social.PEOPLE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Social.PEOPLE.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.OptionsAction";
         initActionButton(category, id, optionsButton, Dict.OPTIONS.toString(), MaterialIcon._Action.SETTINGS.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.SETTINGS.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.InfoAction";
         initActionButton(category, id, infoButton, Dict.INFORMATION.toString(), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
 
-        category = "Game";
         id = "org.nbgames.core.actions.HelpAction";
         initActionButton(category, id, helpButton, Dict.HELP.toString(), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
 

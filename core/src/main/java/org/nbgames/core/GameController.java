@@ -17,7 +17,7 @@ package org.nbgames.core;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.nbgames.core.actions.InfoAction;
+import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.api.GameProvider;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -113,7 +113,7 @@ public abstract class GameController implements PresenterProvider, GameProvider,
         }
 
         NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
-        notifyDescriptor.setTitle(NbBundle.getMessage(InfoAction.class, "CTL_GameInfoAction"));
+        notifyDescriptor.setTitle(NbBundle.getMessage(CallbackInfoAction.class, "CTL_GameInfoAction"));
         DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
 }

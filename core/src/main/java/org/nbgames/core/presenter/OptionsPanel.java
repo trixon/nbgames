@@ -15,6 +15,8 @@
  */
 package org.nbgames.core.presenter;
 
+import org.nbgames.core.api.PresenterProvider;
+import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
@@ -30,6 +32,12 @@ public class OptionsPanel extends ContainerPanel {
         initComponents();
         init();
         load();
+    }
+
+    public void add(PresenterProvider presenterProvider) {
+        panel.removeAll();
+        panel.add(presenterProvider.getOptionsPanel());
+        label.setText(String.format("%s/%s", Dict.OPTIONS.toString(), presenterProvider.getName()));
     }
 
     private void init() {

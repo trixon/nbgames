@@ -29,14 +29,15 @@ public class HelpPanel extends ContainerPanel {
     public HelpPanel() {
         initComponents();
         init();
-        load();
     }
 
     private void init() {
         backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
+        setTitleLabel(label);
     }
 
-    private void load() {
+    public void load(String string) {
+        textPane.setText(string);
     }
 
     /**
@@ -52,8 +53,8 @@ public class HelpPanel extends ContainerPanel {
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         backButton = new javax.swing.JButton();
         label = new javax.swing.JLabel();
-        panel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        scrollPane = new javax.swing.JScrollPane();
+        textPane = new javax.swing.JTextPane();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -77,13 +78,9 @@ public class HelpPanel extends ContainerPanel {
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
-        panel.setLayout(new java.awt.GridLayout(1, 0));
+        scrollPane.setViewportView(textPane);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("help"); // NOI18N
-        panel.add(jLabel1);
-
-        add(panel, java.awt.BorderLayout.CENTER);
+        add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -93,9 +90,9 @@ public class HelpPanel extends ContainerPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label;
-    private javax.swing.JPanel panel;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JTextPane textPane;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 

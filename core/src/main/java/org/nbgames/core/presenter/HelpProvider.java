@@ -80,7 +80,7 @@ public class HelpProvider implements PresenterProvider {
     }
 
     @Override
-    public JPanel getPanel() {
+    public HelpPanel getPanel() {
         return mPanel;
     }
 

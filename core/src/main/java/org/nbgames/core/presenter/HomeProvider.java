@@ -16,8 +16,8 @@
 package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
-import org.nbgames.core.options.NbGamesOptionsPanel;
 import org.nbgames.core.api.PresenterProvider;
+import org.nbgames.core.options.NbGamesOptionsPanel;
 
 /**
  *
@@ -72,7 +72,7 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "nbGames";
     }
 
     @Override
@@ -92,7 +92,7 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getVersion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "0.0.1";
     }
 
     private static class Holder {

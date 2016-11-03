@@ -15,8 +15,6 @@
  */
 package org.nbgames.core.actions;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.presenter.InfoProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
@@ -25,14 +23,19 @@ import org.openide.util.NbBundle;
  *
  * @author Patrik Karlsson
  */
-@ActionID(category = "Game",
-        id = "org.nbgames.core.actions.InfoAction")
-@ActionRegistration(displayName = "#CTL_InfoAction")
-@NbBundle.Messages("CTL_InfoAction=Information")
-public final class InfoAction extends NbGameAction {
+//@ActionID(category = "Game",
+//        id = "org.nbgames.core.actions.CallbackInfoAction")
+//@ActionRegistration(displayName = "#CTL_InfoAction")
+//@NbBundle.Messages("CTL_InfoAction=Information")
+public final class CallbackInfoAction {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getTopComponent().show(InfoProvider.getInstance());
-    }
+    @ActionID(category = "Game", id = "org.nbgames.core.actions.InfoAction")
+    @ActionRegistration(displayName = "#CTL_InfoAction")
+    @NbBundle.Messages("CTL_InfoAction=Information")
+    public static final String KEY = "InfoAction";
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        getTopComponent().show(InfoProvider.getInstance());
+//    }
+
 }

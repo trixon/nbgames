@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.presenter;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.nbgames.core.NbGamesTopComponent;
 import org.openide.windows.WindowManager;
@@ -31,8 +32,23 @@ public abstract class ContainerPanel extends JPanel {
     protected final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
     protected final int mIconSize = (int) (Almond.ICON_LARGE / 1.5);
     private final NbGamesTopComponent mTopComponent = (NbGamesTopComponent) WindowManager.getDefault().findTopComponent("NbGamesTopComponent");
+    private JLabel mTitleLabel;
+    private JPanel mPanel;
 
     protected void goBack() {
         mTopComponent.showPrevious();
     }
+
+    public void setTitleLabel(JLabel titleLabel) {
+        mTitleLabel = titleLabel;
+    }
+
+    public void setTitle(String title) {
+        mTitleLabel.setText(title);
+    }
+
+    public void setPanel(JPanel panel) {
+        mPanel = panel;
+    }
+
 }

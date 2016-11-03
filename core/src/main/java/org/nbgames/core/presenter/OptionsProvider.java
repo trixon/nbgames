@@ -51,7 +51,7 @@ public class OptionsProvider implements PresenterProvider {
 
     @Override
     public String getHelp() {
-        return null;
+        return mHomeProvider.getHelp();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class OptionsProvider implements PresenterProvider {
 
     @Override
     public JPanel getOptionsPanel() {
-        return mHomeProvider.getOptionsPanel();
+        return null;//mHomeProvider.getOptionsPanel();
     }
 
     @Override

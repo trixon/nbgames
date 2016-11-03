@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.presenter;
 
+import org.nbgames.core.api.PresenterProvider;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
@@ -29,14 +30,23 @@ public class InfoPanel extends ContainerPanel {
     public InfoPanel() {
         initComponents();
         init();
-        load();
+    }
+
+    public void load(PresenterProvider presenter) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html>")
+                .append("<h1>")
+                .append(presenter.getName())
+                .append("</h1>")
+                .append(presenter.getVersion())
+                .append("<html>");
+
+        infoLabel.setText(builder.toString());
     }
 
     private void init() {
         backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
-    }
-
-    private void load() {
+        setTitleLabel(label);
     }
 
     /**
@@ -53,8 +63,9 @@ public class InfoPanel extends ContainerPanel {
         backButton = new javax.swing.JButton();
         label = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        infoLabel = new javax.swing.JLabel();
 
+        setOpaque(false);
         setLayout(new java.awt.BorderLayout());
 
         toolBar.setFloatable(false);
@@ -77,11 +88,12 @@ public class InfoPanel extends ContainerPanel {
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
+        panel.setOpaque(false);
         panel.setLayout(new java.awt.GridLayout(1, 0));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("info"); // NOI18N
-        panel.add(jLabel1);
+        infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLabel.setText("info"); // NOI18N
+        panel.add(infoLabel);
 
         add(panel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -93,7 +105,7 @@ public class InfoPanel extends ContainerPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel infoLabel;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
     private javax.swing.JToolBar toolBar;

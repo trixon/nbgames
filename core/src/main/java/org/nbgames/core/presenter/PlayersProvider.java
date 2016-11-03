@@ -71,12 +71,12 @@ public class PlayersProvider implements PresenterProvider {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return mHomeProvider.getName();
     }
 
     @Override
     public JPanel getOptionsPanel() {
-        return HomeProvider.getInstance().getOptionsPanel();
+        return mHomeProvider.getOptionsPanel();
     }
 
     @Override
