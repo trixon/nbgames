@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,14 +22,23 @@ import se.trixon.almond.util.GraphicsHelper;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public enum GlobalOptions {
+public class NbgOptions {
 
-    INSTANCE;
     private static final String DEFAULT_COLOR_WINDOW_LOWER = "#003300";
     private static final String DEFAULT_COLOR_WINDOW_UPPER = "#009900";
-    private Preferences mPreferences = NbPreferences.forModule(GlobalOptions.class);
+    private static final boolean DEFAULT_CUSTOM_BACKGROUND = true;
+    private static final String KEY_CUSTOM_BACKGROUND = "customBackground";
+    private final Preferences mPreferences = NbPreferences.forModule(NbgOptions.class);
+
+    public static NbgOptions getInstance() {
+        return Holder.INSTANCE;
+    }
+
+    private NbgOptions() {
+
+    }
 
     public Color getColor(ColorItem colorItem) {
         return Color.decode(mPreferences.get(colorItem.getKey(), colorItem.getDefaultColor()));
@@ -39,12 +48,16 @@ public enum GlobalOptions {
         return mPreferences;
     }
 
+    public boolean isCustomBackground() {
+        return mPreferences.getBoolean(KEY_CUSTOM_BACKGROUND, DEFAULT_CUSTOM_BACKGROUND);
+    }
+
     public void setColor(ColorItem colorItem, Color color) {
         mPreferences.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
     }
 
-    public void setPreferences(Preferences preferences) {
-        mPreferences = preferences;
+    public void setCustomBackground(boolean value) {
+        mPreferences.putBoolean(KEY_CUSTOM_BACKGROUND, value);
     }
 
     public enum ColorItem {
@@ -63,5 +76,10 @@ public enum GlobalOptions {
         public String getKey() {
             return "color." + name().toLowerCase();
         }
+    }
+
+    private static class Holder {
+
+        private static final NbgOptions INSTANCE = new NbgOptions();
     }
 }

@@ -17,7 +17,7 @@ package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
 import org.nbgames.core.api.PresenterProvider;
-import org.nbgames.core.options.NbGamesOptionsPanel;
+import org.nbgames.core.options.NbgOptionsPanel;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.nbgames.core.options.NbGamesOptionsPanel;
  */
 public class HomeProvider implements PresenterProvider {
 
-    private NbGamesOptionsPanel mOptionsPanel = new NbGamesOptionsPanel();
+    private NbgOptionsPanel mOptionsPanel = new NbgOptionsPanel();
     private final HomePanel mPanel = new HomePanel();
 
     public static HomeProvider getInstance() {

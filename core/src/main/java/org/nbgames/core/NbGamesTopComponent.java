@@ -16,6 +16,11 @@
 package org.nbgames.core;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,12 +33,11 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.nbgames.core.actions.CallbackHelpAction;
+import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
-import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.api.PresenterProvider;
-import org.nbgames.core.base.BaseTopComponent;
 import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
 import org.nbgames.core.presenter.HomeProvider;
@@ -74,8 +78,9 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
 @Messages({
     "CTL_NbGamesTopComponentAction=nbGames",
     "CTL_NbGamesTopComponent=nbGames",})
-public final class NbGamesTopComponent extends BaseTopComponent {
+public final class NbGamesTopComponent extends TopComponent {
 
+    private final NbgOptions mOptions = NbgOptions.getInstance();
     private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
     private final ActionMap mActionMap = getActionMap();
     private final CardLayout mCardLayout;
@@ -95,7 +100,6 @@ public final class NbGamesTopComponent extends BaseTopComponent {
 
         mCardLayout = (CardLayout) mainPanel.getLayout();
         init();
-
     }
 
     public JButton getSelectorButton() {
@@ -187,6 +191,23 @@ public final class NbGamesTopComponent extends BaseTopComponent {
         helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (mOptions.isCustomBackground()) {
+
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            int w = getWidth();
+            int h = getHeight();
+            Color upperColor = mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER);
+            Color lowerColor = mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER);
+            GradientPaint gp = new GradientPaint(0, 0, upperColor, 0, h, lowerColor);
+            g2d.setPaint(gp);
+            g2d.fillRect(0, 0, w, h);
+        }
+    }
+
     private void init() {
         String category;
         String id;
@@ -238,6 +259,7 @@ public final class NbGamesTopComponent extends BaseTopComponent {
             }
         });
 
+        menuButton.setVisible(false);
         WindowManager.getDefault().invokeWhenUIReady(() -> {
             frame.setTitle(Bundle.CTL_NbGamesTopComponent());
         });
