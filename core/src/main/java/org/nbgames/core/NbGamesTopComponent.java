@@ -26,6 +26,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -99,6 +101,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         mCardLayout = (CardLayout) mainPanel.getLayout();
         init();
+        initListeners();
     }
 
     public JButton getSelectorButton() {
@@ -183,10 +186,28 @@ public final class NbGamesTopComponent extends TopComponent {
         newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
     }
 
+    private void initListeners() {
+        mOptions.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
+            @Override
+            public void preferenceChange(PreferenceChangeEvent evt) {
+                String key = evt.getKey();
+                switch (key) {
+                    case NbgOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
+                        toolBar.setOpaque(mOptions.isCustomToolbarBackground());
+                        break;
+
+                    case "color.toolbar":
+                        toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+                        break;
+                }
+            }
+        });
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (mOptions.isCustomBackground()) {
+        if (mOptions.isCustomWindowBackground()) {
 
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -257,6 +278,9 @@ public final class NbGamesTopComponent extends TopComponent {
         });
 
         show(HomeProvider.getInstance());
+
+        toolBar.setOpaque(mOptions.isCustomToolbarBackground());
+        toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {

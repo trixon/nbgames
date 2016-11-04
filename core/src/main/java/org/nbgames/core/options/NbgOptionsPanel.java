@@ -41,10 +41,12 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         optionButton.setAction(Actions.forID("Window", "org.netbeans.modules.options.OptionsWindowAction"));
         optionButton.setText(Actions.cutAmpersand(optionButton.getText()));
 
+        colorCheckBox.setSelected(mOptions.isCustomWindowBackground());
         lowerColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER));
         upperColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER));
 
-        colorCheckBox.setSelected(mOptions.isCustomBackground());
+        toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
+        toolbarColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
     }
 
     /**
@@ -64,6 +66,8 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         lowerLabel = new javax.swing.JLabel();
         upperColorComboBox = new org.openide.awt.ColorComboBox();
         lowerColorComboBox = new org.openide.awt.ColorComboBox();
+        toolbarColorCheckBox = new javax.swing.JCheckBox();
+        toolbarColorComboBox = new org.openide.awt.ColorComboBox();
         pluginButton = new javax.swing.JButton();
         optionButton = new javax.swing.JButton();
 
@@ -129,6 +133,34 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         panel.add(lowerColorComboBox, gridBagConstraints);
 
+        toolbarColorCheckBox.setText(org.openide.util.NbBundle.getMessage(NbgOptionsPanel.class, "NbgOptionsPanel.toolbarColorCheckBox.text")); // NOI18N
+        toolbarColorCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toolbarColorCheckBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 0);
+        panel.add(toolbarColorCheckBox, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, toolbarColorCheckBox, org.jdesktop.beansbinding.ELProperty.create("${selected}"), toolbarColorComboBox, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        toolbarColorComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toolbarColorComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
+        panel.add(toolbarColorComboBox, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,7 +180,7 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(optionButton)
@@ -160,7 +192,7 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void colorCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorCheckBoxActionPerformed
-        mOptions.setCustomBackground(colorCheckBox.isSelected());
+        mOptions.setCustomWindowBackground(colorCheckBox.isSelected());
     }//GEN-LAST:event_colorCheckBoxActionPerformed
 
     private void upperColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upperColorComboBoxActionPerformed
@@ -171,6 +203,14 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         mOptions.setColor(NbgOptions.ColorItem.WINDOW_LOWER, lowerColorComboBox.getSelectedColor());
     }//GEN-LAST:event_lowerColorComboBoxActionPerformed
 
+    private void toolbarColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarColorComboBoxActionPerformed
+        mOptions.setColor(NbgOptions.ColorItem.TOOLBAR, toolbarColorComboBox.getSelectedColor());
+    }//GEN-LAST:event_toolbarColorComboBoxActionPerformed
+
+    private void toolbarColorCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarColorCheckBoxActionPerformed
+        mOptions.setCustomToolbarBackground(toolbarColorCheckBox.isSelected());
+    }//GEN-LAST:event_toolbarColorCheckBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox colorCheckBox;
     private org.openide.awt.ColorComboBox lowerColorComboBox;
@@ -178,6 +218,8 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JButton optionButton;
     private javax.swing.JPanel panel;
     private javax.swing.JButton pluginButton;
+    private javax.swing.JCheckBox toolbarColorCheckBox;
+    private org.openide.awt.ColorComboBox toolbarColorComboBox;
     private org.openide.awt.ColorComboBox upperColorComboBox;
     private javax.swing.JLabel upperLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

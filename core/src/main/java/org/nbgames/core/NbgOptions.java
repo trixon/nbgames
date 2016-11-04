@@ -28,8 +28,11 @@ public class NbgOptions {
 
     private static final String DEFAULT_COLOR_WINDOW_LOWER = "#003300";
     private static final String DEFAULT_COLOR_WINDOW_UPPER = "#009900";
-    private static final boolean DEFAULT_CUSTOM_BACKGROUND = true;
-    private static final String KEY_CUSTOM_BACKGROUND = "customBackground";
+    private static final String DEFAULT_COLOR_TOOLBAR = "#009900";
+    private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = true;
+    private static final boolean DEFAULT_CUSTOM_TOOLBAR_BACKGROUND = false;
+    public static final String KEY_CUSTOM_WINDOW_BACKGROUND = "customWindowBackground";
+    public static final String KEY_CUSTOM_TOOLBAR_BACKGROUND = "customToolbarBackground";
     private final Preferences mPreferences = NbPreferences.forModule(NbgOptions.class);
 
     public static NbgOptions getInstance() {
@@ -37,7 +40,6 @@ public class NbgOptions {
     }
 
     private NbgOptions() {
-
     }
 
     public Color getColor(ColorItem colorItem) {
@@ -48,21 +50,32 @@ public class NbgOptions {
         return mPreferences;
     }
 
-    public boolean isCustomBackground() {
-        return mPreferences.getBoolean(KEY_CUSTOM_BACKGROUND, DEFAULT_CUSTOM_BACKGROUND);
+    public boolean isCustomWindowBackground() {
+        return mPreferences.getBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, DEFAULT_CUSTOM_WINDOW_BACKGROUND);
+    }
+
+    public boolean isCustomToolbarBackground() {
+        return mPreferences.getBoolean(KEY_CUSTOM_TOOLBAR_BACKGROUND, DEFAULT_CUSTOM_TOOLBAR_BACKGROUND);
     }
 
     public void setColor(ColorItem colorItem, Color color) {
         mPreferences.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
     }
 
-    public void setCustomBackground(boolean value) {
-        mPreferences.putBoolean(KEY_CUSTOM_BACKGROUND, value);
+    public void setCustomWindowBackground(boolean value) {
+        mPreferences.putBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, value);
+    }
+
+    public void setCustomToolbarBackground(boolean value) {
+        mPreferences.putBoolean(KEY_CUSTOM_TOOLBAR_BACKGROUND, value);
     }
 
     public enum ColorItem {
 
-        WINDOW_LOWER(DEFAULT_COLOR_WINDOW_LOWER), WINDOW_UPPER(DEFAULT_COLOR_WINDOW_UPPER);
+        TOOLBAR(DEFAULT_COLOR_TOOLBAR),
+        WINDOW_LOWER(DEFAULT_COLOR_WINDOW_LOWER),
+        WINDOW_UPPER(DEFAULT_COLOR_WINDOW_UPPER);
+
         private final String mDefaultColor;
 
         ColorItem(String defaultColor) {
