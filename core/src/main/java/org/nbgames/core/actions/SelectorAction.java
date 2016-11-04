@@ -17,25 +17,32 @@ package org.nbgames.core.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.AbstractAction;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.nbgames.core.GameCategory;
 import org.nbgames.core.GameController;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
+import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 @ActionID(
         category = "Game",
@@ -51,6 +58,7 @@ import org.nbgames.core.api.PresenterProvider;
 @NbBundle.Messages("CTL_SelectorAction=Selector")
 public final class SelectorAction extends NbGameAction {
 
+    private TreeMap<String, ArrayList<GameController>> mGameControllersPerCategory = new TreeMap<>();
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public SelectorAction() {
@@ -70,30 +78,40 @@ public final class SelectorAction extends NbGameAction {
             }
 
             private void populateDropDown() {
+                sortProviders();
                 mPopup.removeAll();
-                Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
-                gameControllers.stream().forEach((gameController) -> {
-                    JLabel label = new JLabel(gameController.getCategory().getString());
+
+                for (Map.Entry<String, ArrayList<GameController>> category : mGameControllersPerCategory.entrySet()) {
+
+                    JMenuItem label = new JMenuItem(category.getKey());
                     label.setEnabled(false);
                     mPopup.add(label);
-                    JMenuItem menuItem = new JMenuItem();
-                    String text = String.format("<html><b>%s</b><br /> <i>- %s</i></html>", gameController.getName(), gameController.getShortDescription());
-                    menuItem.setAction(new AbstractAction(text) {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            getTopComponent().show((PresenterProvider) gameController);
-                        }
-                    });
 
-                    mPopup.add(menuItem);
-                });
+                    for (GameController controller : category.getValue()) {
+                        JMenuItem menuItem = new JMenuItem();
+                        String text = String.format("<html><b>%s</b><br /> <i>- %s</i></html>", controller.getName(), controller.getShortDescription());
+                        menuItem.setAction(new AbstractAction(text) {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                getTopComponent().show(controller);
+                            }
+                        });
 
-                if (gameControllers.isEmpty()) {
+                        mPopup.add(menuItem);
+                    }
+                }
+
+                if (mPopup.getComponentCount() == 0) {
                     JMenuItem dummyMenuItem = new JMenuItem("No installed games");
                     dummyMenuItem.setEnabled(false);
 
                     mPopup.add(dummyMenuItem);
                 }
+
+                mPopup.add(new JSeparator());
+                JMenuItem menuItem = new JMenuItem(Actions.forID("System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction"));
+                menuItem.setText("Install games");
+                mPopup.add(menuItem);
             }
         });
     }
@@ -109,5 +127,36 @@ public final class SelectorAction extends NbGameAction {
         int y = component.getLocationOnScreen().y + component.getHeight();
 
         mPopup.setLocation(x, y);
+    }
+
+    private void sortProviders() {
+        for (GameCategory category : GameCategory.values()) {
+            mGameControllersPerCategory.put(category.getString(), new ArrayList<>());
+        }
+
+        Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
+        gameControllers.stream().forEach((gameController) -> {
+            mGameControllersPerCategory.get(gameController.getCategory().getString()).add(gameController);
+        });
+
+        HashSet<String> emptyKeys = new HashSet<>();
+        for (Map.Entry<String, ArrayList<GameController>> category : mGameControllersPerCategory.entrySet()) {
+            ArrayList<GameController> controllers = category.getValue();
+
+            if (controllers.isEmpty()) {
+                emptyKeys.add(category.getKey());
+            } else {
+                Collections.sort(controllers, new Comparator<GameController>() {
+                    @Override
+                    public int compare(GameController o1, GameController o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                });
+            }
+        }
+
+        for (String emptyKey : emptyKeys) {
+            mGameControllersPerCategory.remove(emptyKey);
+        }
     }
 }

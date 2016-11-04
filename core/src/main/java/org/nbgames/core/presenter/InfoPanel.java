@@ -57,12 +57,14 @@ public class InfoPanel extends ContainerPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         toolBar = new javax.swing.JToolBar();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         backButton = new javax.swing.JButton();
         label = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         infoLabel = new javax.swing.JLabel();
 
         setOpaque(false);
@@ -89,11 +91,18 @@ public class InfoPanel extends ContainerPanel {
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
         panel.setOpaque(false);
-        panel.setLayout(new java.awt.GridLayout(1, 0));
+        panel.setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("info"); // NOI18N
-        panel.add(infoLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(16, 22, 22, 22);
+        jPanel1.add(infoLabel, gridBagConstraints);
+
+        panel.add(jPanel1, new java.awt.GridBagConstraints());
 
         add(panel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -106,6 +115,7 @@ public class InfoPanel extends ContainerPanel {
     private javax.swing.JButton backButton;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel infoLabel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JPanel panel;
     private javax.swing.JToolBar toolBar;

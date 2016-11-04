@@ -36,7 +36,6 @@ import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
-import org.nbgames.core.api.GameProvider;
 import org.nbgames.core.api.PresenterProvider;
 import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
@@ -120,7 +119,6 @@ public final class NbGamesTopComponent extends TopComponent {
             mainPanel.add(presenterProvider.getPanel(), presenterProvider.getId());
         }
 
-        PresenterProvider prevPresenterProvider = mStack.peek();
         mStack.remove(presenterProvider);
         mStack.addFirst(presenterProvider);
         mCardLayout.show(mainPanel, presenterProvider.getId());
@@ -135,10 +133,6 @@ public final class NbGamesTopComponent extends TopComponent {
         mActionMap.remove(CallbackNewRoundAction.KEY);
         mActionMap.remove(CallbackOptionsAction.KEY);
         mActionMap.remove(CallbackInfoAction.KEY);
-
-        newButton.setEnabled(false);
-//        helpButton.setEnabled(false);
-//        optionsButton.setEnabled(false);
 
         if (presenterProvider.getOptionsPanel() != null) {
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
@@ -163,6 +157,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 }
             });
         }
+
         mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,21 +169,18 @@ public final class NbGamesTopComponent extends TopComponent {
             }
         });
 
-        if (presenterProvider instanceof InfoProvider) {
-//            InfoPanel infoPanel = (InfoPanel) presenterProvider.getPanel();
-//            infoPanel.setTitle(String.format("%s - %s", Dict.INFORMATION.toString(), presenterProvider.getName()));
-//            infoPanel.load(presenterProvider);
-        } else if (presenterProvider instanceof GameProvider) {
+        if (presenterProvider instanceof GameController) {
             mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("start new round");
+                    ((GameController) presenterProvider).requestNewGame();
                 }
             });
         }
 
         optionsButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").isEnabled());
         helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
+        newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
     }
 
     @Override
