@@ -30,6 +30,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.nbgames.core.DictNbg;
 import org.nbgames.core.GameCategory;
 import org.nbgames.core.GameController;
 import org.openide.awt.ActionID;
@@ -39,6 +40,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
+import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -102,7 +104,7 @@ public final class SelectorAction extends NbGameAction {
                 }
 
                 if (mPopup.getComponentCount() == 0) {
-                    JMenuItem dummyMenuItem = new JMenuItem("No installed games");
+                    JMenuItem dummyMenuItem = new JMenuItem(DictNbg.NO_INSTALLED_GAMES.toString());
                     dummyMenuItem.setEnabled(false);
 
                     mPopup.add(dummyMenuItem);
@@ -110,7 +112,7 @@ public final class SelectorAction extends NbGameAction {
 
                 mPopup.add(new JSeparator());
                 JMenuItem menuItem = new JMenuItem(Actions.forID("System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction"));
-                menuItem.setText("Install games");
+                menuItem.setText(Dict.ADD_REMOVE.toString());
                 mPopup.add(menuItem);
             }
         });

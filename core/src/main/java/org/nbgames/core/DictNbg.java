@@ -25,6 +25,7 @@ import se.trixon.almond.util.SystemHelper;
  */
 public enum DictNbg {
 
+    NO_INSTALLED_GAMES,
     GAME_OVER,
     GAME_SELECTOR,
     GAME_TYPE,
