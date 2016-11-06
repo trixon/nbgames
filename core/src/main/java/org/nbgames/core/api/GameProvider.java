@@ -28,5 +28,5 @@ public interface GameProvider {
 
     NewGamePanel getNewGamePanel();
 
-//    GamePanel getGamePanel();
+    void onRequestNewGameStart();
 }

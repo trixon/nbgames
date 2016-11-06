@@ -18,7 +18,7 @@ package org.nbgames.core.presenter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.nbgames.core.DictNbg;
-import org.nbgames.core.game.NewGameController;
+import org.nbgames.core.GameController;
 
 /**
  *
@@ -32,7 +32,7 @@ public class NewGameDialog extends DialogPanel {
         setButtonBarVisible(true);
     }
 
-    public void setGameController(final NewGameController controller) {
+    public void setGameController(final GameController controller) {
         for (ActionListener actionListener : getOkButton().getActionListeners()) {
             getOkButton().removeActionListener(actionListener);
         }

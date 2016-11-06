@@ -110,12 +110,6 @@ public abstract class GameController implements PresenterProvider, GameProvider,
         return getResource("Game-Version");
     }
 
-    public void requestNewGame() {
-    }
-
-    public void updateStatusBar() {
-    }
-
     private void init() {
     }
 }

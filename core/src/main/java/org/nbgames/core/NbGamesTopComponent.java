@@ -41,7 +41,6 @@ import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
 import org.nbgames.core.api.DialogProvider;
 import org.nbgames.core.api.PresenterProvider;
-import org.nbgames.core.game.NewGameController;
 import org.nbgames.core.presenter.DialogPanel;
 import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
@@ -207,11 +206,11 @@ public final class NbGamesTopComponent extends TopComponent {
             mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-//                    ((GameController) presenterProvider).requestNewGame();
                     final NewGameProvider provider = NewGameProvider.getInstance();
+                    GameController gameController = (GameController) presenterProvider;
                     NewGameDialog dialog = provider.getPanel();
-                    dialog.setContent(((GameController) presenterProvider).getNewGamePanel());
-                    dialog.setGameController((NewGameController) presenterProvider);
+                    dialog.setContent(gameController.getNewGamePanel());
+                    dialog.setGameController(gameController);
                     show(provider);
                 }
             });
@@ -347,7 +346,7 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
-        GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.GunuController");
+        GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.Gunu");
         show(gc);
     }
 
