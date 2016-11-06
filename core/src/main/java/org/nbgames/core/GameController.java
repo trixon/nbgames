@@ -15,23 +15,34 @@
  */
 package org.nbgames.core;
 
+import java.util.Collection;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.api.GameProvider;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
+import org.nbgames.core.api.PresenterProvider;
 import org.openide.modules.Modules;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.news.NewsProvider;
 import se.trixon.almond.util.SystemHelper;
-import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
 public abstract class GameController implements PresenterProvider, GameProvider, NewsProvider {
+
+    public static GameController forID(GameCategory category, String id) {
+        Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
+
+        for (GameController gameController : gameControllers) {
+            if (gameController.getCategory() == category && gameController.getId().equalsIgnoreCase(id)) {
+                return gameController;
+            }
+        }
+
+        return null;
+    }
 
     public GameController() {
         init();
@@ -50,6 +61,11 @@ public abstract class GameController implements PresenterProvider, GameProvider,
     @Override
     public String getDescription() {
         return getResource("Game-Description");
+    }
+
+    @Override
+    public String getId() {
+        return getClass().getName();
     }
 
     @Override
@@ -101,19 +117,5 @@ public abstract class GameController implements PresenterProvider, GameProvider,
     }
 
     private void init() {
-    }
-
-    private void showDescription() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append(" ").append(getVersion()).append("\n");
-        builder.append(getDescription()).append("\n\n");
-        builder.append(getCopyright());
-        if (!getCredit().isEmpty()) {
-            builder.append("\n\n").append(getCredit());
-        }
-
-        NotifyDescriptor notifyDescriptor = new NotifyDescriptor.Message(builder.toString(), NotifyDescriptor.INFORMATION_MESSAGE);
-        notifyDescriptor.setTitle(NbBundle.getMessage(CallbackInfoAction.class, "CTL_GameInfoAction"));
-        DialogDisplayer.getDefault().notify(notifyDescriptor);
     }
 }

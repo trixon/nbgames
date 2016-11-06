@@ -21,6 +21,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.nbgames.core.NbGamesTopComponent;
@@ -52,6 +53,10 @@ public class DialogPanel extends JPanel {
         init();
     }
 
+    public JButton getOkButton() {
+        return okButton;
+    }
+
     public JComponent getComponent() {
         return mComponent;
     }
@@ -66,12 +71,20 @@ public class DialogPanel extends JPanel {
 
     public void setContent(JComponent component) {
         mComponent = component;
-        panel.removeAll();;
+        panel.removeAll();
         panel.add(component);
     }
 
     public void setTitle(String title) {
         mTitleLabel.setText(title);
+    }
+
+    public void setButtonBarVisible(boolean state) {
+        buttonBar.setVisible(state);
+    }
+
+    protected void close() {
+        mTopComponent.closeDialog(this);
     }
 
     @Override
@@ -81,8 +94,8 @@ public class DialogPanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         int w = getWidth();
         int h = getHeight();
-        Color upperColor = new Color(0x05, 0x05, 0x05, 0xAA);//mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER);
-        Color lowerColor = new Color(0x05, 0x05, 0x05, 0xAA);//mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER);
+        Color upperColor = new Color(0x0, 0x0, 0x0, 0xAA);
+        Color lowerColor = new Color(0x0, 0x0, 0x0, 0xAA);
         GradientPaint gp = new GradientPaint(0, 0, upperColor, 0, h, lowerColor);
         g2d.setPaint(gp);
         g2d.fillRect(0, 0, w, h);
@@ -90,8 +103,12 @@ public class DialogPanel extends JPanel {
 
     private void init() {
         backButton.setIcon(MaterialIcon._Navigation.CANCEL.get(mIconSize, mIconColor));
-//        setOpaque(true);
+        cancelButton.setIcon(MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor));
+        okButton.setIcon(MaterialIcon._Action.DONE.get(Almond.ICON_LARGE, mIconColor));
+        setOpaque(false);
 //        setBackground(new Color(5, 5, 5, 0x55));
+
+        setButtonBarVisible(false);
     }
 
     /**
@@ -106,11 +123,16 @@ public class DialogPanel extends JPanel {
 
         innerPanel = new javax.swing.JPanel();
         toolBar = new javax.swing.JToolBar();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         backButton = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         mTitleLabel = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
+        buttonBar = new javax.swing.JToolBar();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        cancelButton = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 32767));
+        okButton = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -120,7 +142,6 @@ public class DialogPanel extends JPanel {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        toolBar.add(filler2);
 
         backButton.setFocusable(false);
         backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -143,19 +164,51 @@ public class DialogPanel extends JPanel {
         panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.LINE_AXIS));
         innerPanel.add(panel, java.awt.BorderLayout.CENTER);
 
+        buttonBar.setFloatable(false);
+        buttonBar.setRollover(true);
+        buttonBar.add(filler1);
+
+        cancelButton.setFocusable(false);
+        cancelButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cancelButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+        buttonBar.add(cancelButton);
+        buttonBar.add(filler5);
+
+        okButton.setFocusable(false);
+        okButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        okButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonBar.add(okButton);
+        buttonBar.add(filler4);
+
+        innerPanel.add(buttonBar, java.awt.BorderLayout.PAGE_END);
+
         add(innerPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        mTopComponent.closeDialog(this);
+        close();
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        close();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
-    private javax.swing.Box.Filler filler2;
+    private javax.swing.JToolBar buttonBar;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JPanel innerPanel;
     private javax.swing.JLabel mTitleLabel;
+    private javax.swing.JButton okButton;
     private javax.swing.JPanel panel;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables

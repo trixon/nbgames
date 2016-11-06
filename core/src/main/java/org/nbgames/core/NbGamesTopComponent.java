@@ -41,12 +41,15 @@ import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
 import org.nbgames.core.api.DialogProvider;
 import org.nbgames.core.api.PresenterProvider;
+import org.nbgames.core.game.NewGameController;
 import org.nbgames.core.presenter.DialogPanel;
 import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
 import org.nbgames.core.presenter.HomeProvider;
 import org.nbgames.core.presenter.InfoPanel;
 import org.nbgames.core.presenter.InfoProvider;
+import org.nbgames.core.presenter.NewGameDialog;
+import org.nbgames.core.presenter.NewGameProvider;
 import org.nbgames.core.presenter.OptionsDialog;
 import org.nbgames.core.presenter.OptionsProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -119,11 +122,11 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     public void show(PresenterProvider presenterProvider) {
-        final JPanel panel = presenterProvider.getPanel();
-
-        if (presenterProvider == mWindowStack.peek()) {
+        if (presenterProvider == null || presenterProvider == mWindowStack.peek()) {
             return;
         }
+
+        final JPanel panel = presenterProvider.getPanel();
 
         if (!mWindowStack.isEmpty()) {
             final JPanel previousPanel = mWindowStack.peek().getPanel();
@@ -204,11 +207,18 @@ public final class NbGamesTopComponent extends TopComponent {
             mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ((GameController) presenterProvider).requestNewGame();
+//                    ((GameController) presenterProvider).requestNewGame();
+                    final NewGameProvider provider = NewGameProvider.getInstance();
+                    NewGameDialog dialog = provider.getPanel();
+                    dialog.setContent(((GameController) presenterProvider).getNewGamePanel());
+                    dialog.setGameController((NewGameController) presenterProvider);
+                    show(provider);
                 }
             });
         }
 
+        boolean enableInfo = !(presenterProvider instanceof NewGameProvider);
+        infoButton.setEnabled(enableInfo);
         optionsButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").isEnabled());
         helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
         newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
@@ -336,6 +346,9 @@ public final class NbGamesTopComponent extends TopComponent {
 
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+
+        GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.GunuController");
+        show(gc);
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {

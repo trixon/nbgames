@@ -16,6 +16,7 @@
 package org.nbgames.core.api;
 
 import org.nbgames.core.GameCategory;
+import org.nbgames.core.base.NewGamePanel;
 
 /**
  *
@@ -24,6 +25,8 @@ import org.nbgames.core.GameCategory;
 public interface GameProvider {
 
     GameCategory getCategory();
+
+    NewGamePanel getNewGamePanel();
 
 //    GamePanel getGamePanel();
 }
