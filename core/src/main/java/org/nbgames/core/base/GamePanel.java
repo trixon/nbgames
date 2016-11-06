@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@ package org.nbgames.core.base;
 import java.awt.LayoutManager;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
@@ -47,7 +48,7 @@ public abstract class GamePanel extends JPanel {
     }
 
     public void centerInParent() {
-        JPanel topPanel = (JPanel) getParent();
+        JComponent topPanel = (JComponent) getParent();
         if (topPanel != null && topPanel.getHeight() > 0 && topPanel.getWidth() > 0) {
         }
     }

@@ -15,13 +15,11 @@
  */
 package org.nbgames.core.presenter;
 
-import se.trixon.almond.util.icons.material.MaterialIcon;
-
 /**
  *
  * @author Patrik Karlsson
  */
-public class HelpPanel extends ContainerPanel {
+public class HelpPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsPanel
@@ -32,8 +30,6 @@ public class HelpPanel extends ContainerPanel {
     }
 
     private void init() {
-        backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
-        setTitleLabel(label);
     }
 
     public void load(String string) {
@@ -49,51 +45,19 @@ public class HelpPanel extends ContainerPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        toolBar = new javax.swing.JToolBar();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
-        backButton = new javax.swing.JButton();
-        label = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
         textPane = new javax.swing.JTextPane();
 
-        setLayout(new java.awt.BorderLayout());
-
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-        toolBar.add(filler2);
-
-        backButton.setFocusable(false);
-        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(backButton);
-
-        label.setFont(label.getFont().deriveFont(label.getFont().getSize()+4f));
-        label.setText("UNSET"); // NOI18N
-        toolBar.add(label);
-
-        add(toolBar, java.awt.BorderLayout.PAGE_START);
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         scrollPane.setViewportView(textPane);
 
-        add(scrollPane, java.awt.BorderLayout.CENTER);
+        add(scrollPane);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        goBack();
-    }//GEN-LAST:event_backButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel label;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTextPane textPane;
-    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
 }

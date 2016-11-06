@@ -16,16 +16,17 @@
 package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
+import org.nbgames.core.api.DialogProvider;
 import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class PlayersProvider implements PresenterProvider {
+public class PlayersProvider implements PresenterProvider, DialogProvider {
 
     private final HomeProvider mHomeProvider = HomeProvider.getInstance();
-    private final PlayersPanel mPanel = new PlayersPanel();
+    private final PlayersDialog mPanel = new PlayersDialog();
 
     public static PlayersProvider getInstance() {
         return Holder.INSTANCE;
@@ -36,17 +37,17 @@ public class PlayersProvider implements PresenterProvider {
 
     @Override
     public String getCopyright() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public String getCredit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -61,12 +62,12 @@ public class PlayersProvider implements PresenterProvider {
 
     @Override
     public String getLicense() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public String getModuleName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -86,7 +87,7 @@ public class PlayersProvider implements PresenterProvider {
 
     @Override
     public String getShortDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

@@ -21,21 +21,25 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import org.nbgames.core.DictNbg;
 import org.nbgames.core.Player;
 import org.nbgames.core.PlayerManager;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.NbBundle;
+import se.trixon.almond.nbp.Almond;
+import se.trixon.almond.util.AlmondOptions;
+import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public final class PlayersPanel extends ContainerPanel {
+public final class PlayersPanel extends javax.swing.JPanel {
 
+    protected final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
+    protected final int mIconSize = (int) (Almond.ICON_LARGE / 1.5);
     private DefaultListModel mModel = new DefaultListModel();
 
     public PlayersPanel() {
@@ -45,7 +49,6 @@ public final class PlayersPanel extends ContainerPanel {
     }
 
     private void init() {
-        backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
         addButton.setIcon(MaterialIcon._Content.ADD.get(mIconSize, mIconColor));
         editButton.setIcon(MaterialIcon._Content.CREATE.get(mIconSize, mIconColor));
         removeButton.setIcon(MaterialIcon._Content.REMOVE.get(mIconSize, mIconColor));
@@ -61,10 +64,6 @@ public final class PlayersPanel extends ContainerPanel {
     private void initComponents() {
 
         toolBar = new javax.swing.JToolBar();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
-        backButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         addButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
@@ -76,22 +75,6 @@ public final class PlayersPanel extends ContainerPanel {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        toolBar.add(filler2);
-
-        backButton.setFocusable(false);
-        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(backButton);
-
-        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+4f));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, DictNbg.PLAYERS.toString());
-        toolBar.add(jLabel1);
-        toolBar.add(filler1);
 
         addButton.setToolTipText(org.openide.util.NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +108,7 @@ public final class PlayersPanel extends ContainerPanel {
         });
         toolBar.add(removeAllButton);
 
+        list.setFont(list.getFont().deriveFont(list.getFont().getSize()+6f));
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         list.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -247,10 +231,6 @@ public final class PlayersPanel extends ContainerPanel {
         }
     }//GEN-LAST:event_listMouseClicked
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        goBack();
-    }//GEN-LAST:event_backButtonActionPerformed
-
     private Player getSelectedPlayer() {
         return (Player) list.getSelectedValue();
     }
@@ -288,11 +268,7 @@ public final class PlayersPanel extends ContainerPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton backButton;
     private javax.swing.JButton editButton;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JList list;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;

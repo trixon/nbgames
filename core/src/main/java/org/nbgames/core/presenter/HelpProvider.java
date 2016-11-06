@@ -16,16 +16,17 @@
 package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
+import org.nbgames.core.api.DialogProvider;
 import org.nbgames.core.api.PresenterProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class HelpProvider implements PresenterProvider {
+public class HelpProvider implements PresenterProvider, DialogProvider {
 
-    private final HelpPanel mPanel = new HelpPanel();
     private final HomeProvider mHomeProvider = HomeProvider.getInstance();
+    private final HelpDialog mPanel = new HelpDialog();
 
     public static HelpProvider getInstance() {
         return Holder.INSTANCE;
@@ -80,7 +81,7 @@ public class HelpProvider implements PresenterProvider {
     }
 
     @Override
-    public HelpPanel getPanel() {
+    public HelpDialog getPanel() {
         return mPanel;
     }
 

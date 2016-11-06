@@ -15,7 +15,6 @@
  */
 package org.nbgames.core;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -34,17 +33,21 @@ import javax.swing.ActionMap;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
+import org.nbgames.core.api.DialogProvider;
 import org.nbgames.core.api.PresenterProvider;
+import org.nbgames.core.presenter.DialogPanel;
 import org.nbgames.core.presenter.HelpPanel;
 import org.nbgames.core.presenter.HelpProvider;
 import org.nbgames.core.presenter.HomeProvider;
 import org.nbgames.core.presenter.InfoPanel;
 import org.nbgames.core.presenter.InfoProvider;
-import org.nbgames.core.presenter.OptionsPanel;
+import org.nbgames.core.presenter.OptionsDialog;
 import org.nbgames.core.presenter.OptionsProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -58,6 +61,7 @@ import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
+import se.trixon.almond.util.swing.SwingHelper;
 
 /**
  * Top component which displays something.
@@ -84,8 +88,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private final NbgOptions mOptions = NbgOptions.getInstance();
     private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
     private final ActionMap mActionMap = getActionMap();
-    private final CardLayout mCardLayout;
-    private final Deque<PresenterProvider> mStack = new ArrayDeque<>();
+    private final Deque<PresenterProvider> mWindowStack = new ArrayDeque<>();
 
     static {
         Almond.ICON_LARGE = 48;
@@ -99,38 +102,62 @@ public final class NbGamesTopComponent extends TopComponent {
         putClientProperty(TopComponent.PROP_DRAGGING_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
 
-        mCardLayout = (CardLayout) mainPanel.getLayout();
         init();
         initListeners();
+    }
+
+    public void closeDialog(DialogPanel dialogPanel) {
+        layeredPane.remove(dialogPanel);
+        layeredPane.invalidate();
+        layeredPane.repaint();
+        mWindowStack.pop();
+        show(mWindowStack.pop());
     }
 
     public JButton getSelectorButton() {
         return selectorButton;
     }
 
-    public void showPrevious() {
-        mStack.pop();
-        show(mStack.pop());
-    }
-
     public void show(PresenterProvider presenterProvider) {
-        if (presenterProvider == mStack.peek()) {
+        final JPanel panel = presenterProvider.getPanel();
+
+        if (presenterProvider == mWindowStack.peek()) {
             return;
         }
 
-        if (presenterProvider.getPanel().getParent() != mainPanel) {
-            mainPanel.add(presenterProvider.getPanel(), presenterProvider.getId());
+        if (!mWindowStack.isEmpty()) {
+            final JPanel previousPanel = mWindowStack.peek().getPanel();
+            SwingHelper.enableComponents(previousPanel, false);
+            if (mWindowStack.peek() instanceof DialogProvider) {
+                previousPanel.setVisible(false);
+            }
         }
 
-        mStack.remove(presenterProvider);
-        mStack.addFirst(presenterProvider);
-        mCardLayout.show(mainPanel, presenterProvider.getId());
+        Integer layer;
+        if (presenterProvider instanceof DialogProvider) {
+            layer = JLayeredPane.MODAL_LAYER;
+        } else {
+            layer = JLayeredPane.DEFAULT_LAYER;
+            System.out.println("presenter is TOP, remove all");
+            layeredPane.removeAll();
+            mWindowStack.clear();
+        }
+        SwingHelper.enableComponents(panel, true);
+        panel.setVisible(true);
 
-        System.out.println("STACK");
-        for (PresenterProvider componentProvider1 : mStack) {
+        System.out.println("layer=" + layer);
+        layeredPane.add(panel, layer, 0);
+
+        mWindowStack.remove(presenterProvider);
+        mWindowStack.addFirst(presenterProvider);
+
+        System.out.println("WINDOW STACK");
+        for (PresenterProvider componentProvider1 : mWindowStack) {
             System.out.println(componentProvider1.getId());
         }
         System.out.println("");
+
+        panel.revalidate();
 
         mActionMap.remove(CallbackHelpAction.KEY);
         mActionMap.remove(CallbackNewRoundAction.KEY);
@@ -141,9 +168,10 @@ public final class NbGamesTopComponent extends TopComponent {
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    OptionsPanel optionsPanel = (OptionsPanel) OptionsProvider.getInstance().getPanel();
-                    optionsPanel.add(presenterProvider);
-                    show(OptionsProvider.getInstance());
+                    final OptionsProvider optionsProvider = OptionsProvider.getInstance();
+                    OptionsDialog optionsDialog = optionsProvider.getPanel();
+                    optionsDialog.setContent(presenterProvider.getOptionsPanel());
+                    show(optionsProvider);
                 }
             });
         }
@@ -153,8 +181,8 @@ public final class NbGamesTopComponent extends TopComponent {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     final HelpProvider helpProvider = HelpProvider.getInstance();
-                    HelpPanel helpPanel = helpProvider.getPanel();
-                    helpPanel.setTitle(String.format("%s - %s", Dict.HELP.toString(), presenterProvider.getName()));
+                    DialogPanel dialogPanel = helpProvider.getPanel();
+                    HelpPanel helpPanel = (HelpPanel) dialogPanel.getComponent();
                     helpPanel.load(presenterProvider.getHelp());
                     show(helpProvider);
                 }
@@ -164,11 +192,11 @@ public final class NbGamesTopComponent extends TopComponent {
         mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final InfoProvider helpProvider = InfoProvider.getInstance();
-                InfoPanel helpPanel = helpProvider.getPanel();
-                helpPanel.setTitle(String.format("%s - %s", Dict.INFORMATION.toString(), presenterProvider.getName()));
-                helpPanel.load(presenterProvider);
-                show(helpProvider);
+                final InfoProvider infoProvider = InfoProvider.getInstance();
+                DialogPanel dialogPanel = infoProvider.getPanel();
+                InfoPanel infoPanel = (InfoPanel) dialogPanel.getComponent();
+                infoPanel.load(presenterProvider);
+                show(infoProvider);
             }
         });
 
@@ -191,14 +219,34 @@ public final class NbGamesTopComponent extends TopComponent {
             @Override
             public void preferenceChange(PreferenceChangeEvent evt) {
                 String key = evt.getKey();
+                boolean needsRepiant = false;
                 switch (key) {
+                    case NbgOptions.KEY_CUSTOM_WINDOW_BACKGROUND:
+                        needsRepiant = true;
+                        break;
+
                     case NbgOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
                         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
+                        needsRepiant = true;
                         break;
 
                     case "color.toolbar":
                         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+                        needsRepiant = true;
                         break;
+
+                    case "color.window_lower":
+                        needsRepiant = true;
+                        break;
+
+                    case "color.window_upper":
+                        needsRepiant = true;
+                        break;
+                }
+
+                if (needsRepiant) {
+                    revalidate();
+                    repaint();
                 }
             }
         });
@@ -318,7 +366,7 @@ public final class NbGamesTopComponent extends TopComponent {
         fullscreenButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         menuButton = new javax.swing.JButton();
-        mainPanel = new javax.swing.JPanel();
+        layeredPane = new javax.swing.JLayeredPane();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -343,11 +391,6 @@ public final class NbGamesTopComponent extends TopComponent {
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        newButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newButtonActionPerformed(evt);
-            }
-        });
         toolBar.add(newButton);
 
         optionsButton.setFocusable(false);
@@ -379,14 +422,9 @@ public final class NbGamesTopComponent extends TopComponent {
 
         add(toolBar, java.awt.BorderLayout.NORTH);
 
-        mainPanel.setOpaque(false);
-        mainPanel.setLayout(new java.awt.CardLayout());
-        add(mainPanel, java.awt.BorderLayout.CENTER);
+        layeredPane.setLayout(new javax.swing.OverlayLayout(layeredPane));
+        add(layeredPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        System.out.println("new");
-    }//GEN-LAST:event_newButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -395,7 +433,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private javax.swing.JButton helpButton;
     private javax.swing.JButton homeButton;
     private javax.swing.JButton infoButton;
-    private javax.swing.JPanel mainPanel;
+    private javax.swing.JLayeredPane layeredPane;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton newButton;
     private javax.swing.JButton optionsButton;

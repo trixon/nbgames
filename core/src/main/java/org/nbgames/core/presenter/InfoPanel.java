@@ -16,13 +16,12 @@
 package org.nbgames.core.presenter;
 
 import org.nbgames.core.api.PresenterProvider;
-import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class InfoPanel extends ContainerPanel {
+public class InfoPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form OptionsPanel
@@ -45,8 +44,6 @@ public class InfoPanel extends ContainerPanel {
     }
 
     private void init() {
-        backButton.setIcon(MaterialIcon._Navigation.ARROW_BACK.get(mIconSize, mIconColor));
-        setTitleLabel(label);
     }
 
     /**
@@ -59,66 +56,19 @@ public class InfoPanel extends ContainerPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        toolBar = new javax.swing.JToolBar();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
-        backButton = new javax.swing.JButton();
-        label = new javax.swing.JLabel();
-        panel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         infoLabel = new javax.swing.JLabel();
 
-        setOpaque(false);
-        setLayout(new java.awt.BorderLayout());
-
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-        toolBar.add(filler2);
-
-        backButton.setFocusable(false);
-        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(backButton);
-
-        label.setFont(label.getFont().deriveFont(label.getFont().getSize()+4f));
-        label.setText("UNSET"); // NOI18N
-        toolBar.add(label);
-
-        add(toolBar, java.awt.BorderLayout.PAGE_START);
-
-        panel.setOpaque(false);
-        panel.setLayout(new java.awt.GridBagLayout());
-
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.GridBagLayout());
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("info"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(16, 22, 22, 22);
-        jPanel1.add(infoLabel, gridBagConstraints);
-
-        panel.add(jPanel1, new java.awt.GridBagConstraints());
-
-        add(panel, java.awt.BorderLayout.CENTER);
+        add(infoLabel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        goBack();
-    }//GEN-LAST:event_backButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel infoLabel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel label;
-    private javax.swing.JPanel panel;
-    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
 }
