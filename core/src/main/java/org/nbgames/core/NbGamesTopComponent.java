@@ -295,6 +295,11 @@ public final class NbGamesTopComponent extends TopComponent {
         id = "org.nbgames.core.actions.HelpAction";
         initActionButton(category, id, helpButton, Dict.HELP.toString(), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
 
+        category = "File";
+        id = "se.trixon.almond.nbp.actions.QuitAction";
+        initActionButton(category, id, quitButton, Dict.QUIT.toString(), MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Navigation.CLOSE.get(Almond.ICON_SMALL, mIconColor));
+        quitButton.setVisible(false);
+
         category = "Window";
         id = "org.netbeans.core.windows.actions.ToggleFullScreenAction";
         final Action fullScreenAction = Actions.forID(category, id);
@@ -313,10 +318,12 @@ public final class NbGamesTopComponent extends TopComponent {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                MaterialIcon._Navigation fullscreenIcon = frame.isUndecorated() == true ? MaterialIcon._Navigation.FULLSCREEN_EXIT : MaterialIcon._Navigation.FULLSCREEN;
+                final boolean fullscreen = frame.isUndecorated();
+                MaterialIcon._Navigation fullscreenIcon = fullscreen == true ? MaterialIcon._Navigation.FULLSCREEN_EXIT : MaterialIcon._Navigation.FULLSCREEN;
 
                 ActionHelper.setIconSmall(fullScreenAction, fullscreenIcon.get(Almond.ICON_SMALL, mIconColor));
                 ActionHelper.setIconLarge(fullScreenAction, fullscreenIcon.get(Almond.ICON_LARGE, mIconColor));
+                quitButton.setVisible(fullscreen);
             }
         });
 
@@ -366,6 +373,7 @@ public final class NbGamesTopComponent extends TopComponent {
         fullscreenButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         menuButton = new javax.swing.JButton();
+        quitButton = new javax.swing.JButton();
         layeredPane = new javax.swing.JLayeredPane();
 
         setLayout(new java.awt.BorderLayout());
@@ -420,6 +428,11 @@ public final class NbGamesTopComponent extends TopComponent {
         menuButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(menuButton);
 
+        quitButton.setFocusable(false);
+        quitButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        quitButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(quitButton);
+
         add(toolBar, java.awt.BorderLayout.NORTH);
 
         layeredPane.setLayout(new javax.swing.OverlayLayout(layeredPane));
@@ -438,6 +451,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private javax.swing.JButton newButton;
     private javax.swing.JButton optionsButton;
     private javax.swing.JButton playersButton;
+    private javax.swing.JButton quitButton;
     private javax.swing.JButton selectorButton;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
