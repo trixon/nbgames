@@ -223,6 +223,10 @@ public final class NbGamesTopComponent extends TopComponent {
         newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
     }
 
+    public void toogleToolbarVisibility() {
+        toolBar.setVisible(!toolBar.isVisible());
+    }
+
     private void initListeners() {
         mOptions.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
             @Override
