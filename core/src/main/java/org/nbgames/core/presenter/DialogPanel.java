@@ -31,6 +31,7 @@ import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
+import se.trixon.almond.util.swing.SwingHelper;
 
 /**
  *
@@ -109,6 +110,8 @@ public class DialogPanel extends JPanel {
 //        setBackground(new Color(5, 5, 5, 0x55));
 
         setButtonBarVisible(false);
+        SwingHelper.borderPainted(toolBar, false);
+        SwingHelper.borderPainted(buttonBar, false);
     }
 
     /**

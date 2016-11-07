@@ -346,6 +346,7 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
+        SwingHelper.borderPainted(toolBar, false);
         GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.Gunu");
         show(gc);
     }
