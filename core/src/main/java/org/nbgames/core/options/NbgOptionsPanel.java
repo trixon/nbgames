@@ -15,8 +15,14 @@
  */
 package org.nbgames.core.options;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.UIManager;
 import org.nbgames.core.NbgOptions;
-import org.openide.awt.Actions;
+import org.openide.util.NbPreferences;
+import se.trixon.almond.util.AlmondOptions;
+import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -25,6 +31,9 @@ import org.openide.awt.Actions;
 public class NbgOptionsPanel extends javax.swing.JPanel {
 
     private final NbgOptions mOptions = NbgOptions.getInstance();
+    private final AlmondOptions mAlmondOptions = AlmondOptions.getInstance();
+    private final ArrayList<UIManager.LookAndFeelInfo> mLookAndFeelInfos = new ArrayList<>(10);
+    private int mDefaultLookAndFeelIndex;
 
     /**
      * Creates new form NbGamesOptionsPanel
@@ -32,21 +41,82 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
     public NbgOptionsPanel() {
         initComponents();
         init();
+        load();
+    }
+
+    private UIManager.LookAndFeelInfo getCurrentLaF() {
+        UIManager.LookAndFeelInfo currentLaf = null;
+        String currentLAFClassName = UIManager.getLookAndFeel().getClass().getName();
+        boolean isAqua = "Aqua".equals(UIManager.getLookAndFeel().getID()); //NOI18N
+
+        for (UIManager.LookAndFeelInfo li : mLookAndFeelInfos) {
+            if (currentLAFClassName.equals(li.getClassName())
+                    || (isAqua && li.getClassName().contains("apple.laf.AquaLookAndFeel"))) { //NOI18N
+                currentLaf = li;
+                break;
+            }
+        }
+
+        return currentLaf;
+    }
+
+    private UIManager.LookAndFeelInfo getPreferredLaF() {
+        String lafClassName = NbPreferences.root().node("laf").get("laf", null); //NOI18N
+
+        if (null == lafClassName) {
+            return getCurrentLaF();
+        }
+
+        UIManager.LookAndFeelInfo currentLaf = null;
+        boolean isAqua = "Aqua".equals(UIManager.getLookAndFeel().getID()); //NOI18N
+
+        for (UIManager.LookAndFeelInfo li : mLookAndFeelInfos) {
+            if (lafClassName.equals(li.getClassName())
+                    || (isAqua && li.getClassName().contains("apple.laf.AquaLookAndFeel"))) { //NOI18N
+                currentLaf = li;
+                break;
+            }
+        }
+
+        return currentLaf;
     }
 
     private void init() {
-        pluginButton.setAction(Actions.forID("System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction"));
-        pluginButton.setText(Actions.cutAmpersand(pluginButton.getText()));
+        iconsComboBox.setModel(new DefaultComboBoxModel<>(new String[]{Dict.MATERIAL_BLACK.toString(), Dict.MATERIAL_WHITE.toString()}));
 
-        optionButton.setAction(Actions.forID("Window", "org.netbeans.modules.options.OptionsWindowAction"));
-        optionButton.setText(Actions.cutAmpersand(optionButton.getText()));
+        initLookAndFeel();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        mLookAndFeelInfos.forEach((lookAndFeelInfo) -> {
+            model.addElement(lookAndFeelInfo.getName());
+        });
+        lafComboBox.setModel(model);
 
+    }
+
+    private void initLookAndFeel() {
+        mLookAndFeelInfos.clear();
+        mLookAndFeelInfos.addAll(Arrays.asList(UIManager.getInstalledLookAndFeels()));
+    }
+
+    private boolean isForcedLaF() {
+        return null != System.getProperty("nb.laf.forced"); //NOI18N
+    }
+
+    private void load() {
         colorCheckBox.setSelected(mOptions.isCustomWindowBackground());
         lowerColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER));
         upperColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER));
 
         toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
         toolbarColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+
+        iconsComboBox.setSelectedIndex(mAlmondOptions.getIconTheme());
+
+        boolean isForcedLaF = isForcedLaF();
+        mDefaultLookAndFeelIndex = mLookAndFeelInfos.indexOf(isForcedLaF ? getCurrentLaF() : getPreferredLaF());
+        lafComboBox.setSelectedIndex(mDefaultLookAndFeelIndex);
+        lafComboBox.setEnabled(!isForcedLaF);
+
     }
 
     /**
@@ -68,8 +138,10 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         lowerColorComboBox = new org.openide.awt.ColorComboBox();
         toolbarColorCheckBox = new javax.swing.JCheckBox();
         toolbarColorComboBox = new org.openide.awt.ColorComboBox();
-        pluginButton = new javax.swing.JButton();
-        optionButton = new javax.swing.JButton();
+        iconsLabel = new javax.swing.JLabel();
+        iconsComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        lafComboBox = new javax.swing.JComboBox<>();
 
         panel.setLayout(new java.awt.GridBagLayout());
 
@@ -161,19 +233,53 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         panel.add(toolbarColorComboBox, gridBagConstraints);
 
+        iconsLabel.setText(Dict.ICONS.toString());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 8);
+        panel.add(iconsLabel, gridBagConstraints);
+
+        iconsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iconsComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
+        panel.add(iconsComboBox, gridBagConstraints);
+
+        jLabel1.setText(Dict.LOOK_AND_FEEL.toString());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 8);
+        panel.add(jLabel1, gridBagConstraints);
+
+        lafComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lafComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
+        panel.add(lafComboBox, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pluginButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(optionButton))
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -181,11 +287,7 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(optionButton)
-                    .addComponent(pluginButton))
-                .addContainerGap())
+                .addGap(28, 28, 28))
         );
 
         bindingGroup.bind();
@@ -211,13 +313,28 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         mOptions.setCustomToolbarBackground(toolbarColorCheckBox.isSelected());
     }//GEN-LAST:event_toolbarColorCheckBoxActionPerformed
 
+    private void iconsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconsComboBoxActionPerformed
+        mAlmondOptions.setIconTheme(iconsComboBox.getSelectedIndex());
+    }//GEN-LAST:event_iconsComboBoxActionPerformed
+
+    private void lafComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lafComboBoxActionPerformed
+        int selLaFIndex = lafComboBox.getSelectedIndex();
+        if (selLaFIndex != mDefaultLookAndFeelIndex && !isForcedLaF()) {
+            UIManager.LookAndFeelInfo li = mLookAndFeelInfos.get(lafComboBox.getSelectedIndex());
+            NbPreferences.root().node("laf").put("laf", li.getClassName()); //NOI18N
+            //askForRestart();
+        }
+    }//GEN-LAST:event_lafComboBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox colorCheckBox;
+    private javax.swing.JComboBox<String> iconsComboBox;
+    private javax.swing.JLabel iconsLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> lafComboBox;
     private org.openide.awt.ColorComboBox lowerColorComboBox;
     private javax.swing.JLabel lowerLabel;
-    private javax.swing.JButton optionButton;
     private javax.swing.JPanel panel;
-    private javax.swing.JButton pluginButton;
     private javax.swing.JCheckBox toolbarColorCheckBox;
     private org.openide.awt.ColorComboBox toolbarColorComboBox;
     private org.openide.awt.ColorComboBox upperColorComboBox;
