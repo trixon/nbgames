@@ -40,6 +40,11 @@
             <artifactId>org-netbeans-modules-autoupdate-ui</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-applemenu</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
 
         <!--NbGames-->
         <dependency>

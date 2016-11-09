@@ -15,18 +15,21 @@
  */
 package org.nbgames.core.actions;
 
+import java.awt.event.ActionEvent;
 import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import org.openide.awt.Actions;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public final class CallbackInfoAction {
+@ActionID(
+        category = "Game", id = "org.nbgames.core.actions.RelayOptionsAction"
+)
+public final class RelayOptionsAction extends NbGameAction {
 
-    @ActionID(category = "Game", id = "org.nbgames.core.actions.InfoAction")
-    @ActionRegistration(displayName = "#CTL_InfoAction")
-    @NbBundle.Messages("CTL_InfoAction=Information")
-    public static final String KEY = "InfoAction";
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").actionPerformed(null);
+    }
 }
