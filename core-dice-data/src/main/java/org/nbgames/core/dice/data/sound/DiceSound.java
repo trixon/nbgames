@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,21 @@
  */
 package org.nbgames.core.dice.data.sound;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+
 /**
- * Dummy class that enables export of sound files.
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
-public class PublicPackage {
+public class DiceSound {
+
+    private static final String PATH_SND = "org/nbgames/core/dice/data/sound/";
+
+    public DiceSound() {
+    }
+
+    public static AudioClip getAudioClip(String sound) {
+        return Applet.newAudioClip(DiceSound.class.getClassLoader().getResource(PATH_SND + sound));
+    }
 }
