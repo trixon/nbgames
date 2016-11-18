@@ -172,6 +172,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 public void actionPerformed(ActionEvent e) {
                     final OptionsProvider optionsProvider = OptionsProvider.getInstance();
                     OptionsDialog optionsDialog = optionsProvider.getPanel();
+                    presenterProvider.getOptionsPanel().load();
                     optionsDialog.setContent(presenterProvider.getOptionsPanel());
                     show(optionsProvider);
                 }
@@ -352,7 +353,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         SwingHelper.borderPainted(toolBar, false);
         GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.Gunu");
-        show(gc);
+//        show(gc);
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {

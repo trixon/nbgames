@@ -34,6 +34,7 @@ public enum DictNbg {
     NEW_ROUND,
     PLAYER,
     PLAYERS,
+    SELECT_PLAYER,
     SHUFFLE;
 
     private final ResourceBundle mResourceBundle = ResourceBundle.getBundle(SystemHelper.getPackageAsPath(DictNbg.class) + "DictNbg", Locale.getDefault());

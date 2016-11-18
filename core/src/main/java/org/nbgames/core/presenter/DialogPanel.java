@@ -122,7 +122,6 @@ public class DialogPanel extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         innerPanel = new javax.swing.JPanel();
         toolBar = new javax.swing.JToolBar();
@@ -163,6 +162,7 @@ public class DialogPanel extends JPanel {
 
         innerPanel.add(toolBar, java.awt.BorderLayout.PAGE_START);
 
+        panel.setMaximumSize(new java.awt.Dimension(999, 999));
         panel.setOpaque(false);
         panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.LINE_AXIS));
         innerPanel.add(panel, java.awt.BorderLayout.CENTER);

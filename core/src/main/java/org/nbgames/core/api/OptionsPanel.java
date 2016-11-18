@@ -13,21 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.presenter;
-
-import java.awt.Dimension;
-import se.trixon.almond.util.Dict;
+package org.nbgames.core.api;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class InfoDialog extends DialogPanel {
+public abstract class OptionsPanel extends javax.swing.JPanel {
 
-    public InfoDialog() {
-        setTitle(Dict.INFORMATION.toString());
-//        getInnerPanel().setPreferredSize(mMediumDimension);
-        getInnerPanel().setMinimumSize(new Dimension(20, 20));
-        setContent(new InfoPanel());
-    }
+    public abstract void load();
 }

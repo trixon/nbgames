@@ -17,6 +17,7 @@ package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
 import org.nbgames.core.api.DialogProvider;
+import org.nbgames.core.api.OptionsPanel;
 import org.nbgames.core.api.PresenterProvider;
 
 /**
@@ -76,7 +77,7 @@ public class PlayersProvider implements PresenterProvider, DialogProvider {
     }
 
     @Override
-    public JPanel getOptionsPanel() {
+    public OptionsPanel getOptionsPanel() {
         return mHomeProvider.getOptionsPanel();
     }
 

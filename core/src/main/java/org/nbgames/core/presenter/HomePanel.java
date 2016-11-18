@@ -52,6 +52,7 @@ public class HomePanel extends javax.swing.JPanel {
         playerManagerPanel = new javax.swing.JPanel();
         playerManagerLabel = new javax.swing.JLabel();
         playerManagerButton = new javax.swing.JButton();
+        copoyrightLabel = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -87,13 +88,19 @@ public class HomePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        copoyrightLabel.setText(org.openide.util.NbBundle.getMessage(HomePanel.class, "HomePanel.copoyrightLabel.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(playerManagerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playerManagerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(copoyrightLabel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,7 +108,9 @@ public class HomePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(playerManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                .addComponent(copoyrightLabel)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -110,6 +119,7 @@ public class HomePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_playerManagerButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel copoyrightLabel;
     private javax.swing.JButton playerManagerButton;
     private javax.swing.JLabel playerManagerLabel;
     private javax.swing.JPanel playerManagerPanel;

@@ -16,6 +16,7 @@
 package org.nbgames.core.presenter;
 
 import javax.swing.JPanel;
+import org.nbgames.core.api.OptionsPanel;
 import org.nbgames.core.api.PresenterProvider;
 import org.nbgames.core.options.NbgOptionsPanel;
 
@@ -37,17 +38,17 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getCopyright() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "©2013-2016 Patrik Karlsson";
     }
 
     @Override
     public String getCredit() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "";
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Game platform";
     }
 
     @Override
@@ -62,7 +63,7 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getLicense() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "Apache License, Version 2.0";
     }
 
     @Override
@@ -76,7 +77,7 @@ public class HomeProvider implements PresenterProvider {
     }
 
     @Override
-    public JPanel getOptionsPanel() {
+    public OptionsPanel getOptionsPanel() {
         return mOptionsPanel;
     }
 

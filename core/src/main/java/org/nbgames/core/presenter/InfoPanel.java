@@ -16,6 +16,7 @@
 package org.nbgames.core.presenter;
 
 import org.nbgames.core.api.PresenterProvider;
+import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -32,15 +33,23 @@ public class InfoPanel extends javax.swing.JPanel {
     }
 
     public void load(PresenterProvider presenter) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("<html>")
-                .append("<h1>")
-                .append(presenter.getName())
-                .append("</h1>")
-                .append(presenter.getVersion())
-                .append("<html>");
+        String string = String.format("<html><h1>"
+                + "%s</h1>"
+                + "%s: %s<br />"
+                + "%s: %s<br />"
+                + "%s: %s<br />"
+                + "%s: %s<br />"
+                + "%s: %s"
+                + "</html>",
+                presenter.getName(),
+                Dict.VERSION.toString(), presenter.getVersion(),
+                Dict.COPYRIGHT.toString(), presenter.getCopyright(),
+                Dict.DESCRIPTION.toString(), presenter.getDescription(),
+                Dict.LICENSE.toString(), presenter.getLicense(),
+                Dict.CREDIT.toString(), presenter.getCredit()
+        );
 
-        infoLabel.setText(builder.toString());
+        jTextPane1.setText(string);
     }
 
     private void init() {
@@ -56,19 +65,27 @@ public class InfoPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        infoLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
 
+        setBackground(new java.awt.Color(0, 255, 204));
         setLayout(new java.awt.GridBagLayout());
 
-        infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoLabel.setText("info"); // NOI18N
+        jTextPane1.setEditable(false);
+        jTextPane1.setContentType("text/html"); // NOI18N
+        jTextPane1.setFocusable(false);
+        jScrollPane2.setViewportView(jTextPane1);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(16, 22, 22, 22);
-        add(infoLabel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jScrollPane2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel infoLabel;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -18,8 +18,10 @@ package org.nbgames.core.options;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.nbgames.core.NbgOptions;
+import org.nbgames.core.api.OptionsPanel;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
@@ -28,7 +30,7 @@ import se.trixon.almond.util.Dict;
  *
  * @author Patrik Karlsson
  */
-public class NbgOptionsPanel extends javax.swing.JPanel {
+public class NbgOptionsPanel extends OptionsPanel {
 
     private final NbgOptions mOptions = NbgOptions.getInstance();
     private final AlmondOptions mAlmondOptions = AlmondOptions.getInstance();
@@ -89,8 +91,8 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         mLookAndFeelInfos.forEach((lookAndFeelInfo) -> {
             model.addElement(lookAndFeelInfo.getName());
         });
-        lafComboBox.setModel(model);
 
+        lafComboBox.setModel(model);
     }
 
     private void initLookAndFeel() {
@@ -102,21 +104,23 @@ public class NbgOptionsPanel extends javax.swing.JPanel {
         return null != System.getProperty("nb.laf.forced"); //NOI18N
     }
 
-    private void load() {
-        colorCheckBox.setSelected(mOptions.isCustomWindowBackground());
-        lowerColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER));
-        upperColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER));
+    @Override
+    public void load() {
+        SwingUtilities.invokeLater(() -> {
+            colorCheckBox.setSelected(mOptions.isCustomWindowBackground());
+            lowerColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER));
+            upperColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER));
 
-        toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
-        toolbarColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+            toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
+            toolbarColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
-        iconsComboBox.setSelectedIndex(mAlmondOptions.getIconTheme());
+            iconsComboBox.setSelectedIndex(mAlmondOptions.getIconTheme());
 
-        boolean isForcedLaF = isForcedLaF();
-        mDefaultLookAndFeelIndex = mLookAndFeelInfos.indexOf(isForcedLaF ? getCurrentLaF() : getPreferredLaF());
-        lafComboBox.setSelectedIndex(mDefaultLookAndFeelIndex);
-        lafComboBox.setEnabled(!isForcedLaF);
-
+            boolean isForcedLaF = isForcedLaF();
+            mDefaultLookAndFeelIndex = mLookAndFeelInfos.indexOf(isForcedLaF ? getCurrentLaF() : getPreferredLaF());
+            lafComboBox.setSelectedIndex(mDefaultLookAndFeelIndex);
+            lafComboBox.setEnabled(!isForcedLaF);
+        });
     }
 
     /**

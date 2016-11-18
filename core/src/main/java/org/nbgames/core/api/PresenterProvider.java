@@ -39,7 +39,7 @@ public interface PresenterProvider {
 
     String getName();
 
-    JPanel getOptionsPanel();
+    OptionsPanel getOptionsPanel();
 
     JPanel getPanel();
 

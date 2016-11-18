@@ -32,6 +32,8 @@ public class CallbackOptionsAction {
     @ActionRegistration(displayName = "#CTL_OptionsAction")
     @ActionReferences({
         @ActionReference(path = "Shortcuts", name = "D-P")
+        ,
+        @ActionReference(path = "Shortcuts", name = "C-PERIOD")
     })
     @NbBundle.Messages("CTL_OptionsAction=Options")
     public static final String KEY = "OptionsAction";

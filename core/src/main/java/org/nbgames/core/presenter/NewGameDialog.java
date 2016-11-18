@@ -38,6 +38,7 @@ public class NewGameDialog extends DialogPanel {
         }
 
         getOkButton().addActionListener((ActionEvent e) -> {
+            controller.getNewGamePanel().saveState();
             controller.onRequestNewGameStart();
             close();
         });
