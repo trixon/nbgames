@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,12 @@
  */
 package org.nbgames.core.dice;
 
-import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import org.nbgames.core.dice.data.sound.DiceSound;
 import org.openide.util.ImageUtilities;
 
 /**
@@ -34,7 +34,6 @@ class Die {
     private final int MAX_DR_2 = 20;
     private final int MAX_DR_3 = 4;
     private final String PATH = "org/nbgames/core/dice/data/image/dice/";
-    private final String PATH_SND = "org/nbgames/core/dice/data/sound/";
     private Thread animator = new Thread();
     private AudioClip audioClip;
     private BufferedImage bufferedImage;
@@ -56,6 +55,42 @@ class Die {
         this.diceBoard = aDiceBoard;
         this.column = aColumn;
         init();
+    }
+
+    private int generateValue() {
+        value = random.nextInt(6) + 1;
+        int variant = random.nextInt(2) + 1;
+        int mode = 0;
+        imageFile = PATH + String.format("%d_%02d_%02d.png", mode, value, variant);
+
+        setBufferedImage(imageFile);
+        return value;
+    }
+
+    private void init() {
+    }
+
+    private void rotate(double aTheta) {
+        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+        affineTransform.rotate(aTheta, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
+        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
+
+        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+    }
+
+    private void scale() {
+        double scaleFactor = y / 200.0 + 0.8;
+        scaleFactor = Math.max(scaleFactor, 0.01);
+
+        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+        affineTransform.scale(scaleFactor, scaleFactor);
+        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
+
+        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+    }
+
+    private void setBufferedImage(String imageFilePath) {
+        bufferedImage = (BufferedImage) ImageUtilities.loadImage(imageFilePath);
     }
 
     Thread getAnimator() {
@@ -143,42 +178,6 @@ class Die {
         this.visible = visible;
     }
 
-    private int generateValue() {
-        value = random.nextInt(6) + 1;
-        int variant = random.nextInt(2) + 1;
-        int mode = 0;
-        imageFile = PATH + String.format("%d_%02d_%02d.png", mode, value, variant);
-
-        setBufferedImage(imageFile);
-        return value;
-    }
-
-    private void init() {
-    }
-
-    private void rotate(double aTheta) {
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
-        affineTransform.rotate(aTheta, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
-        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
-
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
-    }
-
-    private void scale() {
-        double scaleFactor = y / 200.0 + 0.8;
-        scaleFactor = Math.max(scaleFactor, 0.01);
-
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
-        affineTransform.scale(scaleFactor, scaleFactor);
-        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
-
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
-    }
-
-    private void setBufferedImage(String imageFilePath) {
-        bufferedImage = (BufferedImage) ImageUtilities.loadImage(imageFilePath);
-    }
-
     class RollRunner implements Runnable {
 
         @Override
@@ -227,7 +226,7 @@ class Die {
             if (diceBoard.isPlaySound()) {
                 variant = random.nextInt(MAX_DR_2) + 1;
                 file = String.format("dr_2_%02d.au", variant);
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + file));
+                audioClip = DiceSound.getAudioClip(file);
                 audioClip.loop();
             }
 
@@ -261,7 +260,7 @@ class Die {
             if (diceBoard.isPlaySound()) {
                 variant = random.nextInt(MAX_DR_2) + 1;
                 file = String.format("dr_2_%02d.au", variant);
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + file));
+                audioClip = DiceSound.getAudioClip(file);
                 audioClip.loop();
             }
 
@@ -297,7 +296,7 @@ class Die {
             if (diceBoard.isPlaySound()) {
                 variant = random.nextInt(MAX_DR_3) + 1;
                 file = String.format("dr_3_%02d.au", variant);
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + file));
+                audioClip = DiceSound.getAudioClip(file);
                 audioClip.loop();
             }
 
@@ -333,7 +332,7 @@ class Die {
         private void diceToFloor() {
 
             if (diceBoard.isPlaySound()) {
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + "dtf.au"));
+                audioClip = DiceSound.getAudioClip("dtf.au");
                 audioClip.play();
             }
 
@@ -364,7 +363,7 @@ class Die {
         @Override
         public void run() {
             if (diceBoard.isPlaySound()) {
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + "dtf.au"));
+                audioClip = DiceSound.getAudioClip("dtf.au");
                 audioClip.play();
             }
             try {
@@ -379,7 +378,7 @@ class Die {
         @Override
         public void run() {
             if (diceBoard.isPlaySound() && false) {
-                audioClip = Applet.newAudioClip(getClass().getClassLoader().getResource(PATH_SND + "ds_01.au"));
+                audioClip = DiceSound.getAudioClip("ds_01.au");
                 audioClip.play();
                 try {
                     Thread.sleep(120);
