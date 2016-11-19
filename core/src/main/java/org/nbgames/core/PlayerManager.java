@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import org.openide.util.NbPreferences;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public enum PlayerManager {
 
@@ -47,8 +47,8 @@ public enum PlayerManager {
         return mPlayers;
     }
 
-    public Object[] getPlayersArray() {
-        return mPlayers.toArray();
+    public Player[] getPlayersArray() {
+        return mPlayers.toArray(new Player[0]);
     }
 
     public Preferences getPreferences() {

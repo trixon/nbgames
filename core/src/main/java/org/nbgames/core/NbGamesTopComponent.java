@@ -352,8 +352,8 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
         SwingHelper.borderPainted(toolBar, false);
-        GameController gc = GameController.forID(GameCategory.LOGIC, "org.nbgames.gunu.Gunu");
-//        show(gc);
+        GameController gc = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
+        show(gc);
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {
