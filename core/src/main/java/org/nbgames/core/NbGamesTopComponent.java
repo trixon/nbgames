@@ -26,7 +26,6 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -39,18 +38,21 @@ import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
-import org.nbgames.core.api.DialogProvider;
-import org.nbgames.core.api.PresenterProvider;
-import org.nbgames.core.presenter.DialogPanel;
-import org.nbgames.core.presenter.HelpPanel;
-import org.nbgames.core.presenter.HelpProvider;
-import org.nbgames.core.presenter.HomeProvider;
-import org.nbgames.core.presenter.InfoPanel;
-import org.nbgames.core.presenter.InfoProvider;
-import org.nbgames.core.presenter.NewGameDialog;
-import org.nbgames.core.presenter.NewGameProvider;
-import org.nbgames.core.presenter.OptionsDialog;
-import org.nbgames.core.presenter.OptionsProvider;
+import org.nbgames.core.api.DictNbg;
+import org.nbgames.core.api.GameCategory;
+import org.nbgames.core.api.GameController;
+import org.nbgames.core.api.service.DialogProvider;
+import org.nbgames.core.api.service.PresenterProvider;
+import org.nbgames.core.ui.DialogPanel;
+import org.nbgames.core.ui.HelpPanel;
+import org.nbgames.core.ui.HelpProvider;
+import org.nbgames.core.ui.HomeProvider;
+import org.nbgames.core.ui.InfoPanel;
+import org.nbgames.core.ui.InfoProvider;
+import org.nbgames.core.ui.NewGameDialog;
+import org.nbgames.core.ui.NewGameProvider;
+import org.nbgames.core.ui.OptionsDialog;
+import org.nbgames.core.ui.OptionsProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.Actions;
@@ -229,39 +231,36 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     private void initListeners() {
-        mOptions.getPreferences().addPreferenceChangeListener(new PreferenceChangeListener() {
-            @Override
-            public void preferenceChange(PreferenceChangeEvent evt) {
-                String key = evt.getKey();
-                boolean needsRepiant = false;
-                switch (key) {
-                    case NbgOptions.KEY_CUSTOM_WINDOW_BACKGROUND:
-                        needsRepiant = true;
-                        break;
+        mOptions.getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
+            String key = evt.getKey();
+            boolean needsRepiant = false;
+            switch (key) {
+                case NbgOptions.KEY_CUSTOM_WINDOW_BACKGROUND:
+                    needsRepiant = true;
+                    break;
 
-                    case NbgOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
-                        toolBar.setOpaque(mOptions.isCustomToolbarBackground());
-                        needsRepiant = true;
-                        break;
+                case NbgOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
+                    toolBar.setOpaque(mOptions.isCustomToolbarBackground());
+                    needsRepiant = true;
+                    break;
 
-                    case "color.toolbar":
-                        toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
-                        needsRepiant = true;
-                        break;
+                case "color.toolbar":
+                    toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+                    needsRepiant = true;
+                    break;
 
-                    case "color.window_lower":
-                        needsRepiant = true;
-                        break;
+                case "color.window_lower":
+                    needsRepiant = true;
+                    break;
 
-                    case "color.window_upper":
-                        needsRepiant = true;
-                        break;
-                }
+                case "color.window_upper":
+                    needsRepiant = true;
+                    break;
+            }
 
-                if (needsRepiant) {
-                    revalidate();
-                    repaint();
-                }
+            if (needsRepiant) {
+                revalidate();
+                repaint();
             }
         });
     }

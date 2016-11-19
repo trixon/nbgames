@@ -13,29 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.api.service;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.HomeProvider;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import javax.swing.JPanel;
+import org.nbgames.core.api.ui.OptionsPanel;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ActionID(
-        category = "Game", id = "org.nbgames.core.actions.HomeAction"
-)
-@ActionRegistration(
-        displayName = "#CTL_HomeAction"
-)
-@NbBundle.Messages("CTL_HomeAction=Home")
-public final class HomeAction extends NbGameAction {
+public interface PresenterProvider {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getTopComponent().show(HomeProvider.getInstance());
-    }
+    String getCopyright();
+
+    String getCredit();
+
+    String getDescription();
+
+    String getHelp();
+
+    String getId();
+
+    String getLicense();
+
+    String getModuleName();
+
+    String getName();
+
+    OptionsPanel getOptionsPanel();
+
+    JPanel getPanel();
+
+    String getShortDescription();
+
+    String getVersion();
 }

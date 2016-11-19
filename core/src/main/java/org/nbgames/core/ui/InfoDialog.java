@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.ui;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.HomeProvider;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import java.awt.Dimension;
+import se.trixon.almond.util.Dict;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ActionID(
-        category = "Game", id = "org.nbgames.core.actions.HomeAction"
-)
-@ActionRegistration(
-        displayName = "#CTL_HomeAction"
-)
-@NbBundle.Messages("CTL_HomeAction=Home")
-public final class HomeAction extends NbGameAction {
+public class InfoDialog extends DialogPanel {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getTopComponent().show(HomeProvider.getInstance());
+    public InfoDialog() {
+        setTitle(Dict.INFORMATION.toString());
+//        getInnerPanel().setPreferredSize(mMediumDimension);
+        getInnerPanel().setMinimumSize(new Dimension(20, 20));
+        setContent(new InfoPanel());
     }
 }

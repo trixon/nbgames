@@ -13,29 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.api;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.HomeProvider;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ActionID(
-        category = "Game", id = "org.nbgames.core.actions.HomeAction"
-)
-@ActionRegistration(
-        displayName = "#CTL_HomeAction"
-)
-@NbBundle.Messages("CTL_HomeAction=Home")
-public final class HomeAction extends NbGameAction {
+public enum DictNbg {
+
+    GAME,
+    GAME_OVER,
+    GAME_SELECTOR,
+    GAME_TYPE,
+    GO_HOME,
+    LEVEL,
+    NEW_ROUND,
+    NUMBER_OF_PLAYERS,
+    NO_INSTALLED_GAMES,
+    PLAYER,
+    PLAYERS,
+    SELECT_PLAYER,
+    SHUFFLE,
+    VARIANT,
+    ZZZ;
+
+    private final ResourceBundle mResourceBundle = ResourceBundle.getBundle(SystemHelper.getPackageAsPath(DictNbg.class) + "DictNbg", Locale.getDefault());
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        getTopComponent().show(HomeProvider.getInstance());
+    public String toString() {
+        return mResourceBundle.getString(name().toLowerCase());
     }
 }

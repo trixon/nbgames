@@ -13,28 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.api.service;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.PlayersProvider;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
-import org.openide.util.NbBundle;
+import org.nbgames.core.api.GameCategory;
+import org.nbgames.core.api.ui.NewGamePanel;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-@ActionID(
-        category = "Game",
-        id = "org.nbgames.core.actions.PlayerManagerAction"
-)
-@ActionRegistration(displayName = "#CTL_PlayerManagerAction")
-@NbBundle.Messages("CTL_PlayerManagerAction=Players")
-public final class PlayerManagerAction extends NbGameAction {
+public interface GameProvider {
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        getTopComponent().show(PlayersProvider.getInstance());
-    }
+    GameCategory getCategory();
+
+    NewGamePanel getNewGamePanel();
+
+    void onRequestNewGameStart();
 }

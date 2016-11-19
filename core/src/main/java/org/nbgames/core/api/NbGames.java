@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.actions;
+package org.nbgames.core.api;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.PlayersProvider;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionRegistration;
+import java.util.ResourceBundle;
 import org.openide.util.NbBundle;
+import se.trixon.almond.nbp.Monitor;
 
 /**
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-@ActionID(
-        category = "Game",
-        id = "org.nbgames.core.actions.PlayerManagerAction"
-)
-@ActionRegistration(displayName = "#CTL_PlayerManagerAction")
-@NbBundle.Messages("CTL_PlayerManagerAction=Players")
-public final class PlayerManagerAction extends NbGameAction {
+public class NbGames {
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        getTopComponent().show(PlayersProvider.getInstance());
+    public static final String LOG_TITLE = "core";
+
+    public static void errln(String name, String message) {
+        new Monitor(name, false, true).errln(message);
+    }
+
+    public static ResourceBundle getBundle() {
+        return NbBundle.getBundle(NbGames.class);
+    }
+
+    public static void outln(String name, String message) {
+        new Monitor(name, false, true).outln(message);
     }
 }

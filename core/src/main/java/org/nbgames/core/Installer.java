@@ -15,6 +15,7 @@
  */
 package org.nbgames.core;
 
+import org.nbgames.core.api.NbGames;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.openide.modules.ModuleInstall;
