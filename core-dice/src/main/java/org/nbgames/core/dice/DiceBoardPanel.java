@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ class DiceBoardPanel extends JPanel {
 
     private final String DEFAULT_IMAGE_PATH = "org/nbgames/core/dice/data/image/board/default.jpg";
     private final Dimension MAX_DIMENSION = new Dimension(1200, 200);
-    private final Dimension PREFERRED_DIMENSION = new Dimension(1000, 180);
+    private final Dimension PREFERRED_DIMENSION = new Dimension(1000, 200);
     private BufferedImage mBackGroundImage;
 
     DiceBoardPanel() {

@@ -18,7 +18,7 @@ package org.nbgames.core.dice;
 import java.util.LinkedList;
 import java.util.Observable;
 import javax.swing.JPanel;
-import org.nbgames.core.Player.Handedness;
+import org.nbgames.core.api.Player.Handedness;
 
 /**
  *

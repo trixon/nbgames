@@ -27,7 +27,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
-import org.nbgames.core.Player.Handedness;
+import org.nbgames.core.api.Player.Handedness;
 
 /**
  *
