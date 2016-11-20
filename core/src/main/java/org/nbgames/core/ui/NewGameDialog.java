@@ -28,8 +28,8 @@ public class NewGameDialog extends DialogPanel {
 
     public NewGameDialog() {
         setTitle(DictNbg.NEW_ROUND.toString());
-        getInnerPanel().setPreferredSize(mMediumDimension);
-        setButtonBarVisible(true);
+//        getInnerPanel().setPreferredSize(mMediumDimension);
+        setButtonBarVisible(ButtonMode.BOTH);
     }
 
     public void setGameController(final GameController controller) {
@@ -37,8 +37,10 @@ public class NewGameDialog extends DialogPanel {
             getOkButton().removeActionListener(actionListener);
         }
 
+        controller.getNewGamePanel().load();
+
         getOkButton().addActionListener((ActionEvent e) -> {
-            controller.getNewGamePanel().saveState();
+            controller.getNewGamePanel().save();
             controller.onRequestNewGameStart();
             close();
         });

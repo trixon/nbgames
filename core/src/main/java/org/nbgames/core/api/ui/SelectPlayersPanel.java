@@ -20,7 +20,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.PlayerManager;
@@ -31,7 +30,7 @@ import org.nbgames.core.api.PlayerManager;
  */
 public class SelectPlayersPanel extends javax.swing.JPanel {
 
-    private int mMaxNumOfPlayers = 8;
+    private int mMaxNumOfPlayers;
     private JComboBox<Player>[] mCombos;
     private DefaultComboBoxModel<Player>[] mModels;
 
@@ -40,7 +39,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
      */
     public SelectPlayersPanel() {
         initComponents();
-        setMaxNumOfPlayers(mMaxNumOfPlayers);
+        setMaxNumOfPlayers(8);
     }
 
     public JLabel getLabel() {
@@ -51,22 +50,27 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         return mMaxNumOfPlayers;
     }
 
-    public void setMaxNumOfPlayers(int maxNumOfPlayers) {
-        SwingUtilities.invokeLater(() -> {
-            mMaxNumOfPlayers = maxNumOfPlayers;
-            mCombos = new JComboBox[mMaxNumOfPlayers];
-            mModels = new DefaultComboBoxModel[mMaxNumOfPlayers];
-            JPanel parent;
+    public int getNumOfPlayers() {
+        return (Integer) numberSpinner.getValue();
+    }
 
-            for (int i = 0; i < mMaxNumOfPlayers; i++) {
-                mModels[i] = new DefaultComboBoxModel<>(PlayerManager.INSTANCE.getPlayersArray());
-                mCombos[i] = new JComboBox<>(mModels[i]);
-                parent = (i & 1) == 0 ? leftPanel : rightPanel;
-                parent.add(mCombos[i]);
-            }
-            numberSpinner.setValue(6);
-            numberSpinnerStateChanged(null);
-        });
+    public void setMaxNumOfPlayers(int maxNumOfPlayers) {
+        mMaxNumOfPlayers = maxNumOfPlayers;
+        mCombos = new JComboBox[mMaxNumOfPlayers];
+        mModels = new DefaultComboBoxModel[mMaxNumOfPlayers];
+        JPanel parent;
+
+        for (int i = 0; i < mMaxNumOfPlayers; i++) {
+            mModels[i] = new DefaultComboBoxModel<>(PlayerManager.INSTANCE.getPlayersArray());
+            mCombos[i] = new JComboBox<>(mModels[i]);
+            parent = (i & 1) == 0 ? leftPanel : rightPanel;
+            parent.add(mCombos[i]);
+        }
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        numberSpinner.setValue(numOfPlayers);
+        numberSpinnerStateChanged(null);
     }
 
     /**

@@ -69,6 +69,7 @@ public class InfoPanel extends javax.swing.JPanel {
         jTextPane1 = new javax.swing.JTextPane();
 
         setBackground(new java.awt.Color(0, 255, 204));
+        setPreferredSize(new java.awt.Dimension(300, 200));
         setLayout(new java.awt.GridBagLayout());
 
         jTextPane1.setEditable(false);

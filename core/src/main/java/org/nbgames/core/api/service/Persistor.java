@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api.ui;
-
-import javax.swing.JPanel;
-import org.nbgames.core.api.service.Persistor;
+package org.nbgames.core.api.service;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public abstract class NewGamePanel extends JPanel implements Persistor {
+public interface Persistor {
 
+    void load();
+
+    void save();
 }

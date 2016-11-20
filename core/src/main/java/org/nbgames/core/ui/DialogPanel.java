@@ -67,21 +67,25 @@ public class DialogPanel extends JPanel {
     }
 
     public JPanel getPanel() {
-        return panel;
+        return holderPanel;
     }
 
     public void setContent(JComponent component) {
         mComponent = component;
-        panel.removeAll();
-        panel.add(component);
+        holderPanel.removeAll();
+        holderPanel.add(component);
+        Dimension d = component.getPreferredSize();
+        holderPanel.setPreferredSize(new Dimension(300, d.height));
     }
 
     public void setTitle(String title) {
         mTitleLabel.setText(title);
     }
 
-    public void setButtonBarVisible(boolean state) {
-        buttonBar.setVisible(state);
+    public void setButtonBarVisible(ButtonMode mode) {
+        midFiller.setVisible(mode == ButtonMode.BOTH);
+        okButton.setVisible(mode == ButtonMode.BOTH || mode == ButtonMode.OK);
+        cancelButton.setVisible(mode == ButtonMode.BOTH || mode == ButtonMode.CANCEL);
     }
 
     protected void close() {
@@ -103,14 +107,12 @@ public class DialogPanel extends JPanel {
     }
 
     private void init() {
-        backButton.setIcon(MaterialIcon._Navigation.CANCEL.get(mIconSize, mIconColor));
         cancelButton.setIcon(MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor));
         okButton.setIcon(MaterialIcon._Action.DONE.get(Almond.ICON_LARGE, mIconColor));
         setOpaque(false);
 //        setBackground(new Color(5, 5, 5, 0x55));
 
-        setButtonBarVisible(false);
-        SwingHelper.borderPainted(toolBar, false);
+        setButtonBarVisible(ButtonMode.CANCEL);
         SwingHelper.borderPainted(buttonBar, false);
     }
 
@@ -122,54 +124,49 @@ public class DialogPanel extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         innerPanel = new javax.swing.JPanel();
-        toolBar = new javax.swing.JToolBar();
-        backButton = new javax.swing.JButton();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         mTitleLabel = new javax.swing.JLabel();
-        panel = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        holderPanel = new javax.swing.JPanel();
         buttonBar = new javax.swing.JToolBar();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        leftFiller = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         cancelButton = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 32767));
+        midFiller = new javax.swing.Box.Filler(new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 0), new java.awt.Dimension(32, 32767));
         okButton = new javax.swing.JButton();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        rightFiller = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
         setLayout(new java.awt.GridBagLayout());
 
         innerPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        innerPanel.setPreferredSize(new java.awt.Dimension(300, 384));
-        innerPanel.setLayout(new java.awt.BorderLayout());
-
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-
-        backButton.setFocusable(false);
-        backButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        backButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(backButton);
-        toolBar.add(filler3);
+        innerPanel.setLayout(new java.awt.GridBagLayout());
 
         mTitleLabel.setFont(mTitleLabel.getFont().deriveFont(mTitleLabel.getFont().getSize()+6f));
         mTitleLabel.setText("UNSET"); // NOI18N
-        toolBar.add(mTitleLabel);
+        innerPanel.add(mTitleLabel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weightx = 1.0;
+        innerPanel.add(jSeparator1, gridBagConstraints);
 
-        innerPanel.add(toolBar, java.awt.BorderLayout.PAGE_START);
-
-        panel.setMaximumSize(new java.awt.Dimension(999, 999));
-        panel.setOpaque(false);
-        panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.LINE_AXIS));
-        innerPanel.add(panel, java.awt.BorderLayout.CENTER);
+        holderPanel.setMaximumSize(new java.awt.Dimension(999, 999));
+        holderPanel.setOpaque(false);
+        holderPanel.setLayout(new javax.swing.BoxLayout(holderPanel, javax.swing.BoxLayout.LINE_AXIS));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        innerPanel.add(holderPanel, gridBagConstraints);
 
         buttonBar.setFloatable(false);
         buttonBar.setRollover(true);
-        buttonBar.add(filler1);
+        buttonBar.add(leftFiller);
 
         cancelButton.setFocusable(false);
         cancelButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -180,40 +177,40 @@ public class DialogPanel extends JPanel {
             }
         });
         buttonBar.add(cancelButton);
-        buttonBar.add(filler5);
+        buttonBar.add(midFiller);
 
         okButton.setFocusable(false);
         okButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         okButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buttonBar.add(okButton);
-        buttonBar.add(filler4);
+        buttonBar.add(rightFiller);
 
-        innerPanel.add(buttonBar, java.awt.BorderLayout.PAGE_END);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        innerPanel.add(buttonBar, gridBagConstraints);
 
         add(innerPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
-
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        close();
-    }//GEN-LAST:event_backButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         close();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backButton;
     private javax.swing.JToolBar buttonBar;
     private javax.swing.JButton cancelButton;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
+    private javax.swing.JPanel holderPanel;
     private javax.swing.JPanel innerPanel;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.Box.Filler leftFiller;
     private javax.swing.JLabel mTitleLabel;
+    private javax.swing.Box.Filler midFiller;
     private javax.swing.JButton okButton;
-    private javax.swing.JPanel panel;
-    private javax.swing.JToolBar toolBar;
+    private javax.swing.Box.Filler rightFiller;
     // End of variables declaration//GEN-END:variables
 
+    public enum ButtonMode {
+        BOTH, CANCEL, NONE, OK;
+    }
 }
