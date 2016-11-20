@@ -20,6 +20,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.PlayerManager;
@@ -56,8 +57,12 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
 
     public void setMaxNumOfPlayers(int maxNumOfPlayers) {
         mMaxNumOfPlayers = maxNumOfPlayers;
+        numberSpinner.setModel(new SpinnerNumberModel(1, 1, maxNumOfPlayers, 1));
+
         mCombos = new JComboBox[mMaxNumOfPlayers];
         mModels = new DefaultComboBoxModel[mMaxNumOfPlayers];
+        leftPanel.removeAll();
+        rightPanel.removeAll();
         JPanel parent;
 
         for (int i = 0; i < mMaxNumOfPlayers; i++) {

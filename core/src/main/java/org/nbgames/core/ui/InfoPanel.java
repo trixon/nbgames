@@ -72,6 +72,8 @@ public class InfoPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(300, 200));
         setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane2.setBorder(null);
+
         jTextPane1.setEditable(false);
         jTextPane1.setContentType("text/html"); // NOI18N
         jTextPane1.setFocusable(false);

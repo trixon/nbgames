@@ -18,6 +18,7 @@ package org.nbgames.core.actions;
 import java.awt.event.ActionEvent;
 import org.nbgames.core.ui.HomeProvider;
 import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
@@ -31,6 +32,7 @@ import org.openide.util.NbBundle;
 @ActionRegistration(
         displayName = "#CTL_HomeAction"
 )
+@ActionReference(path = "Shortcuts", name = "D-H")
 @NbBundle.Messages("CTL_HomeAction=Home")
 public final class HomeAction extends NbGameAction {
 

@@ -26,9 +26,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.nbgames.core.NbGamesTopComponent;
 import org.nbgames.core.NbgOptions;
+import org.nbgames.core.api.NbGames;
 import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.almond.util.swing.SwingHelper;
@@ -39,7 +39,7 @@ import se.trixon.almond.util.swing.SwingHelper;
  */
 public class DialogPanel extends JPanel {
 
-    protected final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
+    protected final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     protected final Dimension mMediumDimension = new Dimension(640, 480);
     protected final int mIconSize = (int) (Almond.ICON_LARGE / 1.5);
     private final NbGamesTopComponent mTopComponent = (NbGamesTopComponent) WindowManager.getDefault().findTopComponent("NbGamesTopComponent");
@@ -60,6 +60,10 @@ public class DialogPanel extends JPanel {
 
     public JComponent getComponent() {
         return mComponent;
+    }
+
+    public JPanel getHolderPanel() {
+        return holderPanel;
     }
 
     public JPanel getInnerPanel() {
@@ -128,7 +132,6 @@ public class DialogPanel extends JPanel {
 
         innerPanel = new javax.swing.JPanel();
         mTitleLabel = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
         holderPanel = new javax.swing.JPanel();
         buttonBar = new javax.swing.JToolBar();
         leftFiller = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -144,21 +147,17 @@ public class DialogPanel extends JPanel {
 
         mTitleLabel.setFont(mTitleLabel.getFont().deriveFont(mTitleLabel.getFont().getSize()+6f));
         mTitleLabel.setText("UNSET"); // NOI18N
-        innerPanel.add(mTitleLabel, new java.awt.GridBagConstraints());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weightx = 1.0;
-        innerPanel.add(jSeparator1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 0);
+        innerPanel.add(mTitleLabel, gridBagConstraints);
 
+        holderPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         holderPanel.setMaximumSize(new java.awt.Dimension(999, 999));
         holderPanel.setOpaque(false);
         holderPanel.setLayout(new javax.swing.BoxLayout(holderPanel, javax.swing.BoxLayout.LINE_AXIS));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -187,7 +186,7 @@ public class DialogPanel extends JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         innerPanel.add(buttonBar, gridBagConstraints);
 
         add(innerPanel, new java.awt.GridBagConstraints());
@@ -202,7 +201,6 @@ public class DialogPanel extends JPanel {
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel holderPanel;
     private javax.swing.JPanel innerPanel;
-    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.Box.Filler leftFiller;
     private javax.swing.JLabel mTitleLabel;
     private javax.swing.Box.Filler midFiller;

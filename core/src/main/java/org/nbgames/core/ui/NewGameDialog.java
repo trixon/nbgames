@@ -17,6 +17,7 @@ package org.nbgames.core.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
 
@@ -37,7 +38,9 @@ public class NewGameDialog extends DialogPanel {
             getOkButton().removeActionListener(actionListener);
         }
 
-        controller.getNewGamePanel().load();
+        SwingUtilities.invokeLater(() -> {
+            controller.getNewGamePanel().load();
+        });
 
         getOkButton().addActionListener((ActionEvent e) -> {
             controller.getNewGamePanel().save();

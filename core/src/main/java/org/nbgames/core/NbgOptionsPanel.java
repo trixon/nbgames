@@ -20,6 +20,7 @@ import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.ui.OptionsPanel;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.AlmondOptions;
@@ -32,7 +33,7 @@ import se.trixon.almond.util.Dict;
 public class NbgOptionsPanel extends OptionsPanel {
 
     private final NbgOptions mOptions = NbgOptions.getInstance();
-    private final AlmondOptions mAlmondOptions = AlmondOptions.getInstance();
+    private final AlmondOptions mAlmondOptions = NbGames.getAlmondOptions();
     private final ArrayList<UIManager.LookAndFeelInfo> mLookAndFeelInfos = new ArrayList<>(10);
     private int mDefaultLookAndFeelIndex;
 

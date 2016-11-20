@@ -21,6 +21,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.PlayerManager;
 import org.openide.DialogDescriptor;
@@ -28,7 +29,6 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
@@ -38,7 +38,7 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
  */
 public final class PlayersPanel extends javax.swing.JPanel {
 
-    protected final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
+    protected final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     protected final int mIconSize = (int) (Almond.ICON_LARGE / 1.5);
     private DefaultListModel mModel = new DefaultListModel();
 

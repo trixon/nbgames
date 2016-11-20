@@ -19,6 +19,7 @@
                         <publicPackage>org.json.simple</publicPackage>
                         <publicPackage>org.nbgames.core.api.*</publicPackage>
                         <publicPackage>se.trixon.almond.nbp.news</publicPackage>
+                        <publicPackage>se.trixon.almond.util.*</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>

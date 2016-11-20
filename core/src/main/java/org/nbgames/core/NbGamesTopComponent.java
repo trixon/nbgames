@@ -41,6 +41,7 @@ import org.nbgames.core.actions.CallbackOptionsAction;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
+import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.service.DialogProvider;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.ui.DialogPanel;
@@ -61,7 +62,6 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.ActionHelper;
 import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
@@ -90,7 +90,7 @@ import se.trixon.almond.util.swing.SwingHelper;
 public final class NbGamesTopComponent extends TopComponent {
 
     private final NbgOptions mOptions = NbgOptions.getInstance();
-    private final IconColor mIconColor = AlmondOptions.getInstance().getIconColor();
+    private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     private final ActionMap mActionMap = getActionMap();
     private final Deque<PresenterProvider> mWindowStack = new ArrayDeque<>();
 
@@ -351,7 +351,7 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
         SwingHelper.borderPainted(toolBar, false);
-        GameController gc = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
+        GameController gc = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
         show(gc);
     }
 
@@ -386,7 +386,6 @@ public final class NbGamesTopComponent extends TopComponent {
         optionsButton = new javax.swing.JButton();
         infoButton = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 0), new java.awt.Dimension(8, 32767));
         fullscreenButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         menuButton = new javax.swing.JButton();
@@ -432,7 +431,6 @@ public final class NbGamesTopComponent extends TopComponent {
         helpButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         helpButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(helpButton);
-        toolBar.add(filler2);
 
         fullscreenButton.setFocusable(false);
         fullscreenButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -458,7 +456,6 @@ public final class NbGamesTopComponent extends TopComponent {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JButton fullscreenButton;
     private javax.swing.JButton helpButton;
     private javax.swing.JButton homeButton;

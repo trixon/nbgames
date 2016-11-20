@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@ package org.nbgames.core.api;
 import java.util.ResourceBundle;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.Monitor;
+import se.trixon.almond.util.AlmondOptions;
 
 /**
  *
@@ -26,9 +27,18 @@ import se.trixon.almond.nbp.Monitor;
 public class NbGames {
 
     public static final String LOG_TITLE = "core";
+    private static AlmondOptions sAlmondOptions;
+
+    static {
+        sAlmondOptions = AlmondOptions.getInstance();
+    }
 
     public static void errln(String name, String message) {
         new Monitor(name, false, true).errln(message);
+    }
+
+    public static AlmondOptions getAlmondOptions() {
+        return sAlmondOptions;
     }
 
     public static ResourceBundle getBundle() {
