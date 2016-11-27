@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@org.netbeans.spi.options.OptionsPanelController.ContainerRegistration(
-        position = 4,
-        id = "Dice",
-        categoryName = "#Name",
-        iconBase = "org/nbgames/core/dice/options.png",
-        keywords = "#OptionsCategory_Keywords",
-        keywordsCategory = "Dice")
-package org.nbgames.core.dice;
+package org.nbgames.core.dice.data.image;
+
+import java.awt.image.BufferedImage;
+import org.openide.util.ImageUtilities;
+import se.trixon.almond.util.SystemHelper;
+
+/**
+ *
+ * @author Patrik Karlsson
+ */
+public class DiceImage {
+
+    public static BufferedImage get(String imagePath) {
+        return (BufferedImage) ImageUtilities.loadImage(SystemHelper.getPackageAsPath(DiceImage.class) + imagePath);
+    }
+}

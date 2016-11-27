@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,106 +19,107 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import org.openide.util.ImageUtilities;
+import org.nbgames.core.dice.data.image.DiceImage;
 import se.trixon.almond.util.GraphicsHelper;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 class Roller {
 
-    private final String PATH = "org/nbgames/core/dice/data/image/hand/closed/";
-    private BufferedImage bufferedImage;
-    private DiceBoard diceBoard;
-    private int numOfDice;
-    private Random random = new Random();
-    private Thread releaseThread = new Thread();
-    private Thread shakeThread = new Thread();
-    private Thread slideThread = new Thread();
-    private boolean visible;
-    private int x;
-    private int y;
+    private BufferedImage mBufferedImage;
+    private final DiceBoard mDiceBoard;
+    private int mNumOfDice;
+    private final Random mRandom;
+    private Thread mReleaseThread;
+    private Thread mShakeThread;
+    private Thread mSlideThread;
+    private boolean mVisible;
+    private int mX;
+    private int mY;
 
-    Roller(DiceBoard aDiceBoard) {
-        this.diceBoard = aDiceBoard;
+    Roller(DiceBoard diceBoard) {
+        mSlideThread = new Thread();
+        mShakeThread = new Thread();
+        mReleaseThread = new Thread();
+        mRandom = new Random();
+        mDiceBoard = diceBoard;
         init();
     }
 
     private void init() {
         setImage(5);
-        x = -500;
-        y = Painter.MARGIN_Y_ROLLER;
+        mX = -500;
+        mY = Painter.MARGIN_Y_ROLLER;
     }
 
     BufferedImage getImage() {
-        return GraphicsHelper.flipBufferedImageX(bufferedImage);
+        return GraphicsHelper.flipBufferedImageX(mBufferedImage);
     }
 
     int getNumOfDice() {
-        return numOfDice;
+        return mNumOfDice;
     }
 
     Thread getShakeThread() {
-        return shakeThread;
+        return mShakeThread;
     }
 
     int getX() {
-        return x;
+        return mX;
     }
 
     int getY() {
-        return y;
+        return mY;
     }
 
     boolean isVisible() {
-        return visible;
+        return mVisible;
     }
 
     void roll() {
-        releaseThread = new Thread(new ReleaseRunner());
-        releaseThread.start();
+        mReleaseThread = new Thread(new ReleaseRunner());
+        mReleaseThread.start();
     }
 
-    void setImage(int aRollCount) {
-        int variant = random.nextInt(2) + 1;
-        aRollCount = Math.min(aRollCount, 6);
-        String file = String.format("%02d_%02d.png", aRollCount, variant);
-//        bufferedImage = GraphicsHelper.getBufferedImage(this.getClass().getResource(PATH + file));
-        bufferedImage = (BufferedImage) ImageUtilities.loadImage(PATH + file);
+    void setImage(int rollCount) {
+        int variant = mRandom.nextInt(2) + 1;
+        rollCount = Math.min(rollCount, 6);
+        mBufferedImage = DiceImage.get(String.format("hand/closed/%02d_%02d.png", rollCount, variant));
     }
 
-    void setNumOfDice(int aNumOfDice) {
-        this.numOfDice = aNumOfDice;
+    void setNumOfDice(int numOfDice) {
+        mNumOfDice = numOfDice;
     }
 
     void setVisible(boolean visible) {
-        this.visible = visible;
+        mVisible = visible;
     }
 
-    void shake(boolean aState) {
-        visible = true;
-        if (aState) {
-            slideThread.interrupt();
-            shakeThread = new Thread(new ShakeRunner());
-            shakeThread.start();
+    void shake(boolean state) {
+        mVisible = true;
+        if (state) {
+            mSlideThread.interrupt();
+            mShakeThread = new Thread(new ShakeRunner());
+            mShakeThread.start();
         } else {
-            shakeThread.interrupt();
+            mShakeThread.interrupt();
         }
     }
 
     void slideIn() {
-        slideThread.interrupt();
-        shakeThread.interrupt();
-        slideThread = new Thread(new SlideInRunner());
-        slideThread.start();
+        mSlideThread.interrupt();
+        mShakeThread.interrupt();
+        mSlideThread = new Thread(new SlideInRunner());
+        mSlideThread.start();
     }
 
     void slideOut() {
-        slideThread.interrupt();
-        shakeThread.interrupt();
-        slideThread = new Thread(new SlideOutRunner());
-        slideThread.start();
+        mSlideThread.interrupt();
+        mShakeThread.interrupt();
+        mSlideThread = new Thread(new SlideOutRunner());
+        mSlideThread.start();
     }
 
     class ReleaseRunner implements Runnable {
@@ -138,30 +139,30 @@ class Roller {
         @Override
         public void run() {
             BufferedImage originalBufferedImage;
-            AffineTransformOp originalAffineTransformOp = new AffineTransformOp(bufferedImage.createGraphics().getTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            originalBufferedImage = originalAffineTransformOp.filter(bufferedImage, null);
+            AffineTransformOp originalAffineTransformOp = new AffineTransformOp(mBufferedImage.createGraphics().getTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            originalBufferedImage = originalAffineTransformOp.filter(mBufferedImage, null);
 
             while (!Thread.interrupted()) {
-                x = Painter.MARGIN_X_ROLLER + random.nextInt(10);
-                y = Painter.MARGIN_Y_ROLLER + random.nextInt(10);
+                mX = Painter.MARGIN_X_ROLLER + mRandom.nextInt(10);
+                mY = Painter.MARGIN_Y_ROLLER + mRandom.nextInt(10);
 
-                AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+                AffineTransform affineTransform = mBufferedImage.createGraphics().getTransform();
                 double theta = 0.03;
-                affineTransform.rotate(-theta + 2 * theta * random.nextDouble());
+                affineTransform.rotate(-theta + 2 * theta * mRandom.nextDouble());
 
                 AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-                bufferedImage = affineTransformOp.filter(bufferedImage, null);
+                mBufferedImage = affineTransformOp.filter(mBufferedImage, null);
 
-                diceBoard.getPanel().repaint();
+                mDiceBoard.getPanel().repaint();
 
                 try {
                     Thread.sleep(60);
                 } catch (InterruptedException ex) {
-                    bufferedImage = originalAffineTransformOp.filter(originalBufferedImage, null);
+                    mBufferedImage = originalAffineTransformOp.filter(originalBufferedImage, null);
                     break;
                 }
 
-                bufferedImage = originalAffineTransformOp.filter(originalBufferedImage, null);
+                mBufferedImage = originalAffineTransformOp.filter(originalBufferedImage, null);
 
             }
         }
@@ -172,8 +173,8 @@ class Roller {
         @Override
         public void run() {
 
-            while (!Thread.interrupted() && x < 0 + Painter.MARGIN_X_ROLLER) {
-                x += 4 - x / 5;
+            while (!Thread.interrupted() && mX < 0 + Painter.MARGIN_X_ROLLER) {
+                mX += 4 - mX / 5;
 
                 try {
                     Thread.sleep(30);
@@ -181,10 +182,10 @@ class Roller {
                     break;
                 }
 
-                diceBoard.getPanel().repaint();
+                mDiceBoard.getPanel().repaint();
             }
 
-            visible = true;
+            mVisible = true;
         }
     }
 
@@ -195,18 +196,18 @@ class Roller {
             double accel = 1.011;
             int i = 0;
 
-            while (!Thread.interrupted() && x >= -bufferedImage.getWidth()) {
-                x -= 8 + accel * i;
+            while (!Thread.interrupted() && mX >= -mBufferedImage.getWidth()) {
+                mX -= 8 + accel * i;
                 i++;
                 try {
                     Thread.sleep(30);
                 } catch (InterruptedException ex) {
                     break;
                 }
-                diceBoard.getPanel().repaint();
+                mDiceBoard.getPanel().repaint();
             }
 
-            visible = false;
+            mVisible = false;
         }
     }
 }

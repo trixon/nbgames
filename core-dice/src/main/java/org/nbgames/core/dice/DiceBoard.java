@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,24 +22,27 @@ import org.nbgames.core.api.Player.Handedness;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class DiceBoard extends Observable {
 
-    private final Collector mCollector = new Collector(this);
-    private final LinkedList<Die> mDice = new LinkedList<>();
-    private final DiceBoardPanel mDiceBoardPanel = new DiceBoardPanel();
+    private final LinkedList<Die> mDice;
+    private final DiceBoardPanel mDiceBoardPanel;
     private boolean mDiceOnFloor = false;
     private Thread mDieWatcherThread;
-    private Handedness mHandMode;
+    private Handedness mHandedness;
     private int mMaxRollCount = 3;
     private int mNumOfDice;
     private int mNumOfRolls = 0;
-    private final Painter mPainter = new Painter(this);
+    private final Painter mPainter;
     private boolean mPlaySound = true;
-    private final Roller mRoller = new Roller(this);
+    private final Roller mRoller;
 
     public DiceBoard(int numOfDice) {
+        mRoller = new Roller(this);
+        mPainter = new Painter(this);
+        mDice = new LinkedList<>();
+        mDiceBoardPanel = new DiceBoardPanel();
         setNumOfDice(numOfDice);
         init();
     }
@@ -64,16 +67,15 @@ public class DiceBoard extends Observable {
     public LinkedList<Integer> getValues() {
         LinkedList<Integer> values = new LinkedList<>();
 
-        for (Die die : mDice) {
+        mDice.forEach((die) -> {
             values.add(die.getValue());
-        }
+        });
 
         return values;
     }
 
     public void newTurn() {
         mNumOfRolls = 0;
-        mCollector.collect();
         mDiceBoardPanel.repaint();
 
         mPainter.setSelectable(false);
@@ -88,9 +90,9 @@ public class DiceBoard extends Observable {
         mRoller.roll();
         mDiceOnFloor = false;
 
-        for (Die die : mDice) {
+        mDice.forEach((die) -> {
             die.roll();
-        }
+        });
 
         mRoller.setImage(getNumOfSelectedDice());
         mDieWatcherThread = new Thread(new DieWatchRunner());
@@ -98,13 +100,13 @@ public class DiceBoard extends Observable {
     }
 
     public void setDiceTofloor(int frequency) {
-        for (Die die : mDice) {
+        mDice.forEach((die) -> {
             die.setDiceTofloor(frequency);
-        }
+        });
     }
 
     public void setHandMode(Handedness handMode) {
-        mHandMode = handMode;
+        mHandedness = handMode;
     }
 
     public void setMaxRollCount(int maxRollCount) {
@@ -119,14 +121,43 @@ public class DiceBoard extends Observable {
         mPainter.setRollable(false);
         mPainter.setSelectable(false);
 
-        for (Die die : mDice) {
+        mDice.forEach((die) -> {
             die.setVisible(true);
             die.setEnabled(false);
-        }
+        });
 
         mDiceBoardPanel.repaint();
         setChanged();
         notifyObservers(RollEvent.POST_ROLL);
+    }
+
+    private void endOfTurn() {
+        mDice.forEach((die) -> {
+            die.park();
+            die.setEnabled(false);
+        });
+    }
+
+    private void init() {
+        mDiceBoardPanel.add(mPainter);
+
+        setHandMode(Handedness.LEFT);
+        setHandMode(Handedness.RIGHT);
+    }
+
+    private void reset() {
+        mDice.forEach((die) -> {
+            die.reset();
+        });
+    }
+
+    private void setNumOfDice(int numOfDice) {
+        mNumOfDice = numOfDice;
+        mDice.clear();
+
+        for (int i = 0; i < numOfDice; i++) {
+            mDice.add(new Die(this, i));
+        }
     }
 
     LinkedList<Die> getDice() {
@@ -141,8 +172,8 @@ public class DiceBoard extends Observable {
         return mRoller;
     }
 
-    Handedness getHandMode() {
-        return mHandMode;
+    Handedness getHandedness() {
+        return mHandedness;
     }
 
     int getNumOfDice() {
@@ -197,35 +228,6 @@ public class DiceBoard extends Observable {
         mDiceOnFloor = diceOnFloor;
     }
 
-    private void endOfTurn() {
-        for (Die die : mDice) {
-            die.park();
-            die.setEnabled(false);
-        }
-    }
-
-    private void init() {
-        mDiceBoardPanel.add(mPainter);
-
-        setHandMode(Handedness.LEFT);
-        setHandMode(Handedness.RIGHT);
-    }
-
-    private void reset() {
-        for (Die die : mDice) {
-            die.reset();
-        }
-    }
-
-    private void setNumOfDice(int numOfDice) {
-        mNumOfDice = numOfDice;
-        mDice.clear();
-
-        for (int i = 0; i < numOfDice; i++) {
-            mDice.add(new Die(this, i));
-        }
-    }
-
     public enum RollEvent {
 
         PRE_ROLL,
@@ -236,12 +238,12 @@ public class DiceBoard extends Observable {
 
         @Override
         public void run() {
-            for (Die die : mDice) {
+            mDice.forEach((die) -> {
                 try {
                     die.getAnimator().join();
                 } catch (InterruptedException ex) {
                 }
-            }
+            });
 
             if (!mDiceOnFloor) {
                 rollPostOp();

@@ -21,30 +21,30 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-import org.openide.util.ImageUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import org.nbgames.core.dice.data.image.DiceImage;
 import se.trixon.almond.util.GraphicsHelper;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 class DiceBoardPanel extends JPanel {
 
-    private final String DEFAULT_IMAGE_PATH = "org/nbgames/core/dice/data/image/board/default.jpg";
-    private final Dimension MAX_DIMENSION = new Dimension(1200, 200);
-    private final Dimension PREFERRED_DIMENSION = new Dimension(1000, 200);
-    private BufferedImage mBackGroundImage;
+    private static final Dimension MAX_DIMENSION = new Dimension(1200, 200);
+    private static final Dimension PREFERRED_DIMENSION = new Dimension(1000, 200);
+    private BufferedImage mBackgroundImage;
 
     DiceBoardPanel() {
-        super();
         init();
     }
 
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(mBackGroundImage, 0, 0, this);
-        g2.drawImage(GraphicsHelper.flipBufferedImageX(mBackGroundImage), mBackGroundImage.getWidth(), 0, this);
+        g2.drawImage(mBackgroundImage, 0, 0, this);
+        g2.drawImage(GraphicsHelper.flipBufferedImageX(mBackgroundImage), mBackgroundImage.getWidth(), 0, this);
         super.paint(g);
     }
 
@@ -53,14 +53,27 @@ class DiceBoardPanel extends JPanel {
         paint(g);
     }
 
-    void setBackGroundImage(String imagePath) {
-        mBackGroundImage = (BufferedImage) ImageUtilities.loadImage(imagePath);
-    }
-
     private void init() {
-        setBackGroundImage(DEFAULT_IMAGE_PATH);
+        mBackgroundImage = DiceImage.get("board/default.jpg");
         setMaximumSize(MAX_DIMENSION);
         setPreferredSize(PREFERRED_DIMENSION);
         setLayout(new GridLayout(1, 1));
+
+        addAncestorListener(new AncestorListener() {
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                repaint();
+                revalidate();
+            }
+
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+            }
+
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+            }
+
+        });
     }
 }

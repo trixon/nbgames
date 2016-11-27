@@ -17,6 +17,7 @@ package org.nbgames.core.dice.data.sound;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -24,12 +25,7 @@ import java.applet.AudioClip;
  */
 public class DiceSound {
 
-    private static final String PATH_SND = "org/nbgames/core/dice/data/sound/";
-
-    public DiceSound() {
-    }
-
-    public static AudioClip getAudioClip(String sound) {
-        return Applet.newAudioClip(DiceSound.class.getClassLoader().getResource(PATH_SND + sound));
+    public static AudioClip getAudioClip(String soundPath) {
+        return Applet.newAudioClip(DiceSound.class.getClassLoader().getResource(SystemHelper.getPackageAsPath(DiceSound.class) + soundPath));
     }
 }

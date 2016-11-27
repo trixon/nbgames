@@ -2,7 +2,7 @@
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this mFile except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -20,113 +20,120 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import javax.swing.SwingUtilities;
+import org.nbgames.core.dice.data.image.DiceImage;
 import org.nbgames.core.dice.data.sound.DiceSound;
-import org.openide.util.ImageUtilities;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 class Die {
 
-    private final int MARGIN_Y = 20;
-    private final int MAX_DR_1 = 4;
-    private final int MAX_DR_2 = 20;
-    private final int MAX_DR_3 = 4;
-    private final String PATH = "org/nbgames/core/dice/data/image/dice/";
-    private Thread animator = new Thread();
-    private AudioClip audioClip;
-    private BufferedImage bufferedImage;
-    private int center;
-    private int column;
-    private DiceBoard diceBoard;
-    private int diceToFloor = 0;
-    private String imageFile;
-    private int offsetX;
-    private Random random = new Random();
-    private boolean selected = true;
-    private int storedY;
-    private int value;
-    private boolean visible;
-    private int x;
-    private int y;
+    private static final int MARGIN_Y = 20;
+    private static final int MAX_DR_1 = 4;
+    private static final int MAX_DR_2 = 20;
+    private static final int MAX_DR_3 = 4;
+    private Thread mAnimatorThread = new Thread();
+    private AudioClip mAudioClip;
+    private BufferedImage mBufferedImage;
+    private int mCenter;
+    private int mColumn;
+    private DiceBoard mDiceBoard;
+    private int mDiceToFloor = 0;
+    private String mImagePath;
+    private int mOffsetX;
+    private Random mRandom = new Random();
+    private boolean mSelected = true;
+    private int mStoredY;
+    private int mValue;
+    private boolean mVisible;
+    private int mX;
+    private int mY;
 
-    Die(DiceBoard aDiceBoard, int aColumn) {
-        this.diceBoard = aDiceBoard;
-        this.column = aColumn;
+    Die(DiceBoard diceBoard, int column) {
+        mDiceBoard = diceBoard;
+        mColumn = column;
         init();
     }
 
     private int generateValue() {
-        value = random.nextInt(6) + 1;
-        int variant = random.nextInt(2) + 1;
+        mValue = mRandom.nextInt(6) + 1;
+        int variant = mRandom.nextInt(2) + 1;
         int mode = 0;
-        imageFile = PATH + String.format("%d_%02d_%02d.png", mode, value, variant);
+        mImagePath = String.format("dice/%d_%02d_%02d.png", mode, mValue, variant);
 
-        setBufferedImage(imageFile);
-        return value;
+        setBufferedImage(mImagePath);
+
+        return mValue;
     }
 
     private void init() {
     }
 
-    private void rotate(double aTheta) {
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
-        affineTransform.rotate(aTheta, bufferedImage.getWidth() / 2, bufferedImage.getHeight() / 2);
+    private void repaintDiceBoard() {
+        SwingUtilities.invokeLater(() -> {
+            mDiceBoard.getPanel().repaint();
+        });
+    }
+
+    private void rotate(double theta) {
+        AffineTransform affineTransform = mBufferedImage.createGraphics().getTransform();
+        affineTransform.rotate(theta, mBufferedImage.getWidth() / 2, mBufferedImage.getHeight() / 2);
         AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
 
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+        mBufferedImage = affineTransformOp.filter(mBufferedImage, null);
     }
 
     private void scale() {
-        double scaleFactor = y / 200.0 + 0.8;
+        double scaleFactor = mY / 200.0 + 0.8;
         scaleFactor = Math.max(scaleFactor, 0.01);
 
-        AffineTransform affineTransform = bufferedImage.createGraphics().getTransform();
+        AffineTransform affineTransform = mBufferedImage.createGraphics().getTransform();
         affineTransform.scale(scaleFactor, scaleFactor);
         AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_BICUBIC);
 
-        bufferedImage = affineTransformOp.filter(bufferedImage, null);
+        mBufferedImage = affineTransformOp.filter(mBufferedImage, null);
     }
 
-    private void setBufferedImage(String imageFilePath) {
-        bufferedImage = (BufferedImage) ImageUtilities.loadImage(imageFilePath);
+    private void setBufferedImage(String imagePath) {
+        mBufferedImage = DiceImage.get(imagePath);
     }
 
     Thread getAnimator() {
-        return animator;
+        return mAnimatorThread;
     }
 
     int getCenter() {
-        return center;
+        return mCenter;
     }
 
     int getColumn() {
-        return column;
+        return mColumn;
     }
 
     BufferedImage getImage() {
-        return bufferedImage;
+        return mBufferedImage;
     }
 
     int getValue() {
-        return value;
+        return mValue;
     }
 
     int getX() {
-        return center + offsetX;
+        return mCenter + mOffsetX;
     }
 
     int getY() {
-        return y;
+        return mY;
     }
 
     boolean isSelected() {
-        return selected;
+        return mSelected;
     }
 
     boolean isVisible() {
-        return visible;
+        return mVisible;
     }
 
     void park() {
@@ -134,30 +141,30 @@ class Die {
 
     void reset() {
         setVisible(false);
-        selected = true;
-        animator.interrupt();
+        mSelected = true;
+        mAnimatorThread.interrupt();
     }
 
     void roll() {
 
-        if (animator.isAlive()) {
+        if (mAnimatorThread.isAlive()) {
             return;
         }
 
-        if (selected) {
-            animator = new Thread(new RollRunner());
-            animator.start();
+        if (mSelected) {
+            mAnimatorThread = new Thread(new RollRunner());
+            mAnimatorThread.start();
         }
 
-        selected = false;
+        mSelected = false;
     }
 
-    void setCenter(int aCenterValue) {
-        this.center = aCenterValue;
+    void setCenter(int centerValue) {
+        mCenter = centerValue;
     }
 
-    void setDiceTofloor(int aDiceToFlorFrequence) {
-        diceToFloor = aDiceToFlorFrequence;
+    void setDiceTofloor(int diceToFlorFrequence) {
+        mDiceToFloor = diceToFlorFrequence;
     }
 
     void setEnabled(boolean b) {
@@ -165,20 +172,26 @@ class Die {
 
     void setSelected(boolean selected) {
 
-        if (animator.isAlive()) {
+        if (mAnimatorThread.isAlive()) {
             return;
         }
 
-        this.selected = selected;
-        animator = new Thread(new SelectRunner());
-        animator.start();
+        mSelected = selected;
+        mAnimatorThread = new Thread(new SelectRunner());
+        mAnimatorThread.start();
     }
 
     void setVisible(boolean visible) {
-        this.visible = visible;
+        mVisible = visible;
     }
 
     class RollRunner implements Runnable {
+
+        int mBaseX;
+        int mBaseY;
+        String mFile;
+        int mLoops;
+        int mVariant;
 
         @Override
         public void run() {
@@ -187,14 +200,14 @@ class Die {
              * This random delay manage the start order of the dice.
              */
             try {
-                Thread.sleep(random.nextInt(300 / (column + 1)));
+                Thread.sleep(mRandom.nextInt(300 / (mColumn + 1)));
             } catch (InterruptedException ex) {
             }
 
-            x = 0;
+            mX = 0;
             setVisible(true);
             /*
-             * Roll the die from the hand to its column.
+             * Roll the die from the hand to its mColumn.
              */
             rollOut();
             /*
@@ -202,169 +215,163 @@ class Die {
              */
             spin();
 
-//            if (y < 30 && diceToFloor > 0) {
+//            if (mY < 30 && diceToFloor > 0) {
 //                if (random.nextInt(diceToFloor) == random.nextInt(diceToFloor)) {
 //                    diceToFloor();
 //                }
 //                diceToFloor();
 //            } else {
 //                /*
-//                 * ...final wobble, don't generate a new value.
+//                 * ...final wobble, don't generate a new mValue.
 //                 */
 //                vibrate();
 //            }
             vibrate();
 
             try {
-                audioClip.stop();
+                mAudioClip.stop();
             } catch (NullPointerException ex) {
             }
-
-        }
-
-        private void rollOut() {
-            if (diceBoard.isPlaySound()) {
-                variant = random.nextInt(MAX_DR_2) + 1;
-                file = String.format("dr_2_%02d.au", variant);
-                audioClip = DiceSound.getAudioClip(file);
-                audioClip.loop();
-            }
-
-            while (x < center - 75) {
-                x += random.nextInt(95) + 25;
-                y = MARGIN_Y + random.nextInt(60);
-                offsetX = x - center;
-
-                value = generateValue();
-                rotate(2 * Math.PI * random.nextDouble());
-                scale();
-
-                diceBoard.getPanel().repaint();
-
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException ex) {
-                }
-            }
-
-            try {
-                audioClip.stop();
-            } catch (NullPointerException ex) {
-            }
-        }
-
-        private void spin() {
-            baseY = y;
-            loops = random.nextInt(7) + 5;
-
-            if (diceBoard.isPlaySound()) {
-                variant = random.nextInt(MAX_DR_2) + 1;
-                file = String.format("dr_2_%02d.au", variant);
-                audioClip = DiceSound.getAudioClip(file);
-                audioClip.loop();
-            }
-
-            for (int i = 0; i < loops; i++) {
-                value = generateValue();
-                double factor = 1.2;
-                double theta = factor * random.nextDouble();
-                rotate(-factor + 2 * factor * theta);
-                scale();
-
-                int randomSize = Math.max(1, Painter.DIE_CELL_WIDTH - bufferedImage.getWidth());
-                x = (center - Painter.DIE_CELL_WIDTH / 2) + random.nextInt(randomSize);
-                y = baseY + random.nextInt(30) - 10;
-                offsetX = x - center;
-
-                diceBoard.getPanel().repaint();
-
-                try {
-                    Thread.sleep(random.nextInt(40) + 120);
-                } catch (InterruptedException ex) {
-                }
-            }
-
-            try {
-                audioClip.stop();
-            } catch (NullPointerException ex) {
-            }
-        }
-
-        private void vibrate() {
-            loops = random.nextInt(10) + 3;
-
-            if (diceBoard.isPlaySound()) {
-                variant = random.nextInt(MAX_DR_3) + 1;
-                file = String.format("dr_3_%02d.au", variant);
-                audioClip = DiceSound.getAudioClip(file);
-                audioClip.loop();
-            }
-
-            baseX = x;
-            baseY = y;
-
-            for (int i = 0; i < loops; i++) {
-                x = baseX + random.nextInt(6) - 3;
-                y = baseY + random.nextInt(6) - 3;
-                offsetX = x - center;
-
-                setBufferedImage(imageFile);
-
-                double factor = 0.2;
-                double theta = factor * random.nextDouble();
-                rotate(-factor + 2 * factor * theta);
-                scale();
-
-                diceBoard.getPanel().repaint();
-
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException ex) {
-                }
-            }
-            setBufferedImage(imageFile);
-            scale();
-            diceBoard.getPanel().repaint();
-            storedY = y;
 
         }
 
         private void diceToFloor() {
 
-            if (diceBoard.isPlaySound()) {
-                audioClip = DiceSound.getAudioClip("dtf.au");
-                audioClip.play();
+            if (mDiceBoard.isPlaySound()) {
+                mAudioClip = DiceSound.getAudioClip("dtf.au");
+                mAudioClip.play();
             }
 
-            while (y > -200) {
-                y -= 10;
-                setBufferedImage(imageFile);
+            while (mY > -200) {
+                mY -= 10;
+                setBufferedImage(mImagePath);
                 scale();
 
-                diceBoard.getPanel().repaint();
-
+                repaintDiceBoard();
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
                 }
             }
 
-            diceBoard.setDiceOnFloor(true);
+            mDiceBoard.setDiceOnFloor(true);
         }
-        String file;
-        int variant;
-        int loops;
-        int baseX;
-        int baseY;
+
+        private void rollOut() {
+            if (mDiceBoard.isPlaySound()) {
+                mVariant = mRandom.nextInt(MAX_DR_2) + 1;
+                mFile = String.format("dr_2_%02d.au", mVariant);
+                mAudioClip = DiceSound.getAudioClip(mFile);
+                mAudioClip.loop();
+            }
+
+            while (mX < mCenter - 75) {
+                mX += mRandom.nextInt(95) + 25;
+                mY = MARGIN_Y + mRandom.nextInt(60);
+                mOffsetX = mX - mCenter;
+
+                mValue = generateValue();
+                rotate(2 * Math.PI * mRandom.nextDouble());
+                scale();
+
+                repaintDiceBoard();
+
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException ex) {
+                }
+            }
+
+            try {
+                mAudioClip.stop();
+            } catch (NullPointerException ex) {
+            }
+        }
+
+        private void spin() {
+            mBaseY = mY;
+            mLoops = mRandom.nextInt(7) + 5;
+
+            if (mDiceBoard.isPlaySound()) {
+                mVariant = mRandom.nextInt(MAX_DR_2) + 1;
+                mFile = String.format("dr_2_%02d.au", mVariant);
+                mAudioClip = DiceSound.getAudioClip(mFile);
+                mAudioClip.loop();
+            }
+
+            for (int i = 0; i < mLoops; i++) {
+                mValue = generateValue();
+                double factor = 1.2;
+                double theta = factor * mRandom.nextDouble();
+                rotate(-factor + 2 * factor * theta);
+                scale();
+
+                int randomSize = Math.max(1, Painter.DIE_CELL_WIDTH - mBufferedImage.getWidth());
+                mX = (mCenter - Painter.DIE_CELL_WIDTH / 2) + mRandom.nextInt(randomSize);
+                mY = mBaseY + mRandom.nextInt(30) - 10;
+                mOffsetX = mX - mCenter;
+
+                repaintDiceBoard();
+
+                try {
+                    Thread.sleep(mRandom.nextInt(40) + 120);
+                } catch (InterruptedException ex) {
+                }
+            }
+
+            try {
+                mAudioClip.stop();
+            } catch (NullPointerException ex) {
+            }
+        }
+
+        private void vibrate() {
+            mLoops = mRandom.nextInt(10) + 3;
+
+            if (mDiceBoard.isPlaySound()) {
+                mVariant = mRandom.nextInt(MAX_DR_3) + 1;
+                mFile = String.format("dr_3_%02d.au", mVariant);
+                mAudioClip = DiceSound.getAudioClip(mFile);
+                mAudioClip.loop();
+            }
+
+            mBaseX = mX;
+            mBaseY = mY;
+
+            for (int i = 0; i < mLoops; i++) {
+                mX = mBaseX + mRandom.nextInt(6) - 3;
+                mY = mBaseY + mRandom.nextInt(6) - 3;
+                mOffsetX = mX - mCenter;
+
+                setBufferedImage(mImagePath);
+
+                double factor = 0.2;
+                double theta = factor * mRandom.nextDouble();
+                rotate(-factor + 2 * factor * theta);
+                scale();
+
+                repaintDiceBoard();
+
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException ex) {
+                }
+            }
+
+            setBufferedImage(mImagePath);
+            scale();
+            repaintDiceBoard();
+            mStoredY = mY;
+        }
     }
 
     class RollToFloorRunner implements Runnable {
 
         @Override
         public void run() {
-            if (diceBoard.isPlaySound()) {
-                audioClip = DiceSound.getAudioClip("dtf.au");
-                audioClip.play();
+            if (mDiceBoard.isPlaySound()) {
+                mAudioClip = DiceSound.getAudioClip("dtf.au");
+                mAudioClip.play();
             }
             try {
                 Thread.sleep(1);
@@ -377,23 +384,23 @@ class Die {
 
         @Override
         public void run() {
-            if (diceBoard.isPlaySound() && false) {
-                audioClip = DiceSound.getAudioClip("ds_01.au");
-                audioClip.play();
+            if (mDiceBoard.isPlaySound() && false) {
+                mAudioClip = DiceSound.getAudioClip("ds_01.au");
+                mAudioClip.play();
                 try {
                     Thread.sleep(120);
                 } catch (InterruptedException ex) {
                 }
             }
 
-            int endPos = diceBoard.getPanel().getHeight();
-            if (selected) {
-                while (y < endPos) {
-                    y = Math.min((int) (y * 1.3), endPos);
-                    setBufferedImage(imageFile);
+            int endPos = mDiceBoard.getPanel().getHeight();
+            if (mSelected) {
+                while (mY < endPos) {
+                    mY = Math.min((int) (mY * 1.3), endPos);
+                    setBufferedImage(mImagePath);
                     scale();
 
-                    diceBoard.getPanel().repaint();
+                    repaintDiceBoard();
 
                     try {
                         Thread.sleep(30);
@@ -401,12 +408,12 @@ class Die {
                     }
                 }
             } else {
-                while (y > storedY) {
-                    y = Math.max(y - (int) (y * 0.3), storedY);
-                    setBufferedImage(imageFile);
+                while (mY > mStoredY) {
+                    mY = Math.max(mY - (int) (mY * 0.3), mStoredY);
+                    setBufferedImage(mImagePath);
                     scale();
 
-                    diceBoard.getPanel().repaint();
+                    repaintDiceBoard();
 
                     try {
                         Thread.sleep(30);
@@ -414,7 +421,7 @@ class Die {
                     }
                 }
             }
-            diceBoard.getDicePainter().calcRollable();
+            mDiceBoard.getDicePainter().calcRollable();
         }
     }
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ import org.nbgames.core.api.Player.Handedness;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
@@ -39,16 +39,16 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     protected static final int MARGIN_X_DICE_SET = 160;
     protected static final int MARGIN_X_ROLLER = 10;
     protected static final int MARGIN_Y_ROLLER = 20;
-    private DiceBoard diceBoard;
-    private Roller diceRoller;
-    private int diceSetX;
-    private int dieAreaWidth;
-    private Graphics2D g2;
-    private boolean rollable;
-    private boolean selectable;
+    private DiceBoard mDiceBoard;
+    private Roller mDiceRoller;
+    private int mDiceSetX;
+    private int mDieAreaWidth;
+    private Graphics2D mG2;
+    private boolean mRollable;
+    private boolean mSelectable;
 
-    Painter(DiceBoard aDiceBoard) {
-        this.diceBoard = aDiceBoard;
+    Painter(DiceBoard diceBoard) {
+        mDiceBoard = diceBoard;
         init();
     }
 
@@ -66,8 +66,8 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (diceRoller.isVisible() == true) {
-            diceRoller.slideOut();
+        if (mDiceRoller.isVisible() == true) {
+            mDiceRoller.slideOut();
         }
     }
 
@@ -77,12 +77,12 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
         int x = point.x;
 
         if (isRollable()) {
-            if (x <= diceRoller.getImage().getWidth() && diceRoller.isVisible() == false) {
-                diceRoller.slideIn();
+            if (x <= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == false) {
+                mDiceRoller.slideIn();
             }
 
-            if (x >= diceRoller.getImage().getWidth() && diceRoller.isVisible() == true) {
-                diceRoller.slideOut();
+            if (x >= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == true) {
+                mDiceRoller.slideOut();
             }
         }
     }
@@ -94,14 +94,14 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
         if (e.getButton() == MouseEvent.BUTTON1) {
 
-            if (x <= diceRoller.getImage().getWidth() && isRollable()) {
-                diceRoller.shake(true);
+            if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
+                mDiceRoller.shake(true);
                 return;
             }
 
             if (isSelectable()) {
-                for (Die die : diceBoard.getDice()) {
-                    if ((x - diceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - diceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
+                for (Die die : mDiceBoard.getDice()) {
+                    if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
                         die.setSelected(!die.isSelected());
                         break;
                     }
@@ -111,8 +111,8 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
         if (e.getButton() == MouseEvent.BUTTON3) {
             if (isSelectable() && isDiceStoped()) {
-                for (Die die : diceBoard.getDice()) {
-                    if ((x - diceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - diceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
+                for (Die die : mDiceBoard.getDice()) {
+                    if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
                     } else {
                         die.setSelected(!die.isSelected());
                     }
@@ -126,14 +126,14 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
         Point point = translateMousePoint(e.getPoint());
         int x = point.x;
 
-        if (diceRoller.getShakeThread().isAlive()) {
-            diceRoller.getShakeThread().interrupt();
-            diceRoller.shake(false);
+        if (mDiceRoller.getShakeThread().isAlive()) {
+            mDiceRoller.getShakeThread().interrupt();
+            mDiceRoller.shake(false);
 
-            if (x <= diceRoller.getImage().getWidth() && isRollable()) {
-                diceBoard.rollPreOp();
+            if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
+                mDiceBoard.rollPreOp();
             } else {
-                diceRoller.slideOut();
+                mDiceRoller.slideOut();
             }
         }
     }
@@ -149,7 +149,7 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
                 select = false;
             }
 
-            for (Die die : diceBoard.getDice()) {
+            for (Die die : mDiceBoard.getDice()) {
                 die.setSelected(select);
             }
 
@@ -158,21 +158,21 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
     @Override
     public void paint(Graphics g) {
-        g2 = (Graphics2D) g;
-        AffineTransform originalAffineTransform = g2.getTransform();
+        mG2 = (Graphics2D) g;
+        AffineTransform originalAffineTransform = mG2.getTransform();
 
-        if (diceBoard.getHandMode() == Handedness.RIGHT) {
+        if (mDiceBoard.getHandedness() == Handedness.RIGHT) {
             AffineTransform affineTransform = originalAffineTransform;
             affineTransform.scale(-1, 1);
-            affineTransform.translate(-this.getWidth(), 0);
-            g2.setTransform(affineTransform);
+            affineTransform.translate(-getWidth(), 0);
+            mG2.setTransform(affineTransform);
         }
 
         paintDiceRoller();
         paintDice();
-//        paintGrid();
+        paintGrid();
 
-        g2.setTransform(originalAffineTransform);
+        mG2.setTransform(originalAffineTransform);
     }
 
     @Override
@@ -203,7 +203,7 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     private boolean isDiceStoped() {
         boolean stopped = true;
 
-        for (Die die : diceBoard.getDice()) {
+        for (Die die : mDiceBoard.getDice()) {
             if (die.getAnimator().isAlive()) {
                 stopped = false;
                 break;
@@ -214,83 +214,83 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     }
 
     private void paintDice() {
-        for (Die die : diceBoard.getDice()) {
+        for (Die die : mDiceBoard.getDice()) {
             if (die.isVisible()) {
-                g2.drawImage(die.getImage(), die.getX(), die.getY(), this);
+                mG2.drawImage(die.getImage(), die.getX(), die.getY(), this);
             }
         }
     }
 
     private void paintDiceRoller() {
-        diceRoller = diceBoard.getDiceRoller();
+        mDiceRoller = mDiceBoard.getDiceRoller();
 
-        if (diceRoller == null) {
+        if (mDiceRoller == null) {
             return;
         }
 
-        g2.drawImage(diceRoller.getImage(), diceRoller.getX(), diceRoller.getY(), this);
+        mG2.drawImage(mDiceRoller.getImage(), mDiceRoller.getX(), mDiceRoller.getY(), this);
     }
 
     private void paintGrid() {
         paintVertical(MARGIN_X_DICE_SET);
         paintVertical(MARGIN_X_DICE_SET + 5);
-        paintVertical(diceSetX);
+        paintVertical(mDiceSetX);
 
-        for (int i = 0; i < diceBoard.getNumOfDice() + 1; i++) {
-            paintVertical(diceSetX + i * DIE_CELL_WIDTH);
+        for (int i = 0; i < mDiceBoard.getNumOfDice() + 1; i++) {
+            paintVertical(mDiceSetX + i * DIE_CELL_WIDTH);
             try {
-                g2.setColor(Color.red);
-                paintVertical(diceBoard.getDice().get(i).getCenter());
-                g2.setColor(Color.black);
+                mG2.setColor(Color.red);
+                paintVertical(mDiceBoard.getDice().get(i).getCenter());
+                mG2.setColor(Color.black);
             } catch (Exception e) {
             }
         }
     }
 
     private void paintVertical(int x) {
-        g2.drawLine(x, 0, x, 200);
+        mG2.drawLine(x, 0, x, 200);
     }
 
     private Point translateMousePoint(Point aPoint) {
         Point point = aPoint;
 
-        if (diceBoard.getHandMode() == Handedness.RIGHT) {
-            point.x = this.getWidth() - point.x;
+        if (mDiceBoard.getHandedness() == Handedness.RIGHT) {
+            point.x = getWidth() - point.x;
         }
 
         return point;
     }
 
     void calcGrid() {
-        int diceSetWidth = DIE_CELL_WIDTH * diceBoard.getNumOfDice();
-        dieAreaWidth = this.getWidth() - MARGIN_X_DICE_SET;
-        diceSetX = (dieAreaWidth - diceSetWidth) / 2 + MARGIN_X_DICE_SET;
+        int diceSetWidth = DIE_CELL_WIDTH * mDiceBoard.getNumOfDice();
+        mDieAreaWidth = getWidth() - MARGIN_X_DICE_SET;
+        mDiceSetX = (mDieAreaWidth - diceSetWidth) / 2 + MARGIN_X_DICE_SET;
 
-        for (int i = 0; i < diceBoard.getNumOfDice(); i++) {
+        for (int i = 0; i < mDiceBoard.getNumOfDice(); i++) {
             try {
-                diceBoard.getDice().get(i).setCenter(diceSetX + i * DIE_CELL_WIDTH + DIE_CELL_WIDTH / 2);
+                mDiceBoard.getDice().get(i).setCenter(mDiceSetX + i * DIE_CELL_WIDTH + DIE_CELL_WIDTH / 2);
             } catch (NullPointerException e) {
             }
         }
     }
 
     synchronized void calcRollable() {
-        setRollable(diceBoard.getNumOfSelectedDice() > 0);
+        setRollable(mDiceBoard.getNumOfSelectedDice() > 0);
     }
 
     boolean isRollable() {
-        return rollable;
+        return mRollable;
     }
 
     boolean isSelectable() {
-        return selectable;
+        return mSelectable;
     }
 
     void setRollable(boolean rollable) {
-        this.rollable = rollable;
+        mRollable = rollable;
     }
 
     void setSelectable(boolean selectable) {
-        this.selectable = selectable;
+        mSelectable = selectable;
     }
 }
