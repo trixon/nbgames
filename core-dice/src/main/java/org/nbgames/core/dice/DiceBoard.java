@@ -30,8 +30,9 @@ public class DiceBoard extends Observable {
     private final DiceBoardPanel mDiceBoardPanel;
     private boolean mDiceOnFloor = false;
     private Thread mDieWatcherThread;
-    private Handedness mHandedness;
+    private Handedness mHandedness = Handedness.RIGHT;
     private int mMaxRollCount = 3;
+    private boolean mNaturalScroll = true;
     private int mNumOfDice;
     private int mNumOfRolls = 0;
     private final Painter mPainter;
@@ -74,6 +75,10 @@ public class DiceBoard extends Observable {
         return values;
     }
 
+    public boolean isNaturalScroll() {
+        return mNaturalScroll;
+    }
+
     public void newTurn() {
         mNumOfRolls = 0;
         mDiceBoardPanel.repaint();
@@ -113,6 +118,10 @@ public class DiceBoard extends Observable {
         mMaxRollCount = maxRollCount;
     }
 
+    public void setNaturalScroll(boolean naturalScroll) {
+        mNaturalScroll = naturalScroll;
+    }
+
     public void setPlaySound(boolean playSound) {
         mPlaySound = playSound;
     }
@@ -140,9 +149,6 @@ public class DiceBoard extends Observable {
 
     private void init() {
         mDiceBoardPanel.add(mPainter);
-
-        setHandMode(Handedness.LEFT);
-        setHandMode(Handedness.RIGHT);
     }
 
     private void reset() {
@@ -162,10 +168,6 @@ public class DiceBoard extends Observable {
 
     LinkedList<Die> getDice() {
         return mDice;
-    }
-
-    Painter getDicePainter() {
-        return mPainter;
     }
 
     Roller getDiceRoller() {
@@ -192,6 +194,10 @@ public class DiceBoard extends Observable {
         mRoller.setImage(result);
 
         return result;
+    }
+
+    Painter getPainter() {
+        return mPainter;
     }
 
     boolean isDiceOnFloor() {
@@ -234,7 +240,7 @@ public class DiceBoard extends Observable {
         POST_ROLL;
     }
 
-    class DieWatchRunner implements Runnable {
+    private class DieWatchRunner implements Runnable {
 
         @Override
         public void run() {

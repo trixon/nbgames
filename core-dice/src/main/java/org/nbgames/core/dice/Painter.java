@@ -21,25 +21,26 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
+import javax.swing.event.MouseInputAdapter;
 import org.nbgames.core.api.Player.Handedness;
 
 /**
  *
  * @author Patrik Karlsson
  */
-class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
+class Painter extends JPanel {
 
-    protected static final int DIE_CELL_WIDTH = 140;
-    protected static final int MARGIN_X_DICE_SET = 160;
-    protected static final int MARGIN_X_ROLLER = 10;
-    protected static final int MARGIN_Y_ROLLER = 20;
-    private DiceBoard mDiceBoard;
+    private static final int MARGIN_X_DICE_SET = 160;
+    static final int DIE_CELL_WIDTH = 140;
+    static final int MARGIN_X_ROLLER = 10;
+    static final int MARGIN_Y_ROLLER = 20;
+
+    private final DiceBoard mDiceBoard;
     private Roller mDiceRoller;
     private int mDiceSetX;
     private int mDieAreaWidth;
@@ -50,110 +51,6 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     Painter(DiceBoard diceBoard) {
         mDiceBoard = diceBoard;
         init();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        if (mDiceRoller.isVisible() == true) {
-            mDiceRoller.slideOut();
-        }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        Point point = translateMousePoint(e.getPoint());
-        int x = point.x;
-
-        if (isRollable()) {
-            if (x <= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == false) {
-                mDiceRoller.slideIn();
-            }
-
-            if (x >= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == true) {
-                mDiceRoller.slideOut();
-            }
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Point point = translateMousePoint(e.getPoint());
-        int x = point.x;
-
-        if (e.getButton() == MouseEvent.BUTTON1) {
-
-            if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
-                mDiceRoller.shake(true);
-                return;
-            }
-
-            if (isSelectable()) {
-                for (Die die : mDiceBoard.getDice()) {
-                    if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
-                        die.setSelected(!die.isSelected());
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (e.getButton() == MouseEvent.BUTTON3) {
-            if (isSelectable() && isDiceStoped()) {
-                for (Die die : mDiceBoard.getDice()) {
-                    if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
-                    } else {
-                        die.setSelected(!die.isSelected());
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        Point point = translateMousePoint(e.getPoint());
-        int x = point.x;
-
-        if (mDiceRoller.getShakeThread().isAlive()) {
-            mDiceRoller.getShakeThread().interrupt();
-            mDiceRoller.shake(false);
-
-            if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
-                mDiceBoard.rollPreOp();
-            } else {
-                mDiceRoller.slideOut();
-            }
-        }
-    }
-
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-
-        if (isSelectable() && isDiceStoped()) {
-
-            boolean select = true;
-
-            if (e.getWheelRotation() == -1) {
-                select = false;
-            }
-
-            for (Die die : mDiceBoard.getDice()) {
-                die.setSelected(select);
-            }
-
-        }
     }
 
     @Override
@@ -181,9 +78,39 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     }
 
     private void init() {
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        addMouseWheelListener(this);
+        addMouseListener(new DiceMouseInputAdapter());
+        addMouseMotionListener(new MouseInputAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point point = translateMousePoint(e.getPoint());
+                int x = point.x;
+
+                if (isRollable() && mDiceRoller != null) {
+                    if (x <= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == false) {
+                        mDiceRoller.slideIn();
+                    }
+
+                    if (x >= mDiceRoller.getImage().getWidth() && mDiceRoller.isVisible() == true) {
+                        mDiceRoller.slideOut();
+                    }
+                }
+            }
+        });
+
+        addMouseWheelListener(new MouseAdapter() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+
+                if (isSelectable() && isDiceStoped()) {
+                    int dir = e.getWheelRotation();
+                    boolean select = mDiceBoard.isNaturalScroll() ? dir == -1 : dir == 1;
+
+                    for (Die die : mDiceBoard.getDice()) {
+                        die.setSelected(select);
+                    }
+                }
+            }
+        });
 
         addHierarchyBoundsListener(new HierarchyBoundsListener() {
 
@@ -248,7 +175,7 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
     }
 
     private void paintVertical(int x) {
-        mG2.drawLine(x, 0, x, 200);
+        mG2.drawLine(x, 0, x, getHeight());
     }
 
     private Point translateMousePoint(Point aPoint) {
@@ -292,5 +219,66 @@ class Painter extends JPanel implements MouseInputListener, MouseWheelListener {
 
     void setSelectable(boolean selectable) {
         mSelectable = selectable;
+    }
+
+    private class DiceMouseInputAdapter extends MouseInputAdapter {
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (mDiceRoller.isVisible() == true) {
+                mDiceRoller.slideOut();
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            Point point = translateMousePoint(e.getPoint());
+            int x = point.x;
+
+            if (e.getButton() == MouseEvent.BUTTON1) {
+
+                if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
+                    mDiceRoller.shake(true);
+                    return;
+                }
+
+                if (isSelectable()) {
+                    for (Die die : mDiceBoard.getDice()) {
+                        if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
+                            die.setSelected(!die.isSelected());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                if (isSelectable() && isDiceStoped()) {
+                    for (Die die : mDiceBoard.getDice()) {
+                        if ((x - mDiceSetX >= DIE_CELL_WIDTH * die.getColumn()) && (x - mDiceSetX <= DIE_CELL_WIDTH * (die.getColumn() + 1))) {
+                        } else {
+                            die.setSelected(!die.isSelected());
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            Point point = translateMousePoint(e.getPoint());
+            int x = point.x;
+
+            if (mDiceRoller.getShakeThread().isAlive()) {
+                mDiceRoller.getShakeThread().interrupt();
+                mDiceRoller.shake(false);
+
+                if (x <= mDiceRoller.getImage().getWidth() && isRollable()) {
+                    mDiceBoard.rollPreOp();
+                } else {
+                    mDiceRoller.slideOut();
+                }
+            }
+        }
     }
 }
