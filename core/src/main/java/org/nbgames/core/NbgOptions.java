@@ -16,9 +16,13 @@
 package org.nbgames.core;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.prefs.Preferences;
+import org.apache.commons.io.FileUtils;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.GraphicsHelper;
+import se.trixon.almond.util.Xlog;
 
 /**
  *
@@ -26,13 +30,15 @@ import se.trixon.almond.util.GraphicsHelper;
  */
 public class NbgOptions {
 
+    public static final String KEY_CUSTOM_TOOLBAR_BACKGROUND = "customToolbarBackground";
+    public static final String KEY_CUSTOM_WINDOW_BACKGROUND = "customWindowBackground";
+    private static final String DEFAULT_COLOR_TOOLBAR = "#009900";
     private static final String DEFAULT_COLOR_WINDOW_LOWER = "#003300";
     private static final String DEFAULT_COLOR_WINDOW_UPPER = "#009900";
-    private static final String DEFAULT_COLOR_TOOLBAR = "#009900";
-    private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = true;
     private static final boolean DEFAULT_CUSTOM_TOOLBAR_BACKGROUND = false;
-    public static final String KEY_CUSTOM_WINDOW_BACKGROUND = "customWindowBackground";
-    public static final String KEY_CUSTOM_TOOLBAR_BACKGROUND = "customToolbarBackground";
+    private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = true;
+    private final File mDbFile;
+    private final File mDirectory;
     private final Preferences mPreferences = NbPreferences.forModule(NbgOptions.class);
 
     public static NbgOptions getInstance() {
@@ -40,34 +46,47 @@ public class NbgOptions {
     }
 
     private NbgOptions() {
+        mDirectory = new File(System.getProperty("user.home"), ".nbgames");
+
+        try {
+            FileUtils.forceMkdir(mDirectory);
+        } catch (IOException ex) {
+            Xlog.timedErr(ex.getLocalizedMessage());
+        }
+
+        mDbFile = new File(mDirectory, "nbgames");
     }
 
     public Color getColor(ColorItem colorItem) {
         return Color.decode(mPreferences.get(colorItem.getKey(), colorItem.getDefaultColor()));
     }
 
-    public Preferences getPreferences() {
-        return mPreferences;
+    public File getDbFile() {
+        return mDbFile;
     }
 
-    public boolean isCustomWindowBackground() {
-        return mPreferences.getBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, DEFAULT_CUSTOM_WINDOW_BACKGROUND);
+    public Preferences getPreferences() {
+        return mPreferences;
     }
 
     public boolean isCustomToolbarBackground() {
         return mPreferences.getBoolean(KEY_CUSTOM_TOOLBAR_BACKGROUND, DEFAULT_CUSTOM_TOOLBAR_BACKGROUND);
     }
 
+    public boolean isCustomWindowBackground() {
+        return mPreferences.getBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, DEFAULT_CUSTOM_WINDOW_BACKGROUND);
+    }
+
     public void setColor(ColorItem colorItem, Color color) {
         mPreferences.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
     }
 
-    public void setCustomWindowBackground(boolean value) {
-        mPreferences.putBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, value);
-    }
-
     public void setCustomToolbarBackground(boolean value) {
         mPreferences.putBoolean(KEY_CUSTOM_TOOLBAR_BACKGROUND, value);
+    }
+
+    public void setCustomWindowBackground(boolean value) {
+        mPreferences.putBoolean(KEY_CUSTOM_WINDOW_BACKGROUND, value);
     }
 
     public enum ColorItem {

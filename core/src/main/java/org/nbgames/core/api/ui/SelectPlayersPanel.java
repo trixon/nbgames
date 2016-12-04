@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.Player;
-import org.nbgames.core.api.PlayerManager;
+import org.nbgames.core.api.db.manager.PlayerManager;
 
 /**
  *
@@ -66,7 +66,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         JPanel parent;
 
         for (int i = 0; i < mMaxNumOfPlayers; i++) {
-            mModels[i] = new DefaultComboBoxModel<>(PlayerManager.INSTANCE.getPlayersArray());
+            mModels[i] = PlayerManager.getInstance().getComboBoxModel();
             mCombos[i] = new JComboBox<>(mModels[i]);
             parent = (i & 1) == 0 ? leftPanel : rightPanel;
             parent.add(mCombos[i]);

@@ -16,17 +16,19 @@
 package org.nbgames.core.ui;
 
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashSet;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
+import org.apache.commons.lang3.StringUtils;
 import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.Player;
-import org.nbgames.core.api.PlayerManager;
+import org.nbgames.core.api.db.manager.PlayerManager;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.icons.IconColor;
@@ -34,18 +36,39 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public final class PlayersPanel extends javax.swing.JPanel {
 
     protected final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     protected final int mIconSize = (int) (Almond.ICON_LARGE / 1.5);
-    private DefaultListModel mModel = new DefaultListModel();
+    private DefaultListModel<Player> mModel = new DefaultListModel();
+    private final PlayerManager mPlayerManager = PlayerManager.getInstance();
+    private final HashSet<Player> mChangeSet = new HashSet<>();
+    private final HashSet<Player> mDeleteSet = new HashSet<>();
 
     public PlayersPanel() {
         initComponents();
         init();
-        load();
+    }
+
+    public void load() {
+        mModel = mPlayerManager.getListModel();
+        list.setModel(mModel);
+        mChangeSet.clear();
+        mDeleteSet.clear();
+    }
+
+    public void store() {
+        try {
+            mPlayerManager.save(mChangeSet, mDeleteSet);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
+    private Player getSelectedPlayer() {
+        return list.getSelectedValue();
     }
 
     private void init() {
@@ -53,6 +76,31 @@ public final class PlayersPanel extends javax.swing.JPanel {
         editButton.setIcon(MaterialIcon._Content.CREATE.get(mIconSize, mIconColor));
         removeButton.setIcon(MaterialIcon._Content.REMOVE.get(mIconSize, mIconColor));
         removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(mIconSize, mIconColor));
+    }
+
+    private boolean isValidPlayer(Player player) {
+        return !player.getName().isEmpty();
+    }
+
+    private void showInvalidPlayerDialog() {
+        NotifyDescriptor d = new NotifyDescriptor(
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.invalidPlayer"),
+                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.invalidInput"),
+                NotifyDescriptor.ERROR_MESSAGE,
+                NotifyDescriptor.ERROR_MESSAGE,
+                new JButton[]{new JButton("Ok")},
+                null);
+        DialogDisplayer.getDefault().notify(d);
+    }
+
+    private void sortModel() {
+        Object[] players = mModel.toArray();
+        Arrays.sort(players);
+        mModel.clear();
+
+        for (Object object : players) {
+            mModel.addElement((Player) object);
+        }
     }
 
     /**
@@ -69,7 +117,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
-        list = new javax.swing.JList();
+        list = new javax.swing.JList<>();
 
         setPreferredSize(new java.awt.Dimension(360, 280));
 
@@ -133,10 +181,6 @@ public final class PlayersPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private boolean isValidPlayer(Player player) {
-        return !player.getName().isEmpty();
-    }
-
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         if (getSelectedPlayer() != null) {
             NotifyDescriptor d = new NotifyDescriptor(
@@ -149,7 +193,19 @@ public final class PlayersPanel extends javax.swing.JPanel {
             Object retval = DialogDisplayer.getDefault().notify(d);
 
             if (retval == NotifyDescriptor.OK_OPTION) {
-                mModel.removeElement(getSelectedPlayer());
+                Player player = getSelectedPlayer();
+                if (player.getId() != null) {
+                    mDeleteSet.add(player);
+                }
+
+                for (Player p : mChangeSet) {
+                    if (StringUtils.equals(player.getName(), p.getName())) {
+                        mChangeSet.remove(p);
+                        break;
+                    }
+                }
+
+                mModel.removeElement(player);
             }
         }
     }//GEN-LAST:event_removeButtonActionPerformed
@@ -166,6 +222,13 @@ public final class PlayersPanel extends javax.swing.JPanel {
             Object retval = DialogDisplayer.getDefault().notify(d);
 
             if (retval == NotifyDescriptor.OK_OPTION) {
+                for (int i = 0; i < mModel.size(); i++) {
+                    Player player = mModel.get(i);
+                    if (player.getId() != null) {
+                        mDeleteSet.add(player);
+                    }
+                }
+                mChangeSet.clear();
                 mModel.removeAllElements();
             }
         }
@@ -179,6 +242,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
 
         if (retval == NotifyDescriptor.OK_OPTION) {
             if (isValidPlayer(playerPanel.getPlayer())) {
+                mChangeSet.add(playerPanel.getPlayer());
                 mModel.addElement(playerPanel.getPlayer());
                 sortModel();
             } else {
@@ -196,6 +260,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
 
             if (retval == NotifyDescriptor.OK_OPTION) {
                 if (isValidPlayer(playerPanel.getPlayer())) {
+                    mChangeSet.add(playerPanel.getPlayer());
                     mModel.set(mModel.indexOf(getSelectedPlayer()), playerPanel.getPlayer());
                     sortModel();
                 } else {
@@ -205,71 +270,16 @@ public final class PlayersPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
-    private void showInvalidPlayerDialog() {
-        NotifyDescriptor d = new NotifyDescriptor(
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.message.invalidPlayer"),
-                NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.invalidInput"),
-                NotifyDescriptor.ERROR_MESSAGE,
-                NotifyDescriptor.ERROR_MESSAGE,
-                new JButton[]{new JButton("Ok")},
-                null);
-        DialogDisplayer.getDefault().notify(d);
-    }
-
-    private void sortModel() {
-        Object[] players = mModel.toArray();
-        Arrays.sort(players);
-        mModel.clear();
-
-        for (Object object : players) {
-            mModel.addElement(object);
-        }
-    }
     private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
         if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
             editButtonActionPerformed(null);
         }
     }//GEN-LAST:event_listMouseClicked
 
-    private Player getSelectedPlayer() {
-        return (Player) list.getSelectedValue();
-    }
-
-    private void load() {
-        mModel = PlayerManager.INSTANCE.load(mModel);
-        mModel.addListDataListener(new ListDataListener() {
-
-            @Override
-            public void contentsChanged(ListDataEvent e) {
-                store();
-            }
-
-            @Override
-            public void intervalAdded(ListDataEvent e) {
-                store();
-            }
-
-            @Override
-            public void intervalRemoved(ListDataEvent e) {
-                store();
-            }
-        });
-
-        list.setModel(mModel);
-    }
-
-    private void store() {
-        PlayerManager.INSTANCE.store(mModel);
-    }
-
-    boolean valid() {
-        return true;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton editButton;
-    private javax.swing.JList list;
+    private javax.swing.JList<Player> list;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JScrollPane scrollPane;

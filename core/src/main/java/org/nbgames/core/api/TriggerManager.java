@@ -13,32 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.ui;
+package org.nbgames.core.api;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.api.DictNbg;
+import java.util.prefs.Preferences;
+import org.openide.util.NbPreferences;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class PlayersDialog extends DialogPanel {
+public class TriggerManager {
 
-    private final PlayersPanel mPlayersPanel = new PlayersPanel();
+    private final Preferences mPreferences = NbPreferences.forModule(TriggerManager.class);
 
-    public PlayersDialog() {
-        setContent(mPlayersPanel);
-        setTitle(DictNbg.PLAYERS.toString());
-        getInnerPanel().setPreferredSize(mMediumDimension);
-        setButtonBarVisible(ButtonMode.BOTH);
-
-        getOkButton().addActionListener((ActionEvent e) -> {
-            mPlayersPanel.store();
-            close();
-        });
+    public static TriggerManager getInstance() {
+        return Holder.INSTANCE;
     }
 
-    public void load() {
-        mPlayersPanel.load();
+    private TriggerManager() {
+    }
+
+    public Preferences getPreferences() {
+        return mPreferences;
+    }
+
+    public void update(Class cls) {
+        mPreferences.putLong(cls.getName(), System.currentTimeMillis());
+    }
+
+    private static class Holder {
+
+        private static final TriggerManager INSTANCE = new TriggerManager();
     }
 }

@@ -20,6 +20,7 @@
                         <publicPackage>org.nbgames.core.api.*</publicPackage>
                         <publicPackage>se.trixon.almond.nbp.news</publicPackage>
                         <publicPackage>se.trixon.almond.util.*</publicPackage>
+                        <publicPackage>com.h2database.*</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
@@ -124,6 +125,23 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-jdesktop-beansbinding</artifactId>
             <version>${netbeans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.193</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.healthmarketscience.sqlbuilder</groupId>
+            <artifactId>sqlbuilder</artifactId>
+            <version>2.1.5</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
         </dependency>
     </dependencies>
     <properties>

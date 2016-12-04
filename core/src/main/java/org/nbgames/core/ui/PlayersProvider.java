@@ -17,8 +17,8 @@ package org.nbgames.core.ui;
 
 import javax.swing.JPanel;
 import org.nbgames.core.api.service.DialogProvider;
-import org.nbgames.core.api.ui.OptionsPanel;
 import org.nbgames.core.api.service.PresenterProvider;
+import org.nbgames.core.api.ui.OptionsPanel;
 
 /**
  *
@@ -83,6 +83,7 @@ public class PlayersProvider implements PresenterProvider, DialogProvider {
 
     @Override
     public JPanel getPanel() {
+        mPanel.load();
         return mPanel;
     }
 

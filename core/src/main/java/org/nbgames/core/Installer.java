@@ -18,6 +18,8 @@ package org.nbgames.core;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.nbgames.core.api.NbGames;
+import org.nbgames.core.api.db.Db;
+import org.nbgames.core.api.db.DbCreator;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbPreferences;
@@ -30,11 +32,17 @@ import se.trixon.almond.util.SystemHelper;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class Installer extends ModuleInstall {
 
+    private final Db mDb = Db.getInstance();
+    private final NbgOptions mOptions = NbgOptions.getInstance();
+
     public Installer() {
+        if (!mDb.exists()) {
+            DbCreator.getInstance().initDb();
+        }
     }
 
     @Override

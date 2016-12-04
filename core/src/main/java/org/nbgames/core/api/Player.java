@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,18 @@ package org.nbgames.core.api;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class Player implements Comparable<Player> {
 
     private Handedness mHandedness = Handedness.RIGHT;
-    private long mId = System.currentTimeMillis();
+    private Long mId;
     private String mName = "";
 
     public Player() {
     }
 
-    public Player(long id, String name, Handedness handedness) {
+    public Player(Long id, String name, Handedness handedness) {
         mId = id;
         mName = name;
         mHandedness = handedness;
@@ -43,7 +43,7 @@ public class Player implements Comparable<Player> {
         return mHandedness;
     }
 
-    public long getId() {
+    public Long getId() {
         return mId;
     }
 
@@ -55,7 +55,7 @@ public class Player implements Comparable<Player> {
         mHandedness = handedness;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         mId = id;
     }
 

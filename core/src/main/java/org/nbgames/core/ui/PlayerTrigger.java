@@ -15,30 +15,20 @@
  */
 package org.nbgames.core.ui;
 
-import java.awt.event.ActionEvent;
-import org.nbgames.core.api.DictNbg;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.h2.tools.TriggerAdapter;
+import org.nbgames.core.api.TriggerManager;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class PlayersDialog extends DialogPanel {
+public class PlayerTrigger extends TriggerAdapter {
 
-    private final PlayersPanel mPlayersPanel = new PlayersPanel();
-
-    public PlayersDialog() {
-        setContent(mPlayersPanel);
-        setTitle(DictNbg.PLAYERS.toString());
-        getInnerPanel().setPreferredSize(mMediumDimension);
-        setButtonBarVisible(ButtonMode.BOTH);
-
-        getOkButton().addActionListener((ActionEvent e) -> {
-            mPlayersPanel.store();
-            close();
-        });
-    }
-
-    public void load() {
-        mPlayersPanel.load();
+    @Override
+    public void fire(Connection connection, ResultSet oldRow, ResultSet newRow) throws SQLException {
+        TriggerManager.getInstance().update(getClass());
     }
 }

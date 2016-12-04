@@ -16,7 +16,8 @@
 package org.nbgames.core.ui;
 
 import java.util.prefs.PreferenceChangeEvent;
-import org.nbgames.core.api.PlayerManager;
+import org.nbgames.core.api.TriggerManager;
+import org.nbgames.core.api.db.manager.PlayerManager;
 import org.openide.awt.Actions;
 
 /**
@@ -30,14 +31,16 @@ public class HomePanel extends javax.swing.JPanel {
      */
     public HomePanel() {
         initComponents();
-        PlayerManager.INSTANCE.getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
-            updatePlayerManagerPanel();
+        TriggerManager.getInstance().getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
+            if (evt.getKey().equalsIgnoreCase(PlayerTrigger.class.getName())) {
+                updatePlayerManagerPanel();
+            }
         });
         updatePlayerManagerPanel();
     }
 
     private void updatePlayerManagerPanel() {
-        playerManagerPanel.setVisible(PlayerManager.INSTANCE.getPlayers().isEmpty());
+        playerManagerPanel.setVisible(PlayerManager.getInstance().select().isEmpty());
     }
 
     /**
