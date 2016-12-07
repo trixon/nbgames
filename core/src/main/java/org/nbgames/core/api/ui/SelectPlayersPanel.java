@@ -16,14 +16,17 @@
 package org.nbgames.core.api.ui;
 
 import java.util.Random;
+import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
+import org.apache.commons.lang3.StringUtils;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.db.manager.PlayerManager;
+import org.openide.util.NbPreferences;
 
 /**
  *
@@ -55,6 +58,53 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         return (Integer) numberSpinner.getValue();
     }
 
+    public Player[] getPlayers() {
+        int numOfPlayers = (Integer) numberSpinner.getValue();
+        Player[] players = new Player[numOfPlayers];
+
+        for (int i = 0; i < numOfPlayers; i++) {
+            players[i] = (Player) mCombos[i].getSelectedItem();
+        }
+
+        return players;
+    }
+
+    public void restoreSelection(Class clazz) {
+        initCombos();
+        String joinedArray = NbPreferences.forModule(getClass()).get(clazz.getName(), "");
+        if (!StringUtils.isBlank(joinedArray)) {
+            String[] playerIds = StringUtils.split(joinedArray, ',');
+            int i = 0;
+
+            for (JComboBox<Player> combo : mCombos) {
+                long id = Long.valueOf(playerIds[i]);
+                for (int j = 0; j < combo.getModel().getSize(); j++) {
+                    if (combo.getItemAt(j).getId() == id) {
+                        combo.setSelectedIndex(j);
+                        break;
+                    }
+                }
+                i++;
+            }
+        }
+    }
+
+    public void saveSelection(Class clazz) {
+        long[] playerIds = new long[mMaxNumOfPlayers];
+        int i = 0;
+
+        try {
+            for (JComboBox<Player> combo : mCombos) {
+                playerIds[i] = ((Player) combo.getSelectedItem()).getId();
+                i++;
+            }
+
+            NbPreferences.forModule(getClass()).put(clazz.getName(), StringUtils.join(playerIds, ','));
+        } catch (NullPointerException e) {
+            // nvm
+        }
+    }
+
     public void setMaxNumOfPlayers(int maxNumOfPlayers) {
         mMaxNumOfPlayers = maxNumOfPlayers;
         numberSpinner.setModel(new SpinnerNumberModel(1, 1, maxNumOfPlayers, 1));
@@ -66,16 +116,25 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         JPanel parent;
 
         for (int i = 0; i < mMaxNumOfPlayers; i++) {
-            mModels[i] = PlayerManager.getInstance().getComboBoxModel();
-            mCombos[i] = new JComboBox<>(mModels[i]);
+            mCombos[i] = new JComboBox<>();
             parent = (i & 1) == 0 ? leftPanel : rightPanel;
             parent.add(mCombos[i]);
+            parent.add(Box.createVerticalStrut(4));
         }
+
+        initCombos();
     }
 
     public void setNumOfPlayers(int numOfPlayers) {
         numberSpinner.setValue(numOfPlayers);
         numberSpinnerStateChanged(null);
+    }
+
+    private void initCombos() {
+        for (int i = 0; i < mMaxNumOfPlayers; i++) {
+            mModels[i] = PlayerManager.getInstance().getComboBoxModel();
+            mCombos[i].setModel(mModels[i]);
+        }
     }
 
     /**
@@ -131,7 +190,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         add(shuffleButton, gridBagConstraints);
 
-        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0, 8, 0));
 
         leftPanel.setLayout(new javax.swing.BoxLayout(leftPanel, javax.swing.BoxLayout.PAGE_AXIS));
         mainPanel.add(leftPanel);
@@ -146,6 +205,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
         add(mainPanel, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
