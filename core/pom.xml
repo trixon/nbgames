@@ -21,6 +21,7 @@
                         <publicPackage>se.trixon.almond.nbp.news</publicPackage>
                         <publicPackage>se.trixon.almond.util.*</publicPackage>
                         <publicPackage>com.h2database.*</publicPackage>
+                        <publicPackage>org.apache.commons.io.*</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
@@ -45,6 +46,7 @@
         </plugins>
     </build>
     <dependencies>
+        <!--NetBeans-->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>
@@ -64,16 +66,6 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-options-api</artifactId>
             <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>se.trixon.almond</groupId>
-            <artifactId>almond-util</artifactId>
-            <version>1.1.8-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>se.trixon.almond</groupId>
-            <artifactId>almond-nbp</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.netbeans.external</groupId>
@@ -126,17 +118,29 @@
             <artifactId>org-jdesktop-beansbinding</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
+
+        <!--Trixon-->
+        <dependency>
+            <groupId>se.trixon.almond</groupId>
+            <artifactId>almond-util</artifactId>
+            <version>1.1.8-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>se.trixon.almond</groupId>
+            <artifactId>almond-nbp</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+
+        <!--Other-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.193</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.healthmarketscience.sqlbuilder</groupId>
             <artifactId>sqlbuilder</artifactId>
             <version>2.1.5</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

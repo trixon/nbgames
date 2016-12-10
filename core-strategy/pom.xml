@@ -36,6 +36,7 @@
         </plugins>
     </build>
     <dependencies>
+        <!--NetBeans-->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-annotations-common</artifactId>
@@ -51,5 +52,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.license>apache20</netbeans.hint.license>
     </properties>
-    <name>core-strategy</name>
 </project>
