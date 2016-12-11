@@ -51,6 +51,9 @@ public class HelpPanel extends javax.swing.JPanel {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         scrollPane.setBorder(null);
+
+        textPane.setEditable(false);
+        textPane.setFocusable(false);
         scrollPane.setViewportView(textPane);
 
         add(scrollPane);

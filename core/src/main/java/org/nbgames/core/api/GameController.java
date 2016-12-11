@@ -32,6 +32,16 @@ import se.trixon.almond.util.SystemHelper;
  */
 public abstract class GameController implements PresenterProvider, GameProvider, NewsProvider {
 
+    private boolean mFirstRun = true;
+
+    public boolean isFirstRun() {
+        return mFirstRun;
+    }
+
+    public void setFirstRun(boolean firstRun) {
+        this.mFirstRun = firstRun;
+    }
+
     public static GameController forID(GameCategory category, String id) {
         Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
 

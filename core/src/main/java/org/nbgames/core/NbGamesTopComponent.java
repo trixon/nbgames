@@ -16,6 +16,7 @@
 package org.nbgames.core;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -47,18 +48,17 @@ import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.service.DialogProvider;
 import org.nbgames.core.api.service.PresenterProvider;
+import org.nbgames.core.api.ui.NewGamePanel;
+import org.nbgames.core.api.ui.OptionsPanel;
 import org.nbgames.core.ui.DialogPanel;
 import org.nbgames.core.ui.HelpPanel;
-import org.nbgames.core.ui.HelpProvider;
 import org.nbgames.core.ui.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
-import org.nbgames.core.ui.InfoProvider;
 import org.nbgames.core.ui.InitPanel;
-import org.nbgames.core.ui.NewGameDialog;
-import org.nbgames.core.ui.NewGameProvider;
-import org.nbgames.core.ui.OptionsDialog;
-import org.nbgames.core.ui.OptionsProvider;
+import org.nbgames.core.ui.PlayersPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.Actions;
 import org.openide.util.NbBundle.Messages;
@@ -97,6 +97,8 @@ public final class NbGamesTopComponent extends TopComponent {
     private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     private final ActionMap mActionMap = getActionMap();
     private final Deque<PresenterProvider> mWindowStack = new ArrayDeque<>();
+    private JButton mDialogCancelButton;
+    private JButton mDialogOkButton;
 
     static {
         Almond.ICON_LARGE = 48;
@@ -120,6 +122,25 @@ public final class NbGamesTopComponent extends TopComponent {
         layeredPane.repaint();
         mWindowStack.pop();
         show(mWindowStack.pop());
+    }
+
+    public void editPlayers() {
+        PlayersPanel playersPanel = new PlayersPanel();
+        playersPanel.load();
+        Object[] options = new Object[]{mDialogCancelButton, mDialogOkButton};
+
+        NotifyDescriptor d = new NotifyDescriptor(
+                playersPanel,
+                DictNbg.PLAYERS.toString(),
+                NotifyDescriptor.PLAIN_MESSAGE,
+                NotifyDescriptor.DEFAULT_OPTION,
+                options,
+                mDialogOkButton);
+
+        Object retVal = DialogDisplayer.getDefault().notify(d);
+        if (retVal == mDialogOkButton) {
+            playersPanel.store();
+        }
     }
 
     public JButton getSelectorButton() {
@@ -173,58 +194,105 @@ public final class NbGamesTopComponent extends TopComponent {
         mActionMap.remove(CallbackInfoAction.KEY);
 
         if (presenterProvider.getOptionsPanel() != null) {
+            // Options
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    final OptionsProvider optionsProvider = OptionsProvider.getInstance();
-                    OptionsDialog optionsDialog = optionsProvider.getPanel();
-                    presenterProvider.getOptionsPanel().load();
-                    optionsDialog.setContent(presenterProvider.getOptionsPanel());
-                    show(optionsProvider);
+                    OptionsPanel optionsPanel = presenterProvider.getOptionsPanel();
+                    optionsPanel.load();
+                    Object[] options = new Object[]{mDialogCancelButton, mDialogOkButton};
+
+                    NotifyDescriptor d = new NotifyDescriptor(
+                            optionsPanel,
+                            Dict.OPTIONS.toString(),
+                            NotifyDescriptor.PLAIN_MESSAGE,
+                            NotifyDescriptor.DEFAULT_OPTION,
+                            options,
+                            mDialogOkButton);
+
+                    Object retVal = DialogDisplayer.getDefault().notify(d);
+                    if (retVal == mDialogOkButton) {
+                    }
                 }
             });
         }
 
         if (presenterProvider.getHelp() != null) {
             mActionMap.put(CallbackHelpAction.KEY, new AbstractAction() {
+                // Help
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    final HelpProvider helpProvider = HelpProvider.getInstance();
-                    DialogPanel dialogPanel = helpProvider.getPanel();
-                    HelpPanel helpPanel = (HelpPanel) dialogPanel.getComponent();
+                    HelpPanel helpPanel = new HelpPanel();
                     helpPanel.load(presenterProvider.getHelp());
-                    show(helpProvider);
+                    helpPanel.setPreferredSize(new Dimension(800, 600));
+
+                    Object[] options = new Object[]{mDialogOkButton};
+
+                    NotifyDescriptor d = new NotifyDescriptor(
+                            helpPanel,
+                            Dict.HELP.toString(),
+                            NotifyDescriptor.PLAIN_MESSAGE,
+                            NotifyDescriptor.DEFAULT_OPTION,
+                            options,
+                            mDialogOkButton);
+
+                    DialogDisplayer.getDefault().notify(d);
                 }
             });
         }
 
         mActionMap.put(CallbackInfoAction.KEY, new AbstractAction() {
+            // Info
             @Override
             public void actionPerformed(ActionEvent e) {
-                final InfoProvider infoProvider = InfoProvider.getInstance();
-                DialogPanel dialogPanel = infoProvider.getPanel();
-                InfoPanel infoPanel = (InfoPanel) dialogPanel.getComponent();
+                InfoPanel infoPanel = new InfoPanel();
                 infoPanel.load(presenterProvider);
-                show(infoProvider);
+                Object[] options = new Object[]{mDialogOkButton};
+
+                NotifyDescriptor d = new NotifyDescriptor(
+                        infoPanel,
+                        Dict.HELP.toString(),
+                        NotifyDescriptor.PLAIN_MESSAGE,
+                        NotifyDescriptor.DEFAULT_OPTION,
+                        options,
+                        mDialogOkButton);
+
+                DialogDisplayer.getDefault().notify(d);
             }
         });
 
         if (presenterProvider instanceof GameController) {
             mActionMap.put(CallbackNewRoundAction.KEY, new AbstractAction() {
+                // New
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    final NewGameProvider provider = NewGameProvider.getInstance();
                     GameController gameController = (GameController) presenterProvider;
-                    NewGameDialog dialog = provider.getPanel();
-                    dialog.setContent(gameController.getNewGamePanel());
-                    dialog.setGameController(gameController);
-                    show(provider);
+                    NewGamePanel newGamePanel = gameController.getNewGamePanel();
+                    newGamePanel.load();
+
+                    Object[] options = new Object[]{mDialogCancelButton, mDialogOkButton};
+                    NotifyDescriptor d = new NotifyDescriptor(
+                            newGamePanel,
+                            DictNbg.NEW_ROUND.toString(),
+                            NotifyDescriptor.PLAIN_MESSAGE,
+                            NotifyDescriptor.DEFAULT_OPTION,
+                            options,
+                            mDialogOkButton);
+
+                    Object retVal = DialogDisplayer.getDefault().notify(d);
+                    if (retVal == mDialogOkButton) {
+                        newGamePanel.save();
+                        gameController.onRequestNewGameStart();
+                        gameController.setFirstRun(false);
+                    }
                 }
             });
+
+            if (((GameController) presenterProvider).isFirstRun()) {
+                mActionMap.get(CallbackNewRoundAction.KEY).actionPerformed(null);
+            }
         }
 
-        boolean enableInfo = !(presenterProvider instanceof NewGameProvider);
-        infoButton.setEnabled(enableInfo);
         optionsButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").isEnabled());
         helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
         newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
@@ -287,6 +355,9 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     private void init() {
+        mDialogOkButton = new JButton(MaterialIcon._Action.DONE.get(Almond.ICON_LARGE, mIconColor));
+        mDialogCancelButton = new JButton(MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor));
+
         String category;
         String id;
 
@@ -365,7 +436,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 GameController gameController;
                 gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
                 gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
-                show(gameController);
+//                show(gameController);
             });
         }).start();
 

@@ -16,7 +16,6 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.PlayersProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
@@ -35,6 +34,6 @@ public final class PlayerManagerAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        getTopComponent().show(PlayersProvider.getInstance());
+        getTopComponent().editPlayers();
     }
 }

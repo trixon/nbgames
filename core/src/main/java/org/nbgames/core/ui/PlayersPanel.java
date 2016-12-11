@@ -25,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.db.manager.PlayerManager;
-import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.Exceptions;
@@ -46,6 +45,9 @@ public final class PlayersPanel extends javax.swing.JPanel {
     private final PlayerManager mPlayerManager = PlayerManager.getInstance();
     private final HashSet<Player> mChangeSet = new HashSet<>();
     private final HashSet<Player> mDeleteSet = new HashSet<>();
+    private JButton mDialogCancelButton;
+    private JButton mDialogOkButton;
+    private Object[] mDialogOptions;
 
     public PlayersPanel() {
         initComponents();
@@ -67,11 +69,52 @@ public final class PlayersPanel extends javax.swing.JPanel {
         }
     }
 
+    private void edit(Player player) {
+        PlayerPanel playerPanel = new PlayerPanel();
+        String title = NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit");
+
+        boolean doEdit = true;
+        if (player == null) {
+            player = new Player();
+            title = NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add");
+            doEdit = false;
+        }
+
+        playerPanel.setPlayer(player);
+
+        NotifyDescriptor d = new NotifyDescriptor(
+                playerPanel,
+                title,
+                NotifyDescriptor.OK_CANCEL_OPTION,
+                NotifyDescriptor.PLAIN_MESSAGE,
+                mDialogOptions,
+                mDialogOkButton);
+
+        Object retVal = DialogDisplayer.getDefault().notify(d);
+        if (retVal == mDialogOkButton) {
+            if (isValidPlayer(playerPanel.getPlayer())) {
+                mChangeSet.add(playerPanel.getPlayer());
+                if (doEdit) {
+                    mModel.set(mModel.indexOf(getSelectedPlayer()), playerPanel.getPlayer());
+                } else {
+                    mModel.addElement(playerPanel.getPlayer());
+                }
+                sortModel();
+            } else {
+                showInvalidPlayerDialog();
+            }
+        }
+    }
+
     private Player getSelectedPlayer() {
         return list.getSelectedValue();
     }
 
     private void init() {
+        mDialogOkButton = new JButton(MaterialIcon._Action.DONE.get(Almond.ICON_LARGE, mIconColor));
+        mDialogCancelButton = new JButton(MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor));
+        mDialogOptions = new Object[]{mDialogCancelButton, mDialogOkButton};
+
         addButton.setIcon(MaterialIcon._Content.ADD.get(mIconSize, mIconColor));
         editButton.setIcon(MaterialIcon._Content.CREATE.get(mIconSize, mIconColor));
         removeButton.setIcon(MaterialIcon._Content.REMOVE.get(mIconSize, mIconColor));
@@ -88,8 +131,8 @@ public final class PlayersPanel extends javax.swing.JPanel {
                 NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.invalidInput"),
                 NotifyDescriptor.ERROR_MESSAGE,
                 NotifyDescriptor.ERROR_MESSAGE,
-                new JButton[]{new JButton("Ok")},
-                null);
+                new JButton[]{mDialogOkButton},
+                mDialogOkButton);
         DialogDisplayer.getDefault().notify(d);
     }
 
@@ -188,11 +231,11 @@ public final class PlayersPanel extends javax.swing.JPanel {
                     NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.remove"),
                     NotifyDescriptor.OK_CANCEL_OPTION,
                     NotifyDescriptor.WARNING_MESSAGE,
-                    null,
-                    null);
-            Object retval = DialogDisplayer.getDefault().notify(d);
+                    mDialogOptions,
+                    mDialogOkButton);
 
-            if (retval == NotifyDescriptor.OK_OPTION) {
+            Object retVal = DialogDisplayer.getDefault().notify(d);
+            if (retVal == mDialogOkButton) {
                 Player player = getSelectedPlayer();
                 if (player.getId() != null) {
                     mDeleteSet.add(player);
@@ -217,11 +260,11 @@ public final class PlayersPanel extends javax.swing.JPanel {
                     NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.removeAll"),
                     NotifyDescriptor.OK_CANCEL_OPTION,
                     NotifyDescriptor.WARNING_MESSAGE,
-                    null,
-                    null);
-            Object retval = DialogDisplayer.getDefault().notify(d);
+                    mDialogOptions,
+                    mDialogOkButton);
 
-            if (retval == NotifyDescriptor.OK_OPTION) {
+            Object retVal = DialogDisplayer.getDefault().notify(d);
+            if (retVal == mDialogOkButton) {
                 for (int i = 0; i < mModel.size(); i++) {
                     Player player = mModel.get(i);
                     if (player.getId() != null) {
@@ -235,38 +278,12 @@ public final class PlayersPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_removeAllButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        PlayerPanel playerPanel = new PlayerPanel();
-        playerPanel.setPlayer(new Player());
-        DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.add"));
-        Object retval = DialogDisplayer.getDefault().notify(d);
-
-        if (retval == NotifyDescriptor.OK_OPTION) {
-            if (isValidPlayer(playerPanel.getPlayer())) {
-                mChangeSet.add(playerPanel.getPlayer());
-                mModel.addElement(playerPanel.getPlayer());
-                sortModel();
-            } else {
-                showInvalidPlayerDialog();
-            }
-        }
+        edit(null);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         if (getSelectedPlayer() != null) {
-            PlayerPanel playerPanel = new PlayerPanel();
-            playerPanel.setPlayer(getSelectedPlayer());
-            DialogDescriptor d = new DialogDescriptor(playerPanel, NbBundle.getMessage(PlayersPanel.class, "PlayersDialog.title.edit"));
-            Object retval = DialogDisplayer.getDefault().notify(d);
-
-            if (retval == NotifyDescriptor.OK_OPTION) {
-                if (isValidPlayer(playerPanel.getPlayer())) {
-                    mChangeSet.add(playerPanel.getPlayer());
-                    mModel.set(mModel.indexOf(getSelectedPlayer()), playerPanel.getPlayer());
-                    sortModel();
-                } else {
-                    showInvalidPlayerDialog();
-                }
-            }
+            edit(getSelectedPlayer());
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
