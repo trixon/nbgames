@@ -32,8 +32,10 @@ import javax.swing.ActionMap;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
@@ -42,6 +44,7 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.NbGames;
+import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.service.DialogProvider;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.ui.DialogPanel;
@@ -50,6 +53,7 @@ import org.nbgames.core.ui.HelpProvider;
 import org.nbgames.core.ui.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InfoProvider;
+import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.NewGameDialog;
 import org.nbgames.core.ui.NewGameProvider;
 import org.nbgames.core.ui.OptionsDialog;
@@ -345,16 +349,26 @@ public final class NbGamesTopComponent extends TopComponent {
             frame.setTitle(Bundle.CTL_NbGamesTopComponent());
         });
 
-        show(HomeProvider.getInstance());
-
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
         SwingHelper.borderPainted(toolBar, false);
-        GameController gameController;
-        gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
-        gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
-        show(gameController);
+        JLabel label = new JLabel("loaidn");
+        label.setBackground(Color.red);
+        label.setOpaque(true);
+        layeredPane.add(new InitPanel(), JLayeredPane.DEFAULT_LAYER, 0);
+
+        new Thread(() -> {
+            Db.getInstance().getAutoCommitConnection();
+            SwingUtilities.invokeLater(() -> {
+                show(HomeProvider.getInstance());
+                GameController gameController;
+                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
+                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
+                show(gameController);
+            });
+        }).start();
+
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {
