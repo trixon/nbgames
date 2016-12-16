@@ -45,7 +45,9 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.NbGames;
+import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
+import org.nbgames.core.api.db.manager.PlayerManager;
 import org.nbgames.core.api.service.DialogProvider;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.NewGamePanel;
@@ -55,6 +57,7 @@ import org.nbgames.core.ui.HelpPanel;
 import org.nbgames.core.ui.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
+import org.nbgames.core.ui.PlayerTrigger;
 import org.nbgames.core.ui.PlayersPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
@@ -335,6 +338,18 @@ public final class NbGamesTopComponent extends TopComponent {
                 repaint();
             }
         });
+
+        TriggerManager.getInstance().getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
+            if (evt.getKey().equalsIgnoreCase(PlayerTrigger.class.getName())) {
+                setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
+            }
+        });
+
+    }
+
+    private void setSelectorEnabled(boolean enabled) {
+        selectorButton.setEnabled(enabled);
+        Actions.forID("Game", "org.nbgames.core.actions.SelectorAction").setEnabled(enabled);
     }
 
     @Override
@@ -428,10 +443,12 @@ public final class NbGamesTopComponent extends TopComponent {
         label.setBackground(Color.red);
         label.setOpaque(true);
         layeredPane.add(new InitPanel(), JLayeredPane.DEFAULT_LAYER, 0);
+        setSelectorEnabled(false);
 
         new Thread(() -> {
             Db.getInstance().getAutoCommitConnection();
             SwingUtilities.invokeLater(() -> {
+                setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
                 show(HomeProvider.getInstance());
                 GameController gameController;
                 gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");

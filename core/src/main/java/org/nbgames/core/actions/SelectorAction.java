@@ -16,29 +16,26 @@
 package org.nbgames.core.actions;
 
 import java.awt.Component;
+import java.awt.IllegalComponentStateException;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.nbgames.core.InstalledGames;
 import org.nbgames.core.api.DictNbg;
-import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
+import org.nbgames.core.api.db.manager.PlayerManager;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.awt.Actions;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import se.trixon.almond.util.Dict;
 
@@ -60,10 +57,11 @@ import se.trixon.almond.util.Dict;
 @NbBundle.Messages("CTL_SelectorAction=Selector")
 public final class SelectorAction extends NbGameAction {
 
-    private TreeMap<String, ArrayList<GameController>> mGameControllersPerCategory = new TreeMap<>();
+    private final InstalledGames mGames;
     private final JPopupMenu mPopup = new JPopupMenu();
 
     public SelectorAction() {
+        mGames = InstalledGames.getInstance();
         mPopup.addPopupMenuListener(new PopupMenuListener() {
 
             @Override
@@ -80,11 +78,8 @@ public final class SelectorAction extends NbGameAction {
             }
 
             private void populateDropDown() {
-                sortProviders();
                 mPopup.removeAll();
-
-                for (Map.Entry<String, ArrayList<GameController>> category : mGameControllersPerCategory.entrySet()) {
-
+                for (Map.Entry<String, ArrayList<GameController>> category : mGames.getGameControllersPerCategory().entrySet()) {
                     JMenuItem label = new JMenuItem(category.getKey());
                     label.setEnabled(false);
                     mPopup.add(label);
@@ -120,45 +115,28 @@ public final class SelectorAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        if (PlayerManager.getInstance().select().isEmpty()) {
+            return;
+        }
+
         Component component = (Component) actionEvent.getSource();
         component = getTopComponent().getSelectorButton();
 
-        mPopup.show(component, component.getWidth() - mPopup.getWidth(), component.getHeight());
+        try {
+            mPopup.show(component, component.getWidth() - mPopup.getWidth(), component.getHeight());
 
-        int x = component.getLocationOnScreen().x - mPopup.getWidth() / 2 + component.getWidth() / 2;
-        int y = component.getLocationOnScreen().y + component.getHeight();
+            int x = component.getLocationOnScreen().x - mPopup.getWidth() / 2 + component.getWidth() / 2;
+            int y = component.getLocationOnScreen().y + component.getHeight();
 
-        mPopup.setLocation(x, y);
-    }
+            mPopup.setLocation(x, y);
+        } catch (IllegalComponentStateException e) {
+            component = SwingUtilities.getWindowAncestor(component);
+            mPopup.show(component, component.getWidth() - mPopup.getWidth(), component.getHeight());
 
-    private void sortProviders() {
-        for (GameCategory category : GameCategory.values()) {
-            mGameControllersPerCategory.put(category.getString(), new ArrayList<>());
-        }
+            int x = component.getLocationOnScreen().x - mPopup.getWidth() / 2 + component.getWidth() / 2;
+            int y = component.getLocationOnScreen().y + component.getHeight() / 2 - mPopup.getHeight() / 2;
 
-        Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
-        gameControllers.stream().forEach((gameController) -> {
-            mGameControllersPerCategory.get(gameController.getCategory().getString()).add(gameController);
-        });
-
-        HashSet<String> emptyKeys = new HashSet<>();
-        for (Map.Entry<String, ArrayList<GameController>> category : mGameControllersPerCategory.entrySet()) {
-            ArrayList<GameController> controllers = category.getValue();
-
-            if (controllers.isEmpty()) {
-                emptyKeys.add(category.getKey());
-            } else {
-                Collections.sort(controllers, new Comparator<GameController>() {
-                    @Override
-                    public int compare(GameController o1, GameController o2) {
-                        return o1.getName().compareTo(o2.getName());
-                    }
-                });
-            }
-        }
-
-        for (String emptyKey : emptyKeys) {
-            mGameControllersPerCategory.remove(emptyKey);
+            mPopup.setLocation(x, y);
         }
     }
 }

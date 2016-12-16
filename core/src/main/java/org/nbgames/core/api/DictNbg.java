@@ -31,6 +31,8 @@ public enum DictNbg {
     GAME_TYPE,
     GO_HOME,
     HOLD,
+    INSTALL_GAMES,
+    INSTALLED_GAMES,
     LEVEL,
     NEW_ROUND,
     NUMBER_OF_PLAYERS,
