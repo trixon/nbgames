@@ -57,8 +57,26 @@ public class DiceBoard extends Observable {
         return mMaxRollCount;
     }
 
+    public int getNumOfDice() {
+        return mNumOfDice;
+    }
+
     public int getNumOfRolls() {
         return mNumOfRolls;
+    }
+
+    public synchronized int getNumOfSelectedDice() {
+        int result = 0;
+
+        for (Die die : mDice) {
+            if (die.isSelected()) {
+                result++;
+            }
+        }
+
+        mRoller.setImage(result);
+
+        return result;
     }
 
     public JPanel getPanel() {
@@ -176,24 +194,6 @@ public class DiceBoard extends Observable {
 
     Handedness getHandedness() {
         return mHandedness;
-    }
-
-    int getNumOfDice() {
-        return mNumOfDice;
-    }
-
-    synchronized int getNumOfSelectedDice() {
-        int result = 0;
-
-        for (Die die : mDice) {
-            if (die.isSelected()) {
-                result++;
-            }
-        }
-
-        mRoller.setImage(result);
-
-        return result;
     }
 
     Painter getPainter() {
