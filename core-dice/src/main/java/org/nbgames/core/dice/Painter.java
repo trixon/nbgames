@@ -67,7 +67,7 @@ class Painter extends JPanel {
 
         paintDiceRoller();
         paintDice();
-        paintGrid();
+        //paintGrid();
 
         mG2.setTransform(originalAffineTransform);
     }
