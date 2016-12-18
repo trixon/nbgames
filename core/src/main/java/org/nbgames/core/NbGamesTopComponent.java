@@ -452,8 +452,8 @@ public final class NbGamesTopComponent extends TopComponent {
                 show(HomeProvider.getInstance());
                 GameController gameController;
                 gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
-                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
-//                show(gameController);
+//                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
+                show(gameController);
             });
         }).start();
 

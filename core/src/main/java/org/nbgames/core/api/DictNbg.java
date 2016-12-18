@@ -30,6 +30,7 @@ public enum DictNbg {
     GAME_SELECTOR,
     GAME_TYPE,
     GO_HOME,
+    GOAL,
     HOLD,
     INSTALL_GAMES,
     INSTALLED_GAMES,

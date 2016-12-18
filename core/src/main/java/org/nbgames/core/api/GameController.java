@@ -120,6 +120,10 @@ public abstract class GameController implements PresenterProvider, GameProvider,
         return getResource("Game-Version");
     }
 
+    protected String getHelp(Class cls) {
+        return SystemHelper.getLocalizedResourceAsString(cls, "help_%s.html", "help.html");
+    }
+
     private void init() {
     }
 }

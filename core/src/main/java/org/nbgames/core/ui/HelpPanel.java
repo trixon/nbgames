@@ -21,6 +21,8 @@ package org.nbgames.core.ui;
  */
 public class HelpPanel extends javax.swing.JPanel {
 
+    private StringBuilder mCssBuilder;
+
     /**
      * Creates new form OptionsPanel
      */
@@ -30,10 +32,22 @@ public class HelpPanel extends javax.swing.JPanel {
     }
 
     private void init() {
+        mCssBuilder = new StringBuilder("<html>");
+        mCssBuilder.append("<head><style>");
+        mCssBuilder.append("h1 { font-size: xx-large; margin-bottom: 0px; text-align: center;}");
+        mCssBuilder.append("h2 { font-size: xx-large; margin-bottom: 0px; }");
+        mCssBuilder.append("h3 { font-size: x-large; margin-bottom: 0px; }");
+        mCssBuilder.append("body {margin-left: 16px;margin-right: 16px; font-size: medium; }");
+        mCssBuilder.append("p {font-size: large; margin-bottom: 4px;margin-top: 4px;}");
+        mCssBuilder.append("ul { margin-left: 16px; }");
+        mCssBuilder.append("li { font-size: large; }");
+        mCssBuilder.append("</style></head>");
     }
 
     public void load(String string) {
-        textPane.setText(string);
+        textPane.setText(mCssBuilder.toString() + string);
+        textPane.setCaretPosition(0);
+        scrollPane.getVerticalScrollBar().setValue(0);
     }
 
     /**
@@ -53,6 +67,7 @@ public class HelpPanel extends javax.swing.JPanel {
         scrollPane.setBorder(null);
 
         textPane.setEditable(false);
+        textPane.setContentType("text/html"); // NOI18N
         textPane.setFocusable(false);
         scrollPane.setViewportView(textPane);
 

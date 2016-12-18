@@ -131,9 +131,13 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
     }
 
     private void initCombos() {
-        for (int i = 0; i < mMaxNumOfPlayers; i++) {
-            mModels[i] = PlayerManager.getInstance().getComboBoxModel();
-            mCombos[i].setModel(mModels[i]);
+        try {
+            for (int i = 0; i < mMaxNumOfPlayers; i++) {
+                mModels[i] = PlayerManager.getInstance().getComboBoxModel();
+                mCombos[i].setModel(mModels[i]);
+            }
+        } catch (NullPointerException e) {
+            // nvm
         }
     }
 
@@ -157,6 +161,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
+        numOfPlayersLabel.setFont(numOfPlayersLabel.getFont().deriveFont(numOfPlayersLabel.getFont().getStyle() | java.awt.Font.BOLD, numOfPlayersLabel.getFont().getSize()+4));
         org.openide.awt.Mnemonics.setLocalizedText(numOfPlayersLabel, DictNbg.PLAYERS.toString());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

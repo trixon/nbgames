@@ -16,9 +16,10 @@
 package org.nbgames.core.ui;
 
 import javax.swing.JPanel;
-import org.nbgames.core.api.ui.OptionsPanel;
-import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.NbgOptionsPanel;
+import org.nbgames.core.api.service.PresenterProvider;
+import org.nbgames.core.api.ui.OptionsPanel;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -53,7 +54,7 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getHelp() {
-        return "nbg help";
+        return SystemHelper.getLocalizedResourceAsString(HomeProvider.class, "help_%s.html", "help.html");
     }
 
     @Override
