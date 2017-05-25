@@ -18,7 +18,6 @@
                     <publicPackages>
                         <publicPackage>org.json.simple</publicPackage>
                         <publicPackage>org.nbgames.core.api.*</publicPackage>
-                        <publicPackage>se.trixon.almond.nbp.news</publicPackage>
                         <publicPackage>se.trixon.almond.util.*</publicPackage>
                         <publicPackage>com.h2database.*</publicPackage>
                         <publicPackage>org.apache.commons.io.*</publicPackage>
@@ -37,7 +36,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -123,24 +122,24 @@
         <dependency>
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-util</artifactId>
-            <version>1.1.8-SNAPSHOT</version>
+            <version>1.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-nbp</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <!--Other-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.193</version>
+            <version>1.4.195</version>
         </dependency>
         <dependency>
             <groupId>com.healthmarketscience.sqlbuilder</groupId>
             <artifactId>sqlbuilder</artifactId>
-            <version>2.1.5</version>
+            <version>2.1.7</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
