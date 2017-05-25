@@ -21,14 +21,10 @@ import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.DbCreator;
 import org.openide.modules.ModuleInstall;
-import org.openide.util.ImageUtilities;
 import org.openide.util.NbPreferences;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
-import se.trixon.almond.nbp.about.AboutAction;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
-import se.trixon.almond.util.BundleHelper;
-import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -48,10 +44,6 @@ public class Installer extends ModuleInstall {
     @Override
     public void restored() {
         NbGames.getAlmondOptions().setPreferences(NbPreferences.forModule(Installer.class));
-
-        AboutAction.setAboutBundle(BundleHelper.getBundle(getClass(), "about"));
-        AboutAction.setLicenseBundle(BundleHelper.getBundle(getClass(), "license"));
-        AboutAction.setImageIcon(ImageUtilities.loadImageIcon(SystemHelper.getPackageAsPath(getClass()) + "nbgames.png", false));
 
         SwingUtilities.invokeLater(() -> {
             UIManager.put("EditorTabDisplayerUI", NoTabsTabDisplayerUI.ID);
