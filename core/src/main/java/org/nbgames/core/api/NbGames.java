@@ -22,7 +22,7 @@ import se.trixon.almond.util.AlmondOptions;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class NbGames {
 

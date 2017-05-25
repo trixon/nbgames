@@ -23,7 +23,7 @@ import org.nbgames.core.card.PlayingCard.Side;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class DeckComboBox extends JComboBox {
 

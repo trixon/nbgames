@@ -20,7 +20,7 @@ import org.nbgames.core.api.ui.NewGamePanel;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public interface GameProvider {
 

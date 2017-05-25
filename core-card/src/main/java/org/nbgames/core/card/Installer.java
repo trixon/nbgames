@@ -19,7 +19,7 @@ import org.openide.modules.ModuleInstall;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class Installer extends ModuleInstall {
 

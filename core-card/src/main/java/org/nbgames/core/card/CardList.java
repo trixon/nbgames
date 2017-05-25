@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public abstract class CardList extends LinkedList<PlayingCard> {
 

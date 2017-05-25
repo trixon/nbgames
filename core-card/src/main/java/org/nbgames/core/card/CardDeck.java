@@ -20,7 +20,7 @@ import org.nbgames.core.card.PlayingCard.Value;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class CardDeck extends CardList {
 

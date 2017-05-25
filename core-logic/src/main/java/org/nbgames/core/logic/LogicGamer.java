@@ -17,7 +17,7 @@ package org.nbgames.core.logic;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public interface LogicGamer {
 

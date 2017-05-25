@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public abstract class GamePanel extends JPanel {
 

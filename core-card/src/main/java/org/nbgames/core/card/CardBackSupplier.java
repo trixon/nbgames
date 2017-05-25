@@ -17,7 +17,7 @@ package org.nbgames.core.card;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public interface CardBackSupplier {
 

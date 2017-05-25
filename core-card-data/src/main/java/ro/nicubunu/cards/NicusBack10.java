@@ -21,7 +21,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 @ServiceProvider(service = CardBackSupplier.class)
 public class NicusBack10 implements CardBackSupplier {

@@ -20,7 +20,7 @@ import org.openide.util.ImageUtilities;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class PlayingCard implements Cloneable, Comparable<PlayingCard> {
 

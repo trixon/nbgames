@@ -21,7 +21,7 @@ import org.nbgames.core.api.Player.Handedness;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 public class PlayerPanel extends JPanel {
 

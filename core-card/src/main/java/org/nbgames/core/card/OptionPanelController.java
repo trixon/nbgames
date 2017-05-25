@@ -24,7 +24,7 @@ import org.openide.util.Lookup;
 
 /**
  *
- * @author Patrik Karlsson <patrik@trixon.se>
+ * @author Patrik Karlsson
  */
 @OptionsPanelController.SubRegistration(location = "Card",
         displayName = "#AdvancedOption_DisplayName_CardDeck",
