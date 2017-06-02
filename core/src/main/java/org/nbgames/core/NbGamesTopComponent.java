@@ -24,8 +24,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.prefs.PreferenceChangeEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -33,8 +31,6 @@ import javax.swing.ActionMap;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.nbgames.core.actions.CallbackHelpAction;
@@ -48,12 +44,10 @@ import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.manager.PlayerManager;
-import org.nbgames.core.api.service.DialogProvider;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.DialogButtonManager;
 import org.nbgames.core.api.ui.NewGamePanel;
 import org.nbgames.core.api.ui.OptionsPanel;
-import org.nbgames.core.ui.DialogPanel;
 import org.nbgames.core.ui.HelpPanel;
 import org.nbgames.core.ui.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
@@ -100,7 +94,6 @@ public final class NbGamesTopComponent extends TopComponent {
     private final NbgOptions mOptions = NbgOptions.getInstance();
     private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     private final ActionMap mActionMap = getActionMap();
-    private final Deque<PresenterProvider> mWindowStack = new ArrayDeque<>();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
 
     static {
@@ -117,14 +110,6 @@ public final class NbGamesTopComponent extends TopComponent {
 
         init();
         initListeners();
-    }
-
-    public void closeDialog(DialogPanel dialogPanel) {
-        layeredPane.remove(dialogPanel);
-        layeredPane.invalidate();
-        layeredPane.repaint();
-        mWindowStack.pop();
-        show(mWindowStack.pop());
     }
 
     public void editPlayers() {
@@ -151,45 +136,11 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     public void show(PresenterProvider presenterProvider) {
-        if (presenterProvider == null || presenterProvider == mWindowStack.peek()) {
-            return;
-        }
-
         final JPanel panel = presenterProvider.getPanel();
-
-        if (!mWindowStack.isEmpty()) {
-            final JPanel previousPanel = mWindowStack.peek().getPanel();
-            SwingHelper.enableComponents(previousPanel, false);
-            if (mWindowStack.peek() instanceof DialogProvider) {
-                previousPanel.setVisible(false);
-            }
-        }
-
-        Integer layer;
-        if (presenterProvider instanceof DialogProvider) {
-            layer = JLayeredPane.MODAL_LAYER;
-        } else {
-            layer = JLayeredPane.DEFAULT_LAYER;
-            System.out.println("presenter is TOP, remove all");
-            layeredPane.removeAll();
-            mWindowStack.clear();
-        }
-        SwingHelper.enableComponents(panel, true);
-        panel.setVisible(true);
-
-        System.out.println("layer=" + layer);
-        layeredPane.add(panel, layer, 0);
-
-        mWindowStack.remove(presenterProvider);
-        mWindowStack.addFirst(presenterProvider);
-
-        System.out.println("WINDOW STACK");
-        for (PresenterProvider componentProvider1 : mWindowStack) {
-            System.out.println(componentProvider1.getId());
-        }
-        System.out.println("");
-
-        panel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.add(panel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         mActionMap.remove(CallbackHelpAction.KEY);
         mActionMap.remove(CallbackNewRoundAction.KEY);
@@ -451,10 +402,8 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
         SwingHelper.borderPainted(toolBar, false);
-        JLabel label = new JLabel("loaidn");
-        label.setBackground(Color.red);
-        label.setOpaque(true);
-        layeredPane.add(new InitPanel(), JLayeredPane.DEFAULT_LAYER, 0);
+        mainPanel.removeAll();
+        mainPanel.add(new InitPanel());
         setSelectorEnabled(false);
 
         new Thread(() -> {
@@ -465,7 +414,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 GameController gameController;
                 gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
 //                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
-                show(gameController);
+//                show(gameController);
             });
         }).start();
 
@@ -487,9 +436,8 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -506,7 +454,7 @@ public final class NbGamesTopComponent extends TopComponent {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         menuButton = new javax.swing.JButton();
         quitButton = new javax.swing.JButton();
-        layeredPane = new javax.swing.JLayeredPane();
+        mainPanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -566,8 +514,8 @@ public final class NbGamesTopComponent extends TopComponent {
 
         add(toolBar, java.awt.BorderLayout.NORTH);
 
-        layeredPane.setLayout(new javax.swing.OverlayLayout(layeredPane));
-        add(layeredPane, java.awt.BorderLayout.CENTER);
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
+        add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -576,7 +524,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private javax.swing.JButton helpButton;
     private javax.swing.JButton homeButton;
     private javax.swing.JButton infoButton;
-    private javax.swing.JLayeredPane layeredPane;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JButton menuButton;
     private javax.swing.JButton newButton;
     private javax.swing.JButton optionsButton;

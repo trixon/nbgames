@@ -101,7 +101,8 @@ public class Db {
         try {
             if (mAutoCommitConnection == null || mAutoCommitConnection.isClosed()) {
                 Class.forName("org.h2.Driver");
-                mAutoCommitConnection = initConnection(mConnStringServer);
+                mAutoCommitConnection = initConnection(mConnStringEmbedded);
+//                mAutoCommitConnection = initConnection(mConnStringServer);
             }
         } catch (ClassNotFoundException ex) {
             Exceptions.printStackTrace(ex);

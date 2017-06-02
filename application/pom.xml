@@ -104,6 +104,11 @@
             <artifactId>logic-gunu</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>card-memroyal</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
         <!--Other-->
         <dependency>
