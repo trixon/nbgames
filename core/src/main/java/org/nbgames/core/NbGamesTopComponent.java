@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,7 @@ import java.util.prefs.PreferenceChangeEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,6 +56,7 @@ import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.PlayerTrigger;
 import org.nbgames.core.ui.PlayersPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
@@ -65,9 +67,12 @@ import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.ActionHelper;
 import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.Dict;
+import se.trixon.almond.util.SystemHelper;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.almond.util.swing.SwingHelper;
+import se.trixon.almond.util.swing.dialogs.about.AboutModel;
+import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
 
 /**
  * Top component which displays something.
@@ -171,7 +176,11 @@ public final class NbGamesTopComponent extends TopComponent {
             // Info
             @Override
             public void actionPerformed(ActionEvent e) {
-                displayInfoDialog(presenterProvider);
+                if (presenterProvider instanceof HomeProvider) {
+                    displayAboutDialog();
+                } else {
+                    displayInfoDialog(presenterProvider);
+                }
             }
         });
 
@@ -192,6 +201,26 @@ public final class NbGamesTopComponent extends TopComponent {
         optionsButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.OptionsAction").isEnabled());
         helpButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.HelpAction").isEnabled());
         newButton.setEnabled(Actions.forID("Game", "org.nbgames.core.actions.NewRoundAction").isEnabled());
+    }
+
+    private void displayAboutDialog() {
+        AboutModel aboutModel = new AboutModel(SystemHelper.getBundle(getClass(), "about"),
+                SystemHelper.getResourceAsImageIcon(getClass(), "nbgames.png"));
+
+        AboutPanel aboutPanel = new AboutPanel(aboutModel);
+        aboutPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 0, 16));
+
+        DialogDescriptor dialogDescriptor = new DialogDescriptor(
+                aboutPanel,
+                String.format(Dict.ABOUT_S.toString(), aboutModel.getAppName()),
+                false,
+                new Object[]{DialogDescriptor.CLOSED_OPTION},
+                DialogDescriptor.CLOSED_OPTION,
+                DialogDescriptor.DEFAULT_ALIGN,
+                null,
+                null);
+
+        DialogDisplayer.getDefault().notify(dialogDescriptor);
     }
 
     private void displayHelpDialog(PresenterProvider presenterProvider) {
@@ -219,7 +248,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         NotifyDescriptor d = new NotifyDescriptor(
                 infoPanel,
-                Dict.HELP.toString(),
+                Dict.ABOUT.toString(),
                 NotifyDescriptor.PLAIN_MESSAGE,
                 NotifyDescriptor.DEFAULT_OPTION,
                 options,

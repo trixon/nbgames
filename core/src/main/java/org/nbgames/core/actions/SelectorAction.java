@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -119,8 +119,7 @@ public final class SelectorAction extends NbGameAction {
             return;
         }
 
-        Component component = (Component) actionEvent.getSource();
-        component = getTopComponent().getSelectorButton();
+        Component component = getTopComponent().getSelectorButton();
 
         try {
             mPopup.show(component, component.getWidth() - mPopup.getWidth(), component.getHeight());
