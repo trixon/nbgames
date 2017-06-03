@@ -141,6 +141,12 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     public void show(PresenterProvider presenterProvider) {
+        String title = "nbGames";
+        if (presenterProvider instanceof HomeProvider == false) {
+            title = String.format("%s - %s", title, presenterProvider.getName());
+        }
+        ((JFrame) WindowManager.getDefault().getMainWindow()).setTitle(title);
+
         final JPanel panel = presenterProvider.getPanel();
         mainPanel.removeAll();
         mainPanel.add(panel);
