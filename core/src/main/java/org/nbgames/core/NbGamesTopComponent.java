@@ -153,6 +153,16 @@ public final class NbGamesTopComponent extends TopComponent {
         mainPanel.repaint();
         mainPanel.revalidate();
 
+        GameCategory category = null;
+        String id = "";
+        if (presenterProvider instanceof GameController) {
+            GameController gameController = (GameController) presenterProvider;
+            id = gameController.getId();
+            category = gameController.getCategory();
+        }
+        mOptions.setCurrentCategory(category);
+        mOptions.setCurrentId(id);
+
         mActionMap.remove(CallbackHelpAction.KEY);
         mActionMap.remove(CallbackNewRoundAction.KEY);
         mActionMap.remove(CallbackOptionsAction.KEY);
@@ -445,14 +455,19 @@ public final class NbGamesTopComponent extends TopComponent {
             Db.getInstance().getAutoCommitConnection();
             SwingUtilities.invokeLater(() -> {
                 setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
+                GameController gameController = null;
+                try {
+                    gameController = GameController.forID(mOptions.getCurrentCategory(), mOptions.getCurrentId());
+                } catch (Exception e) {
+                }
+
                 show(HomeProvider.getInstance());
-                GameController gameController;
-                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.hekaton.Hekaton");
-//                gameController = GameController.forID(GameCategory.DICE, "org.nbgames.yaya.Yaya");
-//                show(gameController);
+
+                if (gameController != null) {
+                    show(gameController);
+                }
             });
         }).start();
-
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {

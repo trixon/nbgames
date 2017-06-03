@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 import org.apache.commons.io.FileUtils;
+import org.nbgames.core.api.GameCategory;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.GraphicsHelper;
 import se.trixon.almond.util.Xlog;
@@ -30,6 +31,8 @@ import se.trixon.almond.util.Xlog;
  */
 public class NbgOptions {
 
+    public static final String KEY_CURRENT_CATEGORY = "currentCategory";
+    public static final String KEY_CURRENT_ID = "currentId";
     public static final String KEY_CUSTOM_TOOLBAR_BACKGROUND = "customToolbarBackground";
     public static final String KEY_CUSTOM_WINDOW_BACKGROUND = "customWindowBackground";
     private static final String DEFAULT_COLOR_TOOLBAR = "#009900";
@@ -61,6 +64,18 @@ public class NbgOptions {
         return Color.decode(mPreferences.get(colorItem.getKey(), colorItem.getDefaultColor()));
     }
 
+    public GameCategory getCurrentCategory() {
+        try {
+            return GameCategory.valueOf(mPreferences.get(KEY_CURRENT_CATEGORY, ""));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    public String getCurrentId() {
+        return mPreferences.get(KEY_CURRENT_ID, "");
+    }
+
     public File getDbFile() {
         return mDbFile;
     }
@@ -79,6 +94,14 @@ public class NbgOptions {
 
     public void setColor(ColorItem colorItem, Color color) {
         mPreferences.put(colorItem.getKey(), GraphicsHelper.colorToString(color));
+    }
+
+    public void setCurrentCategory(GameCategory value) {
+        mPreferences.put(KEY_CURRENT_CATEGORY, value == null ? "" : value.toString());
+    }
+
+    public void setCurrentId(String value) {
+        mPreferences.put(KEY_CURRENT_ID, value);
     }
 
     public void setCustomToolbarBackground(boolean value) {
