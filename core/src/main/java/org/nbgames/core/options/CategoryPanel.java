@@ -15,6 +15,8 @@
  */
 package org.nbgames.core.options;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author Patrik Karlsson
@@ -28,8 +30,22 @@ public class CategoryPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    void addTab(String title, JPanel panel) {
+        tabbedPane.add(title, panel);
+
+    }
+
     void setTitle(String title) {
         tabbedPane.setTitleAt(0, String.format("<html><b>%s</b></html>", title));
+    }
+
+    void setSelectedTab(String tabName) {
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+            if (tabbedPane.getTitleAt(i).equalsIgnoreCase(tabName)) {
+                tabbedPane.setSelectedIndex(i);
+                break;
+            }
+        }
     }
 
     /**

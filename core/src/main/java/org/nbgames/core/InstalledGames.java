@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ import org.openide.util.Lookup;
  */
 public class InstalledGames {
 
-    private TreeMap<String, ArrayList<GameController>> mGameControllersPerCategory = new TreeMap<>();
+    private final TreeMap<String, ArrayList<GameController>> mGameControllersPerCategory = new TreeMap<>();
 
     public static InstalledGames getInstance() {
         return Holder.INSTANCE;
@@ -44,6 +44,17 @@ public class InstalledGames {
         sortProviders();
 
         return mGameControllersPerCategory;
+    }
+
+    public ArrayList<GameController> getGameControllers() {
+        ArrayList<GameController> controllers = new ArrayList<>();
+        getGameControllersPerCategory().entrySet().forEach((category) -> {
+            category.getValue().forEach((controller) -> {
+                controllers.add(controller);
+            });
+        });
+
+        return controllers;
     }
 
     private void sortProviders() {

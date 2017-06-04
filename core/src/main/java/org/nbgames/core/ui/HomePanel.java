@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.manager.PlayerManager;
-import org.nbgames.core.api.service.GameProvider;
 import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -67,7 +66,7 @@ public class HomePanel extends javax.swing.JPanel {
         mCssBuilder.append("li { }");
         mCssBuilder.append("</style></head>");
 
-        Lookup.Result<GameProvider> toolsResult = Lookup.getDefault().lookupResult(GameProvider.class);
+        Lookup.Result<GameController> toolsResult = Lookup.getDefault().lookupResult(GameController.class);
         toolsResult.addLookupListener((LookupEvent ev) -> {
             updateGameList();
         });

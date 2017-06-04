@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import org.nbgames.core.NbgOptionsPanel;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.OptionsPanel;
-import org.nbgames.core.api.OptionsCategory;
 import se.trixon.almond.util.SystemHelper;
 
 /**
@@ -76,11 +75,6 @@ public class HomeProvider implements PresenterProvider {
     @Override
     public String getName() {
         return "nbGames";
-    }
-
-    @Override
-    public OptionsCategory getOptionsCategory() {
-        return OptionsCategory.SYSTEM;
     }
 
     @Override

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,8 @@ package org.nbgames.core.api;
 import java.util.Collection;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.nbgames.core.api.service.GameProvider;
 import org.nbgames.core.api.service.PresenterProvider;
+import org.nbgames.core.api.ui.NewGamePanel;
 import org.openide.modules.Modules;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
@@ -30,17 +30,9 @@ import se.trixon.almond.util.SystemHelper;
  *
  * @author Patrik Karlsson
  */
-public abstract class GameController implements PresenterProvider, GameProvider, NewsProvider {
+public abstract class GameController implements PresenterProvider, NewsProvider {
 
     private boolean mFirstRun = true;
-
-    public boolean isFirstRun() {
-        return mFirstRun;
-    }
-
-    public void setFirstRun(boolean firstRun) {
-        this.mFirstRun = firstRun;
-    }
 
     public static GameController forID(GameCategory category, String id) {
         Collection<? extends GameController> gameControllers = Lookup.getDefault().lookupAll(GameController.class);
@@ -57,6 +49,8 @@ public abstract class GameController implements PresenterProvider, GameProvider,
     public GameController() {
         init();
     }
+
+    public abstract GameCategory getCategory();
 
     @Override
     public String getCopyright() {
@@ -93,6 +87,8 @@ public abstract class GameController implements PresenterProvider, GameProvider,
         return getResource("Game-Name");
     }
 
+    public abstract NewGamePanel getNewGamePanel();
+
     @Override
     public ResourceBundle getNewsBundle() {
         return null;
@@ -120,10 +116,20 @@ public abstract class GameController implements PresenterProvider, GameProvider,
         return getResource("Game-Version");
     }
 
-    protected String getHelp(Class cls) {
-        return SystemHelper.getLocalizedResourceAsString(cls, "help_%s.html", "help.html");
+    public boolean isFirstRun() {
+        return mFirstRun;
+    }
+
+    public abstract void onRequestNewGameStart();
+
+    public void setFirstRun(boolean firstRun) {
+        mFirstRun = firstRun;
     }
 
     private void init() {
+    }
+
+    protected String getHelp(Class cls) {
+        return SystemHelper.getLocalizedResourceAsString(cls, "help_%s.html", "help.html");
     }
 }

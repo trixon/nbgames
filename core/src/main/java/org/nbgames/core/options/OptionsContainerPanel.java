@@ -24,8 +24,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import static javax.swing.SwingConstants.CENTER;
+import javax.swing.SwingConstants;
+import org.nbgames.core.InstalledGames;
 import org.nbgames.core.NbgOptionsPanel;
+import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.OptionsCategory;
 import org.nbgames.core.ui.PlayersPanel;
 import se.trixon.almond.util.Dict;
@@ -48,21 +50,35 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
     public OptionsContainerPanel() {
         initComponents();
         init();
+        initSubPanels();
     }
 
-    public void activate(OptionsCategory optionsCategory) {
+    public void activate(OptionsCategory optionsCategory, String tabName) {
         list.setSelectedValue(optionsCategory, true);
+        mCategoryPanels.get(optionsCategory).setSelectedTab(tabName);
     }
 
     public void load() {
         mPlayersPanel.load();
         mSystemPanel.load();
+        InstalledGames.getInstance().getGameControllers().forEach((controller) -> {
+            try {
+                controller.getOptionsPanel().load();
+            } catch (NullPointerException e) {
+            }
+        });
     }
 
     public void save() {
         mPlayersPanel.save();
         mSystemPanel.save();
-
+        InstalledGames.getInstance().getGameControllers().forEach((controller) -> {
+            try {
+                controller.getOptionsPanel().save();
+            } catch (NullPointerException | AbstractMethodError e) {
+                //FIXME Why is AbstractMethodError needed?
+            }
+        });
     }
 
     private void init() {
@@ -135,6 +151,15 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
         add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initSubPanels() {
+        for (GameController controller : InstalledGames.getInstance().getGameControllers()) {
+            OptionsCategory optionsCategory = controller.getCategory().getOptionsCategory();
+            if (controller.getOptionsPanel() != null) {
+                mCategoryPanels.get(optionsCategory).addTab(controller.getName(), controller.getOptionsPanel());
+            }
+        }
+    }
+
     private void listValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listValueChanged
         OptionsCategory optionsCategory = list.getSelectedValue();
         if (optionsCategory == null) {
@@ -160,7 +185,7 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
 
         public OptionsCategoryRenderer() {
             setOpaque(true);
-            setVerticalAlignment(CENTER);
+            setVerticalAlignment(SwingConstants.CENTER);
         }
 
         @Override

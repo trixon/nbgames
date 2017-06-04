@@ -120,23 +120,7 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     public void editPlayers() {
-        displayOptionsdialog(OptionsCategory.PLAYERS);
-//        PlayersPanel playersPanel = new PlayersPanel();
-//        playersPanel.load();
-//        Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
-//
-//        NotifyDescriptor d = new NotifyDescriptor(
-//                playersPanel,
-//                DictNbg.PLAYERS.toString(),
-//                NotifyDescriptor.PLAIN_MESSAGE,
-//                NotifyDescriptor.DEFAULT_OPTION,
-//                options,
-//                mButtonManager.getOk());
-//
-//        Object retVal = DialogDisplayer.getDefault().notify(d);
-//        if (retVal == mButtonManager.getOk()) {
-//            playersPanel.save();
-//        }
+        displayOptionsdialog(OptionsCategory.PLAYERS.ordinal(), null);
     }
 
     public JButton getSelectorButton() {
@@ -158,11 +142,14 @@ public final class NbGamesTopComponent extends TopComponent {
 
         GameCategory category = null;
         String id = "";
+        int optionsCategoryIndexTemp = OptionsCategory.SYSTEM.ordinal();
         if (presenterProvider instanceof GameController) {
             GameController gameController = (GameController) presenterProvider;
             id = gameController.getId();
             category = gameController.getCategory();
+            optionsCategoryIndexTemp = category.getOptionsCategory().ordinal();
         }
+        final int optionsCategoryIndex = optionsCategoryIndexTemp;
         mOptions.setCurrentCategory(category);
         mOptions.setCurrentId(id);
 
@@ -176,7 +163,8 @@ public final class NbGamesTopComponent extends TopComponent {
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    displayOptionsdialog(presenterProvider.getOptionsCategory());
+                    displayOptionsdialog(optionsCategoryIndex, presenterProvider.getName());
+//                    displayOptionsdialog(presenterProvider.getOptionsCategory(), presenterProvider.getName());
                 }
             });
         }
@@ -297,10 +285,11 @@ public final class NbGamesTopComponent extends TopComponent {
         }
     }
 
-    private void displayOptionsdialog(OptionsCategory optionsCategory, String... a) {
+    private void displayOptionsdialog(int index, String name) {
         Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
         mOptionsContainerPanel.load();
-        mOptionsContainerPanel.activate(optionsCategory);
+
+        mOptionsContainerPanel.activate(OptionsCategory.values()[index], name);
 
         NotifyDescriptor d = new NotifyDescriptor(
                 mOptionsContainerPanel,

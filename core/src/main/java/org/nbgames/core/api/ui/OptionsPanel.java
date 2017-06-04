@@ -15,15 +15,13 @@
  */
 package org.nbgames.core.api.ui;
 
+import javax.swing.JPanel;
+import org.nbgames.core.api.service.Persistor;
+
 /**
  *
  * @author Patrik Karlsson
  */
-public abstract class OptionsPanel extends javax.swing.JPanel {
+public abstract class OptionsPanel extends JPanel implements Persistor {
 
-    public abstract void load();
-
-    public void save() {
-
-    }
 }
