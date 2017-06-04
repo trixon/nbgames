@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,4 +22,8 @@ package org.nbgames.core.api.ui;
 public abstract class OptionsPanel extends javax.swing.JPanel {
 
     public abstract void load();
+
+    public void save() {
+
+    }
 }

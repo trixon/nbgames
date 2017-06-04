@@ -42,19 +42,19 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.NbGames;
+import org.nbgames.core.api.OptionsCategory;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.manager.PlayerManager;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.DialogButtonManager;
 import org.nbgames.core.api.ui.NewGamePanel;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.options.OptionsContainerPanel;
 import org.nbgames.core.ui.HelpPanel;
 import org.nbgames.core.ui.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.PlayerTrigger;
-import org.nbgames.core.ui.PlayersPanel;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
@@ -100,6 +100,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     private final ActionMap mActionMap = getActionMap();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
+    private OptionsContainerPanel mOptionsContainerPanel;
 
     static {
         Almond.ICON_LARGE = 48;
@@ -115,25 +116,27 @@ public final class NbGamesTopComponent extends TopComponent {
 
         init();
         initListeners();
+        initOptionsContainer();
     }
 
     public void editPlayers() {
-        PlayersPanel playersPanel = new PlayersPanel();
-        playersPanel.load();
-        Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
-
-        NotifyDescriptor d = new NotifyDescriptor(
-                playersPanel,
-                DictNbg.PLAYERS.toString(),
-                NotifyDescriptor.PLAIN_MESSAGE,
-                NotifyDescriptor.DEFAULT_OPTION,
-                options,
-                mButtonManager.getOk());
-
-        Object retVal = DialogDisplayer.getDefault().notify(d);
-        if (retVal == mButtonManager.getOk()) {
-            playersPanel.store();
-        }
+        displayOptionsdialog(OptionsCategory.PLAYERS);
+//        PlayersPanel playersPanel = new PlayersPanel();
+//        playersPanel.load();
+//        Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
+//
+//        NotifyDescriptor d = new NotifyDescriptor(
+//                playersPanel,
+//                DictNbg.PLAYERS.toString(),
+//                NotifyDescriptor.PLAIN_MESSAGE,
+//                NotifyDescriptor.DEFAULT_OPTION,
+//                options,
+//                mButtonManager.getOk());
+//
+//        Object retVal = DialogDisplayer.getDefault().notify(d);
+//        if (retVal == mButtonManager.getOk()) {
+//            playersPanel.save();
+//        }
     }
 
     public JButton getSelectorButton() {
@@ -173,7 +176,7 @@ public final class NbGamesTopComponent extends TopComponent {
             mActionMap.put(CallbackOptionsAction.KEY, new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    displayOptionsdialog(presenterProvider);
+                    displayOptionsdialog(presenterProvider.getOptionsCategory());
                 }
             });
         }
@@ -210,7 +213,7 @@ public final class NbGamesTopComponent extends TopComponent {
             });
 
             if (((GameController) presenterProvider).isFirstRun()) {
-                mActionMap.get(CallbackNewRoundAction.KEY).actionPerformed(null);
+                //mActionMap.get(CallbackNewRoundAction.KEY).actionPerformed(null);
             }
         }
 
@@ -294,13 +297,13 @@ public final class NbGamesTopComponent extends TopComponent {
         }
     }
 
-    private void displayOptionsdialog(PresenterProvider presenterProvider) {
-        OptionsPanel optionsPanel = presenterProvider.getOptionsPanel();
-        optionsPanel.load();
+    private void displayOptionsdialog(OptionsCategory optionsCategory, String... a) {
         Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
+        mOptionsContainerPanel.load();
+        mOptionsContainerPanel.activate(optionsCategory);
 
         NotifyDescriptor d = new NotifyDescriptor(
-                optionsPanel,
+                mOptionsContainerPanel,
                 Dict.OPTIONS.toString(),
                 NotifyDescriptor.PLAIN_MESSAGE,
                 NotifyDescriptor.DEFAULT_OPTION,
@@ -309,6 +312,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         Object retVal = DialogDisplayer.getDefault().notify(d);
         if (retVal == mButtonManager.getOk()) {
+            mOptionsContainerPanel.save();
         }
     }
 
@@ -355,7 +359,10 @@ public final class NbGamesTopComponent extends TopComponent {
                 setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
             }
         });
+    }
 
+    private void initOptionsContainer() {
+        mOptionsContainerPanel = new OptionsContainerPanel();
     }
 
     private void setSelectorEnabled(boolean enabled) {

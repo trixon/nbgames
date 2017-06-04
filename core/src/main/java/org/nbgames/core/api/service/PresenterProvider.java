@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,7 @@ package org.nbgames.core.api.service;
 
 import javax.swing.JPanel;
 import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.OptionsCategory;
 
 /**
  *
@@ -41,6 +42,8 @@ public interface PresenterProvider {
     String getName();
 
     OptionsPanel getOptionsPanel();
+
+    OptionsCategory getOptionsCategory();
 
     JPanel getPanel();
 

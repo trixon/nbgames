@@ -61,7 +61,7 @@ public final class PlayersPanel extends javax.swing.JPanel {
         mDeleteSet.clear();
     }
 
-    public void store() {
+    public void save() {
         try {
             mPlayerManager.save(mChangeSet, mDeleteSet);
         } catch (ClassNotFoundException | SQLException ex) {
