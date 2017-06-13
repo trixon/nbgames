@@ -435,10 +435,6 @@ public final class NbGamesTopComponent extends TopComponent {
         });
 
         menuButton.setVisible(false);
-        WindowManager.getDefault().invokeWhenUIReady(() -> {
-            frame.setTitle(Bundle.CTL_NbGamesTopComponent());
-        });
-
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
 
