@@ -25,6 +25,7 @@ import org.openide.util.NbPreferences;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
+import se.trixon.almond.util.AlmondOptions;
 
 /**
  *
@@ -36,6 +37,7 @@ public class Installer extends ModuleInstall {
     private final NbgOptions mOptions = NbgOptions.getInstance();
 
     public Installer() {
+        AlmondOptions.getInstance().setPreferences(NbPreferences.forModule(Installer.class));
         if (!mDb.exists()) {
             DbCreator.getInstance().initDb();
         }
@@ -43,8 +45,6 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        NbGames.getAlmondOptions().setPreferences(NbPreferences.forModule(Installer.class));
-
         SwingUtilities.invokeLater(() -> {
             UIManager.put("EditorTabDisplayerUI", NoTabsTabDisplayerUI.ID);
             UIManager.put("NbMainWindow.showCustomBackground", Boolean.TRUE);

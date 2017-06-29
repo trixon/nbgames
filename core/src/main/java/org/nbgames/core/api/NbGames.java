@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,18 +27,13 @@ import se.trixon.almond.util.AlmondOptions;
 public class NbGames {
 
     public static final String LOG_TITLE = "core";
-    private static AlmondOptions sAlmondOptions;
-
-    static {
-        sAlmondOptions = AlmondOptions.getInstance();
-    }
 
     public static void errln(String name, String message) {
         new Monitor(name, false, true).errln(message);
     }
 
     public static AlmondOptions getAlmondOptions() {
-        return sAlmondOptions;
+        return AlmondOptions.getInstance();
     }
 
     public static ResourceBundle getBundle() {

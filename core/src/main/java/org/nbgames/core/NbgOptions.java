@@ -39,7 +39,7 @@ public class NbgOptions {
     private static final String DEFAULT_COLOR_WINDOW_LOWER = "#003300";
     private static final String DEFAULT_COLOR_WINDOW_UPPER = "#009900";
     private static final boolean DEFAULT_CUSTOM_TOOLBAR_BACKGROUND = false;
-    private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = true;
+    private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = false;
     private final File mDbFile;
     private final File mDirectory;
     private final Preferences mPreferences = NbPreferences.forModule(NbgOptions.class);
