@@ -17,6 +17,7 @@ package org.nbgames.core.options;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
@@ -29,7 +30,9 @@ import org.nbgames.core.InstalledGames;
 import org.nbgames.core.NbgOptionsPanel;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.OptionsCategory;
+import org.nbgames.core.api.ui.OptionsPanel;
 import org.nbgames.core.ui.PlayersPanel;
+import org.openide.util.Lookup;
 import se.trixon.almond.util.Dict;
 
 /**
@@ -86,11 +89,17 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
         list.setCellRenderer(new OptionsCategoryRenderer());
         OptionsCategoryListModel listModel = new OptionsCategoryListModel();
 
-        for (OptionsCategory value : OptionsCategory.values()) {
-            listModel.addElement(value);
-            mCategoryPanels.put(value, new CategoryPanel());
-            categoryPanel.add(mCategoryPanels.get(value), value.getTitle());
-            mCategoryPanels.get(value).setTitle(value.getTitle());
+        for (OptionsCategory optionsCategory : OptionsCategory.values()) {
+            listModel.addElement(optionsCategory);
+            mCategoryPanels.put(optionsCategory, new CategoryPanel());
+            categoryPanel.add(mCategoryPanels.get(optionsCategory), optionsCategory.getTitle());
+            Collection<? extends OptionsPanel> optionPanels = Lookup.getDefault().lookupAll(OptionsPanel.class);
+            optionPanels.stream().forEach((optionPanel) -> {
+                if (optionPanel.isMaster() && optionPanel.getCategory() == optionsCategory) {
+                    mCategoryPanels.get(optionsCategory).addTab(optionsCategory.getTitle(), optionPanel);
+                    mCategoryPanels.get(optionsCategory).setTitle(optionsCategory.getTitle());
+                }
+            });
         }
 
         mPlayersPanel = new PlayersPanel();

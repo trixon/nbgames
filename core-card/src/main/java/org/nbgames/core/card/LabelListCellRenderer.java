@@ -44,7 +44,10 @@ public class LabelListCellRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object object, int index, boolean isSelected, boolean cellHasFocus) {
-        int selectedIndex = ((Integer) object).intValue();
+        if (object == null) {
+            return this;
+        }
+        int selectedIndex = ((Integer) object);
 
         if (isSelected) {
             setBackground(list.getSelectionBackground());

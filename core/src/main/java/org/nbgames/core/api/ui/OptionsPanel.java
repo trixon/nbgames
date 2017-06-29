@@ -16,6 +16,7 @@
 package org.nbgames.core.api.ui;
 
 import javax.swing.JPanel;
+import org.nbgames.core.api.OptionsCategory;
 import org.nbgames.core.api.service.Persistor;
 
 /**
@@ -24,4 +25,16 @@ import org.nbgames.core.api.service.Persistor;
  */
 public abstract class OptionsPanel extends JPanel implements Persistor {
 
+    public OptionsCategory getCategory() {
+        return null;
+    }
+
+    /**
+     * Do not override this.
+     *
+     * @return false
+     */
+    public boolean isMaster() {
+        return false;
+    }
 }

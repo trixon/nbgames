@@ -56,7 +56,6 @@ import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.PlayerTrigger;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
@@ -164,7 +163,6 @@ public final class NbGamesTopComponent extends TopComponent {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     displayOptionsdialog(optionsCategoryIndex, presenterProvider.getName());
-//                    displayOptionsdialog(presenterProvider.getOptionsCategory(), presenterProvider.getName());
                 }
             });
         }
@@ -217,17 +215,17 @@ public final class NbGamesTopComponent extends TopComponent {
         AboutPanel aboutPanel = new AboutPanel(aboutModel);
         aboutPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 0, 16));
 
-        DialogDescriptor dialogDescriptor = new DialogDescriptor(
+        Object[] options = new Object[]{mButtonManager.getOk()};
+
+        NotifyDescriptor d = new NotifyDescriptor(
                 aboutPanel,
                 String.format(Dict.ABOUT_S.toString(), aboutModel.getAppName()),
-                false,
-                new Object[]{DialogDescriptor.CLOSED_OPTION},
-                DialogDescriptor.CLOSED_OPTION,
-                DialogDescriptor.DEFAULT_ALIGN,
-                null,
-                null);
+                NotifyDescriptor.PLAIN_MESSAGE,
+                NotifyDescriptor.DEFAULT_OPTION,
+                options,
+                mButtonManager.getOk());
 
-        DialogDisplayer.getDefault().notify(dialogDescriptor);
+        DialogDisplayer.getDefault().notify(d);
     }
 
     private void displayHelpDialog(PresenterProvider presenterProvider) {
