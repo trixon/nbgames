@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,6 @@ public class DiceBoard extends Observable {
     private Thread mDieWatcherThread;
     private Handedness mHandedness = Handedness.RIGHT;
     private int mMaxRollCount = 3;
-    private boolean mNaturalScroll = true;
     private int mNumOfDice;
     private int mNumOfRolls = 0;
     private final Painter mPainter;
@@ -93,10 +92,6 @@ public class DiceBoard extends Observable {
         return values;
     }
 
-    public boolean isNaturalScroll() {
-        return mNaturalScroll;
-    }
-
     public void newTurn() {
         mNumOfRolls = 0;
         mDiceBoardPanel.repaint();
@@ -134,10 +129,6 @@ public class DiceBoard extends Observable {
 
     public void setMaxRollCount(int maxRollCount) {
         mMaxRollCount = maxRollCount;
-    }
-
-    public void setNaturalScroll(boolean naturalScroll) {
-        mNaturalScroll = naturalScroll;
     }
 
     public void setPlaySound(boolean playSound) {

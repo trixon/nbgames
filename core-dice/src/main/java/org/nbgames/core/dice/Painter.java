@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +34,8 @@ import org.nbgames.core.api.Player.Handedness;
  * @author Patrik Karlsson
  */
 class Painter extends JPanel {
+
+    private final NbgDiceOptions mOptions = NbgDiceOptions.getInstance();
 
     private static final int MARGIN_X_DICE_SET = 160;
     static final int DIE_CELL_WIDTH = 140;
@@ -103,7 +105,7 @@ class Painter extends JPanel {
 
                 if (isSelectable() && isDiceStoped()) {
                     int dir = e.getWheelRotation();
-                    boolean select = mDiceBoard.isNaturalScroll() ? dir == -1 : dir == 1;
+                    boolean select = mOptions.isReverseDirection() ? dir == -1 : dir == 1;
 
                     for (Die die : mDiceBoard.getDice()) {
                         die.setSelected(select);

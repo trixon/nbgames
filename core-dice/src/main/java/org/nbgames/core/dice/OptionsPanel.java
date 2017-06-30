@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = NbgOptionsPanel.class)
 public class OptionsPanel extends NbgOptionsPanel {
 
+    private final NbgDiceOptions mOptions = NbgDiceOptions.getInstance();
+
     /**
      * Creates new form OptionsPanel
      */
@@ -45,10 +47,12 @@ public class OptionsPanel extends NbgOptionsPanel {
 
     @Override
     public void load() {
+        reverseScrollDirectionCheckBox.setSelected(mOptions.isReverseDirection());
     }
 
     @Override
     public void save() {
+        mOptions.setReverseDirection(reverseScrollDirectionCheckBox.isSelected());
     }
 
     /**
@@ -59,18 +63,29 @@ public class OptionsPanel extends NbgOptionsPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        reverseScrollDirectionCheckBox = new javax.swing.JCheckBox();
+
+        reverseScrollDirectionCheckBox.setText(org.openide.util.NbBundle.getMessage(OptionsPanel.class, "OptionsPanel.reverseScrollDirectionCheckBox.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reverseScrollDirectionCheckBox)
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(reverseScrollDirectionCheckBox)
+                .addContainerGap(263, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox reverseScrollDirectionCheckBox;
     // End of variables declaration//GEN-END:variables
 }
