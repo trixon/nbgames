@@ -6,7 +6,7 @@
         <artifactId>nbgames-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>nbgames-core-dice-data</artifactId>
+    <artifactId>core-dice-data</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>

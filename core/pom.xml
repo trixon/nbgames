@@ -127,7 +127,7 @@
         <dependency>
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-nbp</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${almond.version}</version>
         </dependency>
 
         <!--Other-->

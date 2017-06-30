@@ -59,32 +59,32 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-arcade</artifactId>
+            <artifactId>core-arcade</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-board</artifactId>
+            <artifactId>core-board</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-card</artifactId>
+            <artifactId>core-card</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-dice</artifactId>
+            <artifactId>core-dice</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-logic</artifactId>
+            <artifactId>core-logic</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>nbgames-core-strategy</artifactId>
+            <artifactId>core-strategy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -114,12 +114,12 @@
         <dependency>
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-nbp-actions</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${almond.version}</version>
         </dependency>
         <dependency>
             <groupId>se.trixon.almond</groupId>
             <artifactId>almond-nbp-actions-osx</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>${almond.version}</version>
         </dependency>
     </dependencies>
 

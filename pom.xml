@@ -82,6 +82,7 @@
     <properties>
         <netbeans.version>RELEASE82</netbeans.version>
         <nbgames.version>0.1.0-SNAPSHOT</nbgames.version>
+        <almond.version>1.0.1-SNAPSHOT</almond.version>
         <brandingToken>nbgames</brandingToken>
     </properties>
 </project>

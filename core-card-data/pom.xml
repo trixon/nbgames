@@ -6,7 +6,7 @@
         <artifactId>nbgames-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>nbgames-core-card-data</artifactId>
+    <artifactId>core-card-data</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>org.nbgames</groupId>
-            <artifactId>nbgames-core-card</artifactId>
+            <artifactId>core-card</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
