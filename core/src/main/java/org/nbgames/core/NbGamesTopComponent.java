@@ -96,7 +96,7 @@ import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
     "CTL_NbGamesTopComponent=nbGames",})
 public final class NbGamesTopComponent extends TopComponent {
 
-    private final NbgOptions mOptions = NbgOptions.getInstance();
+    private final SystemOptions mOptions = SystemOptions.getInstance();
     private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
     private final ActionMap mActionMap = getActionMap();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
@@ -313,17 +313,17 @@ public final class NbGamesTopComponent extends TopComponent {
             String key = evt.getKey();
             boolean needsRepiant = false;
             switch (key) {
-                case NbgOptions.KEY_CUSTOM_WINDOW_BACKGROUND:
+                case SystemOptions.KEY_CUSTOM_WINDOW_BACKGROUND:
                     needsRepiant = true;
                     break;
 
-                case NbgOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
+                case SystemOptions.KEY_CUSTOM_TOOLBAR_BACKGROUND:
                     toolBar.setOpaque(mOptions.isCustomToolbarBackground());
                     needsRepiant = true;
                     break;
 
                 case "color.toolbar":
-                    toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+                    toolBar.setBackground(mOptions.getColor(SystemOptions.ColorItem.TOOLBAR));
                     needsRepiant = true;
                     break;
 
@@ -363,8 +363,8 @@ public final class NbGamesTopComponent extends TopComponent {
             g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             int w = getWidth();
             int h = getHeight();
-            Color upperColor = mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER);
-            Color lowerColor = mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER);
+            Color upperColor = mOptions.getColor(SystemOptions.ColorItem.WINDOW_UPPER);
+            Color lowerColor = mOptions.getColor(SystemOptions.ColorItem.WINDOW_LOWER);
             GradientPaint gp = new GradientPaint(0, 0, upperColor, 0, h, lowerColor);
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, w, h);
@@ -431,7 +431,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         menuButton.setVisible(false);
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
-        toolBar.setBackground(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+        toolBar.setBackground(mOptions.getColor(SystemOptions.ColorItem.TOOLBAR));
 
         SwingHelper.borderPainted(toolBar, false);
         mainPanel.removeAll();

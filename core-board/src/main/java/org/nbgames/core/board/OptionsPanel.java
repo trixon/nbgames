@@ -16,20 +16,20 @@
 package org.nbgames.core.board;
 
 import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ServiceProvider(service = OptionsPanel.class)
-public class OptionPanel extends OptionsPanel {
+@ServiceProvider(service = NbgOptionsPanel.class)
+public class OptionsPanel extends NbgOptionsPanel {
 
     /**
-     * Creates new form OptionPanel
+     * Creates new form OptionsPanel
      */
-    public OptionPanel() {
+    public OptionsPanel() {
         initComponents();
     }
 

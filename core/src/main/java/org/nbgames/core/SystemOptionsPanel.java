@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.nbgames.core.api.NbGames;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
@@ -30,9 +30,9 @@ import se.trixon.almond.util.Dict;
  *
  * @author Patrik Karlsson
  */
-public class NbgOptionsPanel extends OptionsPanel {
+public class SystemOptionsPanel extends NbgOptionsPanel {
 
-    private final NbgOptions mOptions = NbgOptions.getInstance();
+    private final SystemOptions mOptions = SystemOptions.getInstance();
     private final AlmondOptions mAlmondOptions = NbGames.getAlmondOptions();
     private final ArrayList<UIManager.LookAndFeelInfo> mLookAndFeelInfos = new ArrayList<>(10);
     private int mDefaultLookAndFeelIndex;
@@ -40,7 +40,7 @@ public class NbgOptionsPanel extends OptionsPanel {
     /**
      * Creates new form NbGamesOptionsPanel
      */
-    public NbgOptionsPanel() {
+    public SystemOptionsPanel() {
         initComponents();
         init();
         load();
@@ -50,11 +50,11 @@ public class NbgOptionsPanel extends OptionsPanel {
     public void load() {
         SwingUtilities.invokeLater(() -> {
             colorCheckBox.setSelected(mOptions.isCustomWindowBackground());
-            lowerColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_LOWER));
-            upperColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.WINDOW_UPPER));
+            lowerColorComboBox.setSelectedColor(mOptions.getColor(SystemOptions.ColorItem.WINDOW_LOWER));
+            upperColorComboBox.setSelectedColor(mOptions.getColor(SystemOptions.ColorItem.WINDOW_UPPER));
 
             toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
-            toolbarColorComboBox.setSelectedColor(mOptions.getColor(NbgOptions.ColorItem.TOOLBAR));
+            toolbarColorComboBox.setSelectedColor(mOptions.getColor(SystemOptions.ColorItem.TOOLBAR));
 
             iconsComboBox.setSelectedIndex(mAlmondOptions.getIconTheme());
 
@@ -152,7 +152,7 @@ public class NbgOptionsPanel extends OptionsPanel {
 
         panel.setLayout(new java.awt.GridBagLayout());
 
-        colorCheckBox.setText(org.openide.util.NbBundle.getMessage(NbgOptionsPanel.class, "NbgOptionsPanel.colorCheckBox.text")); // NOI18N
+        colorCheckBox.setText(org.openide.util.NbBundle.getMessage(SystemOptionsPanel.class, "SystemOptionsPanel.colorCheckBox.text")); // NOI18N
         colorCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 colorCheckBoxActionPerformed(evt);
@@ -163,7 +163,7 @@ public class NbgOptionsPanel extends OptionsPanel {
         gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 8);
         panel.add(colorCheckBox, gridBagConstraints);
 
-        upperLabel.setText(org.openide.util.NbBundle.getMessage(NbgOptionsPanel.class, "NbgOptionsPanel.upperLabel.text")); // NOI18N
+        upperLabel.setText(org.openide.util.NbBundle.getMessage(SystemOptionsPanel.class, "SystemOptionsPanel.upperLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -172,7 +172,7 @@ public class NbgOptionsPanel extends OptionsPanel {
         gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 8);
         panel.add(upperLabel, gridBagConstraints);
 
-        lowerLabel.setText(org.openide.util.NbBundle.getMessage(NbgOptionsPanel.class, "NbgOptionsPanel.lowerLabel.text")); // NOI18N
+        lowerLabel.setText(org.openide.util.NbBundle.getMessage(SystemOptionsPanel.class, "SystemOptionsPanel.lowerLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -213,7 +213,7 @@ public class NbgOptionsPanel extends OptionsPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         panel.add(lowerColorComboBox, gridBagConstraints);
 
-        toolbarColorCheckBox.setText(org.openide.util.NbBundle.getMessage(NbgOptionsPanel.class, "NbgOptionsPanel.toolbarColorCheckBox.text")); // NOI18N
+        toolbarColorCheckBox.setText(org.openide.util.NbBundle.getMessage(SystemOptionsPanel.class, "SystemOptionsPanel.toolbarColorCheckBox.text")); // NOI18N
         toolbarColorCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toolbarColorCheckBoxActionPerformed(evt);
@@ -296,7 +296,7 @@ public class NbgOptionsPanel extends OptionsPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
                 .addGap(28, 28, 28))
         );
 
@@ -308,15 +308,15 @@ public class NbgOptionsPanel extends OptionsPanel {
     }//GEN-LAST:event_colorCheckBoxActionPerformed
 
     private void upperColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upperColorComboBoxActionPerformed
-        mOptions.setColor(NbgOptions.ColorItem.WINDOW_UPPER, upperColorComboBox.getSelectedColor());
+        mOptions.setColor(SystemOptions.ColorItem.WINDOW_UPPER, upperColorComboBox.getSelectedColor());
     }//GEN-LAST:event_upperColorComboBoxActionPerformed
 
     private void lowerColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowerColorComboBoxActionPerformed
-        mOptions.setColor(NbgOptions.ColorItem.WINDOW_LOWER, lowerColorComboBox.getSelectedColor());
+        mOptions.setColor(SystemOptions.ColorItem.WINDOW_LOWER, lowerColorComboBox.getSelectedColor());
     }//GEN-LAST:event_lowerColorComboBoxActionPerformed
 
     private void toolbarColorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarColorComboBoxActionPerformed
-        mOptions.setColor(NbgOptions.ColorItem.TOOLBAR, toolbarColorComboBox.getSelectedColor());
+        mOptions.setColor(SystemOptions.ColorItem.TOOLBAR, toolbarColorComboBox.getSelectedColor());
     }//GEN-LAST:event_toolbarColorComboBoxActionPerformed
 
     private void toolbarColorCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toolbarColorCheckBoxActionPerformed

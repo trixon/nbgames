@@ -27,9 +27,9 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import org.nbgames.core.InstalledGames;
-import org.nbgames.core.NbgOptionsPanel;
+import org.nbgames.core.SystemOptionsPanel;
 import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.nbgames.core.ui.PlayersPanel;
 import org.openide.util.Lookup;
 import se.trixon.almond.util.Dict;
@@ -44,7 +44,7 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
     private final InstalledGames mInstalledGames = InstalledGames.getInstance();
     private OptionsCategory mOptionsCategory;
     private PlayersPanel mPlayersPanel;
-    private NbgOptionsPanel mSystemPanel;
+    private SystemOptionsPanel mSystemPanel;
     private final Map<OptionsCategory, CategoryPanel> mCategoryPanels = new HashMap<>();
 
     /**
@@ -93,7 +93,7 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
             listModel.addElement(optionsCategory);
             mCategoryPanels.put(optionsCategory, new CategoryPanel());
             categoryPanel.add(mCategoryPanels.get(optionsCategory), optionsCategory.getTitle());
-            Collection<? extends OptionsPanel> optionPanels = Lookup.getDefault().lookupAll(OptionsPanel.class);
+            Collection<? extends NbgOptionsPanel> optionPanels = Lookup.getDefault().lookupAll(NbgOptionsPanel.class);
             optionPanels.stream().forEach((optionPanel) -> {
                 if (optionPanel.isMaster() && optionPanel.getCategory() == optionsCategory) {
                     mCategoryPanels.get(optionsCategory).addTab(optionsCategory.getTitle(), optionPanel);
@@ -103,7 +103,7 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
         }
 
         mPlayersPanel = new PlayersPanel();
-        mSystemPanel = new NbgOptionsPanel();
+        mSystemPanel = new SystemOptionsPanel();
         categoryPanel.add(mPlayersPanel, OptionsCategory.PLAYERS.getTitle());
         categoryPanel.add(mSystemPanel, Dict.SYSTEM.toString());
 

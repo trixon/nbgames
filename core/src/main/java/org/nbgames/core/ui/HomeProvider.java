@@ -16,9 +16,9 @@
 package org.nbgames.core.ui;
 
 import javax.swing.JPanel;
-import org.nbgames.core.NbgOptionsPanel;
+import org.nbgames.core.SystemOptionsPanel;
 import org.nbgames.core.api.service.PresenterProvider;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import se.trixon.almond.util.SystemHelper;
 
 /**
@@ -27,7 +27,7 @@ import se.trixon.almond.util.SystemHelper;
  */
 public class HomeProvider implements PresenterProvider {
 
-    private NbgOptionsPanel mOptionsPanel = new NbgOptionsPanel();
+    private SystemOptionsPanel mOptionsPanel = new SystemOptionsPanel();
     private final HomePanel mPanel = new HomePanel();
 
     public static HomeProvider getInstance() {
@@ -78,7 +78,7 @@ public class HomeProvider implements PresenterProvider {
     }
 
     @Override
-    public OptionsPanel getOptionsPanel() {
+    public NbgOptionsPanel getOptionsPanel() {
         return mOptionsPanel;
     }
 

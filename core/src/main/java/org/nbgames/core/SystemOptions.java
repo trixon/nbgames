@@ -29,7 +29,7 @@ import se.trixon.almond.util.Xlog;
  *
  * @author Patrik Karlsson
  */
-public class NbgOptions {
+public class SystemOptions {
 
     public static final String KEY_CURRENT_CATEGORY = "currentCategory";
     public static final String KEY_CURRENT_ID = "currentId";
@@ -42,13 +42,13 @@ public class NbgOptions {
     private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = false;
     private final File mDbFile;
     private final File mDirectory;
-    private final Preferences mPreferences = NbPreferences.forModule(NbgOptions.class);
+    private final Preferences mPreferences = NbPreferences.forModule(SystemOptions.class);
 
-    public static NbgOptions getInstance() {
+    public static SystemOptions getInstance() {
         return Holder.INSTANCE;
     }
 
-    private NbgOptions() {
+    private SystemOptions() {
         mDirectory = new File(System.getProperty("user.home"), ".nbgames");
 
         try {
@@ -135,6 +135,6 @@ public class NbgOptions {
 
     private static class Holder {
 
-        private static final NbgOptions INSTANCE = new NbgOptions();
+        private static final SystemOptions INSTANCE = new SystemOptions();
     }
 }

@@ -25,7 +25,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.nbgames.core.NbgOptions;
+import org.nbgames.core.SystemOptions;
 import org.openide.util.Exceptions;
 
 /**
@@ -35,7 +35,7 @@ import org.openide.util.Exceptions;
 public class Db {
 
     private Connection mAutoCommitConnection = null;
-    private final NbgOptions mOptions = NbgOptions.getInstance();
+    private final SystemOptions mOptions = SystemOptions.getInstance();
     private final String mConnStringEmbedded = String.format("jdbc:h2:%s;DEFRAG_ALWAYS=true", mOptions.getDbFile().getAbsolutePath());
     private final String mConnStringServer = String.format("jdbc:h2:tcp://localhost/%s;DEFRAG_ALWAYS=true", mOptions.getDbFile().getAbsolutePath());
     private final DbSpec mSpec;

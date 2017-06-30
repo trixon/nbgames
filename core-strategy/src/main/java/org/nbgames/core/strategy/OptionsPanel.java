@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.arcade;
+package org.nbgames.core.strategy;
 
 import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ServiceProvider(service = OptionsPanel.class)
-public class OptionPanel extends OptionsPanel {
+@ServiceProvider(service = NbgOptionsPanel.class)
+public class OptionsPanel extends NbgOptionsPanel {
 
     /**
-     * Creates new form OptionPanel
+     * Creates new form OptionsPanel
      */
-    public OptionPanel() {
+    public OptionsPanel() {
         initComponents();
     }
 
     @Override
     public OptionsCategory getCategory() {
-        return OptionsCategory.ARCADE;
+        return OptionsCategory.STRATEGY;
     }
 
     @Override

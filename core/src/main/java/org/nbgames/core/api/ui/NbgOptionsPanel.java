@@ -23,7 +23,7 @@ import org.nbgames.core.api.service.Persistor;
  *
  * @author Patrik Karlsson
  */
-public abstract class OptionsPanel extends JPanel implements Persistor {
+public abstract class NbgOptionsPanel extends JPanel implements Persistor {
 
     public OptionsCategory getCategory() {
         return null;

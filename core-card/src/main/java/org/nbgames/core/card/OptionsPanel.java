@@ -18,7 +18,7 @@ package org.nbgames.core.card;
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
 import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.openide.util.NbPreferences;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -26,15 +26,15 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Patrik Karlsson
  */
-@ServiceProvider(service = OptionsPanel.class)
-public class OptionPanel extends OptionsPanel {
+@ServiceProvider(service = NbgOptionsPanel.class)
+public class OptionsPanel extends NbgOptionsPanel {
 
-    private final Preferences mPreferences = NbPreferences.forModule(OptionPanel.class);
+    private final Preferences mPreferences = NbPreferences.forModule(OptionsPanel.class);
 
     /**
-     * Creates new form OptionPanel
+     * Creates new form OptionsPanel
      */
-    public OptionPanel() {
+    public OptionsPanel() {
         initComponents();
     }
 
@@ -129,12 +129,12 @@ public class OptionPanel extends OptionsPanel {
         front1DeckComboBox = new DeckComboBox(PlayingCard.Side.FRONT);
         back1DeckComboBox = new DeckComboBox(PlayingCard.Side.BACK);
 
-        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.deck1Panel.border.title"))); // NOI18N
+        deck1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionsPanel.class, "OptionsPanel.deck1Panel.border.title"))); // NOI18N
         deck1Panel.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
         deck1Panel.add(front0DeckComboBox);
         deck1Panel.add(back0DeckComboBox);
 
-        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionPanel.class, "OptionPanel.deck2Panel.border.title"))); // NOI18N
+        deck2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(OptionsPanel.class, "OptionsPanel.deck2Panel.border.title"))); // NOI18N
         deck2Panel.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
         deck2Panel.add(front1DeckComboBox);
         deck2Panel.add(back1DeckComboBox);

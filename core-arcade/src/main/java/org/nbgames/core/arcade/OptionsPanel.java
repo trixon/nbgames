@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.dice;
+package org.nbgames.core.arcade;
 
 import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
  *
  * @author Patrik Karlsson
  */
-@ServiceProvider(service = OptionsPanel.class)
-public class OptionPanel extends OptionsPanel {
+@ServiceProvider(service = NbgOptionsPanel.class)
+public class OptionsPanel extends NbgOptionsPanel {
 
     /**
-     * Creates new form OptionPanel
+     * Creates new form OptionsPanel
      */
-    public OptionPanel() {
+    public OptionsPanel() {
         initComponents();
     }
 
     @Override
     public OptionsCategory getCategory() {
-        return OptionsCategory.DICE;
+        return OptionsCategory.ARCADE;
     }
 
     @Override

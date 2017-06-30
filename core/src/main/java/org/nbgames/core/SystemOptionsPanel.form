@@ -41,7 +41,7 @@
         <Component class="javax.swing.JCheckBox" name="colorCheckBox">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="NbgOptionsPanel.colorCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="SystemOptionsPanel.colorCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -56,7 +56,7 @@
         <Component class="javax.swing.JLabel" name="upperLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="NbgOptionsPanel.upperLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="SystemOptionsPanel.upperLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -68,7 +68,7 @@
         <Component class="javax.swing.JLabel" name="lowerLabel">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="NbgOptionsPanel.lowerLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="SystemOptionsPanel.lowerLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -106,7 +106,7 @@
         <Component class="javax.swing.JCheckBox" name="toolbarColorCheckBox">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="NbgOptionsPanel.toolbarColorCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="org/nbgames/core/Bundle.properties" key="SystemOptionsPanel.toolbarColorCheckBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>

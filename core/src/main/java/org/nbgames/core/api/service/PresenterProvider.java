@@ -16,7 +16,7 @@
 package org.nbgames.core.api.service;
 
 import javax.swing.JPanel;
-import org.nbgames.core.api.ui.OptionsPanel;
+import org.nbgames.core.api.ui.NbgOptionsPanel;
 
 /**
  *
@@ -40,7 +40,7 @@ public interface PresenterProvider {
 
     String getName();
 
-    OptionsPanel getOptionsPanel();
+    NbgOptionsPanel getOptionsPanel();
 
     JPanel getPanel();
 
