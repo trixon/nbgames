@@ -18,12 +18,8 @@ package org.nbgames.core;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.nbgames.core.api.NbGames;
-import org.nbgames.core.api.db.Db;
-import org.nbgames.core.api.db.DbCreator;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.NbPreferences;
-import org.openide.windows.TopComponent;
-import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
 import se.trixon.almond.util.AlmondOptions;
 
@@ -33,14 +29,8 @@ import se.trixon.almond.util.AlmondOptions;
  */
 public class Installer extends ModuleInstall {
 
-    private final Db mDb = Db.getInstance();
-    private final NbgOptions mOptions = NbgOptions.getInstance();
-
     public Installer() {
         AlmondOptions.getInstance().setPreferences(NbPreferences.forModule(Installer.class));
-        if (!mDb.exists()) {
-            DbCreator.getInstance().initDb();
-        }
     }
 
     @Override
@@ -51,17 +41,6 @@ public class Installer extends ModuleInstall {
             System.setProperty("netbeans.winsys.status_line.path", "");
         });
 
-        WindowManager.getDefault().invokeWhenUIReady(() -> {
-            openWindow("NbGamesTopComponent");
-        });
-
         NbGames.outln(NbGames.LOG_TITLE, "nbGames Platform loaded");
-    }
-
-    private void openWindow(String id) {
-        TopComponent topComponent = WindowManager.getDefault().findTopComponent(id);
-        if (topComponent != null) {
-            topComponent.open();
-        }
     }
 }

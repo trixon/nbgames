@@ -45,6 +45,7 @@ import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.OptionsCategory;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
+import org.nbgames.core.api.db.DbCreator;
 import org.nbgames.core.api.db.manager.PlayerManager;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.DialogButtonManager;
@@ -100,6 +101,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private final ActionMap mActionMap = getActionMap();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
     private OptionsContainerPanel mOptionsContainerPanel;
+    private final Db mDb = Db.getInstance();
 
     static {
         Almond.ICON_LARGE = 48;
@@ -115,7 +117,6 @@ public final class NbGamesTopComponent extends TopComponent {
 
         init();
         initListeners();
-        initOptionsContainer();
     }
 
     public void editPlayers() {
@@ -348,10 +349,6 @@ public final class NbGamesTopComponent extends TopComponent {
         });
     }
 
-    private void initOptionsContainer() {
-        mOptionsContainerPanel = new OptionsContainerPanel();
-    }
-
     private void setSelectorEnabled(boolean enabled) {
         selectorButton.setEnabled(enabled);
         Actions.forID("Game", "org.nbgames.core.actions.SelectorAction").setEnabled(enabled);
@@ -442,7 +439,7 @@ public final class NbGamesTopComponent extends TopComponent {
         setSelectorEnabled(false);
 
         new Thread(() -> {
-            Db.getInstance().getAutoCommitConnection();
+            initDb();
             SwingUtilities.invokeLater(() -> {
                 setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
                 GameController gameController = null;
@@ -458,6 +455,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 }
             });
         }).start();
+        mOptionsContainerPanel = new OptionsContainerPanel();
     }
 
     private void initActionButton(String category, String id, JButton button, String toolTip, Icon largeIcon, Icon smallIcon) {
@@ -472,6 +470,12 @@ public final class NbGamesTopComponent extends TopComponent {
             button.setToolTipText(action.getValue(Action.NAME).toString());
         } else {
             button.setToolTipText(toolTip);
+        }
+    }
+
+    private void initDb() {
+        if (!mDb.exists()) {
+            DbCreator.getInstance().initDb();
         }
     }
 

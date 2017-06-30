@@ -52,7 +52,7 @@ public class HomePanel extends javax.swing.JPanel {
         init();
         updatePlayerManagerPanel();
         updateGameList();
-        scrollPane.setVisible(false);
+        //scrollPane.setVisible(false);
     }
 
     private void init() {
@@ -70,6 +70,9 @@ public class HomePanel extends javax.swing.JPanel {
         toolsResult.addLookupListener((LookupEvent ev) -> {
             updateGameList();
         });
+
+        textPane.setSelectedTextColor(textPane.getForeground());
+        textPane.setSelectionColor(textPane.getBackground());
     }
 
     private synchronized void updateGameList() {
@@ -122,8 +125,10 @@ public class HomePanel extends javax.swing.JPanel {
         playerManagerPanel = new javax.swing.JPanel();
         playerManagerLabel = new javax.swing.JLabel();
         playerManagerButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         textPane = new javax.swing.JTextPane();
+        jPanel2 = new javax.swing.JPanel();
         copyrightLabel = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
@@ -162,11 +167,28 @@ public class HomePanel extends javax.swing.JPanel {
 
         add(playerManagerPanel, java.awt.BorderLayout.NORTH);
 
+        jPanel1.setLayout(new java.awt.GridLayout());
+
         textPane.setEditable(false);
         textPane.setContentType("text/html"); // NOI18N
         scrollPane.setViewportView(textPane);
 
-        add(scrollPane, java.awt.BorderLayout.CENTER);
+        jPanel1.add(scrollPane);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 194, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 208, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
 
         copyrightLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         copyrightLabel.setText(org.openide.util.NbBundle.getMessage(HomePanel.class, "HomePanel.copyrightLabel.text")); // NOI18N
@@ -179,6 +201,8 @@ public class HomePanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel copyrightLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton playerManagerButton;
     private javax.swing.JLabel playerManagerLabel;
     private javax.swing.JPanel playerManagerPanel;
