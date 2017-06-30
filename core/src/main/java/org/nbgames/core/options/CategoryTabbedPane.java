@@ -22,12 +22,12 @@ import javax.swing.JTabbedPane;
  *
  * @author Patrik Karlsson
  */
-public class CategoryPanel extends JTabbedPane {
+public class CategoryTabbedPane extends JTabbedPane {
 
     /**
      * Creates new form CategoryPanel
      */
-    public CategoryPanel() {
+    public CategoryTabbedPane() {
     }
 
     void addTab(String title, JPanel panel) {

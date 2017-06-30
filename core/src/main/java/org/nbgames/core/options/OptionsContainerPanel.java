@@ -17,6 +17,7 @@ package org.nbgames.core.options;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,8 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
     private OptionsCategory mOptionsCategory;
     private PlayersPanel mPlayersPanel;
     private SystemOptionsPanel mSystemPanel;
-    private final Map<OptionsCategory, CategoryPanel> mCategoryPanels = new HashMap<>();
+    private final Map<OptionsCategory, CategoryTabbedPane> mCategoryTabbedPanes = new HashMap<>();
+    private final ArrayList<NbgOptionsPanel> mCategoryOptionsPanels = new ArrayList<>();
 
     /**
      * Creates new form OptionsContainerPanel
@@ -58,12 +60,19 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
 
     public void activate(OptionsCategory optionsCategory, String tabName) {
         list.setSelectedValue(optionsCategory, true);
-        mCategoryPanels.get(optionsCategory).setSelectedTab(tabName);
+        mCategoryTabbedPanes.get(optionsCategory).setSelectedTab(tabName);
     }
 
     public void load() {
         mPlayersPanel.load();
         mSystemPanel.load();
+        mCategoryOptionsPanels.forEach((optionsPanel) -> {
+            try {
+                optionsPanel.load();
+            } catch (Exception e) {
+                //
+            }
+        });
         mInstalledGames.getGameControllers().forEach((controller) -> {
             try {
                 controller.getOptionsPanel().load();
@@ -75,6 +84,13 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
     public void save() {
         mPlayersPanel.save();
         mSystemPanel.save();
+        mCategoryOptionsPanels.forEach((optionsPanel) -> {
+            try {
+                optionsPanel.save();
+            } catch (Exception e) {
+                //
+            }
+        });
         mInstalledGames.getGameControllers().forEach((controller) -> {
             try {
                 controller.getOptionsPanel().save();
@@ -91,13 +107,14 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
 
         for (OptionsCategory optionsCategory : OptionsCategory.values()) {
             listModel.addElement(optionsCategory);
-            mCategoryPanels.put(optionsCategory, new CategoryPanel());
-            categoryPanel.add(mCategoryPanels.get(optionsCategory), optionsCategory.getTitle());
+            mCategoryTabbedPanes.put(optionsCategory, new CategoryTabbedPane());
+            categoryPanel.add(mCategoryTabbedPanes.get(optionsCategory), optionsCategory.getTitle());
             Collection<? extends NbgOptionsPanel> optionPanels = Lookup.getDefault().lookupAll(NbgOptionsPanel.class);
             optionPanels.stream().forEach((optionPanel) -> {
                 if (optionPanel.isMaster() && optionPanel.getCategory() == optionsCategory) {
-                    mCategoryPanels.get(optionsCategory).addTab(optionsCategory.getTitle(), optionPanel);
-                    mCategoryPanels.get(optionsCategory).setTitle(optionsCategory.getTitle());
+                    mCategoryOptionsPanels.add(optionPanel);
+                    mCategoryTabbedPanes.get(optionsCategory).addTab(optionsCategory.getTitle(), optionPanel);
+                    mCategoryTabbedPanes.get(optionsCategory).setTitle(optionsCategory.getTitle());
                 }
             });
         }
@@ -115,7 +132,7 @@ public class OptionsContainerPanel extends javax.swing.JPanel {
         mInstalledGames.getGameControllers().forEach((controller) -> {
             OptionsCategory optionsCategory = controller.getCategory().getOptionsCategory();
             if (controller.getOptionsPanel() != null) {
-                mCategoryPanels.get(optionsCategory).addTab(controller.getName(), controller.getOptionsPanel());
+                mCategoryTabbedPanes.get(optionsCategory).addTab(controller.getName(), controller.getOptionsPanel());
             }
         });
     }
