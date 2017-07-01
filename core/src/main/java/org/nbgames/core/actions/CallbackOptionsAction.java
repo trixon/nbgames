@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ public class CallbackOptionsAction {
     @ActionReferences({
         @ActionReference(path = "Shortcuts", name = "D-P")
         ,
-        @ActionReference(path = "Shortcuts", name = "C-PERIOD")
+        @ActionReference(path = "Shortcuts", name = "D-COMMA")
     })
     @NbBundle.Messages("CTL_OptionsAction=Options")
     public static final String KEY = "OptionsAction";
