@@ -1,65 +1,64 @@
-/build/
-/modules/org.nbgames.branding/build/
-/dist/
-/modules/org.nbgames.branding/nbproject/private/
-hs_err_pid*.log
+# Created by https://www.gitignore.io/api/java,linux,maven,netbeans
 
-/modules/org.nbgames.core/build/
-/modules/org.nbgames.core/nbproject/private/
-/nbproject/private/
-/modules/org.nbgames.game.numberguesser/build/
-/modules/org.nbgames.game.numberguesser/nbproject/private/
-/modules/org.nbgames.numberguesser/nbproject/private/
-/modules/org.nbgames.numberguesser/build/
-/modules/org.nbgames.core.board/build/
-/modules/org.nbgames.core.strategy/build/
-/modules/org.nbgames.core.logic/build/
-/modules/org.nbgames.core.card/build/
-/modules/org.nbgames.core.arcade/build/
-/modules/org.nbgames.core.dice/build/
-/modules/org.nbgames.core.arcade/nbproject/private/
-/modules/org.nbgames.core.board/nbproject/private/
-/modules/org.nbgames.core.card/nbproject/private/
-/modules/org.nbgames.core.dice/nbproject/private/
-/modules/org.nbgames.core.logic/nbproject/private/
-/modules/org.nbgames.gunu/build/
-/modules/org.nbgames.gunu/nbproject/private/
-/modules/org.nbgames.core.dice.data/build/
-/modules/org.nbgames.yaya/build/
-/modules/org.nbgames.core.dice.data/nbproject/private/
-/modules/org.nbgames.yaya/nbproject/private/
-/modules/org.json.simple/build/
-/modules/org.json.simple/nbproject/private/
-/modules/org.nbgames.yaya.quickie/build/
-/modules/org.nbgames.yaya.yahtzee_scandinavian/build/
-/modules/org.nbgames.yaya.straight/build/
-/modules/org.nbgames.yaya.maxi_yahtzee/build/
-/modules/org.nbgames.yaya.yacht/build/
-/modules/org.nbgames.yaya.quickie/nbproject/private/
-/modules/org.nbgames.yaya.straight/nbproject/private/
-/modules/org.nbgames.yaya.yahtzee_scandinavian/nbproject/private/
-/modules/org.nbgames.yaya.maxi_yahtzee/nbproject/private/
-/modules/org.nbgames.yaya.yacht/nbproject/private/
-/modules/org.nbgames.core.cards/build/
-/modules/org.nbgames.core.cards.data/build/
-/modules/org.nbgames.core.cards/nbproject/private/
-/modules/org.nbgames.core.cards.data/nbproject/private/
-/modules/org.nbgames.memroyal/build/
-/modules/org.nbgames.core.card.data/build/
-/modules/org.nbgames.memroyal/nbproject/private/
-/modules/org.nbgames.core.strategy/nbproject/private/
-/modules/org.nbgames.core.card.data/nbproject/private/
-/meta/build/
-/meta/nbproject/private/
-/modules/meta/build/
-/modules/meta/nbproject/private/
-/core/target/
-/core-card-data/target/
-/core-board/target/
-/core-card/target/
-/core-dice-data/target/
-/core-arcade/target/
-/core-logic/target/
-/core-strategy/target/
-/core-dice/target/
-/application/target/
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# End of https://www.gitignore.io/api/java,linux,maven,netbeans
