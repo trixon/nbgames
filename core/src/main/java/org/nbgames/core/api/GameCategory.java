@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.api;
 
+import org.nbgames.core.api.options.OptionsCategory;
 import java.util.HashMap;
 import java.util.Map;
 

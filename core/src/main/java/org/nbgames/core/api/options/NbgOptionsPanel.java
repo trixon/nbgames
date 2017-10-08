@@ -13,38 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api.service;
+package org.nbgames.core.api.options;
 
 import javax.swing.JPanel;
-import org.nbgames.core.api.options.NbgOptionsPanel;
+import org.nbgames.core.api.service.Persistor;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public interface PresenterProvider {
+public abstract class NbgOptionsPanel extends JPanel implements Persistor {
 
-    String getCopyright();
+    public OptionsCategory getCategory() {
+        return null;
+    }
 
-    String getCredit();
-
-    String getDescription();
-
-    String getHelp();
-
-    String getId();
-
-    String getLicense();
-
-    String getModuleName();
-
-    String getName();
-
-    NbgOptionsPanel getOptionsPanel();
-
-    JPanel getPanel();
-
-    String getShortDescription();
-
-    String getVersion();
+    /**
+     * Do not override this.
+     *
+     * @return false
+     */
+    public boolean isMaster() {
+        return false;
+    }
 }

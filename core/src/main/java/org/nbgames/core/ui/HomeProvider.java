@@ -18,7 +18,7 @@ package org.nbgames.core.ui;
 import javax.swing.JPanel;
 import org.nbgames.core.SystemOptionsPanel;
 import org.nbgames.core.api.service.PresenterProvider;
-import org.nbgames.core.api.ui.NbgOptionsPanel;
+import org.nbgames.core.api.options.NbgOptionsPanel;
 import se.trixon.almond.util.SystemHelper;
 
 /**

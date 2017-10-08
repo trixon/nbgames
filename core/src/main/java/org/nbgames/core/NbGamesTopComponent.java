@@ -42,7 +42,7 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.NbGames;
-import org.nbgames.core.api.OptionsCategory;
+import org.nbgames.core.api.options.OptionsCategory;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.DbCreator;

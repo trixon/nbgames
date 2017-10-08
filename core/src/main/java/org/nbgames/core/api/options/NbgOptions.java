@@ -13,28 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api.ui;
+package org.nbgames.core.api.options;
 
-import javax.swing.JPanel;
-import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.service.Persistor;
+import java.util.prefs.Preferences;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public abstract class NbgOptionsPanel extends JPanel implements Persistor {
+public abstract class NbgOptions {
 
-    public OptionsCategory getCategory() {
-        return null;
+    protected Preferences mPreferences;
+
+    public Preferences getPreferences() {
+        return mPreferences;
     }
 
-    /**
-     * Do not override this.
-     *
-     * @return false
-     */
-    public boolean isMaster() {
-        return false;
-    }
 }

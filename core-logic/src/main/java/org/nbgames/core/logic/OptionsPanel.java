@@ -15,8 +15,8 @@
  */
 package org.nbgames.core.logic;
 
-import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.NbgOptionsPanel;
+import org.nbgames.core.api.options.OptionsCategory;
+import org.nbgames.core.api.options.NbgOptionsPanel;
 import org.openide.util.lookup.ServiceProvider;
 
 /**

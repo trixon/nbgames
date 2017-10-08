@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api;
+package org.nbgames.core.api.options;
 
 import javax.swing.ImageIcon;
+import org.nbgames.core.api.DictNbg;
+import org.nbgames.core.api.GameCategory;
+import org.nbgames.core.api.NbGames;
 import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;

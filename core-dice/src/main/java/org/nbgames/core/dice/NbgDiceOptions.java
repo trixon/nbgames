@@ -15,28 +15,24 @@
  */
 package org.nbgames.core.dice;
 
-import java.util.prefs.Preferences;
+import org.nbgames.core.api.options.NbgOptions;
 import org.openide.util.NbPreferences;
 
 /**
  *
  * @author Patrik Karlsson
  */
-public class NbgDiceOptions {
+public class NbgDiceOptions extends NbgOptions {
 
+    public static final String KEY_REVERSE_DIRECTION = "reverseDirection";
     private static final boolean DEFAULT_REVERSE_DIRECTION = false;
-    private static final String KEY_REVERSE_DIRECTION = "reverseDirection";
-    private final Preferences mPreferences = NbPreferences.forModule(NbgDiceOptions.class);
 
     public static NbgDiceOptions getInstance() {
         return Holder.INSTANCE;
     }
 
     private NbgDiceOptions() {
-    }
-
-    public Preferences getPreferences() {
-        return mPreferences;
+        mPreferences = NbPreferences.forModule(getClass());
     }
 
     public boolean isReverseDirection() {

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 import org.apache.commons.io.FileUtils;
 import org.nbgames.core.api.GameCategory;
+import org.nbgames.core.api.options.NbgOptions;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.GraphicsHelper;
 import se.trixon.almond.util.Xlog;
@@ -29,7 +30,7 @@ import se.trixon.almond.util.Xlog;
  *
  * @author Patrik Karlsson
  */
-public class SystemOptions {
+public class SystemOptions extends NbgOptions {
 
     public static final String KEY_CURRENT_CATEGORY = "currentCategory";
     public static final String KEY_CURRENT_ID = "currentId";
@@ -42,13 +43,13 @@ public class SystemOptions {
     private static final boolean DEFAULT_CUSTOM_WINDOW_BACKGROUND = false;
     private final File mDbFile;
     private final File mDirectory;
-    private final Preferences mPreferences = NbPreferences.forModule(SystemOptions.class);
 
     public static SystemOptions getInstance() {
         return Holder.INSTANCE;
     }
 
     private SystemOptions() {
+        mPreferences = NbPreferences.forModule(getClass());
         mDirectory = new File(System.getProperty("user.home"), ".nbgames");
 
         try {

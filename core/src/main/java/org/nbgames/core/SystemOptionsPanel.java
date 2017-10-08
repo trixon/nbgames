@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.nbgames.core.api.NbGames;
-import org.nbgames.core.api.ui.NbgOptionsPanel;
+import org.nbgames.core.api.options.NbgOptionsPanel;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;

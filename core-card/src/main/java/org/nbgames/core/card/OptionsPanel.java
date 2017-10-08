@@ -17,8 +17,8 @@ package org.nbgames.core.card;
 
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
-import org.nbgames.core.api.OptionsCategory;
-import org.nbgames.core.api.ui.NbgOptionsPanel;
+import org.nbgames.core.api.options.OptionsCategory;
+import org.nbgames.core.api.options.NbgOptionsPanel;
 import org.openide.util.NbPreferences;
 import org.openide.util.lookup.ServiceProvider;
 
