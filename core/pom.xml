@@ -66,11 +66,6 @@
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>json-simple-1.1.1</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-javahelp</artifactId>
             <version>${netbeans.version}</version>
@@ -114,6 +109,13 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-jdesktop-beansbinding</artifactId>
+            <version>${netbeans.version}</version>
+        </dependency>
+
+        <!--NetBeans External-->
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>json-simple-1.1.1</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
 
