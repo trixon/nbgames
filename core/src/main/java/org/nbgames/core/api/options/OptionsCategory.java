@@ -18,7 +18,6 @@ package org.nbgames.core.api.options;
 import javax.swing.ImageIcon;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
-import org.nbgames.core.api.NbGames;
 import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.IconColor;
@@ -39,7 +38,7 @@ public enum OptionsCategory {
     STRATEGY(MaterialIcon._Editor.LINEAR_SCALE, GameCategory.STRATEGY.getString()),
     SYSTEM(MaterialIcon._Action.BUILD, Dict.SYSTEM.toString());
 
-    private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
+    private final IconColor mIconColor = IconColor.getDefault();
     private ImageIcon mImageIcon;
     private String mTitle;
 

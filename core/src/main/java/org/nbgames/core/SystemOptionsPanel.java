@@ -17,14 +17,14 @@ package org.nbgames.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import org.nbgames.core.api.NbGames;
 import org.nbgames.core.api.options.NbgOptionsPanel;
 import org.openide.util.NbPreferences;
-import se.trixon.almond.util.AlmondOptions;
 import se.trixon.almond.util.Dict;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -33,9 +33,9 @@ import se.trixon.almond.util.Dict;
 public class SystemOptionsPanel extends NbgOptionsPanel {
 
     private final SystemOptions mOptions = SystemOptions.getInstance();
-    private final AlmondOptions mAlmondOptions = NbGames.getAlmondOptions();
-    private final ArrayList<UIManager.LookAndFeelInfo> mLookAndFeelInfos = new ArrayList<>(10);
+    private final ArrayList<UIManager.LookAndFeelInfo> mLookAndFeelInfos = new ArrayList<>();
     private int mDefaultLookAndFeelIndex;
+    private final ResourceBundle mBundle = SystemHelper.getBundle(SystemOptionsPanel.class, "Bundle");
 
     /**
      * Creates new form NbGamesOptionsPanel
@@ -55,8 +55,6 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
 
             toolbarColorCheckBox.setSelected(mOptions.isCustomToolbarBackground());
             toolbarColorComboBox.setSelectedColor(mOptions.getColor(SystemOptions.ColorItem.TOOLBAR));
-
-            iconsComboBox.setSelectedIndex(mAlmondOptions.getIconTheme());
 
             boolean isForcedLaF = isForcedLaF();
             mDefaultLookAndFeelIndex = mLookAndFeelInfos.indexOf(isForcedLaF ? getCurrentLaF() : getPreferredLaF());
@@ -107,8 +105,6 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
     }
 
     private void init() {
-        iconsComboBox.setModel(new DefaultComboBoxModel<>(new String[]{Dict.MATERIAL_BLACK.toString(), Dict.MATERIAL_WHITE.toString()}));
-
         initLookAndFeel();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         mLookAndFeelInfos.forEach((lookAndFeelInfo) -> {
@@ -145,10 +141,9 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
         lowerColorComboBox = new org.openide.awt.ColorComboBox();
         toolbarColorCheckBox = new javax.swing.JCheckBox();
         toolbarColorComboBox = new org.openide.awt.ColorComboBox();
-        iconsLabel = new javax.swing.JLabel();
-        iconsComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         lafComboBox = new javax.swing.JComboBox<>();
+        restartLabel = new javax.swing.JLabel();
 
         panel.setLayout(new java.awt.GridBagLayout());
 
@@ -241,27 +236,6 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         panel.add(toolbarColorComboBox, gridBagConstraints);
 
-        iconsLabel.setText(Dict.ICONS.toString());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(8, 8, 0, 8);
-        panel.add(iconsLabel, gridBagConstraints);
-
-        iconsComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iconsComboBoxActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
-        panel.add(iconsComboBox, gridBagConstraints);
-
         jLabel1.setText(Dict.LOOK_AND_FEEL.toString());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -283,6 +257,12 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         panel.add(lafComboBox, gridBagConstraints);
 
+        restartLabel.setText(" "); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        panel.add(restartLabel, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -296,7 +276,7 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 346, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addGap(28, 28, 28))
         );
 
@@ -323,28 +303,26 @@ public class SystemOptionsPanel extends NbgOptionsPanel {
         mOptions.setCustomToolbarBackground(toolbarColorCheckBox.isSelected());
     }//GEN-LAST:event_toolbarColorCheckBoxActionPerformed
 
-    private void iconsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iconsComboBoxActionPerformed
-        mAlmondOptions.setIconTheme(iconsComboBox.getSelectedIndex());
-    }//GEN-LAST:event_iconsComboBoxActionPerformed
-
     private void lafComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lafComboBoxActionPerformed
         int selLaFIndex = lafComboBox.getSelectedIndex();
         if (selLaFIndex != mDefaultLookAndFeelIndex && !isForcedLaF()) {
             UIManager.LookAndFeelInfo li = mLookAndFeelInfos.get(lafComboBox.getSelectedIndex());
             NbPreferences.root().node("laf").put("laf", li.getClassName()); //NOI18N
             //askForRestart();
+            restartLabel.setText(mBundle.getString("SystemOptionsPanel.restart"));
+        } else {
+            restartLabel.setText(" ");
         }
     }//GEN-LAST:event_lafComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox colorCheckBox;
-    private javax.swing.JComboBox<String> iconsComboBox;
-    private javax.swing.JLabel iconsLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JComboBox<String> lafComboBox;
     private org.openide.awt.ColorComboBox lowerColorComboBox;
     private javax.swing.JLabel lowerLabel;
     private javax.swing.JPanel panel;
+    private javax.swing.JLabel restartLabel;
     private javax.swing.JCheckBox toolbarColorCheckBox;
     private org.openide.awt.ColorComboBox toolbarColorComboBox;
     private org.openide.awt.ColorComboBox upperColorComboBox;

@@ -41,12 +41,11 @@ import org.nbgames.core.actions.CallbackOptionsAction;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
-import org.nbgames.core.api.NbGames;
-import org.nbgames.core.api.options.OptionsCategory;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.DbCreator;
 import org.nbgames.core.api.db.manager.PlayerManager;
+import org.nbgames.core.api.options.OptionsCategory;
 import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.ui.DialogButtonManager;
 import org.nbgames.core.api.ui.NewGamePanel;
@@ -97,7 +96,7 @@ import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
 public final class NbGamesTopComponent extends TopComponent {
 
     private final SystemOptions mOptions = SystemOptions.getInstance();
-    private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
+    private final IconColor mIconColor = IconColor.getDefault();
     private final ActionMap mActionMap = getActionMap();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
     private OptionsContainerPanel mOptionsContainerPanel;

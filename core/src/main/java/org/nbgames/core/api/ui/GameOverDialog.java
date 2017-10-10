@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.nbgames.core.NbGamesTopComponent;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
-import org.nbgames.core.api.NbGames;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.windows.WindowManager;
@@ -39,7 +38,7 @@ import se.trixon.almond.util.swing.dialogs.HtmlPanel;
 public class GameOverDialog {
 
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
-    private final IconColor mIconColor = NbGames.getAlmondOptions().getIconColor();
+    private final IconColor mIconColor = IconColor.getDefault();
     private final JButton mNewGameButton;
     private final NotifyDescriptor mNotifyDescriptor;
     private final JButton mQuickNewGameButton;
