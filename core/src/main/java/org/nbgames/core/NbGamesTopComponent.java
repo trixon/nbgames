@@ -51,7 +51,7 @@ import org.nbgames.core.api.ui.DialogButtonManager;
 import org.nbgames.core.api.ui.NewGamePanel;
 import org.nbgames.core.options.OptionsContainerPanel;
 import org.nbgames.core.ui.HelpPanel;
-import org.nbgames.core.ui.HomeProvider;
+import org.nbgames.core.ui.home.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.PlayerTrigger;

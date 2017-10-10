@@ -16,7 +16,7 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
-import org.nbgames.core.ui.HomeProvider;
+import org.nbgames.core.ui.home.HomeProvider;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;

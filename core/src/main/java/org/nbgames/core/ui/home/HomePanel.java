@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.ui;
+package org.nbgames.core.ui.home;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -24,6 +24,7 @@ import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.manager.PlayerManager;
+import org.nbgames.core.ui.PlayerTrigger;
 import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -167,7 +168,7 @@ public class HomePanel extends javax.swing.JPanel {
 
         add(playerManagerPanel, java.awt.BorderLayout.NORTH);
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         textPane.setEditable(false);
         textPane.setContentType("text/html"); // NOI18N
