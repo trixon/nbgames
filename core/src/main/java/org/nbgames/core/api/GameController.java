@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.api;
 
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -24,7 +25,10 @@ import org.openide.modules.Modules;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.news.NewsProvider;
+import se.trixon.almond.util.GraphicsHelper;
 import se.trixon.almond.util.SystemHelper;
+import se.trixon.almond.util.icons.IconColor;
+import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
@@ -70,6 +74,10 @@ public abstract class GameController implements PresenterProvider, NewsProvider 
     @Override
     public String getId() {
         return getClass().getName();
+    }
+
+    public BufferedImage getImage() {
+        return GraphicsHelper.toBufferedImage(MaterialIcon._Social.MOOD.get(96, IconColor.getDefault()).getImage());
     }
 
     @Override

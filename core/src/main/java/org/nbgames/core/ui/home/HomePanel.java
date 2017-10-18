@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.prefs.PreferenceChangeEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import org.nbgames.core.InstalledGames;
-import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.manager.PlayerManager;
@@ -28,7 +29,9 @@ import org.nbgames.core.ui.PlayerTrigger;
 import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
-import se.trixon.almond.util.Dict;
+import se.trixon.almond.nbp.Almond;
+import se.trixon.almond.util.icons.IconColor;
+import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
  *
@@ -56,6 +59,10 @@ public class HomePanel extends javax.swing.JPanel {
         //scrollPane.setVisible(false);
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
     private void init() {
         mCssBuilder = new StringBuilder("<html>");
         mCssBuilder.append("<head><style>");
@@ -72,43 +79,24 @@ public class HomePanel extends javax.swing.JPanel {
             updateGameList();
         });
 
-        textPane.setSelectedTextColor(textPane.getForeground());
-        textPane.setSelectionColor(textPane.getBackground());
+        addRemButton.setIcon(new ImageIcon(MaterialIcon._Av.GAMES.get(Almond.ICON_LARGE, IconColor.getDefault()).getImage()));
     }
 
     private synchronized void updateGameList() {
-        StringBuilder builder = new StringBuilder(mCssBuilder);
         Set<Map.Entry<String, ArrayList<GameController>>> installedGames = mGames.getGameControllersPerCategory().entrySet();
         if (installedGames.isEmpty()) {
-            builder.append("<h1>").append(DictNbg.NO_INSTALLED_GAMES.toString()).append("</h1>");
+//            builder.append("<h1>").append(DictNbg.NO_INSTALLED_GAMES.toString()).append("</h1>");
         } else {
-            builder.append("<h1>").append(DictNbg.INSTALLED_GAMES.toString()).append("</h1>");
+            installedGames.forEach((category) -> {
+                CategoryPanel categoryPanel = new CategoryPanel();
+                categoryPanel.setHeader(category.getKey());
+                panel.add(categoryPanel);
 
-            for (Map.Entry<String, ArrayList<GameController>> category : installedGames) {
-                builder.append("<h1>").append(category.getKey()).append("</h1>");
-                builder.append("<hr>");
-
-                for (GameController controller : category.getValue()) {
-                    String text = String.format("<h2>%s</h2>"
-                            + "<i>- %s</i><br />"
-                            + "- %s %s, %s",
-                            controller.getName(),
-                            controller.getDescription(),
-                            Dict.VERSION.toString(),
-                            controller.getVersion(),
-                            controller.getCopyright()
-                    );
-                    builder.append(text);
-                }
-            }
+                category.getValue().forEach((controller) -> {
+                    categoryPanel.add(new GameItem(controller));
+                });
+            });
         }
-
-        String text = String.format("<p></p><p><tt><center>— %s —</center></tt></p>", DictNbg.INSTALL_GAMES.toString());
-        builder.append(text);
-
-        textPane.setText(builder.toString());
-        textPane.setCaretPosition(0);
-        scrollPane.getVerticalScrollBar().setValue(0);
     }
 
     private void updatePlayerManagerPanel() {
@@ -126,11 +114,12 @@ public class HomePanel extends javax.swing.JPanel {
         playerManagerPanel = new javax.swing.JPanel();
         playerManagerLabel = new javax.swing.JLabel();
         playerManagerButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
-        textPane = new javax.swing.JTextPane();
-        jPanel2 = new javax.swing.JPanel();
-        copyrightLabel = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
+        toolBar = new javax.swing.JToolBar();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        addRemButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
         setOpaque(false);
@@ -168,46 +157,49 @@ public class HomePanel extends javax.swing.JPanel {
 
         add(playerManagerPanel, java.awt.BorderLayout.NORTH);
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        textPane.setEditable(false);
-        textPane.setContentType("text/html"); // NOI18N
-        scrollPane.setViewportView(textPane);
+        panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollPane.setViewportView(panel);
 
-        jPanel1.add(scrollPane);
+        mainPanel.add(scrollPane);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 194, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 208, Short.MAX_VALUE)
-        );
+        add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel1.add(jPanel2);
+        toolBar.setRollover(true);
+        toolBar.add(filler1);
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        addRemButton.setToolTipText(org.openide.util.NbBundle.getMessage(HomePanel.class, "HomePanel.addRemButton.toolTipText")); // NOI18N
+        addRemButton.setFocusable(false);
+        addRemButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addRemButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        addRemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRemButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(addRemButton);
 
-        copyrightLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        copyrightLabel.setText(org.openide.util.NbBundle.getMessage(HomePanel.class, "HomePanel.copyrightLabel.text")); // NOI18N
-        add(copyrightLabel, java.awt.BorderLayout.SOUTH);
+        add(toolBar, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playerManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerManagerButtonActionPerformed
         Actions.forID("Game", "org.nbgames.core.actions.PlayerManagerAction").actionPerformed(null);
     }//GEN-LAST:event_playerManagerButtonActionPerformed
 
+    private void addRemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRemButtonActionPerformed
+        Actions.forID("System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction").actionPerformed(evt);
+    }//GEN-LAST:event_addRemButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel copyrightLabel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton addRemButton;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel panel;
     private javax.swing.JButton playerManagerButton;
     private javax.swing.JLabel playerManagerLabel;
     private javax.swing.JPanel playerManagerPanel;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JTextPane textPane;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

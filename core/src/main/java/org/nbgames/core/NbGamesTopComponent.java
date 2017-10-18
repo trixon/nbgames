@@ -51,10 +51,11 @@ import org.nbgames.core.api.ui.DialogButtonManager;
 import org.nbgames.core.api.ui.NewGamePanel;
 import org.nbgames.core.options.OptionsContainerPanel;
 import org.nbgames.core.ui.HelpPanel;
-import org.nbgames.core.ui.home.HomeProvider;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
 import org.nbgames.core.ui.PlayerTrigger;
+import org.nbgames.core.ui.home.HomePanel;
+import org.nbgames.core.ui.home.HomeProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -95,6 +96,9 @@ import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
     "CTL_NbGamesTopComponent=nbGames",})
 public final class NbGamesTopComponent extends TopComponent {
 
+    private JPanel mHomePanel;
+
+    private final PlayerManager mPlayerManager = PlayerManager.getInstance();
     private final SystemOptions mOptions = SystemOptions.getInstance();
     private final IconColor mIconColor = IconColor.getDefault();
     private final ActionMap mActionMap = getActionMap();
@@ -122,14 +126,12 @@ public final class NbGamesTopComponent extends TopComponent {
         displayOptionsdialog(OptionsCategory.PLAYERS.ordinal(), null);
     }
 
-    public JButton getSelectorButton() {
-        return selectorButton;
-    }
-
     public void show(PresenterProvider presenterProvider) {
         String title = "nbGames";
         if (presenterProvider instanceof HomeProvider == false) {
             title = String.format("%s - %s", title, presenterProvider.getName());
+        } else {
+            mHomePanel = ((HomePanel) presenterProvider.getPanel()).getMainPanel();
         }
         ((JFrame) WindowManager.getDefault().getMainWindow()).setTitle(title);
 
@@ -343,14 +345,9 @@ public final class NbGamesTopComponent extends TopComponent {
 
         TriggerManager.getInstance().getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
             if (evt.getKey().equalsIgnoreCase(PlayerTrigger.class.getName())) {
-                setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
+                SwingHelper.enableComponents(mHomePanel, !mPlayerManager.select().isEmpty());
             }
         });
-    }
-
-    private void setSelectorEnabled(boolean enabled) {
-        selectorButton.setEnabled(enabled);
-        Actions.forID("Game", "org.nbgames.core.actions.SelectorAction").setEnabled(enabled);
     }
 
     @Override
@@ -377,9 +374,6 @@ public final class NbGamesTopComponent extends TopComponent {
         category = "Game";
         id = "org.nbgames.core.actions.NewRoundAction";
         initActionButton(category, id, newButton, DictNbg.NEW_ROUND.toString(), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_SMALL, mIconColor));
-
-        id = "org.nbgames.core.actions.SelectorAction";
-        initActionButton(category, id, selectorButton, DictNbg.GAME_SELECTOR.toString(), MaterialIcon._Av.GAMES.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Av.GAMES.get(Almond.ICON_SMALL, mIconColor));
 
         id = "org.nbgames.core.actions.HomeAction";
         initActionButton(category, id, homeButton, DictNbg.GO_HOME.toString(), MaterialIcon._Action.HOME.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HOME.get(Almond.ICON_SMALL, mIconColor));
@@ -435,12 +429,10 @@ public final class NbGamesTopComponent extends TopComponent {
         SwingHelper.borderPainted(toolBar, false);
         mainPanel.removeAll();
         mainPanel.add(new InitPanel());
-        setSelectorEnabled(false);
 
         new Thread(() -> {
             initDb();
             SwingUtilities.invokeLater(() -> {
-                setSelectorEnabled(!PlayerManager.getInstance().select().isEmpty());
                 GameController gameController = null;
                 try {
                     gameController = GameController.forID(mOptions.getCurrentCategory(), mOptions.getCurrentId());
@@ -448,6 +440,7 @@ public final class NbGamesTopComponent extends TopComponent {
                 }
 
                 show(HomeProvider.getInstance());
+                SwingHelper.enableComponents(mHomePanel, !mPlayerManager.select().isEmpty());
 
                 if (gameController != null) {
                     show(gameController);
@@ -488,7 +481,6 @@ public final class NbGamesTopComponent extends TopComponent {
         toolBar = new javax.swing.JToolBar();
         homeButton = new javax.swing.JButton();
         playersButton = new javax.swing.JButton();
-        selectorButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         optionsButton = new javax.swing.JButton();
         infoButton = new javax.swing.JButton();
@@ -513,11 +505,6 @@ public final class NbGamesTopComponent extends TopComponent {
         playersButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         playersButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(playersButton);
-
-        selectorButton.setFocusable(false);
-        selectorButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        selectorButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(selectorButton);
 
         newButton.setFocusable(false);
         newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -573,7 +560,6 @@ public final class NbGamesTopComponent extends TopComponent {
     private javax.swing.JButton optionsButton;
     private javax.swing.JButton playersButton;
     private javax.swing.JButton quitButton;
-    private javax.swing.JButton selectorButton;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 

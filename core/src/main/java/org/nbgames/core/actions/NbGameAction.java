@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ import org.openide.windows.WindowManager;
  */
 public abstract class NbGameAction implements ActionListener {
 
-    public NbGamesTopComponent getTopComponent() {
+    public static NbGamesTopComponent getTopComponent() {
         return (NbGamesTopComponent) WindowManager.getDefault().findTopComponent("NbGamesTopComponent");
     }
 }
