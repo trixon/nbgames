@@ -17,7 +17,6 @@ package org.nbgames.core.actions;
 
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
@@ -30,11 +29,7 @@ public class CallbackOptionsAction {
     @ActionID(category = "Game",
             id = "org.nbgames.core.actions.OptionsAction")
     @ActionRegistration(displayName = "#CTL_OptionsAction")
-    @ActionReferences({
-        @ActionReference(path = "Shortcuts", name = "D-P")
-        ,
-        @ActionReference(path = "Shortcuts", name = "D-COMMA")
-    })
+    @ActionReference(path = "Shortcuts", name = "D-COMMA")
     @NbBundle.Messages("CTL_OptionsAction=Options")
     public static final String KEY = "OptionsAction";
 }

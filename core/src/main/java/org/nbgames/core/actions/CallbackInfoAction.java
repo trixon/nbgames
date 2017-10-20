@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 package org.nbgames.core.actions;
 
 import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
@@ -27,6 +28,7 @@ public final class CallbackInfoAction {
 
     @ActionID(category = "Game", id = "org.nbgames.core.actions.InfoAction")
     @ActionRegistration(displayName = "#CTL_InfoAction")
+    @ActionReference(path = "Shortcuts", name = "D-I")
     @NbBundle.Messages("CTL_InfoAction=Information")
     public static final String KEY = "InfoAction";
 }

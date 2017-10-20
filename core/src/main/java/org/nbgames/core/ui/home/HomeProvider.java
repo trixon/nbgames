@@ -17,8 +17,8 @@ package org.nbgames.core.ui.home;
 
 import javax.swing.JPanel;
 import org.nbgames.core.SystemOptionsPanel;
-import org.nbgames.core.api.service.PresenterProvider;
 import org.nbgames.core.api.options.NbgOptionsPanel;
+import org.nbgames.core.api.service.PresenterProvider;
 import se.trixon.almond.util.SystemHelper;
 
 /**
@@ -39,7 +39,7 @@ public class HomeProvider implements PresenterProvider {
 
     @Override
     public String getCopyright() {
-        return "©2013-2016 Patrik Karlsson";
+        return "©2013-2017 Patrik Karlsson";
     }
 
     @Override
