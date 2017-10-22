@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.prefs.PreferenceChangeEvent;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import org.nbgames.core.InstalledGames;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.TriggerManager;
@@ -29,9 +29,11 @@ import org.nbgames.core.ui.PlayerTrigger;
 import org.openide.awt.Actions;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
-import se.trixon.almond.nbp.Almond;
+import se.trixon.almond.util.Dict;
+import se.trixon.almond.util.GraphicsHelper;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
+import se.trixon.almond.util.swing.SwingHelper;
 
 /**
  *
@@ -41,6 +43,8 @@ public class HomePanel extends javax.swing.JPanel {
 
     private final InstalledGames mGames;
     private StringBuilder mCssBuilder;
+    private final PlayerManager mPlayerManager = PlayerManager.getInstance();
+    private final CategoryPanel mSystemCategoryPanel = new CategoryPanel();
 
     /**
      * Creates new form HomePanel
@@ -48,14 +52,18 @@ public class HomePanel extends javax.swing.JPanel {
     public HomePanel() {
         mGames = InstalledGames.getInstance();
         initComponents();
+        playerManagerPanel.setVisible(false);
+
         TriggerManager.getInstance().getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
             if (evt.getKey().equalsIgnoreCase(PlayerTrigger.class.getName())) {
                 updatePlayerManagerPanel();
             }
         });
         init();
-        updatePlayerManagerPanel();
-        updateGameList();
+        SwingUtilities.invokeLater(() -> {
+            updateGameList();
+            updatePlayerManagerPanel();
+        });
         //scrollPane.setVisible(false);
     }
 
@@ -79,10 +87,18 @@ public class HomePanel extends javax.swing.JPanel {
             updateGameList();
         });
 
-        addRemButton.setIcon(new ImageIcon(MaterialIcon._Av.GAMES.get(Almond.ICON_LARGE, IconColor.getDefault()).getImage()));
+        mSystemCategoryPanel.setHeader(Dict.SYSTEM.toString());
+        SystemItem playerSystemItem = new SystemItem(Actions.forID("Game", "org.nbgames.core.actions.PlayerManagerAction"));
+        playerSystemItem.setImage(GraphicsHelper.toBufferedImage(MaterialIcon._Social.PEOPLE.get(96, IconColor.getDefault()).getImage()));
+        mSystemCategoryPanel.add(playerSystemItem);
+
+        SystemItem pluginSystemItem = new SystemItem(Actions.forID("Game", "org.nbgames.core.actions.PluginAction"));
+        pluginSystemItem.setImage(GraphicsHelper.toBufferedImage(MaterialIcon._Av.GAMES.get(96, IconColor.getDefault()).getImage()));
+        mSystemCategoryPanel.add(pluginSystemItem);
     }
 
     private synchronized void updateGameList() {
+        panel.removeAll();
         Set<Map.Entry<String, ArrayList<GameController>>> installedGames = mGames.getGameControllersPerCategory().entrySet();
         if (installedGames.isEmpty()) {
 //            builder.append("<h1>").append(DictNbg.NO_INSTALLED_GAMES.toString()).append("</h1>");
@@ -97,10 +113,13 @@ public class HomePanel extends javax.swing.JPanel {
                 });
             });
         }
+
+        panel.add(mSystemCategoryPanel);
     }
 
     private void updatePlayerManagerPanel() {
-        playerManagerPanel.setVisible(PlayerManager.getInstance().select().isEmpty());
+        SwingHelper.enableComponents(panel, !mPlayerManager.select().isEmpty(), mSystemCategoryPanel);
+        playerManagerPanel.setVisible(mPlayerManager.select().isEmpty());
     }
 
     /**
@@ -117,9 +136,6 @@ public class HomePanel extends javax.swing.JPanel {
         mainPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         panel = new javax.swing.JPanel();
-        toolBar = new javax.swing.JToolBar();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        addRemButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8));
         setOpaque(false);
@@ -159,47 +175,27 @@ public class HomePanel extends javax.swing.JPanel {
 
         mainPanel.setLayout(new java.awt.GridLayout(1, 0));
 
+        scrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrollPane.setPreferredSize(new java.awt.Dimension(0, 0));
+
         panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.PAGE_AXIS));
         scrollPane.setViewportView(panel);
 
         mainPanel.add(scrollPane);
 
         add(mainPanel, java.awt.BorderLayout.CENTER);
-
-        toolBar.setRollover(true);
-        toolBar.add(filler1);
-
-        addRemButton.setToolTipText(org.openide.util.NbBundle.getMessage(HomePanel.class, "HomePanel.addRemButton.toolTipText")); // NOI18N
-        addRemButton.setFocusable(false);
-        addRemButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addRemButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        addRemButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addRemButtonActionPerformed(evt);
-            }
-        });
-        toolBar.add(addRemButton);
-
-        add(toolBar, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playerManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerManagerButtonActionPerformed
         Actions.forID("Game", "org.nbgames.core.actions.PlayerManagerAction").actionPerformed(null);
     }//GEN-LAST:event_playerManagerButtonActionPerformed
 
-    private void addRemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRemButtonActionPerformed
-        Actions.forID("System", "org.netbeans.modules.autoupdate.ui.actions.PluginManagerAction").actionPerformed(evt);
-    }//GEN-LAST:event_addRemButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addRemButton;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panel;
     private javax.swing.JButton playerManagerButton;
     private javax.swing.JLabel playerManagerLabel;
     private javax.swing.JPanel playerManagerPanel;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }

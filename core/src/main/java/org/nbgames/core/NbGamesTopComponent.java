@@ -41,7 +41,6 @@ import org.nbgames.core.actions.CallbackOptionsAction;
 import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
-import org.nbgames.core.api.TriggerManager;
 import org.nbgames.core.api.db.Db;
 import org.nbgames.core.api.db.DbCreator;
 import org.nbgames.core.api.db.manager.PlayerManager;
@@ -53,7 +52,6 @@ import org.nbgames.core.options.OptionsContainerPanel;
 import org.nbgames.core.ui.HelpPanel;
 import org.nbgames.core.ui.InfoPanel;
 import org.nbgames.core.ui.InitPanel;
-import org.nbgames.core.ui.PlayerTrigger;
 import org.nbgames.core.ui.home.HomePanel;
 import org.nbgames.core.ui.home.HomeProvider;
 import org.netbeans.api.settings.ConvertAsProperties;
@@ -128,10 +126,10 @@ public final class NbGamesTopComponent extends TopComponent {
 
     public void show(PresenterProvider presenterProvider) {
         String title = "nbGames";
-        if (presenterProvider instanceof HomeProvider == false) {
-            title = String.format("%s - %s", title, presenterProvider.getName());
-        } else {
+        if (presenterProvider instanceof HomeProvider) {
             mHomePanel = ((HomePanel) presenterProvider.getPanel()).getMainPanel();
+        } else {
+            title = String.format("%s - %s", title, presenterProvider.getName());
         }
         ((JFrame) WindowManager.getDefault().getMainWindow()).setTitle(title);
 
@@ -342,12 +340,6 @@ public final class NbGamesTopComponent extends TopComponent {
                 repaint();
             }
         });
-
-        TriggerManager.getInstance().getPreferences().addPreferenceChangeListener((PreferenceChangeEvent evt) -> {
-            if (evt.getKey().equalsIgnoreCase(PlayerTrigger.class.getName())) {
-                SwingHelper.enableComponents(mHomePanel, !mPlayerManager.select().isEmpty());
-            }
-        });
     }
 
     @Override
@@ -422,6 +414,7 @@ public final class NbGamesTopComponent extends TopComponent {
             }
         });
 
+        playersButton.setVisible(false);
         menuButton.setVisible(false);
         toolBar.setOpaque(mOptions.isCustomToolbarBackground());
         toolBar.setBackground(mOptions.getColor(SystemOptions.ColorItem.TOOLBAR));
@@ -440,7 +433,6 @@ public final class NbGamesTopComponent extends TopComponent {
                 }
 
                 show(HomeProvider.getInstance());
-                SwingHelper.enableComponents(mHomePanel, !mPlayerManager.select().isEmpty());
 
                 if (gameController != null) {
                     show(gameController);
