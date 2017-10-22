@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2017 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,12 @@
  */
 package org.nbgames.core.api.ui;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
+import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -26,6 +29,8 @@ import javax.swing.JPanel;
  * @author Patrik Karlsson
  */
 public abstract class GamePanel extends JPanel {
+
+    private BufferedImage mBackgroundImage;
 
     public GamePanel() {
         super();
@@ -53,8 +58,40 @@ public abstract class GamePanel extends JPanel {
         }
     }
 
-    private void init() {
+    public BufferedImage getBackgroundImage() {
+        return mBackgroundImage;
+    }
 
+    public abstract void newGame();
+
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+
+        if (mBackgroundImage != null) {
+            for (int i = 0; i < (getHeight() / mBackgroundImage.getHeight()) + 1; i++) {
+                if (getWidth() < mBackgroundImage.getWidth()) {
+                    g2.drawImage(mBackgroundImage, 0, i * mBackgroundImage.getHeight(), null);
+                } else {
+                    g2.drawImage(mBackgroundImage, 0, i * mBackgroundImage.getHeight(), getWidth(), mBackgroundImage.getHeight(), null);
+                }
+            }
+        }
+
+        super.paint(g);
+        g2.dispose();
+    }
+
+    public void setBackgroundImage(BufferedImage backgroundImage) {
+        mBackgroundImage = backgroundImage;
+    }
+
+    @Override
+    public void update(Graphics g) {
+        paint(g);
+    }
+
+    private void init() {
         addHierarchyBoundsListener(new HierarchyBoundsListener() {
 
             @Override
@@ -67,6 +104,4 @@ public abstract class GamePanel extends JPanel {
             }
         });
     }
-
-    public abstract void newGame();
 }

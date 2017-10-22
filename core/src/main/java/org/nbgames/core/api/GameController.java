@@ -117,6 +117,11 @@ public abstract class GameController implements PresenterProvider, NewsProvider 
     }
 
     @Override
+    public BufferedImage getToolBarBackground() {
+        return null;
+    }
+
+    @Override
     public String getVersion() {
         return getResource("Game-Version");
     }

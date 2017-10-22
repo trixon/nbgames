@@ -15,10 +15,13 @@
  */
 package org.nbgames.core.api;
 
+import java.awt.image.BufferedImage;
 import java.util.ResourceBundle;
+import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.Monitor;
 import se.trixon.almond.util.AlmondOptions;
+import se.trixon.almond.util.SystemHelper;
 
 /**
  *
@@ -38,6 +41,14 @@ public class NbGames {
 
     public static ResourceBundle getBundle() {
         return NbBundle.getBundle(NbGames.class);
+    }
+
+    public static BufferedImage getImage(Class c, String imagePath) {
+        return (BufferedImage) ImageUtilities.loadImage(SystemHelper.getPackageAsPath(c) + imagePath);
+    }
+
+    public static BufferedImage getImage(String imagePath) {
+        return getImage(NbGames.class, imagePath);
     }
 
     public static void outln(String name, String message) {

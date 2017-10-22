@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.api.service;
 
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import org.nbgames.core.api.options.NbgOptionsPanel;
 
@@ -45,6 +46,8 @@ public interface PresenterProvider {
     JPanel getPanel();
 
     String getShortDescription();
+
+    BufferedImage getToolBarBackground();
 
     String getVersion();
 }

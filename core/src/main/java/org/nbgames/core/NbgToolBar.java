@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.dice;
+package org.nbgames.core;
 
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import org.nbgames.core.api.NbGames;
+import javax.swing.JToolBar;
 
 /**
  *
  * @author Patrik Karlsson
  */
-class DiceBoardPanel extends JPanel {
+public class NbgToolBar extends JToolBar {
 
-    private static final Dimension PREFERRED_DIMENSION = new Dimension(1000, 200);
     private BufferedImage mBackgroundImage;
+    private final Color mColor;
+    private final Color mDefaultColor = new JToolBar().getBackground();
 
-    DiceBoardPanel() {
-        init();
+    public NbgToolBar() {
+        mColor = new Color(mDefaultColor.getRed(), mDefaultColor.getGreen(), mDefaultColor.getBlue(), 0x88);
     }
 
     public BufferedImage getBackgroundImage() {
@@ -54,6 +51,8 @@ class DiceBoardPanel extends JPanel {
                     g2.drawImage(mBackgroundImage, 0, i * mBackgroundImage.getHeight(), getWidth(), mBackgroundImage.getHeight(), null);
                 }
             }
+            g2.setPaint(mColor);
+            g2.fillRect(0, 0, getWidth(), getHeight());
         }
 
         super.paint(g);
@@ -62,33 +61,5 @@ class DiceBoardPanel extends JPanel {
 
     public void setBackgroundImage(BufferedImage backgroundImage) {
         mBackgroundImage = backgroundImage;
-    }
-
-    @Override
-    public void update(Graphics g) {
-        paint(g);
-    }
-
-    private void init() {
-        setBackgroundImage(NbGames.getImage("images/wood_panel1.jpg"));
-        setPreferredSize(PREFERRED_DIMENSION);
-        setLayout(new GridLayout(1, 1));
-
-        addAncestorListener(new AncestorListener() {
-            @Override
-            public void ancestorAdded(AncestorEvent event) {
-                repaint();
-                revalidate();
-            }
-
-            @Override
-            public void ancestorMoved(AncestorEvent event) {
-            }
-
-            @Override
-            public void ancestorRemoved(AncestorEvent event) {
-            }
-
-        });
     }
 }

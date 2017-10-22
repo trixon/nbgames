@@ -15,6 +15,7 @@
  */
 package org.nbgames.core.ui.home;
 
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import org.nbgames.core.SystemOptionsPanel;
 import org.nbgames.core.api.options.NbgOptionsPanel;
@@ -90,6 +91,11 @@ public class HomeProvider implements PresenterProvider {
     @Override
     public String getShortDescription() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public BufferedImage getToolBarBackground() {
+        return null;
     }
 
     @Override

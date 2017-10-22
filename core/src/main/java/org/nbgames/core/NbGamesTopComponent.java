@@ -125,6 +125,8 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     public void show(PresenterProvider presenterProvider) {
+        toolBar.setBackgroundImage(presenterProvider.getToolBarBackground());
+        toolBar.repaint();
         String title = "nbGames";
         if (presenterProvider instanceof HomeProvider) {
             mHomePanel = ((HomePanel) presenterProvider.getPanel()).getMainPanel();
@@ -470,7 +472,7 @@ public final class NbGamesTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        toolBar = new javax.swing.JToolBar();
+        toolBar = new org.nbgames.core.NbgToolBar();
         homeButton = new javax.swing.JButton();
         playersButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
@@ -552,7 +554,7 @@ public final class NbGamesTopComponent extends TopComponent {
     private javax.swing.JButton optionsButton;
     private javax.swing.JButton playersButton;
     private javax.swing.JButton quitButton;
-    private javax.swing.JToolBar toolBar;
+    private org.nbgames.core.NbgToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
     @Override
