@@ -62,7 +62,7 @@ public abstract class CategoryItem extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(8, 8, 8, 8), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
         setMaximumSize(new java.awt.Dimension(256, 256));
-        setPreferredSize(new java.awt.Dimension(256, 256));
+        setPreferredSize(new java.awt.Dimension(256, 192));
 
         button.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

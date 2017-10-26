@@ -115,6 +115,7 @@ public class HomePanel extends javax.swing.JPanel {
         }
 
         panel.add(mSystemCategoryPanel);
+        panel.add(new JPanel()); //Fixes a layout issue
     }
 
     private void updatePlayerManagerPanel() {
@@ -173,7 +174,7 @@ public class HomePanel extends javax.swing.JPanel {
 
         add(playerManagerPanel, java.awt.BorderLayout.NORTH);
 
-        mainPanel.setLayout(new java.awt.GridLayout(1, 0));
+        mainPanel.setLayout(new java.awt.BorderLayout());
 
         scrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
         scrollPane.setPreferredSize(new java.awt.Dimension(0, 0));
@@ -181,7 +182,7 @@ public class HomePanel extends javax.swing.JPanel {
         panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.PAGE_AXIS));
         scrollPane.setViewportView(panel);
 
-        mainPanel.add(scrollPane);
+        mainPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
 
         add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
