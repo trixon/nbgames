@@ -16,6 +16,7 @@
 package org.nbgames.core.api;
 
 import java.awt.image.BufferedImage;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
@@ -49,6 +50,10 @@ public class NbGames {
 
     public static BufferedImage getImage(String imagePath) {
         return getImage(NbGames.class, imagePath);
+    }
+
+    public static String getLanguageSuffix() {
+        return "-" + Locale.getDefault().getLanguage();
     }
 
     public static void outln(String name, String message) {

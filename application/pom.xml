@@ -113,6 +113,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>yaya-quickie</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>logic-gunu</artifactId>
             <version>${nbgames.version}</version>
         </dependency>

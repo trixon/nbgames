@@ -16,7 +16,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <publicPackages>
-                        <publicPackage>org.json.simple</publicPackage>
+                        <publicPackage>com.google.gson.*</publicPackage>
                         <publicPackage>org.nbgames.core.api.*</publicPackage>
                         <publicPackage>com.h2database.*</publicPackage>
                         <publicPackage>org.apache.commons.io.*</publicPackage>
@@ -113,11 +113,6 @@
         </dependency>
 
         <!--NetBeans External-->
-        <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>json-simple-1.1.1</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
 
         <!--Trixon-->
         <dependency>
@@ -140,12 +135,17 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
         </dependency>
     </dependencies>
     <properties>
