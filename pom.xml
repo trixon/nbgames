@@ -17,13 +17,13 @@
         </license>
     </licenses>
     <organization>
-        <name>Patrik Karlsson</name>
+        <name>Patrik Karlström</name>
         <url>https://trixon.se</url>
     </organization>
     <developers>
         <developer>
             <id>trixon</id>
-            <name>Patrik Karlsson</name>
+            <name>Patrik Karlström</name>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
