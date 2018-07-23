@@ -22,6 +22,7 @@ import org.openide.modules.ModuleInstall;
 import org.openide.util.NbPreferences;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
 import se.trixon.almond.util.AlmondOptions;
+import se.trixon.almond.util.icons.IconColor;
 
 /**
  *
@@ -30,6 +31,7 @@ import se.trixon.almond.util.AlmondOptions;
 public class Installer extends ModuleInstall {
 
     public Installer() {
+        IconColor.initSwing();
         AlmondOptions.getInstance().setPreferences(NbPreferences.forModule(Installer.class));
     }
 

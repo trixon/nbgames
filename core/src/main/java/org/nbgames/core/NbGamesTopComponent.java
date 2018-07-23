@@ -64,12 +64,12 @@ import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.ActionHelper;
 import se.trixon.almond.nbp.Almond;
+import se.trixon.almond.util.AboutModel;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.SystemHelper;
 import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.almond.util.swing.SwingHelper;
-import se.trixon.almond.util.swing.dialogs.about.AboutModel;
 import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
 
 /**
