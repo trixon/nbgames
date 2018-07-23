@@ -108,5 +108,7 @@
         <nbgames.version>0.1.0-SNAPSHOT</nbgames.version>
         <almond-nbp.version>2.0.0-SNAPSHOT</almond-nbp.version>
         <brandingToken>nbgames</brandingToken>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <netbeans.hint.license>apache20</netbeans.hint.license>
     </properties>
 </project>
