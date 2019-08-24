@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,11 @@ import javax.swing.UIManager;
 import org.nbgames.core.api.NbGames;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.NbPreferences;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.swing.NoTabsTabDisplayerUI;
 import se.trixon.almond.util.AlmondOptions;
-import se.trixon.almond.util.icons.IconColor;
+//import se.trixon.almond.util.icons.IconColor;
 
 /**
  *
@@ -31,7 +33,7 @@ import se.trixon.almond.util.icons.IconColor;
 public class Installer extends ModuleInstall {
 
     public Installer() {
-        IconColor.initSwing();
+//        IconColor.initSwing();
         AlmondOptions.getInstance().setPreferences(NbPreferences.forModule(Installer.class));
     }
 
@@ -43,6 +45,17 @@ public class Installer extends ModuleInstall {
             System.setProperty("netbeans.winsys.status_line.path", "");
         });
 
+        WindowManager.getDefault().invokeWhenUIReady(() -> {
+            openWindow("NbGamesTopComponent");
+        });
+
         NbGames.outln(NbGames.LOG_TITLE, "nbGames Platform loaded");
+    }
+
+    private void openWindow(String id) {
+        TopComponent topComponent = WindowManager.getDefault().findTopComponent(id);
+        if (topComponent != null) {
+            topComponent.open();
+        }
     }
 }

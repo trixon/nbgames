@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,42 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nbgames.core.api;
+package org.nbgames.core;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import org.openide.modules.OnStart;
+import se.trixon.almond.nbp.about.AboutAction;
+import se.trixon.almond.util.AboutModel;
 import se.trixon.almond.util.SystemHelper;
 
 /**
  *
  * @author Patrik Karlström
  */
-public enum DictNbg {
-
-    GAME,
-    GAME_OVER,
-    GAME_SELECTOR,
-    GAME_TYPE,
-    GO_HOME,
-    GOAL,
-    HOLD,
-    INSTALL_GAMES,
-    INSTALLED_GAMES,
-    LEVEL,
-    NEW_ROUND,
-    NUMBER_OF_PLAYERS,
-    NO_INSTALLED_GAMES,
-    PLAYER,
-    PLAYERS,
-    SELECT_PLAYER,
-    SHUFFLE,
-    VARIANT,
-    ZZZ;
-
-    private final ResourceBundle mResourceBundle = ResourceBundle.getBundle(SystemHelper.getPackageAsPath(DictNbg.class) + "DictNbg", Locale.getDefault());
+@OnStart
+public class AboutInitializer implements Runnable {
 
     @Override
-    public String toString() {
-        return mResourceBundle.getString(name().toLowerCase());
+    public void run() {
+        AboutModel aboutModel = new AboutModel(SystemHelper.getBundle(getClass(), "about"),
+                SystemHelper.getResourceAsImageIcon(getClass(), "nbgames.png"));
+        AboutAction.setAboutModel(aboutModel);
     }
 }

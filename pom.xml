@@ -34,13 +34,6 @@
         </developer>
     </developers>
 
-    <repositories>
-        <repository>
-            <id>netbeans</id>
-            <name>NetBeans</name>
-            <url>http://bits.netbeans.org/nexus/content/groups/netbeans/</url>
-        </repository>
-    </repositories>
 
     <build>
         <pluginManagement>
@@ -104,9 +97,9 @@
     </modules>
 
     <properties>
-        <netbeans.version>RELEASE82</netbeans.version>
+        <netbeans.version>RELEASE111</netbeans.version>
         <nbgames.version>0.1.0-SNAPSHOT</nbgames.version>
-        <almond-nbp.version>2.0.0-SNAPSHOT</almond-nbp.version>
+        <almond-nbp.version>3.0.5-SNAPSHOT</almond-nbp.version>
         <brandingToken>nbgames</brandingToken>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.license>apache20</netbeans.hint.license>

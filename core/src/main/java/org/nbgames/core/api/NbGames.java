@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,8 @@ package org.nbgames.core.api;
 import java.awt.image.BufferedImage;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.scene.paint.Color;
+import org.nbgames.core.toolbar.AppToolBar;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
 import se.trixon.almond.nbp.Monitor;
@@ -30,7 +32,14 @@ import se.trixon.almond.util.SystemHelper;
  */
 public class NbGames {
 
+    public static final String LOG_TAG = "core";
     public static final String LOG_TITLE = "core";
+
+    private static final int ICON_SIZE_CONTEXT_MENU = 16;
+    private static final int ICON_SIZE_TOOLBAR = 36;
+    private static final int ICON_SIZE_TOOLBAR_INT = 24;
+    private static AppToolBar sAppToolBar;
+    private static final Color sIconColor = Color.BLACK;
 
     public static void errln(String name, String message) {
         new Monitor(name, false, true).errln(message);
@@ -40,8 +49,24 @@ public class NbGames {
         return AlmondOptions.getInstance();
     }
 
+    public static AppToolBar getAppToolBar() {
+        return sAppToolBar;
+    }
+
     public static ResourceBundle getBundle() {
         return NbBundle.getBundle(NbGames.class);
+    }
+
+    public static Color getIconColor() {
+        return sIconColor;
+    }
+
+    public static int getIconSizeContextMenu() {
+        return ICON_SIZE_CONTEXT_MENU;
+    }
+
+    public static int getIconSizeToolBar() {
+        return ICON_SIZE_TOOLBAR;
     }
 
     public static BufferedImage getImage(Class c, String imagePath) {
@@ -59,4 +84,9 @@ public class NbGames {
     public static void outln(String name, String message) {
         new Monitor(name, false, true).outln(message);
     }
+
+    public static void setToolBar(AppToolBar appToolBar) {
+        NbGames.sAppToolBar = appToolBar;
+    }
+
 }

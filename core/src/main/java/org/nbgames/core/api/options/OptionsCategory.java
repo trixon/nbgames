@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,9 @@
 package org.nbgames.core.api.options;
 
 import javax.swing.ImageIcon;
-import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.Dict;
-import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
@@ -29,7 +27,7 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
  */
 public enum OptionsCategory {
 
-    PLAYERS(MaterialIcon._Social.PEOPLE, DictNbg.PLAYERS.toString()),
+    PLAYERS(MaterialIcon._Social.PEOPLE, Dict.Game.PLAYERS.toString()),
     ARCADE(MaterialIcon._Editor.LINEAR_SCALE, GameCategory.ARCADE.getString()),
     BOARD(MaterialIcon._Editor.LINEAR_SCALE, GameCategory.BOARD.getString()),
     CARD(MaterialIcon._Editor.LINEAR_SCALE, GameCategory.CARD.getString()),
@@ -38,12 +36,12 @@ public enum OptionsCategory {
     STRATEGY(MaterialIcon._Editor.LINEAR_SCALE, GameCategory.STRATEGY.getString()),
     SYSTEM(MaterialIcon._Action.BUILD, Dict.SYSTEM.toString());
 
-    private final IconColor mIconColor = IconColor.getDefault();
+//    private final IconColor mIconColor = IconColor.getDefault();
     private ImageIcon mImageIcon;
     private String mTitle;
 
     private OptionsCategory(MaterialIcon.IconGetter iconGetter, String title) {
-        mImageIcon = iconGetter.get(Almond.ICON_SMALL, mIconColor);
+        mImageIcon = iconGetter.getImageIcon(Almond.ICON_SMALL);
         mTitle = title;
     }
 

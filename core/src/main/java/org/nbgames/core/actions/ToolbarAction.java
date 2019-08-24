@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,8 @@
 package org.nbgames.core.actions;
 
 import java.awt.event.ActionEvent;
+import org.nbgames.core.api.NbGames;
+import org.nbgames.core.toolbar.AppToolBar;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -40,6 +42,8 @@ public final class ToolbarAction extends NbGameAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        getTopComponent().toogleToolbarVisibility();
+        AppToolBar toolbar = NbGames.getAppToolBar();
+        toolbar.setVisible(!toolbar.isVisible());
+//        getTopComponent().toogleToolbarVisibility();
     }
 }

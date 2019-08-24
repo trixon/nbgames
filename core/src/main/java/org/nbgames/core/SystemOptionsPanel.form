@@ -78,9 +78,6 @@
           </Constraints>
         </Component>
         <Component class="org.openide.awt.ColorComboBox" name="upperColorComboBox">
-          <BindingProperties>
-            <BindingProperty name="enabled" source="colorCheckBox" sourcePath="${selected}" target="upperColorComboBox" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upperColorComboBoxActionPerformed"/>
           </Events>
@@ -91,9 +88,6 @@
           </Constraints>
         </Component>
         <Component class="org.openide.awt.ColorComboBox" name="lowerColorComboBox">
-          <BindingProperties>
-            <BindingProperty name="enabled" source="colorCheckBox" sourcePath="${selected}" target="lowerColorComboBox" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lowerColorComboBoxActionPerformed"/>
           </Events>
@@ -119,9 +113,6 @@
           </Constraints>
         </Component>
         <Component class="org.openide.awt.ColorComboBox" name="toolbarColorComboBox">
-          <BindingProperties>
-            <BindingProperty name="enabled" source="toolbarColorCheckBox" sourcePath="${selected}" target="toolbarColorComboBox" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toolbarColorComboBoxActionPerformed"/>
           </Events>

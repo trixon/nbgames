@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,6 +31,17 @@ import se.trixon.almond.util.Xlog;
  * @author Patrik Karlström
  */
 public class SystemOptions extends NbgOptions {
+
+    private static final boolean DEFAULT_FULL_SCREEN = false;
+    private static final String KEY_FULL_SCREEN = "fullscreen";
+
+    public boolean isFullscreen() {
+        return mPreferences.getBoolean(KEY_FULL_SCREEN, DEFAULT_FULL_SCREEN);
+    }
+
+    public void setFullscreen(boolean value) {
+        mPreferences.putBoolean(KEY_FULL_SCREEN, value);
+    }
 
     public static final String KEY_CURRENT_CATEGORY = "currentCategory";
     public static final String KEY_CURRENT_ID = "currentId";

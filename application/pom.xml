@@ -101,7 +101,7 @@
         </dependency>
 
         <!--Games-->
-        <dependency>
+        <!--        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>dice-hekaton</artifactId>
             <version>${nbgames.version}</version>
@@ -120,7 +120,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>logic-gunu</artifactId>
             <version>${nbgames.version}</version>
-        </dependency>
+        </dependency>-->
         <!--        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>card-memroyal</artifactId>

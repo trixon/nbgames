@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,12 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import org.apache.commons.lang3.StringUtils;
 import org.nbgames.core.NbGamesTopComponent;
-import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameController;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.windows.WindowManager;
 import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.icons.IconColor;
+import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.almond.util.swing.dialogs.HtmlPanel;
 
@@ -38,7 +37,6 @@ import se.trixon.almond.util.swing.dialogs.HtmlPanel;
 public class GameOverDialog {
 
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
-    private final IconColor mIconColor = IconColor.getDefault();
     private final JButton mNewGameButton;
     private final NotifyDescriptor mNotifyDescriptor;
     private final JButton mQuickNewGameButton;
@@ -48,13 +46,13 @@ public class GameOverDialog {
     }
 
     private GameOverDialog() {
-        mNewGameButton = new JButton(MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_LARGE, mIconColor));
-        mQuickNewGameButton = new JButton(MaterialIcon._Av.PLAY_CIRCLE_OUTLINE.get(Almond.ICON_LARGE, mIconColor));
+        mNewGameButton = new JButton(MaterialIcon._Av.PLAY_ARROW.getImageIcon(Almond.ICON_LARGE));
+        mQuickNewGameButton = new JButton(MaterialIcon._Av.PLAY_CIRCLE_OUTLINE.getImageIcon(Almond.ICON_LARGE));
 
         JButton[] options = new JButton[]{mButtonManager.getCancel(), mNewGameButton, mQuickNewGameButton};
         mNotifyDescriptor = new NotifyDescriptor(
                 null,
-                DictNbg.GAME_OVER.toString(),
+                Dict.Game.GAME_OVER.toString(),
                 NotifyDescriptor.PLAIN_MESSAGE,
                 NotifyDescriptor.DEFAULT_OPTION,
                 options,

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +38,6 @@ import org.nbgames.core.actions.CallbackHelpAction;
 import org.nbgames.core.actions.CallbackInfoAction;
 import org.nbgames.core.actions.CallbackNewRoundAction;
 import org.nbgames.core.actions.CallbackOptionsAction;
-import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.GameCategory;
 import org.nbgames.core.api.GameController;
 import org.nbgames.core.api.db.Db;
@@ -67,7 +66,6 @@ import se.trixon.almond.nbp.Almond;
 import se.trixon.almond.util.AboutModel;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.SystemHelper;
-import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.almond.util.swing.SwingHelper;
 import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
@@ -83,7 +81,7 @@ import se.trixon.almond.util.swing.dialogs.about.AboutPanel;
         preferredID = "NbGamesTopComponent",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "org.nbgames.core.NbGamesTopComponent")
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_NbGamesTopComponentAction",
@@ -98,7 +96,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
     private final PlayerManager mPlayerManager = PlayerManager.getInstance();
     private final SystemOptions mOptions = SystemOptions.getInstance();
-    private final IconColor mIconColor = IconColor.getDefault();
+//    private final IconColor mIconColor = IconColor.getDefault();
     private final ActionMap mActionMap = getActionMap();
     private final DialogButtonManager mButtonManager = DialogButtonManager.getInstance();
     private OptionsContainerPanel mOptionsContainerPanel;
@@ -271,7 +269,7 @@ public final class NbGamesTopComponent extends TopComponent {
         Object[] options = new Object[]{mButtonManager.getCancel(), mButtonManager.getOk()};
         NotifyDescriptor d = new NotifyDescriptor(
                 newGamePanel,
-                DictNbg.NEW_ROUND.toString(),
+                Dict.Game.NEW_ROUND.toString(),
                 NotifyDescriptor.PLAIN_MESSAGE,
                 NotifyDescriptor.DEFAULT_OPTION,
                 options,
@@ -367,33 +365,33 @@ public final class NbGamesTopComponent extends TopComponent {
 
         category = "Game";
         id = "org.nbgames.core.actions.NewRoundAction";
-        initActionButton(category, id, newButton, DictNbg.NEW_ROUND.toString(), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Av.PLAY_ARROW.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, newButton, Dict.Game.NEW_ROUND.toString(), MaterialIcon._Av.PLAY_ARROW.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Av.PLAY_ARROW.getImageIcon(Almond.ICON_SMALL));
 
         id = "org.nbgames.core.actions.HomeAction";
-        initActionButton(category, id, homeButton, DictNbg.GO_HOME.toString(), MaterialIcon._Action.HOME.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HOME.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, homeButton, Dict.Game.GO_HOME.toString(), MaterialIcon._Action.HOME.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Action.HOME.getImageIcon(Almond.ICON_SMALL));
 
         id = "org.nbgames.core.actions.PlayerManagerAction";
-        initActionButton(category, id, playersButton, DictNbg.PLAYERS.toString(), MaterialIcon._Social.PEOPLE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Social.PEOPLE.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, playersButton, Dict.Game.PLAYERS.toString(), MaterialIcon._Social.PEOPLE.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Social.PEOPLE.getImageIcon(Almond.ICON_SMALL));
 
         id = "org.nbgames.core.actions.OptionsAction";
-        initActionButton(category, id, optionsButton, Dict.OPTIONS.toString(), MaterialIcon._Action.SETTINGS.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.SETTINGS.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, optionsButton, Dict.OPTIONS.toString(), MaterialIcon._Action.SETTINGS.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Action.SETTINGS.getImageIcon(Almond.ICON_SMALL));
 
         id = "org.nbgames.core.actions.InfoAction";
-        initActionButton(category, id, infoButton, Dict.INFORMATION.toString(), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.INFO_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, infoButton, Dict.INFORMATION.toString(), MaterialIcon._Action.INFO_OUTLINE.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Action.INFO_OUTLINE.getImageIcon(Almond.ICON_SMALL));
 
         id = "org.nbgames.core.actions.HelpAction";
-        initActionButton(category, id, helpButton, Dict.HELP.toString(), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Action.HELP_OUTLINE.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, helpButton, Dict.HELP.toString(), MaterialIcon._Action.HELP_OUTLINE.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Action.HELP_OUTLINE.getImageIcon(Almond.ICON_SMALL));
 
         category = "File";
         id = "se.trixon.almond.nbp.actions.QuitAction";
-        initActionButton(category, id, quitButton, Dict.QUIT.toString(), MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Navigation.CLOSE.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, quitButton, Dict.QUIT.toString(), MaterialIcon._Navigation.CLOSE.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Navigation.CLOSE.getImageIcon(Almond.ICON_SMALL));
         quitButton.setVisible(false);
 
         category = "Window";
         id = "org.netbeans.core.windows.actions.ToggleFullScreenAction";
         final Action fullScreenAction = Actions.forID(category, id);
-        ActionHelper.setIconSmall(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.get(Almond.ICON_SMALL, mIconColor));
-        ActionHelper.setIconLarge(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.get(Almond.ICON_LARGE, mIconColor));
+        ActionHelper.setIconSmall(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.getImageIcon(Almond.ICON_SMALL));
+        ActionHelper.setIconLarge(fullScreenAction, MaterialIcon._Navigation.FULLSCREEN.getImageIcon(Almond.ICON_LARGE));
 
         fullscreenButton.setAction(fullScreenAction);
         fullscreenButton.setText("");
@@ -401,7 +399,7 @@ public final class NbGamesTopComponent extends TopComponent {
 
         category = "System";
         id = "org.nbgames.core.actions.SystemMenuAction";
-        initActionButton(category, id, menuButton, null, MaterialIcon._Navigation.MENU.get(Almond.ICON_LARGE, mIconColor), MaterialIcon._Navigation.MENU.get(Almond.ICON_SMALL, mIconColor));
+        initActionButton(category, id, menuButton, null, MaterialIcon._Navigation.MENU.getImageIcon(Almond.ICON_LARGE), MaterialIcon._Navigation.MENU.getImageIcon(Almond.ICON_SMALL));
 
         final JFrame frame = (JFrame) WindowManager.getDefault().getMainWindow();
         frame.addWindowListener(new WindowAdapter() {
@@ -410,8 +408,8 @@ public final class NbGamesTopComponent extends TopComponent {
                 final boolean fullscreen = frame.isUndecorated();
                 MaterialIcon._Navigation fullscreenIcon = fullscreen == true ? MaterialIcon._Navigation.FULLSCREEN_EXIT : MaterialIcon._Navigation.FULLSCREEN;
 
-                ActionHelper.setIconSmall(fullScreenAction, fullscreenIcon.get(Almond.ICON_SMALL, mIconColor));
-                ActionHelper.setIconLarge(fullScreenAction, fullscreenIcon.get(Almond.ICON_LARGE, mIconColor));
+                ActionHelper.setIconSmall(fullScreenAction, fullscreenIcon.getImageIcon(Almond.ICON_SMALL));
+                ActionHelper.setIconLarge(fullScreenAction, fullscreenIcon.getImageIcon(Almond.ICON_LARGE));
                 quitButton.setVisible(fullscreen);
             }
         });
@@ -466,8 +464,7 @@ public final class NbGamesTopComponent extends TopComponent {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-     * modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

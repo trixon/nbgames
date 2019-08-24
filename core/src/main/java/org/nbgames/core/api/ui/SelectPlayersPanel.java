@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,10 +23,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import org.apache.commons.lang3.StringUtils;
-import org.nbgames.core.api.DictNbg;
 import org.nbgames.core.api.Player;
 import org.nbgames.core.api.db.manager.PlayerManager;
 import org.openide.util.NbPreferences;
+import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -162,7 +162,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         numOfPlayersLabel.setFont(numOfPlayersLabel.getFont().deriveFont(numOfPlayersLabel.getFont().getStyle() | java.awt.Font.BOLD, numOfPlayersLabel.getFont().getSize()+4));
-        org.openide.awt.Mnemonics.setLocalizedText(numOfPlayersLabel, DictNbg.PLAYERS.toString());
+        org.openide.awt.Mnemonics.setLocalizedText(numOfPlayersLabel, Dict.Game.PLAYERS.toString());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -183,7 +183,7 @@ public class SelectPlayersPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         add(numberSpinner, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(shuffleButton, DictNbg.SHUFFLE.toString());
+        org.openide.awt.Mnemonics.setLocalizedText(shuffleButton, Dict.Game.SHUFFLE.toString());
         shuffleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shuffleButtonActionPerformed(evt);

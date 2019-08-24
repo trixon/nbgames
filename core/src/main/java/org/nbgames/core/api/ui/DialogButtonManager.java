@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package org.nbgames.core.api.ui;
 
 import javax.swing.JButton;
 import se.trixon.almond.nbp.Almond;
-import se.trixon.almond.util.icons.IconColor;
 import se.trixon.almond.util.icons.material.MaterialIcon;
 
 /**
@@ -27,7 +26,6 @@ import se.trixon.almond.util.icons.material.MaterialIcon;
 public class DialogButtonManager {
 
     private final JButton mCancel;
-    private final IconColor mIconColor = IconColor.getDefault();
     private final JButton mOk;
 
     public static DialogButtonManager getInstance() {
@@ -35,8 +33,8 @@ public class DialogButtonManager {
     }
 
     private DialogButtonManager() {
-        mOk = new JButton(MaterialIcon._Action.DONE.get(Almond.ICON_LARGE, mIconColor));
-        mCancel = new JButton(MaterialIcon._Navigation.CLOSE.get(Almond.ICON_LARGE, mIconColor));
+        mOk = new JButton(MaterialIcon._Action.DONE.getImageIcon(Almond.ICON_LARGE));
+        mCancel = new JButton(MaterialIcon._Navigation.CLOSE.getImageIcon(Almond.ICON_LARGE));
     }
 
     public JButton getCancel() {
