@@ -17,8 +17,8 @@ package org.nbgames.core;
 
 import org.openide.modules.OnStart;
 import se.trixon.almond.nbp.about.AboutAction;
-import se.trixon.almond.util.AboutModel;
 import se.trixon.almond.util.SystemHelper;
+import se.trixon.almond.util.swing.AboutModel;
 
 /**
  *

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Patrik Karlström.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ import org.nbgames.core.api.ui.NewGamePanel;
 import org.openide.modules.Modules;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import se.trixon.almond.nbp.news.NewsProvider;
+import se.trixon.almond.nbp.core.news.NewsProvider;
 import se.trixon.almond.util.SystemHelper;
 
 /**
@@ -94,7 +94,6 @@ public abstract class GameController implements PresenterProvider, NewsProvider 
 
     public abstract NewGamePanel getNewGamePanel();
 
-    @Override
     public ResourceBundle getNewsBundle() {
         return null;
     }
